@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_hint">Текст сообщения</string>
+    <string name="last_visit_common">Последнее посещение:</string>
+    <string name="last_visit_woman">Была в сети:</string>
+    <string name="last_visit_man">Был в сети:</string>
+</resources>

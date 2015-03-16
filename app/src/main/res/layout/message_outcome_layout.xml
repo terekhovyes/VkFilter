@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <View
+            android:id="@+id/messageTopMargin"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_between_replies"/>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="5dp"
+                  android:gravity="right">
+
+        <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/date_top"
+                android:layout_marginRight="5dp"
+                android:textSize="@dimen/date_size"
+                android:textColor="@color/material_gray"
+                android:text="18:05"/>
+
+        <LinearLayout
+                android:id="@+id/messageContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/message_out"
+                android:gravity="center"
+                android:paddingLeft="@dimen/text_padding_right"
+                android:paddingTop="@dimen/text_padding_top"
+                android:paddingBottom="@dimen/text_padding_bottom"
+                android:paddingRight="@dimen/text_padding_left">
+
+            <TextView
+                    android:id="@+id/messageText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/message_size"
+                    android:textColor="@color/material_greeny_white"
+                    android:text="Привет! Я так давно тебя не видел! Как твои дела?\nПриедешь в Слюдянку?"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

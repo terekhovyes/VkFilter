@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/quickFilterLayout"
+              android:orientation="vertical"
+              android:layout_gravity="bottom"
+              android:layout_width="match_parent"
+              android:layout_height="300dp"
+              android:background="@drawable/filter_choose_background">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_size"
+            android:layout_marginLeft="@dimen/filter_chooser_padding"
+            android:layout_marginRight="@dimen/filter_chooser_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/bar_size"
+                    android:padding="@dimen/button_icon_padding"
+                    android:text="Получать сообщения от:"
+                    android:textColor="@color/main_white"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"/>
+
+            <ImageView
+                    android:layout_width="@dimen/bar_size"
+                    android:layout_height="@dimen/bar_size"
+                    android:layout_marginLeft="@dimen/bar_margin"
+                    android:padding="@dimen/button_icon_padding"
+                    android:src="@drawable/icon_preferences"/>
+
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/filter_chooser_padding"
+            android:layout_marginRight="@dimen/filter_chooser_padding"
+            android:src="@color/refresh_color_1"/>
+
+    <ListView
+            android:id="@+id/quickFilterListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/filter_chooser_padding"
+            android:layout_marginRight="@dimen/filter_chooser_padding"/>
+
+</LinearLayout>

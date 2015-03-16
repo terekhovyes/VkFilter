@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/material_white"/>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="@string/app_title"
+                android:textSize="72sp"
+                android:textColor="@color/material_green"/>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/app_icon_big"/>
+
+        <TextView
+                android:id="@+id/infoTextView"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:text="@string/login_warning"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/material_black"/>
+
+        <Button
+                android:id="@+id/loginButton"
+                android:layout_width="290dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/login_button"
+                android:text="@string/login_button_text"
+                android:textSize="22sp"
+                android:textColor="@color/material_greeny_white"/>
+
+    </LinearLayout>
+
+</FrameLayout>

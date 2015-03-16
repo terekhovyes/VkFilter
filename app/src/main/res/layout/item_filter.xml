@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/selectionBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@color/material_light_green"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/iconLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:src="@drawable/icon_draggable"
+                android:adjustViewBounds="true"/>
+
+            <me.alexeyterekhov.circularimageview.CircularImageView
+                xmlns:civ="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/filterIcon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="7dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/group_icon_01"
+                civ:shadow="true"
+                civ:border="false"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dialog_item_margin"
+            android:layout_marginRight="@dimen/dialog_item_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/filterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:textColor="@color/material_black"
+                android:text="Название фильтра"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/avatarList"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

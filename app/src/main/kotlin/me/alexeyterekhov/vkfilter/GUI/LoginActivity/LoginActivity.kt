@@ -1,0 +1,87 @@
+package me.alexeyterekhov.vkfilter.GUI.LoginActivity
+
+import android.support.v7.app.ActionBarActivity
+import android.view.View
+import me.alexeyterekhov.vkfilter.R
+import com.vk.sdk.VKSdk
+import com.vk.sdk.VKUIHelper
+import android.content.Intent
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.Common.GooglePlay
+import android.os.AsyncTask
+import com.google.android.gms.gcm.GoogleCloudMessaging
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import java.io.IOException
+import android.util.Log
+import android.os.Bundle
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+
+
+public class LoginActivity: ActionBarActivity(), View.OnClickListener {
+    private var loginPressed = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super<ActionBarActivity>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        VKUIHelper.onCreate(this)
+        VkSdkInitializer.init()
+        registerForGCM()
+        // String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        // Log.d("Fingerprint", fingerprint[0]);
+        if (VKSdk.wakeUpSession())
+            startDialogActivity()
+        loginPressed = false
+        init()
+    }
+
+    override fun onResume() {
+        super<ActionBarActivity>.onResume()
+        VKUIHelper.onResume(this)
+        if (loginPressed) {
+            loginPressed = false
+            if (VKSdk.wakeUpSession())
+                startDialogActivity()
+        }
+    }
+
+    override fun onDestroy() {
+        super<ActionBarActivity>.onDestroy()
+        VKUIHelper.onDestroy(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super<ActionBarActivity>.onActivityResult(requestCode, resultCode, data)
+        VKUIHelper.onActivityResult(this, requestCode, resultCode, data)
+    }
+
+    override fun onClick(v: View) {
+        VKSdk.authorize(VkSdkInitializer.vkScopes, true, false)
+        loginPressed = true
+    }
+
+    private fun startDialogActivity() {
+        startActivity(Intent(this, javaClass<DialogListActivity>()))
+    }
+
+    private fun init() {
+        findViewById(R.id.loginButton) setOnClickListener this
+    }
+
+    private fun registerForGCM() {
+        if (GooglePlay.checkGooglePlayServices(this)) {
+            (object: AsyncTask<Unit, Unit, Unit>() {
+                override fun doInBackground(vararg params: Unit?) {
+                    try {
+                        val gcm = GoogleCloudMessaging.getInstance(AppContext.instance)
+                        val regId = gcm register "419930423637"
+                        RunFun registerGCM regId
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }).execute()
+        } else
+            Log.d("Google Play Services", "No valid Google Play Services APK found.")
+    }
+}

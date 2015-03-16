@@ -1,0 +1,63 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="me.alexeyterekhov.vkfilter">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="me.alexeyterekhov.vkfilter.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon_small"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.material_theme"
+        android:hardwareAccelerated="true"
+        android:name=".Common.MyApp"
+        tools:replace="android:icon,android:theme">
+
+        <activity android:name=".GUI.LoginActivity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".GUI.DialogListActivity.DialogListActivity"
+            android:label="Сообщения"
+            android:launchMode="singleTask"/>
+
+        <activity android:name=".Test.TestDialogActivityAnimations"/>
+
+        <activity android:name=".GUI.ChatActivity.ChatActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity android:name=".GUI.ManageFiltersActivity.ManageFiltersActivity"
+            android:label="Управление фильтрами"/>
+
+        <activity android:name=".GUI.EditFilterActivity.EditFilterActivity"
+            android:label="Редактирование фильтра"/>
+
+        <activity android:name=".GUI.ChooseUsersActivity.ChooseUsersActivity"
+            android:label="Выбор участников"/>
+
+        <receiver
+            android:name=".Common.Receiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="vkfilter.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data android:name="AA_DB_NAME" android:value="vkfilter2.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_MODELS"
+            android:value="me.alexeyterekhov.vkfilter.Database.VkFilter, me.alexeyterekhov.vkfilter.Database.VkIdentifier" />
+
+    </application>
+</manifest>

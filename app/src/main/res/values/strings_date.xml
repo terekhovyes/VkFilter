@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="today">сегодня</string>
+    <string name="yesterday">вчера</string>
+    <string name="right_now">только что</string>
+    <string name="ago">назад</string>
+    <string name="seconds">секунд</string>
+    <string name="minutes">минут</string>
+    <string-array name="minutes1_5">
+        <item>минуту</item>
+        <item>2 минуты</item>
+        <item>3 минуты</item>
+        <item>4 минуты</item>
+        <item>5 минут</item>
+    </string-array>
+    <string-array name="hours1_6">
+        <item>час</item>
+        <item>часа</item>
+        <item>часа</item>
+        <item>часа</item>
+        <item>часов</item>
+        <item>часов</item>
+    </string-array>
+    <string-array name="months">
+        <item>янв</item>
+        <item>фев</item>
+        <item>мар</item>
+        <item>апр</item>
+        <item>мая</item>
+        <item>июн</item>
+        <item>июл</item>
+        <item>авг</item>
+        <item>сен</item>
+        <item>окт</item>
+        <item>ноя</item>
+        <item>дек</item>
+    </string-array>
+</resources>

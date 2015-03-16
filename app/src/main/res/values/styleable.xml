@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TripleSwitchView">
+        <attr name="iconRes" format="reference"/>
+        <attr name="roundColor" format="color"/>
+        <attr name="roundColorLeft" format="color"/>
+        <attr name="roundColorMid" format="color"/>
+        <attr name="roundColorRight" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_green">#67C29C</color>
+    <color name="main_white">#EEEEEE</color>
+    <color name="main_dark_white">#DDDDDD</color>
+    <color name="main_gray">#999999</color>
+    <color name="main_black">#444444</color>
+
+    <color name="light_green">#CEEADB</color>
+    <color name="light_red">#E59585</color>
+    <color name="light_white">#F8F8F8</color>
+
+    <color name="button_pressed_green">#5BA581</color>
+
+    <color name="refresh_color_1">#439872</color>
+    <color name="refresh_color_2">#68c0bf</color>
+    <color name="refresh_color_3">#85d0d2</color>
+    <color name="refresh_color_4">#abdde3</color>
+</resources>

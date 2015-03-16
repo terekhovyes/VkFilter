@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.alexeyterekhov.vkfilter.GUI.DialogListActivity.CustomSwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dialogList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                <include layout="@layout/view_empty_dialog_list"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </me.alexeyterekhov.vkfilter.GUI.DialogListActivity.CustomSwipeRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/glassLayout"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/filterGlass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="#cc6abaab"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/filterList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filterReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="110dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="invisible"
+        fab:fab_icon="@drawable/icon_reset_filters"
+        fab:fab_size="mini"
+        fab:fab_colorNormal="@color/material_green"
+        fab:fab_colorPressed="@color/material_pressed_green" />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/manageFiltersBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="170dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="invisible"
+        fab:fab_icon="@drawable/icon_preferences"
+        fab:fab_size="mini"
+        fab:fab_colorNormal="@color/material_green"
+        fab:fab_colorPressed="@color/material_pressed_green" />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/showFilterGlass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="16dp"
+        fab:fab_colorNormal="@color/material_green"
+        fab:fab_colorPressed="@color/material_pressed_green"
+        fab:fab_icon="@drawable/icon_people"/>
+
+</FrameLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/BackgroundTask/BackgroundTask.iml" filepath="$PROJECT_DIR$/app/libprojs/BackgroundTask/BackgroundTask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/CircularImageView/CircularImageView.iml" filepath="$PROJECT_DIR$/app/libprojs/CircularImageView/CircularImageView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/DragSortRecycler/DragSortRecycler.iml" filepath="$PROJECT_DIR$/app/libprojs/DragSortRecycler/DragSortRecycler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/PhotoView/PhotoView.iml" filepath="$PROJECT_DIR$/app/libprojs/PhotoView/PhotoView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VkFilter.iml" filepath="$PROJECT_DIR$/VkFilter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/CircularImageView/circularimageview/circularimageview.iml" filepath="$PROJECT_DIR$/app/libprojs/CircularImageView/circularimageview/circularimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/libprojs.iml" filepath="$PROJECT_DIR$/app/libprojs/libprojs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libprojs/PhotoView/library/library.iml" filepath="$PROJECT_DIR$/app/libprojs/PhotoView/library/library.iml" />
+    </modules>
+  </component>
+</project>
+

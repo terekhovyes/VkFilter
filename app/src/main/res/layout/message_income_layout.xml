@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+            android:id="@+id/messageTopMargin"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_between_replies"/>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingRight="5dp">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+                android:id="@+id/senderPhoto"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/user_photo_loading"
+                app:border="false"
+                app:shadow="true"/>
+
+        <View
+                android:id="@+id/messageLeftMargin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="-8dp"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/messageContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/message_margin"
+                android:orientation="vertical"
+                android:background="@drawable/message_in"
+                android:gravity="center"
+                android:paddingRight="@dimen/text_padding_right"
+                android:paddingTop="@dimen/text_padding_top"
+                android:paddingBottom="@dimen/text_padding_bottom"
+                android:paddingLeft="@dimen/text_padding_left">
+
+            <TextView
+                    android:id="@+id/messageText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/message_size"
+                    android:textColor="@color/material_greeny_white"
+                    android:text="Привет!"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/date_top"
+                android:layout_marginLeft="@dimen/date_margin"
+                android:textSize="@dimen/date_size"
+                android:textColor="@color/material_gray"
+                android:text="18:05"/>
+
+    </LinearLayout>
+
+</LinearLayout>

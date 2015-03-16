@@ -1,0 +1,5 @@
+include ':app'
+include ':app:libprojs:BackgroundTask'
+include ':app:libprojs:CircularImageView:circularimageview'
+include ':app:libprojs:PhotoView:library'
+include ':app:libprojs:DragSortRecycler'
