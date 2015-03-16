@@ -24,6 +24,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import com.activeandroid.ActiveAndroid
 import java.util.Vector
 import android.view.LayoutInflater
+import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
 
 
 public class ManageFiltersActivity: ActionBarActivity() {
@@ -50,7 +51,7 @@ public class ManageFiltersActivity: ActionBarActivity() {
             selectionMode = (DataSaver removeObject KEY_SELECTION_MODE) as Boolean
         }
 
-        val adapter = FilterAdapter2(Vector<VkFilter>())
+        val adapter = FilterAdapter(Vector<VkFilter>())
         val dragSort = DragSortRecycler()
         with (dragSort) {
             setViewHandleId(R.id.iconLayout)
@@ -130,6 +131,27 @@ public class ManageFiltersActivity: ActionBarActivity() {
                     else
                         R.drawable.icon_plus
             )
+            val list = (this@ManageFiltersActivity).findViewById(R.id.filterList) as RecyclerView
+            adapter.setOnParallaxScroll(object : ParallaxRecyclerAdapter.OnParallaxScroll {
+                val EDGE = 0.6f
+                var top = getY()
+                val interpolator = AccelerateDecelerateInterpolator()
+
+                private fun scrollPos(percent: Float): Float {
+                    return top * (1f - percent) - getHeight() / 2 * percent
+                }
+                private fun translatePos(percent: Float): Float {
+                    val from = scrollPos(EDGE)
+                    val to = list.getHeight() - getHeight() - getHeight() / 16 * 5
+                    val translatePercent = interpolator.getInterpolation((percent - EDGE) / (1f - EDGE))
+                    return from + (to - from) * translatePercent
+                }
+                override fun onParallaxScroll(percent: Float, p1: Float, p2: View?) {
+                    if (top == 0f)
+                        top = getY()
+                    setY(if (percent < EDGE) scrollPos(percent) else translatePos(percent))
+                }
+            })
         }
     }
     override fun onResume() {
@@ -217,7 +239,7 @@ public class ManageFiltersActivity: ActionBarActivity() {
             ActiveAndroid.endTransaction()
         }
     }
-    private fun getAdapter() = (findViewById(R.id.filterList) as RecyclerView).getAdapter() as FilterAdapter2
+    private fun getAdapter() = (findViewById(R.id.filterList) as RecyclerView).getAdapter() as FilterAdapter
     private fun animator() = object : DefaultItemAnimator() {
         {
             setSupportsChangeAnimations(true)
