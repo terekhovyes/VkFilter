@@ -70,15 +70,17 @@ public class ManageFiltersActivity: ActionBarActivity() {
         }
         val onItemClick = object : ItemClickSupport.OnItemClickListener {
             override fun onItemClick(rv: RecyclerView?, view: View?, pos: Int, id: Long) {
-                if (selectionMode) {
-                    adapter selectOrDeselect pos
-                    if (adapter.nothingSelected())
-                        changeMode()
-                } else {
-                    val filter = adapter.getData().get(pos)
-                    val intent = Intent(AppContext.instance, javaClass<EditFilterActivity>())
-                    intent.putExtra(EditFilterActivity.KEY_FILTER_ID, filter.getId())
-                    startActivity(intent)
+                if (pos > 0) {
+                    if (selectionMode) {
+                        adapter selectOrDeselect pos
+                        if (adapter.nothingSelected())
+                            changeMode()
+                    } else {
+                        val filter = adapter.getData().get(pos - 1)
+                        val intent = Intent(AppContext.instance, javaClass<EditFilterActivity>())
+                        intent.putExtra(EditFilterActivity.KEY_FILTER_ID, filter.getId())
+                        startActivity(intent)
+                    }
                 }
             }
         }
