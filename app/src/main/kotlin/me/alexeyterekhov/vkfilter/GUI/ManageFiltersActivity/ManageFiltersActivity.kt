@@ -52,7 +52,9 @@ public class ManageFiltersActivity: ActionBarActivity() {
         }
 
         val adapter = FilterAdapter(Vector<VkFilter>())
-        val dragSort = DragSortRecycler()
+        val dragSort = object : DragSortRecycler() {
+            override fun canDragOver(position: Int) = position != 0
+        }
         with (dragSort) {
             setViewHandleId(R.id.iconLayout)
             setOnItemMovedListener({from, to ->
