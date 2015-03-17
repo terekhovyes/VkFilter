@@ -58,12 +58,14 @@ public class ManageFiltersActivity: ActionBarActivity() {
         with (dragSort) {
             setViewHandleId(R.id.iconLayout)
             setOnItemMovedListener({from, to ->
-                with (adapter.getData()) {
-                    val removed = remove(from - 1)
-                    add(to - 1, removed)
+                if (from != 0 && to != 0) {
+                    with (adapter.getData()) {
+                        val removed = remove(from - 1)
+                        add(to - 1, removed)
+                    }
+                    adapter.notifyDataSetChanged()
+                    saveFilterPositions()
                 }
-                adapter.notifyDataSetChanged()
-                saveFilterPositions()
             })
         }
         val onItemClick = object : ItemClickSupport.OnItemClickListener {
