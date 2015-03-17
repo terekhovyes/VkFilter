@@ -19,7 +19,10 @@ public class CircularImageView extends ImageView {
     private int canvasSize;
     private Bitmap image;
     private Paint paint;
+    private Paint backgroundPaint;
     private Paint paintBorder;
+
+    private int backgroundColor = 0;
 
     public CircularImageView(final Context context) {
         this(context, null);
@@ -39,6 +42,9 @@ public class CircularImageView extends ImageView {
         paintBorder = new Paint();
         paintBorder.setAntiAlias(true);
 
+        backgroundPaint = new Paint();
+        backgroundPaint.setAntiAlias(true);
+
         // load the styled attributes and set their properties
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CircularImageView, defStyle, 0);
 
@@ -47,6 +53,9 @@ public class CircularImageView extends ImageView {
             setBorderWidth(attributes.getDimensionPixelOffset(R.styleable.CircularImageView_border_width, defaultBorderSize));
             setBorderColor(attributes.getColor(R.styleable.CircularImageView_border_color, Color.WHITE));
         }
+
+        int backgroundColor = attributes.getColor(R.styleable.CircularImageView_background_color, 0);
+        backgroundPaint.setColor(backgroundColor | 0xFF000000);
 
         if(attributes.getBoolean(R.styleable.CircularImageView_shadow, false))
             addShadow();
@@ -101,6 +110,12 @@ public class CircularImageView extends ImageView {
                     circleCenter + borderWidth,
                     (((canvasSize - (borderWidth * 2)) / 2) + borderWidth) * (1 - shadowSize * 2),
                     paintBorder
+            );
+            canvas.drawCircle(
+                    circleCenter + borderWidth,
+                    circleCenter + borderWidth,
+                    ((canvasSize - (borderWidth * 2)) / 2) * (1 - shadowSize * 2),
+                    backgroundPaint
             );
             canvas.drawCircle(
                     circleCenter + borderWidth,

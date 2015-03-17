@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="40dp"
+    android:layout_height="35dp"
+    android:paddingRight="5dp">
+
+    <me.alexeyterekhov.circularimageview.CircularImageView
+        android:id="@+id/singleDialogIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/group_icon_01"
+        app:border="false"
+        app:shadow="true"
+        android:visibility="visible"/>
+
+    <RelativeLayout
+        android:id="@+id/doubleDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/doubleDialogIcon1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/doubleDialogIcon2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tripleDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/tripleDialogIcon1"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/tripleDialogIcon2"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/tripleDialogIcon3"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quadDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadDialogIcon1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadDialogIcon2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadDialogIcon3"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadDialogIcon4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

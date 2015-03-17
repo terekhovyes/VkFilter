@@ -21,10 +21,10 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
         implementRecyclerAdapterMethods(object : ParallaxRecyclerAdapter.RecyclerAdapterMethods {
             override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
                 val inflater = LayoutInflater.from(AppContext.instance)
-                val view = inflater.inflate(R.layout.item_filter, parent, false)
+                val view = inflater.inflate(R.layout.item_filter2, parent, false)
                 val holder = FilterItemHolder(view)
                 with (holder.avatarList) {
-                    setAdapter(AvatarAdapter(R.layout.item_avatar_small))
+                    setAdapter(AvatarAdapter(R.layout.item_avatar_35dp))
                     setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false))
                 }
                 return holder
@@ -32,7 +32,7 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
                 val item = getData().get(position)
                 with (holder as FilterItemHolder) {
-                    icon setImageResource item.getIconResource()
+                    icon setImageResource item.getIconTransparentBackgroundResource()
                     name setText item.filterName
                     selection setVisibility if (selected contains posToId(position)) View.VISIBLE else View.INVISIBLE
                     avatarList.getAdapter() as AvatarAdapter setIds item.identifiers()
