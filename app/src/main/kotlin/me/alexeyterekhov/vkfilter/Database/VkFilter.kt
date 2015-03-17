@@ -32,6 +32,7 @@ public class VkFilter(): Model() {
     fun getIconResource() = GroupIconIds.idToRes(iconId)
     fun getIconTransparentBackgroundResource() = GroupIconIds.idToTransparentRes(iconId)
 
+    fun invalidateCache() { cached = false }
     fun identifiers(): List<VkIdentifier> {
         return if (cached)
             cachedIds

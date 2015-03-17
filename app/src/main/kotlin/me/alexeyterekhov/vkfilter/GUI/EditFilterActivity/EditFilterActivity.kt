@@ -103,6 +103,7 @@ public class EditFilterActivity: ActionBarActivity() {
                               (DataSaver removeObject KEY_AVATAR_ADAPTER) as AvatarAdapter
                           else
                               AvatarAdapter(R.layout.item_avatar_70dp)
+            filter.invalidateCache()
             adapter setIds filter.identifiers()
             setAdapter(adapter)
             val gestureDetector = GestureDetector(

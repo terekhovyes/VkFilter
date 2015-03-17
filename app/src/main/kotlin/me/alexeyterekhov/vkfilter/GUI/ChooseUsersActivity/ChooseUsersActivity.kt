@@ -21,6 +21,7 @@ public class ChooseUsersActivity: ActionBarActivity() {
 
         val filterId = getIntent().getLongExtra(KEY_FILTER_ID, -1)
         val filter = DAOFilters loadVkFilterById filterId
+        filter.invalidateCache()
         val ids = filter.identifiers()
         val selectedUsers = HashSet<Long>()
         val selectedChats = HashSet<Long>()
@@ -44,6 +45,7 @@ public class ChooseUsersActivity: ActionBarActivity() {
         findViewById(R.id.saveFilterButton) setOnClickListener {
             for (vkId in ids)
                 vkId.delete()
+            filter.invalidateCache()
             for (u in selectedUsers) {
                 val vkId = VkIdentifier()
                 with (vkId) {
