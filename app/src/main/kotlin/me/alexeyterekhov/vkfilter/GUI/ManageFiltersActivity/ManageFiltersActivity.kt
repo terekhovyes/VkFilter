@@ -57,8 +57,8 @@ public class ManageFiltersActivity: ActionBarActivity() {
             setViewHandleId(R.id.iconLayout)
             setOnItemMovedListener({from, to ->
                 with (adapter.getData()) {
-                    val removed = remove(from)
-                    add(to, removed)
+                    val removed = remove(from - 1)
+                    add(to - 1, removed)
                 }
                 adapter.notifyDataSetChanged()
                 saveFilterPositions()

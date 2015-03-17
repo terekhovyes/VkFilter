@@ -44,15 +44,15 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
 
     private fun posToId(pos: Int) = (getData() get pos).getId()
     fun select(pos: Int) {
-        selected add posToId(pos)
+        selected add posToId(pos - 1)
         notifyItemChanged(pos)
     }
     fun deselect(pos: Int) {
-        selected remove posToId(pos)
+        selected remove posToId(pos - 1)
         notifyItemChanged(pos)
     }
     fun selectOrDeselect(pos: Int) {
-        if (selected contains posToId(pos))
+        if (selected contains posToId(pos - 1))
             deselect(pos)
         else
             select(pos)
@@ -72,7 +72,7 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
                 selected remove id
                 res add f
                 getData() remove pos
-                notifyItemRemoved(pos)
+                notifyItemRemoved(pos + 1)
             }
         }
         return res
