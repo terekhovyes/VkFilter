@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:gravity="left"
-                android:src="@drawable/icon_draggable_5"/>
+                android:src="@drawable/icon_draggable"/>
 
             <me.alexeyterekhov.circularimageview.CircularImageView
                 android:id="@+id/filterIcon"
