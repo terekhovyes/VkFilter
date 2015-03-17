@@ -38,7 +38,7 @@ DataDepend {
             val view = inflater.inflate(R.layout.item_filter_switch, parent, false)
             val holder = FilterHolder(view)
             with (holder.avatarList) {
-                setAdapter(AvatarAdapter(R.layout.item_avatar_smallest))
+                setAdapter(AvatarAdapter(R.layout.item_avatar_40dp))
                 setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, true))
             }
             holder
