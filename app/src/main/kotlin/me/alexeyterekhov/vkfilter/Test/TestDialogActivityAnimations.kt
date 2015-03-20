@@ -1,15 +1,15 @@
 package me.alexeyterekhov.vkfilter.Test
 
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
-import android.util.Log
-import android.os.Handler
-import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import me.alexeyterekhov.vkfilter.Common.DateFormat
+import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import java.util.Vector
 
 public class TestDialogActivityAnimations: DialogListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

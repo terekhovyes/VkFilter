@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI
 
+import android.graphics.PorterDuff
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.R
-import android.graphics.PorterDuff
 
 
 public object BrandUI {

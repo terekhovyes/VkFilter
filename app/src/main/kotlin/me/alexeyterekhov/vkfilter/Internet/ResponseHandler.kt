@@ -1,23 +1,23 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
-import org.json.JSONObject
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
 import android.os.AsyncTask
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
-import kotlin.properties.Delegates
-import java.util.Vector
+import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
-import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
-import android.os.Handler
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
-import java.util.Collections
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
+import org.json.JSONObject
+import java.util.Collections
+import java.util.Vector
+import kotlin.properties.Delegates
 
 
 object ResponseHandler {
@@ -110,7 +110,6 @@ object ResponseHandler {
     }
 
     private fun userInfo(request: VkRequestBundle, result: JSONObject) {
-        val p = request.vkParams
         val jsonUsers = JSONParser userInfoResponseToUserList result
         val users = JSONParser parseUsers jsonUsers
         for (u in users)

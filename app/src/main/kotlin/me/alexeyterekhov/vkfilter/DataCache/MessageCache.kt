@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
-import java.util.HashMap
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessagePack
+import java.util.HashMap
 
 object MessageCache {
     private val dialogs = HashMap<String, MessagePack>()

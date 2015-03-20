@@ -1,31 +1,31 @@
 package me.alexeyterekhov.vkfilter.GUI.EditFilterActivity
 
-import android.support.v7.app.ActionBarActivity
-import android.os.Bundle
-import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.Database.VkFilter
-import android.widget.EditText
-import me.alexeyterekhov.vkfilter.Database.DAOFilters
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.LinearLayoutManager
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import kotlin.properties.Delegates
-import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
-import android.support.v7.widget.GridLayoutManager
-import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import android.content.Intent
-import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.ChooseUsersActivity
+import android.os.Bundle
+import android.support.v7.app.ActionBarActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
+import android.widget.EditText
 import android.widget.TextView
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Common.FilterStates
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.ChooseUsersActivity
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
+import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
+import me.alexeyterekhov.vkfilter.R
+import kotlin.properties.Delegates
 
 
 public class EditFilterActivity: ActionBarActivity() {
-    class object {
+    companion object {
         // Intent
         val KEY_FILTER_ID = "filter_id"
         // Saver
@@ -112,7 +112,7 @@ public class EditFilterActivity: ActionBarActivity() {
                         override fun onSingleTapUp(e: MotionEvent?) = true
                     })
             setOnTouchListener {
-                (view, motionEvent) ->
+                view, motionEvent ->
                 if (gestureDetector.onTouchEvent(motionEvent)) {
                     val startIntent = Intent(AppContext.instance, javaClass<ChooseUsersActivity>())
                     startIntent.putExtra(

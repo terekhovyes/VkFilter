@@ -1,16 +1,16 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
 import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
-import android.view.ViewGroup
 import android.view.LayoutInflater
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.R
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import com.nostra13.universalimageloader.core.ImageLoader
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.R
 import java.util.Vector
 
 class DialogAdapter(val list: RecyclerView) :

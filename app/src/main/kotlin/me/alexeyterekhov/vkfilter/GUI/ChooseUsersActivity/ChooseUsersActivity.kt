@@ -1,17 +1,17 @@
 package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity
 
 import android.os.Bundle
-import me.alexeyterekhov.vkfilter.R
-import com.astuetz.PagerSlidingTabStrip
 import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarActivity
-import java.util.HashSet
+import com.astuetz.PagerSlidingTabStrip
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
+import me.alexeyterekhov.vkfilter.R
+import java.util.HashSet
 
 
 public class ChooseUsersActivity: ActionBarActivity() {
-    class object {
+    companion object {
         val KEY_FILTER_ID = "ChooseUsersActivityFilterId"
     }
 

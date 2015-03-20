@@ -1,12 +1,12 @@
 package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList
 
-import android.view.View
 import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.R
+import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.CheckBox
+import me.alexeyterekhov.vkfilter.R
 
 
 public class UserItemHolder(v: View): RecyclerView.ViewHolder(v) {

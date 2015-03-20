@@ -1,11 +1,11 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
-import android.view.View
 import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.R
+import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import me.alexeyterekhov.vkfilter.R
 
 class DialogHolder(val dialogView: View): RecyclerView.ViewHolder(dialogView) {
     // Images

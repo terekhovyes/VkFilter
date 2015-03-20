@@ -1,10 +1,10 @@
 package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 
-import android.view.View
 import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.R
-import android.widget.TextView
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import me.alexeyterekhov.vkfilter.R
 
 
 class FilterItemHolder(val item: View): RecyclerView.ViewHolder(item) {

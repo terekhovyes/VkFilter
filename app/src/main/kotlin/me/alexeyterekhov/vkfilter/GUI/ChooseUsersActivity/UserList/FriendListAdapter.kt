@@ -1,16 +1,16 @@
 package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList
 
 import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.DataClasses.User
 import android.view.LayoutInflater
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.R
 import android.view.View
+import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
+import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
+import me.alexeyterekhov.vkfilter.DataClasses.User
+import me.alexeyterekhov.vkfilter.R
+import java.util.Vector
 
 
 public class FriendListAdapter(

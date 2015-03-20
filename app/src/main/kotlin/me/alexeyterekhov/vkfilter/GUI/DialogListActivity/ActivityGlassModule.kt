@@ -1,31 +1,27 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity
 
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import me.alexeyterekhov.vkfilter.R
-import com.getbase.floatingactionbutton.FloatingActionButton
-import android.view.View
-import android.content.Intent
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
-import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
-import me.alexeyterekhov.vkfilter.Database.DAOFilters
-import android.view.ViewAnimationUtils
-import android.animation.ObjectAnimator
-import android.view.animation.DecelerateInterpolator
-import android.animation.AnimatorListenerAdapter
 import android.animation.Animator
-import android.view.animation.AccelerateInterpolator
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import android.support.v7.widget.LinearLayoutManager
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Handler
-import android.view.animation.ScaleAnimation
-import android.view.animation.Animation
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.animation.*
+import com.getbase.floatingactionbutton.FloatingActionButton
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
+import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
+import me.alexeyterekhov.vkfilter.R
 
 
 class ActivityGlassModule(val activity: DialogListActivity) {
-    class object {
+    companion object {
         val SAVED_KEY = "GlassModuleSaved"
         val VISIBLE_KEY = "GlassModuleVisible"
     }

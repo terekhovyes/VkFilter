@@ -1,25 +1,25 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass
 
-import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.Database.VkFilter
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import android.view.LayoutInflater
-import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import android.support.v7.widget.LinearLayoutManager
-import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
-import me.alexeyterekhov.vkfilter.Common.FilterStates
-import me.alexeyterekhov.vkfilter.Database.DAOFilters
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import com.activeandroid.ActiveAndroid
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.activeandroid.ActiveAndroid
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.FilterStates
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
+import me.alexeyterekhov.vkfilter.R
+import java.util.Vector
 
 
 class FilterGlassAdapter(val listener: DataDepend): RecyclerView.Adapter<RecyclerView.ViewHolder>(),
 DataDepend {
-    class object {
+    companion object {
         val TYPE_HEADER = 0
         val TYPE_ITEM = 1
     }

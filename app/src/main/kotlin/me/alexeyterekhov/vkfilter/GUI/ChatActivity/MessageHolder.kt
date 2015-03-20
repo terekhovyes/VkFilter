@@ -2,9 +2,9 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import android.view.View
 import android.widget.ImageView
-import me.alexeyterekhov.vkfilter.R
 import android.widget.LinearLayout
 import android.widget.TextView
+import me.alexeyterekhov.vkfilter.R
 
 /**
  * Created by Alexey on 13.08.2014.

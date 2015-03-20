@@ -1,26 +1,26 @@
 package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity
 
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.os.Bundle
-import android.view.View
-import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.FriendListAdapter
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.CustomSwipeRefreshLayout
-import android.support.v7.widget.RecyclerView
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
-import kotlin.properties.Delegates
 import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.FriendListAdapter
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.CustomSwipeRefreshLayout
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
+import me.alexeyterekhov.vkfilter.R
+import kotlin.properties.Delegates
 
 
 public class FriendChooseFragment: Fragment(), DataDepend {
-    class object {
+    companion object {
         val KEY_SAVED = "FriendFragmentSaved"
         val KEY_ADAPTER = "FriendFragmentAdapter"
     }

@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.DataCache.Helpers
 
-import me.alexeyterekhov.vkfilter.DataClasses.Message
-import java.util.LinkedList
 import android.util.Log
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import java.util.HashSet
+import java.util.LinkedList
 
 class MessagePack {
     val messages = LinkedList<Message>()

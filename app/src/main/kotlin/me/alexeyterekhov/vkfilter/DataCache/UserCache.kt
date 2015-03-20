@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import java.util.HashMap
 import java.util.Vector
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 
 object UserCache {
     private val map = HashMap<String, User>()

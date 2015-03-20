@@ -7,7 +7,7 @@ import com.activeandroid.annotation.Table
 
 [Table(name = "VKFilterIdentifiers")]
 public class VkIdentifier(): Model() {
-    class object {
+    companion object {
         val TYPE_USER = 1
         val TYPE_CHAT = 2
     }

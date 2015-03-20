@@ -1,10 +1,10 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.Database.VkFilter
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import java.util.Vector
 
 
 object Filtrator {

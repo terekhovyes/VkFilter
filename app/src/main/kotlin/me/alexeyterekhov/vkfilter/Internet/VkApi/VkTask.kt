@@ -1,16 +1,16 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
-import com.vk.sdk.api.VKResponse
+import android.util.Log
 import com.vk.sdk.api.VKError
 import com.vk.sdk.api.VKRequest
-import android.util.Log
 import com.vk.sdk.api.VKRequest.VKRequestListener
-import kotlin.properties.Delegates
+import com.vk.sdk.api.VKResponse
 import me.alexeyterekhov.backgroundtask.BackgroundTask
-import me.alexeyterekhov.backgroundtask.SourceHandler
 import me.alexeyterekhov.backgroundtask.ErrorHandler
 import me.alexeyterekhov.backgroundtask.ResultHandler
+import me.alexeyterekhov.backgroundtask.SourceHandler
 import me.alexeyterekhov.vkfilter.Internet.ResponseHandler
+import kotlin.properties.Delegates
 
 
 object VkTask {

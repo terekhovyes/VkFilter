@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
-import java.util.Vector
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import java.util.Vector
 
 object DialogListCache {
     public val listeners: Vector<DataDepend> = Vector()

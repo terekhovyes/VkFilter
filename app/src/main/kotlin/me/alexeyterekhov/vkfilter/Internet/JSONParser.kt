@@ -1,16 +1,16 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import org.json.JSONObject
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
-import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Common.DateFormat
-import org.json.JSONArray
-import me.alexeyterekhov.vkfilter.DataClasses.User
-import me.alexeyterekhov.vkfilter.DataClasses.Sex
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
+import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.Sex
+import me.alexeyterekhov.vkfilter.DataClasses.User
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import org.json.JSONArray
+import org.json.JSONObject
+import java.util.Vector
 
 
 object JSONParser {

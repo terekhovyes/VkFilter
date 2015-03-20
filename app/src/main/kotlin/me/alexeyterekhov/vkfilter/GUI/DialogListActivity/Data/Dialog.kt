@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data
 
-import java.util.Vector
+import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
-import me.alexeyterekhov.vkfilter.Common.TextFormat
+import java.util.Vector
 
 class Dialog {
     private val chatPartners: Vector<User> = Vector()

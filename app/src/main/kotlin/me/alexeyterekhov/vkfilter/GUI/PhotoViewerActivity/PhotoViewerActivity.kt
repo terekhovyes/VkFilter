@@ -2,10 +2,10 @@ package me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity
 
 import android.app.Activity
 import android.os.Bundle
+import com.nostra13.universalimageloader.core.ImageLoader
+import me.alexeyterekhov.vkfilter.R
 import uk.co.senab.photoview.PhotoView
 import uk.co.senab.photoview.PhotoViewAttacher
-import me.alexeyterekhov.vkfilter.R
-import com.nostra13.universalimageloader.core.ImageLoader
 
 
 public class PhotoViewerActivity: Activity() {

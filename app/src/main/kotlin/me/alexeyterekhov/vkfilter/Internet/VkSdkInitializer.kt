@@ -1,13 +1,9 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import com.vk.sdk.VKSdk
-import com.vk.sdk.VKSdkListener
+import android.app.AlertDialog
+import com.vk.sdk.*
 import com.vk.sdk.api.VKError
 import com.vk.sdk.dialogs.VKCaptchaDialog
-import com.vk.sdk.VKAccessToken
-import android.app.AlertDialog
-import com.vk.sdk.VKUIHelper
-import com.vk.sdk.VKScope
 
 
 object VkSdkInitializer {

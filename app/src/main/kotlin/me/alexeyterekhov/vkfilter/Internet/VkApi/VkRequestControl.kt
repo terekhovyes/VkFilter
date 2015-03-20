@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
-import java.util.Collections
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import java.util.Collections
 
 public object VkRequestControl {
     private fun checkSdkInitialized() {

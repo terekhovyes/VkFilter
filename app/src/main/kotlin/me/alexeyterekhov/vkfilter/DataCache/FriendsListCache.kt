@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
-import java.util.Vector
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataClasses.User
+import java.util.Vector
 
 
 object FriendsListCache {

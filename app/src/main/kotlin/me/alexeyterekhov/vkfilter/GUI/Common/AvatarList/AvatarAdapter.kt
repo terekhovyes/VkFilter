@@ -1,17 +1,17 @@
 package me.alexeyterekhov.vkfilter.GUI.Common.AvatarList
 
 import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
-import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import android.view.LayoutInflater
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.R
 import android.view.View
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.Database.VkIdentifier
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.R
+import java.util.Vector
 
 
 class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), DataDepend {

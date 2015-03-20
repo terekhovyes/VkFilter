@@ -1,23 +1,23 @@
 package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
-import java.util.Vector
-import me.alexeyterekhov.vkfilter.Database.VkFilter
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
 import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import me.alexeyterekhov.vkfilter.R
 import java.util.HashSet
-import android.view.View
-import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
-import android.support.v7.widget.LinearLayoutManager
-import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
+import java.util.Vector
 
 
 class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
-    private val selected = HashSet<Long>();
+    private val selected = HashSet<Long>()
 
-    {
+    init {
         implementRecyclerAdapterMethods(object : ParallaxRecyclerAdapter.RecyclerAdapterMethods {
             override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
                 val inflater = LayoutInflater.from(AppContext.instance)

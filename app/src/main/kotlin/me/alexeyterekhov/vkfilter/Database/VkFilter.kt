@@ -1,13 +1,13 @@
 package me.alexeyterekhov.vkfilter.Database
 
 import com.activeandroid.Model
-import com.activeandroid.annotation.Table
 import com.activeandroid.annotation.Column
+import com.activeandroid.annotation.Table
 import java.util.Vector
 
 [Table(name = "VKFilters")]
 public class VkFilter(): Model() {
-    class object {
+    companion object {
         val STATE_DISABLED = 0
         val STATE_ALLOWING = 1
         val STATE_BLOCKING = 2
@@ -28,7 +28,7 @@ public class VkFilter(): Model() {
     [Column(name = "EnableState")]
     var state: Int = STATE_DISABLED
 
-    fun setIconResource(res: Int) { (iconId = GroupIconIds.resToId(res)) }
+    fun setIconResource(res: Int) { iconId = GroupIconIds.resToId(res) }
     fun getIconResource() = GroupIconIds.idToRes(iconId)
     fun getIconTransparentBackgroundResource() = GroupIconIds.idToTransparentRes(iconId)
 

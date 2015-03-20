@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.LibClasses
 
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 
 
 public abstract class EndlessScrollListener(

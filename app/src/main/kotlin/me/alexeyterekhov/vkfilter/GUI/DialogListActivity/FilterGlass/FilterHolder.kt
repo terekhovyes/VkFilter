@@ -2,9 +2,9 @@ package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import me.alexeyterekhov.vkfilter.R
 import android.widget.TextView
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
+import me.alexeyterekhov.vkfilter.R
 
 
 class FilterHolder(val v: View): RecyclerView.ViewHolder(v) {

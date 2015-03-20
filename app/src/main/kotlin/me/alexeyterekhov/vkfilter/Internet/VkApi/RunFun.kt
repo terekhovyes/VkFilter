@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
-import com.vk.sdk.api.VKParameters
 import android.os.Bundle
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
+import com.vk.sdk.api.VKParameters
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
 
 public object RunFun {
     public fun dialogList(offset: Int, count: Int) {

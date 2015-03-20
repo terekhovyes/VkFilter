@@ -1,29 +1,29 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
+import android.graphics.Point
 import android.os.Bundle
+import android.support.v7.app.ActionBarActivity
+import android.util.Log
 import android.view.MenuItem
-import android.widget.ListView
+import android.view.View
+import android.widget.AbsListView
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.AbsListView
+import android.widget.ListView
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.R
-import android.util.Log
+import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataClasses.Sex
+import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
-import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
-import me.alexeyterekhov.vkfilter.DataCache.MessageCache
-import android.graphics.Point
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.DataClasses.Sex
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import android.view.View
-import android.support.v7.app.ActionBarActivity
+import me.alexeyterekhov.vkfilter.R
 
 class ChatActivity: ActionBarActivity(), DataDepend {
-    class object {
+    companion object {
         val KEY_SAVED = "ChatActivitySaved"
         val KEY_ADAPTER = "ChatActivityAdapter"
         val KEY_INDEX = "ChatActivityIndex"

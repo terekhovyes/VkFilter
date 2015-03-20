@@ -1,21 +1,21 @@
 package me.alexeyterekhov.vkfilter.GUI.LoginActivity
 
+import android.content.Intent
+import android.os.AsyncTask
+import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
+import android.util.Log
 import android.view.View
-import me.alexeyterekhov.vkfilter.R
+import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import android.content.Intent
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
-import me.alexeyterekhov.vkfilter.Common.GooglePlay
-import android.os.AsyncTask
-import com.google.android.gms.gcm.GoogleCloudMessaging
 import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.GooglePlay
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import java.io.IOException
-import android.util.Log
-import android.os.Bundle
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.R
+import java.io.IOException
 
 
 public class LoginActivity: ActionBarActivity(), View.OnClickListener {

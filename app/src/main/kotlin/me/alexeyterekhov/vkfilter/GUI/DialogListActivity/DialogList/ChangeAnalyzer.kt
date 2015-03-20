@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 
 object ChangeAnalyzer {
     fun countUpdatedDialogs(old: DialogListSnapshot, new: DialogListSnapshot): Int {

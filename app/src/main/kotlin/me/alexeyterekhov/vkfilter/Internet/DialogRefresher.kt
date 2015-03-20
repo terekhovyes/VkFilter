@@ -1,17 +1,17 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import com.vk.sdk.api.VKParameters
-import me.alexeyterekhov.vkfilter.DataClasses.Message
-import java.util.NoSuchElementException
+import android.content.Intent
 import android.os.Handler
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
+import com.vk.sdk.api.VKParameters
+import me.alexeyterekhov.vkfilter.Common.IntentListener
+import me.alexeyterekhov.vkfilter.Common.ReceiverStation
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
-import me.alexeyterekhov.vkfilter.Common.IntentListener
-import android.content.Intent
-import me.alexeyterekhov.vkfilter.Common.ReceiverStation
+import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
+import java.util.NoSuchElementException
 
 object DialogRefresher: DataDepend, IntentListener {
     private val DELAY = 1500L

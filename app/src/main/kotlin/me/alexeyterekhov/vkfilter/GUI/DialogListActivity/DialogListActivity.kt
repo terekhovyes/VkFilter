@@ -1,35 +1,31 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity
 
-import android.support.v7.app.ActionBarActivity
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import android.support.v4.widget.SwipeRefreshLayout
+import android.content.Intent
 import android.os.Bundle
-import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
-import android.support.v7.widget.RecyclerView
+import android.os.Handler
+import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.ActionBarActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import me.alexeyterekhov.vkfilter.Common.AppContext
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import com.vk.sdk.VKSdk
+import com.vk.sdk.VKUIHelper
+import me.alexeyterekhov.vkfilter.Common.*
+import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
-import android.content.Intent
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
-import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
-import me.alexeyterekhov.vkfilter.Common.IntentListener
-import me.alexeyterekhov.vkfilter.Common.ReceiverStation
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import android.os.Handler
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
-import android.view.View
-import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
-import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import com.vk.sdk.VKSdk
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
+import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
+import me.alexeyterekhov.vkfilter.R
 
 public open class DialogListActivity:
     ActionBarActivity(),

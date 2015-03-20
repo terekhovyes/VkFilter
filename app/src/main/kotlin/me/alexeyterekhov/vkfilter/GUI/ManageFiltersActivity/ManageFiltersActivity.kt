@@ -1,34 +1,34 @@
 package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 
-import android.support.v7.app.ActionBarActivity
-import android.os.Bundle
-import me.alexeyterekhov.vkfilter.R
-import android.support.v7.widget.RecyclerView
-import me.alexeyterekhov.vkfilter.Database.DAOFilters
-import android.support.v7.widget.LinearLayoutManager
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import com.emtronics.dragsortrecycler.DragSortRecycler
 import android.content.Intent
-import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
-import android.view.View
-import org.lucasr.twowayview.ItemClickSupport
-import com.getbase.floatingactionbutton.FloatingActionButton
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import android.support.v7.widget.DefaultItemAnimator
-import me.alexeyterekhov.vkfilter.Database.VkFilter
-import com.jensdriller.libs.undobar.UndoBar
+import android.os.Bundle
 import android.os.Parcelable
-import android.view.animation.ScaleAnimation
-import android.view.animation.Animation
-import android.view.animation.AccelerateDecelerateInterpolator
-import com.activeandroid.ActiveAndroid
-import java.util.Vector
+import android.support.v7.app.ActionBarActivity
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+import com.activeandroid.ActiveAndroid
+import com.emtronics.dragsortrecycler.DragSortRecycler
+import com.getbase.floatingactionbutton.FloatingActionButton
+import com.jensdriller.libs.undobar.UndoBar
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
+import me.alexeyterekhov.vkfilter.R
+import org.lucasr.twowayview.ItemClickSupport
+import java.util.Vector
 
 
 public class ManageFiltersActivity: ActionBarActivity() {
-    class object {
+    companion object {
         val KEY_SAVED = "ManageFiltersSaved"
         val KEY_SELECTION_MODE = "ManageFiltersSelectionMode"
     }
@@ -247,7 +247,7 @@ public class ManageFiltersActivity: ActionBarActivity() {
     }
     private fun getAdapter() = (findViewById(R.id.filterList) as RecyclerView).getAdapter() as FilterAdapter
     private fun animator() = object : DefaultItemAnimator() {
-        {
+        init {
             setSupportsChangeAnimations(true)
             setChangeDuration(150)
         }

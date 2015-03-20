@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 
 class MessageForSending {
     var dialogId = ""

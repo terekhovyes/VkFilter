@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.Common
 
-import kotlin.properties.Delegates
 import me.alexeyterekhov.vkfilter.R
-import java.util.Calendar
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import kotlin.properties.Delegates
 
 public object DateFormat {
     private val SECONDS_IN_DAY = 3600 * 24

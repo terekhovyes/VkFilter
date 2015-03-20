@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.Common
 
 import android.app.Activity
-import com.google.android.gms.common.GooglePlayServicesUtil
-import com.google.android.gms.common.ConnectionResult
 import android.util.Log
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GooglePlayServicesUtil
 
 object GooglePlay {
     private val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
