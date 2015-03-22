@@ -190,7 +190,7 @@ object JSONParser {
                         "photo_604", "photo_130", "photo_75")
                 var url = ""
                 var smallUrl = ""
-                for (j in 0..photoSizes.size - 1) {
+                for (j in 0..photoSizes.size() - 1) {
                     val size = photoSizes[j]
                     if (url == "" && photo.has(size))
                         url = photo.getString(size)

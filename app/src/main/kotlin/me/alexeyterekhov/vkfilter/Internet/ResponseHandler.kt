@@ -96,7 +96,7 @@ object ResponseHandler {
             override fun doInBackground(vararg params: Unit?) {
                 val jsonMessages = JSONParser messageListResponseToMessageList result
                 messages = JSONParser parseMessages jsonMessages
-                if (firstMessageIsUseless && messages.notEmpty)
+                if (firstMessageIsUseless && messages.isNotEmpty())
                     messages.remove(0)
             }
 
@@ -104,7 +104,7 @@ object ResponseHandler {
                 val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
                 MessageCache
                         .getDialog(id, isChat)
-                        .addMessagesWithReplace(messages, messages.size < originalCount)
+                        .addMessagesWithReplace(messages, messages.size() < originalCount)
             }
         }.execute()
     }

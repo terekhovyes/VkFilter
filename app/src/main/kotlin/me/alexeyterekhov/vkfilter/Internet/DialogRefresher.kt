@@ -81,8 +81,8 @@ object DialogRefresher: DataDepend, IntentListener {
         params[if (chat) "chat_id" else "user_id"] = id
         val messagePack = MessageCache.getDialog(id, chat)
         params["last_id"] =
-                if (messagePack.messages.notEmpty)
-                    messagePack.messages.last!!.id
+                if (messagePack.messages.isNotEmpty())
+                    messagePack.messages.last().id
                 else
                     0
         var lastRead: Message?

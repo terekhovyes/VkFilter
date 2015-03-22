@@ -174,7 +174,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
             val chatId = intent.getStringExtra("chat_id")
             if (userId == null && chatId == null)
                 return
-            id = if (userId == null) chatId!! else userId
+            id = userId ?: chatId!!
             isChat = userId == null
             title = intent.getStringExtra("title")!!
         }

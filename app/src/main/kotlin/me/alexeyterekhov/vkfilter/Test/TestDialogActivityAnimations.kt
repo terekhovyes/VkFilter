@@ -59,7 +59,7 @@ public class TestDialogActivityAnimations: DialogListActivity() {
 
     fun oneDialog(snap: DialogListSnapshot): DialogListSnapshot {
         val d = snap.dialogs
-        return if (d.size > 2) {
+        return if (d.size() > 2) {
             val newDialogs = Vector<Dialog>()
             newDialogs add d[2]
             newDialogs addAll d
@@ -70,7 +70,7 @@ public class TestDialogActivityAnimations: DialogListActivity() {
 
     fun twoDialogs(snap: DialogListSnapshot): DialogListSnapshot {
         val d = snap.dialogs
-        return if (d.size > 3) {
+        return if (d.size() > 3) {
             val newDialogs = Vector<Dialog>()
             newDialogs add d[2]
             newDialogs add d[3]

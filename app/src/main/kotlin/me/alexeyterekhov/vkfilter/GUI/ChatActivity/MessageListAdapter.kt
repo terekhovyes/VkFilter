@@ -50,7 +50,7 @@ class MessageListAdapter(
     public var maxImageWidth: Int = 0
     public var maxImageHeight: Int = 0
 
-    override fun getCount() = if (messages == null) 0 else messages!!.size
+    override fun getCount() = if (messages == null) 0 else messages!!.size()
     override fun getItem(position: Int) = messages!![position]
     override fun getItemId(position: Int) = position.toLong()
     override fun getViewTypeCount() = 2
@@ -142,7 +142,7 @@ class MessageListAdapter(
         // Animation
         if (allowAppearAnimation
                 && animateLast > 0
-                && position == messages!!.size - animateLast) {
+                && position == messages!!.size() - animateLast) {
             val a = AnimationUtils.loadAnimation(AppContext.instance, R.anim.message_appear)!!
             a.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
@@ -258,7 +258,7 @@ class MessageListAdapter(
             }
             messagePack.info.addedMessagesAreNew -> {
                 val pos = listView.getLastVisiblePosition()
-                val newSize = messages!!.size
+                val newSize = messages!!.size()
                 val scrollPos = newSize - 1 - messagePack.info.addedMessagesCount
                 var scroll = scrollPos == pos
                 if (scroll) {

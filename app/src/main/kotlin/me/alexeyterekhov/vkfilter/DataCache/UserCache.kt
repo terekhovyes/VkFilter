@@ -8,7 +8,7 @@ import java.util.Vector
 object UserCache {
     private val map = HashMap<String, User>()
 
-    public val listeners: Vector<DataDepend> = Vector<DataDepend>()
+    public val listeners: Vector<DataDepend> = Vector()
 
     public fun dataUpdated() {
         for (l in listeners)

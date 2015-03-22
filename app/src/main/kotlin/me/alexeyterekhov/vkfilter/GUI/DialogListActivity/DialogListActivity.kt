@@ -100,7 +100,7 @@ public open class DialogListActivity:
         with (findRefreshLayout()) {
             setOnRefreshListener(this@DialogListActivity)
             setRecyclerView(findDialogList())
-            setColorScheme(
+            setColorSchemeResources(
                     R.color.refresh_color_1,
                     R.color.refresh_color_2,
                     R.color.refresh_color_3,

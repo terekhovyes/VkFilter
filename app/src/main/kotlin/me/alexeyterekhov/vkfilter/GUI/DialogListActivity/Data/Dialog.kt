@@ -15,16 +15,16 @@ class Dialog {
         get() {
             if ($title != "")
                 return $title
-            if (chatPartners.size == 1)
-                return TextFormat.userTitle(chatPartners.first!!, false)
+            if (chatPartners.size() == 1)
+                return TextFormat.userTitle(chatPartners.first()!!, false)
             val names = StringBuilder()
-            val to = if (chatPartners.size > 4) 4 else chatPartners.size
+            val to = if (chatPartners.size() > 4) 4 else chatPartners.size()
             for (i in 0..to - 1) {
                 if (i != 0)
                     names.append(", ": CharSequence)
                 names.append(TextFormat.userTitle(chatPartners[i], true): CharSequence)
             }
-            if (chatPartners.size > 4)
+            if (chatPartners.size() > 4)
                 names.append("...": CharSequence)
             return names.toString()
         }
@@ -34,7 +34,7 @@ class Dialog {
     }
 
     public fun getImageCount(): Int {
-        val count = if (photoUrl != "") 1 else chatPartners.size
+        val count = if (photoUrl != "") 1 else chatPartners.size()
         return if (count < 5) count else 4
     }
 
@@ -45,13 +45,13 @@ class Dialog {
     }
 
     public fun getPartnerPhotoUrl(pos: Int): String? {
-        if (pos < 0 || pos >= chatPartners.size) return null
+        if (pos < 0 || pos >= chatPartners.size()) return null
         return chatPartners[pos].photoUrl
     }
 
-    public fun getPartnersCount(): Int = chatPartners.size
+    public fun getPartnersCount(): Int = chatPartners.size()
 
-    public fun isChat(): Boolean = chatPartners.size > 1
+    public fun isChat(): Boolean = chatPartners.size() > 1
 
-    public fun showOnlineIcon(): Boolean = chatPartners.size == 1 && chatPartners[0].isOnline
+    public fun showOnlineIcon(): Boolean = chatPartners.size() == 1 && chatPartners[0].isOnline
 }

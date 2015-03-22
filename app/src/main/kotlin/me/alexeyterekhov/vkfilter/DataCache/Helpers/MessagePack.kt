@@ -18,10 +18,10 @@ class MessagePack {
     fun addMessagesWithReplace(msgs: Collection<Message>, itsAll: Boolean) {
         allHistoryLoaded = itsAll || allHistoryLoaded
 
-        val collection = if (!msgs.empty && msgs.first().id > msgs.last().id)
+        val collection = if (!msgs.isEmpty() && msgs.first().id > msgs.last().id)
             msgs.reverse() else msgs
         when {
-            collection.empty -> {
+            collection.isEmpty() -> {
                 info = MessagePackChange(
                         addedMessagesCount = 0,
                         addedMessagesAreNew = false,
@@ -30,10 +30,10 @@ class MessagePack {
                         markedTo = 0
                 )
             }
-            messages.empty -> {
+            messages.isEmpty() -> {
                 messages.addAll(collection)
                 info = MessagePackChange(
-                        addedMessagesCount = collection.size,
+                        addedMessagesCount = collection.size(),
                         addedMessagesAreNew = true,
                         markedMessagesAreIncomes = false,
                         markedFrom = 0,
@@ -41,15 +41,15 @@ class MessagePack {
                 )
             }
             else -> {
-                val left = messages.first!!.id
-                val right = messages.last!!.id
+                val left = messages.first().id
+                val right = messages.last().id
                 val l = collection.first().id
                 val r = collection.last().id
                 when {
                     r < left -> {
                         messages.addAll(0, collection)
                         info = MessagePackChange(
-                                addedMessagesCount = collection.size,
+                                addedMessagesCount = collection.size(),
                                 addedMessagesAreNew = false,
                                 markedMessagesAreIncomes = false,
                                 markedFrom = 0,
@@ -60,13 +60,13 @@ class MessagePack {
                         val forAdd = collection filter { it.id < left }
                         val forReplace = collection filter { it.id >= left }
                         var deleted = 0
-                        while (!messages.empty && messages.first!!.id <= r) {
+                        while (!messages.isEmpty() && messages.first().id <= r) {
                             messages.removeFirst()
                             ++deleted
                         }
                         messages.addAll(0, forReplace)
                         messages.addAll(0, forAdd)
-                        val addedCount = forAdd.size + forReplace.size - deleted
+                        val addedCount = forAdd.size() + forReplace.size() - deleted
                         info = MessagePackChange(
                                 addedMessagesCount = Math.abs(addedCount),
                                 addedMessagesAreNew = addedCount < 0,
@@ -79,7 +79,7 @@ class MessagePack {
                         val from = messages.indexOf(messages first { it.id >= l })
                         var deleted = 0
                         val alreadyRead = HashSet<Long>()
-                        while (messages.size > from && messages.get(from).id <= r) {
+                        while (messages.size() > from && messages.get(from).id <= r) {
                             val m = messages.remove(from)
                             if (m.isRead)
                                 alreadyRead add m.id
@@ -89,7 +89,7 @@ class MessagePack {
                             if (alreadyRead contains m.id)
                                 m.isRead = true
                         messages.addAll(from, collection)
-                        val addedCount = collection.size - deleted
+                        val addedCount = collection.size() - deleted
                         info = MessagePackChange(
                                 addedMessagesCount = Math.abs(addedCount),
                                 addedMessagesAreNew = addedCount < 0,
@@ -103,7 +103,7 @@ class MessagePack {
                         val forReplace = collection filter { it.id <= right }
                         var deleted = 0
                         val alreadyRead = HashSet<Long>()
-                        while (!messages.empty && messages.last!!.id >= l) {
+                        while (!messages.isEmpty() && messages.last().id >= l) {
                             val m = messages.removeLast()
                             if (m.isRead)
                                 alreadyRead add m.id
@@ -114,7 +114,7 @@ class MessagePack {
                                 m.isRead = true
                         messages.addAll(forReplace)
                         messages.addAll(forAdd)
-                        val addedCount = -(forAdd.size + forReplace.size - deleted)
+                        val addedCount = -(forAdd.size() + forReplace.size() - deleted)
                         info = MessagePackChange(
                                 addedMessagesCount = Math.abs(addedCount),
                                 addedMessagesAreNew = addedCount < 0,
@@ -126,7 +126,7 @@ class MessagePack {
                     l > right -> {
                         messages.addAll(collection)
                         info = MessagePackChange(
-                                addedMessagesCount = collection.size,
+                                addedMessagesCount = collection.size(),
                                 addedMessagesAreNew = true,
                                 markedMessagesAreIncomes = false,
                                 markedFrom = 0,
@@ -136,7 +136,7 @@ class MessagePack {
                     l < left && right < r -> {
                         val leftPart = collection filter { it.id <= right }
                         val rightPart = collection filter { it.id > right }
-                        val addedCount1 = leftPart.size - messages.size
+                        val addedCount1 = leftPart.size() - messages.size()
                         messages.clear()
                         messages.addAll(leftPart)
                         info = MessagePackChange(
@@ -148,7 +148,7 @@ class MessagePack {
                         )
                         for (lis in listeners) lis.onDataUpdate()
                         messages.addAll(rightPart)
-                        val addedCount2 = -rightPart.size
+                        val addedCount2 = -rightPart.size()
                         info = MessagePackChange(
                                 addedMessagesCount = Math.abs(addedCount2),
                                 addedMessagesAreNew = addedCount2 < 0,

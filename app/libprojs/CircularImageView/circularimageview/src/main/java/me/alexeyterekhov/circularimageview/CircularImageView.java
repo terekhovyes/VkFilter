@@ -59,6 +59,7 @@ public class CircularImageView extends ImageView {
 
         if(attributes.getBoolean(R.styleable.CircularImageView_shadow, false))
             addShadow();
+        attributes.recycle();
     }
 
     public void setBorderWidth(int borderWidth) {
