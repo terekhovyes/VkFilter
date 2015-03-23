@@ -42,11 +42,14 @@ class AvatarAdapterMini(val layoutRes: Int):
 
     fun checkForNewAvatars() {
         var added = false
-        for (id in userIdsForLoading)
+        val it = userIdsForLoading.iterator()
+        while (it.hasNext()) {
+            val id = it.next()
             if (UserCache contains id) {
                 added = true
-                userIdsForLoading remove id
+                it.remove()
             }
+        }
         if (added)
             notifyDataSetChanged()
     }

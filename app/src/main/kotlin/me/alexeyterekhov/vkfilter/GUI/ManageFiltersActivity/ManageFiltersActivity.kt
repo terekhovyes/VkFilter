@@ -201,7 +201,7 @@ public class ManageFiltersActivity: ActionBarActivity() {
         )
         animation.setRepeatMode(Animation.REVERSE)
         animation.setRepeatCount(1)
-        animation.setDuration(150)
+        animation.setDuration(100)
         animation.setInterpolator(AccelerateDecelerateInterpolator())
         button.startAnimation(animation)
     }

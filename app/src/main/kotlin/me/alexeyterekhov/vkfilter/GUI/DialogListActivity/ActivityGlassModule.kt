@@ -202,7 +202,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         )
         animation.setRepeatMode(Animation.REVERSE)
         animation.setRepeatCount(1)
-        animation.setDuration(revealDuration / 2)
+        animation.setDuration(revealDuration / 3)
         animation.setInterpolator(AccelerateDecelerateInterpolator())
         btn.startAnimation(animation)
         handler.postDelayed({ blocked = false }, (revealDuration * 2.5).toLong())
