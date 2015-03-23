@@ -33,7 +33,7 @@ public object RunFun {
 
     public fun friendList(offset: Int, count: Int) {
         val params = VKParameters()
-        params["cound"] = count
+        params["count"] = count
         params["offset"] = offset
         params["order"] = "hints"
         params["fields"] = "name,sex,photo_max,last_seen"
@@ -51,6 +51,7 @@ public object RunFun {
         val params = VKParameters()
         params["message"] = msg.text
         params[if (msg.isChat) "chat_id" else "user_id"] = msg.dialogId
+        params["guid"] = System.currentTimeMillis()
         VkRequestControl.addUnstoppableRequest(VkRequestBundle(VkFun.sendMessage, params))
     }
 
