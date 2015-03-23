@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.GUI.DialogListActivity;
+package me.alexeyterekhov.vkfilter.GUI.Common;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

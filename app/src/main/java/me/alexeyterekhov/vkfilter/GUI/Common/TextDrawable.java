@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.GUI.DialogListActivity;
+package me.alexeyterekhov.vkfilter.GUI.Common;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

@@ -12,7 +12,7 @@ import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.FriendListAdapter
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.CustomSwipeRefreshLayout
+import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.R

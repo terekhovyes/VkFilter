@@ -14,10 +14,16 @@ import com.getbase.floatingactionbutton.FloatingActionButton
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
+import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
+import java.util.HashSet
+import java.util.LinkedList
 
 
 class ActivityGlassModule(val activity: DialogListActivity) {
@@ -32,10 +38,8 @@ class ActivityGlassModule(val activity: DialogListActivity) {
     private var manageButtonPressed = false
 
     fun onCreate() {
-        var enableRefresh = false
         if (DataSaver removeObject SAVED_KEY != null) {
             if (DataSaver removeObject VISIBLE_KEY != null) {
-                enableRefresh = true
                 with (findMainBtn()) {
                     setVisibility(View.VISIBLE)
                     setIcon(R.drawable.icon_close)
@@ -43,6 +47,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                 findResetBtn() setVisibility View.VISIBLE
                 findManageBtn() setVisibility View.VISIBLE
                 findLayout() setVisibility View.VISIBLE
+                subscribe()
             }
         }
 
@@ -61,24 +66,35 @@ class ActivityGlassModule(val activity: DialogListActivity) {
 
         findResetBtn() setOnClickListener {
             val list = findList()
-            (list.getAdapter() as FilterGlassAdapter).resetFilters(list)
+            (list.getAdapter() as FilterGlassAdapter).resetFilters()
         }
 
+        val filterFromDatabase = DAOFilters.loadVkFilters()
+
         with (findList()) {
-            if (getAdapter() == null) setAdapter(FilterGlassAdapter(object : DataDepend {
-                override fun onDataUpdate() {
-                    activity.getDialogAdapter()!!.filterDataAgain()
-                }
-            }))
+            if (getAdapter() == null) setAdapter(
+                    FilterGlassAdapter(
+                        this,
+                        object : DataDepend {
+                            override fun onDataUpdate() {
+                                activity.getDialogAdapter()!!.filterDataAgain()
+                            }
+                        }
+                    )
+            )
             if (getLayoutManager() == null) setLayoutManager(LinearLayoutManager(
                     AppContext.instance, LinearLayoutManager.VERTICAL, true
             ))
             val adapter = getAdapter() as FilterGlassAdapter
             adapter.filters.clear()
-            adapter.filters addAll DAOFilters.loadVkFilters()
+            adapter.filters addAll filterFromDatabase
             adapter.notifyDataSetChanged()
-            adapter.enableRefreshing(enableRefresh)
         }
+
+        infoRequest(filterFromDatabase)
+    }
+    fun onDestroy() {
+        unsubscribe()
     }
     fun saveState() {
         if (findLayout().getVisibility() == View.VISIBLE) {
@@ -91,8 +107,33 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         }
     }
 
-    fun getAdapter() = findList().getAdapter() as FilterGlassAdapter?
+    private fun subscribe() {
+        val adapter = getAdapter()
+        if (adapter != null)
+            UserCache.listeners add adapter
+    }
+    private fun unsubscribe() {
+        val adapter = getAdapter()
+        if (adapter != null)
+            UserCache.listeners remove adapter
+    }
+    private fun infoRequest(filters: List<VkFilter>) {
+        val userIds = filters
+                .map {
+                    it.identifiers()
+                        .filter { it.type == VkIdentifier.TYPE_USER }
+                        .map { it.id.toString() }
+                        .filter { !(UserCache contains it) }}
+                .fold(LinkedList<String>(), {
+                    res, ids ->
+                    res addAll ids
+                    res})
+                .distinct()
+        if (userIds.isNotEmpty())
+            RunFun userInfo userIds
+    }
 
+    fun getAdapter() = findList().getAdapter() as FilterGlassAdapter?
     private fun findMainBtn() = (activity findViewById R.id.showFilterGlass) as FloatingActionButton
     private fun findResetBtn() = (activity findViewById R.id.filterReset) as FloatingActionButton
     private fun findManageBtn() = (activity findViewById R.id.manageFiltersBtn) as FloatingActionButton
@@ -104,15 +145,13 @@ class ActivityGlassModule(val activity: DialogListActivity) {
     fun show() {
         if (blocked)
             return
+        subscribe()
+        getAdapter()!!.updateVisibleAvatarLists()
         blocked = true
         val glassLayout = findLayout()
         val btn = findMainBtn()
         var revealDuration = 100L
         findList().scrollToPosition(0)
-        with (getAdapter()!!) {
-            enableRefreshing(true)
-            notifyDataSetChanged()
-        }
         with (glassLayout) {
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
@@ -172,11 +211,11 @@ class ActivityGlassModule(val activity: DialogListActivity) {
     fun hide() {
         if (blocked)
             return
+        unsubscribe()
         blocked = true
         val glassLayout = findLayout()
         val btn = findMainBtn()
         var revealDuration = 100L
-        getAdapter()!!.enableRefreshing(false)
         with (glassLayout) {
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,

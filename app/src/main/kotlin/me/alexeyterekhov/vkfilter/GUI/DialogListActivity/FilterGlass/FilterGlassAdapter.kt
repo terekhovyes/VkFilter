@@ -12,20 +12,25 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapterMini
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
 import me.alexeyterekhov.vkfilter.R
 import java.util.Vector
 
 
-class FilterGlassAdapter(val listener: DataDepend): RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-DataDepend {
+class FilterGlassAdapter(
+        val list: RecyclerView,
+        val filterStateChangeListener: DataDepend
+):
+        RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+        DataDepend
+{
     companion object {
         val TYPE_HEADER = 0
         val TYPE_ITEM = 1
     }
 
     val filters = Vector<VkFilter>()
-    var refreshing = false
 
     override fun getItemCount() = filters.size() + 1
     override fun getItemViewType(position: Int) = when (position) {
@@ -38,7 +43,7 @@ DataDepend {
             val view = inflater.inflate(R.layout.item_filter_switch, parent, false)
             val holder = FilterHolder(view)
             with (holder.avatarList) {
-                setAdapter(AvatarAdapter(R.layout.item_avatar_40dp))
+                setAdapter(AvatarAdapterMini(R.layout.item_avatar_40dp))
                 setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, true))
             }
             holder
@@ -60,15 +65,15 @@ DataDepend {
                 override fun onChangeState(newState: Int) {
                     item.state = FilterStates.switchToFilter(newState)
                     DAOFilters.saveFilter(item)
-                    listener.onDataUpdate()
+                    filterStateChangeListener.onDataUpdate()
                 }
             }
             filterName setText item.filterName
-            avatarList.getAdapter() as AvatarAdapter setIds item.identifiers()
+            avatarList.getAdapter() as AvatarAdapterMini setIds item.identifiers()
         }
     }
 
-    fun resetFilters(recyclerView: RecyclerView) {
+    fun resetFilters() {
         ActiveAndroid.beginTransaction()
         try {
             for (f in filters) {
@@ -79,28 +84,34 @@ DataDepend {
         } finally {
             ActiveAndroid.endTransaction()
         }
-        val man = recyclerView.getLayoutManager() as LinearLayoutManager
+        val man = list.getLayoutManager() as LinearLayoutManager
         val from = man.findFirstVisibleItemPosition()
         val to = man.findLastVisibleItemPosition()
-        Log.d("debug", "From $from to $to")
         for (i in from..to) {
             val view = man.findViewByPosition(i)
-            val holder = recyclerView.getChildViewHolder(view)
+            val holder = list.getChildViewHolder(view)
             if (holder is FilterHolder)
                 holder.switch.setStateWithoutListener(TripleSwitchView.STATE_MIDDLE, true)
         }
-        for (i in 0..filters.size() - 1)
+        for (i in 0..getItemCount() - 1)
             if (i !in from..to)
                 notifyItemChanged(i)
-        listener.onDataUpdate()
+        filterStateChangeListener.onDataUpdate()
     }
 
-    fun enableRefreshing(enabled: Boolean) {
-        refreshing = enabled
+    fun updateVisibleAvatarLists() {
+        val man = list.getLayoutManager() as LinearLayoutManager
+        val from = man.findFirstVisibleItemPosition()
+        val to = man.findLastVisibleItemPosition()
+        for (i in from..to) {
+            val view = man.findViewByPosition(i)
+            val holder = list.getChildViewHolder(view)
+            if (holder is FilterHolder)
+                (holder.avatarList.getAdapter() as AvatarAdapterMini).checkForNewAvatars()
+        }
     }
 
     override fun onDataUpdate() {
-        if (refreshing)
-            notifyDataSetChanged()
+        updateVisibleAvatarLists()
     }
 }

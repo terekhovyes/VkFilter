@@ -18,6 +18,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
@@ -57,7 +58,6 @@ public open class DialogListActivity:
             BrandUI.brandScrollEffectColors()
 
         glassModule.onCreate()
-        UserCache.listeners add glassModule.getAdapter()
 
         with (findDialogList()) {
             if (getAdapter() == null) setAdapter(DialogAdapter(this))
@@ -135,12 +135,12 @@ public open class DialogListActivity:
     override fun onDestroy() {
         super<ActionBarActivity>.onDestroy()
         VKUIHelper.onDestroy(this)
+        glassModule.onDestroy()
         DialogListCache.listeners remove this
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super<ActionBarActivity>.onSaveInstanceState(outState)
-        UserCache.listeners remove glassModule.getAdapter()
         glassModule.saveState()
     }
 
