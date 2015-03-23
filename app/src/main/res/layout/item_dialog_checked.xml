@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@color/material_white">
+
+    <me.alexeyterekhov.circularimageview.CircularImageView
+        android:id="@+id/singlePic"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/user_photo_loading"
+        app:border="false"
+        app:shadow="true"/>
+
+    <RelativeLayout
+        android:id="@+id/doublePicLayout"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="gone">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/doublePic1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/doublePic2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/triplePicLayout"
+        android:layout_width="70dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="gone">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/triplePic1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/triplePic2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/triplePic3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quadPicLayout"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="gone">
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadPic1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadPic2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadPic3"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+        <me.alexeyterekhov.circularimageview.CircularImageView
+            android:id="@+id/quadPic4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/user_photo_loading"
+            app:border="false"
+            app:shadow="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialogName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_item_top_size"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:textColor="@color/material_black"
+            android:text="Федосов"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <me.alexeyterekhov.circularimageview.CircularImageView
+                android:id="@+id/dialogSenderIcon"
+                android:layout_width="@dimen/dialog_item_bottom_size"
+                android:layout_height="@dimen/dialog_item_bottom_size"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/group_icon_01"
+                app:border="false"
+                app:shadow="true"/>
+
+            <TextView
+                android:id="@+id/dialogLastMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:lines="2"
+                android:ellipsize="end"
+                android:textColor="@color/material_gray"
+                android:textSize="14sp"
+                android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/itemCheckBox"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="-55dp"
+        android:layout_gravity="center_vertical"
+        android:button="@null"
+        android:background="@drawable/checkbox_padding"/>
+
+</LinearLayout>

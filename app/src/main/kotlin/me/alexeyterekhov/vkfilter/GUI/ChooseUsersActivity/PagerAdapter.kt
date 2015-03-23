@@ -21,6 +21,11 @@ public class PagerAdapter(
                 f setSelectedUsers selectedUsers
                 f
             }
+            2 -> {
+                val f = DialogChooseFragment()
+                f.setSelected(selectedUsers, selectedChats)
+                f
+            }
             else -> EmptyFragment()
         }
     }

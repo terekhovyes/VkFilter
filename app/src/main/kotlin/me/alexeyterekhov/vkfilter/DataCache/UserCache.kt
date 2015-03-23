@@ -19,4 +19,5 @@ object UserCache {
     }
     public fun contains(id: String): Boolean = map.containsKey(id)
     public fun getUser(id: String): User? = map[id]
+    public fun getMe(): User? = map["me"]
 }
