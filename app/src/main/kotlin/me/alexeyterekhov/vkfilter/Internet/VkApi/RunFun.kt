@@ -47,6 +47,12 @@ public object RunFun {
         VkRequestControl.addRequest(VkRequestBundle(VkFun.userInfo, params))
     }
 
+    public fun chatInfo(ids: Collection<String>) {
+        val params = VKParameters()
+        params["chat_ids"] = ids.join(separator = ",")
+        VkRequestControl.addRequest(VkRequestBundle(VkFun.chatInfo, params))
+    }
+
     public fun sendMessage(msg: MessageForSending) {
         val params = VKParameters()
         params["message"] = msg.text

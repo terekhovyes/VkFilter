@@ -12,7 +12,8 @@ public object VkFunNames {
                 VkFun.refreshDialog to "execute.refreshDialog",
                 VkFun.sendMessage to "messages.send",
                 VkFun.registerGCM to "account.registerDevice",
-                VkFun.userInfo to "users.get"
+                VkFun.userInfo to "users.get",
+                VkFun.chatInfo to "execute.detailedChats"
         )
     }
 

@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.Internet
 
 import me.alexeyterekhov.vkfilter.Common.DateFormat
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
@@ -44,6 +45,16 @@ object JSONParser {
         return response.getJSONArray("response")
     }
 
+    fun chatInfoResponseToUserList(response: JSONObject): JSONArray {
+        val respObj = response.getJSONObject("response")
+        return respObj.getJSONArray("user_info")
+    }
+
+    fun chatInfoResponseToChatList(response: JSONObject): JSONArray {
+        val respObj = response.getJSONObject("response")
+        return respObj.getJSONArray("chats")
+    }
+
     // Parsers
 
     fun parseDialogs(array: JSONArray): Vector<Dialog> {
@@ -74,6 +85,34 @@ object JSONParser {
             messages add message
         }
         return messages
+    }
+
+    fun parseChatInfo(array: JSONArray): Vector<ChatInfo> {
+        val chats = Vector<ChatInfo>()
+        for (i in 0..array.length() - 1) {
+            val json = array.getJSONObject(i)
+            val chatInfo = parseItemChatInfo(json)
+            chats add chatInfo
+        }
+        return chats
+    }
+
+    private fun parseItemChatInfo(item: JSONObject): ChatInfo {
+        val info = ChatInfo()
+        info.id = item getLong "id"
+        val users = item getJSONArray "users"
+        for (i in 0..users.length() - 1) {
+            val id = users.getLong(i).toString()
+            if (UserCache contains id)
+                info.chatPartners add (UserCache getUser id)
+        }
+        if (item has "title")
+            info.title = item getString "title"
+        arrayListOf("photo_50", "photo_100", "photo_200") forEach {
+            if (item has it)
+                info.photoUrl = item getString it
+        }
+        return info
     }
 
     private fun parseItemDialog(item: JSONObject): Dialog {

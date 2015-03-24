@@ -6,6 +6,7 @@ enum class VkFun {
     friendList
     refreshDialog
     userInfo
+    chatInfo
     sendMessage
     markIncomesAsRead
     registerGCM

@@ -2,10 +2,7 @@ package me.alexeyterekhov.vkfilter.Internet
 
 import android.os.AsyncTask
 import android.os.Handler
-import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
-import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
-import me.alexeyterekhov.vkfilter.DataCache.MessageCache
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataCache.*
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
@@ -27,6 +24,7 @@ object ResponseHandler {
             VkFun.friendList -> friendList(request, result)
             VkFun.messageList -> messageList(request, result)
             VkFun.userInfo -> userInfo(request, result)
+            VkFun.chatInfo -> chatInfo(request, result)
             VkFun.markIncomesAsRead -> markIncomesAsRead(request, result)
             VkFun.refreshDialog -> refreshDialog(request, result)
             VkFun.sendMessage -> sendMessage(request, result)
@@ -114,6 +112,19 @@ object ResponseHandler {
         val users = JSONParser parseUsers jsonUsers
         for (u in users)
             UserCache.putUser(u.id, u)
+        UserCache.dataUpdated()
+    }
+
+    private fun chatInfo(request: VkRequestBundle, result: JSONObject) {
+        val jsonUsers = JSONParser chatInfoResponseToUserList result
+        val users = JSONParser parseUsers jsonUsers
+        users forEach { UserCache.putUser(it.id, it) }
+        UserCache.dataUpdated()
+
+        val jsonChats = JSONParser chatInfoResponseToChatList result
+        val chats = JSONParser parseChatInfo jsonChats
+        chats forEach { ChatInfoCache.putChat(it.id.toString(), it) }
+        ChatInfoCache.dataUpdated()
     }
 
     private fun markIncomesAsRead(request: VkRequestBundle, result: JSONObject) {

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
@@ -22,13 +23,20 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
         vkIds.clear()
         vkIds addAll ids
         notifyDataSetChanged()
-        val usersForLoading = Vector<String>()
-        for (id in vkIds)
-            if (id.type == VkIdentifier.TYPE_USER)
-                if (!UserCache.contains(id.id.toString()))
-                    usersForLoading add id.id.toString()
+
+        val usersForLoading = vkIds
+                .filter { it.type == VkIdentifier.TYPE_USER }
+                .map { it.id.toString() }
+                .filter { !UserCache.contains(it) }
+        val chatsForLoading = vkIds
+                .filter { it.type == VkIdentifier.TYPE_CHAT }
+                .map { it.id.toString() }
+                .filter { !ChatInfoCache.contains(it) }
+
         if (usersForLoading.isNotEmpty())
             RunFun.userInfo(usersForLoading)
+        if (chatsForLoading.isNotEmpty())
+            RunFun.chatInfo(chatsForLoading)
     }
 
     override fun onDataUpdate() {
@@ -44,10 +52,7 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
         val vkId = vkIds get position
         when (vkId.type) {
             VkIdentifier.TYPE_USER -> {
-                h.singleImage setVisibility View.VISIBLE
-                h.doubleLayout setVisibility View.INVISIBLE
-                h.tripleLayout setVisibility View.INVISIBLE
-                h.quadLayout setVisibility View.INVISIBLE
+                setLayoutVisibility(h, 1)
                 if (UserCache contains vkId.id.toString())
                     imageLoader.displayImage(
                             (UserCache getUser vkId.id.toString())!!.photoUrl,
@@ -57,8 +62,53 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                     h.singleImage setImageResource R.drawable.user_photo_loading
             }
             VkIdentifier.TYPE_CHAT -> {
-
+                if (ChatInfoCache contains vkId.id.toString()) {
+                    val chat = (ChatInfoCache getChat vkId.id.toString())!!
+                    if (chat.photoUrl != "") {
+                        setLayoutVisibility(h, 1)
+                        imageLoader.displayImage(chat.photoUrl, h.singleImage)
+                    } else {
+                        when (chat.chatPartners.size()) {
+                            0 -> {
+                                setLayoutVisibility(h, 1)
+                                h.singleImage setImageResource R.drawable.user_photo_loading
+                            }
+                            1 -> {
+                                setLayoutVisibility(h, 1)
+                                imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.singleImage)
+                            }
+                            2 -> {
+                                setLayoutVisibility(h, 2)
+                                imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.doubleImage1)
+                                imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.doubleImage2)
+                            }
+                            3 -> {
+                                setLayoutVisibility(h, 3)
+                                imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.tripleImage1)
+                                imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.tripleImage2)
+                                imageLoader.displayImage(chat.chatPartners[2].photoUrl, h.tripleImage3)
+                            }
+                            else -> {
+                                setLayoutVisibility(h, 4)
+                                imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.quadImage1)
+                                imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.quadImage2)
+                                imageLoader.displayImage(chat.chatPartners[2].photoUrl, h.quadImage3)
+                                imageLoader.displayImage(chat.chatPartners[3].photoUrl, h.quadImage4)
+                            }
+                        }
+                    }
+                } else {
+                    setLayoutVisibility(h, 1)
+                    h.singleImage setImageResource R.drawable.user_photo_loading
+                }
             }
         }
+    }
+
+    private fun setLayoutVisibility(holder: AvatarHolder, picCount: Int) {
+        holder.singleImage setVisibility if (picCount == 1) View.VISIBLE else View.INVISIBLE
+        holder.doubleLayout setVisibility if (picCount == 2) View.VISIBLE else View.INVISIBLE
+        holder.tripleLayout setVisibility if (picCount == 3) View.VISIBLE else View.INVISIBLE
+        holder.quadLayout setVisibility if (picCount == 4) View.VISIBLE else View.INVISIBLE
     }
 }
