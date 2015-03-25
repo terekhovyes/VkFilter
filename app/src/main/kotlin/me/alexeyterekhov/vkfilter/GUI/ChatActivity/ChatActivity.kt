@@ -3,7 +3,6 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
@@ -210,7 +209,6 @@ class ChatActivity: ActionBarActivity(), DataDepend {
                         adapter!!.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
                     }
                     if (info.markedFrom > 0 && info.markedTo > 0) {
-                        Log.d("debug", "MARKED IN ADAPTER")
                         adapter!!.markAsRead(
                                 findViewById(R.id.messageList) as ListView,
                                 info.markedFrom, info.markedTo, info.markedMessagesAreIncomes)

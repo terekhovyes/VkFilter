@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
 import me.alexeyterekhov.circularimageview.CircularImageView
 import me.alexeyterekhov.vkfilter.R
 

@@ -14,7 +14,6 @@ import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Common.*
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter

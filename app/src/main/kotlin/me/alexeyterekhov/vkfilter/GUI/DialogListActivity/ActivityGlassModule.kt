@@ -23,7 +23,6 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlass
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
-import java.util.HashSet
 import java.util.LinkedList
 
 
