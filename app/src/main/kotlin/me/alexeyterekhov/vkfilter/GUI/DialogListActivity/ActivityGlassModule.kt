@@ -13,6 +13,7 @@ import android.view.animation.*
 import com.getbase.floatingactionbutton.FloatingActionButton
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
@@ -109,13 +110,17 @@ class ActivityGlassModule(val activity: DialogListActivity) {
 
     private fun subscribe() {
         val adapter = getAdapter()
-        if (adapter != null)
+        if (adapter != null) {
             UserCache.listeners add adapter
+            ChatInfoCache.listeners add adapter
+        }
     }
     private fun unsubscribe() {
         val adapter = getAdapter()
-        if (adapter != null)
+        if (adapter != null) {
             UserCache.listeners remove adapter
+            ChatInfoCache.listeners remove adapter
+        }
     }
     private fun infoRequest(filters: List<VkFilter>) {
         val userIds = filters
@@ -131,6 +136,19 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                 .distinct()
         if (userIds.isNotEmpty())
             RunFun userInfo userIds
+        val chatIds = filters
+                .map {
+                    it.identifiers()
+                        .filter { it.type == VkIdentifier.TYPE_CHAT }
+                        .map { it.id.toString() }
+                        .filter { !(ChatInfoCache contains it) }}
+                .fold(LinkedList<String>(), {
+                    res, ids ->
+                    res addAll ids
+                    res})
+                .distinct()
+        if (chatIds.isNotEmpty())
+            RunFun chatInfo chatIds
     }
 
     fun getAdapter() = findList().getAdapter() as FilterGlassAdapter?

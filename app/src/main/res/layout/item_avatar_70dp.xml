@@ -10,10 +10,11 @@
         android:id="@+id/singleDialogIcon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:src="@drawable/user_photo_loading"
         app:border="false"
         app:shadow="true"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <RelativeLayout
         android:id="@+id/doubleDialogIconLayout"
@@ -51,6 +52,7 @@
             android:id="@+id/tripleDialogIcon1"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="2dp"
             android:layout_centerVertical="true"
             android:src="@drawable/user_photo_loading"
             app:border="false"
@@ -60,6 +62,7 @@
             android:id="@+id/tripleDialogIcon2"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginRight="2dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/user_photo_loading"
             app:border="false"
@@ -69,6 +72,7 @@
             android:id="@+id/tripleDialogIcon3"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginRight="2dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@drawable/user_photo_loading"

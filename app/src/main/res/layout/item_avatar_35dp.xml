@@ -23,16 +23,16 @@
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/doubleDialogIcon1"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/user_photo_loading"
             app:border="false"
             app:shadow="true"/>
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/doubleDialogIcon2"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/user_photo_loading"
@@ -49,8 +49,9 @@
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/tripleDialogIcon1"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="1dp"
             android:layout_centerVertical="true"
             android:src="@drawable/user_photo_loading"
             app:border="false"
@@ -58,8 +59,9 @@
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/tripleDialogIcon2"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginRight="1dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/user_photo_loading"
             app:border="false"
@@ -67,8 +69,9 @@
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/tripleDialogIcon3"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginRight="1dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@drawable/user_photo_loading"
@@ -81,14 +84,14 @@
         android:id="@+id/quadDialogIconLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <me.alexeyterekhov.circularimageview.CircularImageView
             android:id="@+id/quadDialogIcon1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:src="@drawable/user_photo_loading"
             app:border="false"
             app:shadow="true"/>
@@ -97,8 +100,8 @@
             android:id="@+id/quadDialogIcon2"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:src="@drawable/user_photo_loading"
             app:border="false"
             app:shadow="true"/>
@@ -107,8 +110,8 @@
             android:id="@+id/quadDialogIcon3"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:src="@drawable/user_photo_loading"
             app:border="false"
             app:shadow="true"/>
@@ -117,8 +120,8 @@
             android:id="@+id/quadDialogIcon4"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:src="@drawable/user_photo_loading"
             app:border="false"
             app:shadow="true"/>
