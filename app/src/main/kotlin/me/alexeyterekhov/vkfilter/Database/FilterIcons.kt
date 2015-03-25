@@ -3,7 +3,7 @@ package me.alexeyterekhov.vkfilter.Database
 import me.alexeyterekhov.vkfilter.R
 
 
-public object GroupIconIds {
+public object FilterIcons {
     private val ID_TO_RES = hashMapOf(
             1 to R.drawable.group_icon_01,
             2 to R.drawable.group_icon_02,
@@ -20,21 +20,27 @@ public object GroupIconIds {
             R.drawable.group_icon_05 to R.drawable.group_icon_transp_05
     )
 
-    private fun keyOf(v: Int) = (ID_TO_RES.entrySet() first { it.value == v }).key
+    fun iconCount() = ID_TO_RES.size()
 
-    fun resToId(res: Int): Int {
+    fun resourceToId(res: Int): Int {
         return if (ID_TO_RES containsValue res)
             keyOf(res)
-        else
+        else if (RES_TO_TRANSPARENT_RES containsValue res) {
+            val r = keyOfTr(res)
+            keyOf(r)
+        } else
             keyOf(R.drawable.group_icon_01)
     }
 
-    fun idToRes(id: Int): Int {
+    fun idToResource(id: Int): Int {
         return if (ID_TO_RES containsKey id)
             ID_TO_RES[id]
         else
             R.drawable.group_icon_01
     }
 
-    fun idToTransparentRes(id: Int) = RES_TO_TRANSPARENT_RES[idToRes(id)]
+    fun idToTransparentResource(id: Int) = RES_TO_TRANSPARENT_RES[idToResource(id)]
+
+    private fun keyOf(v: Int) = (ID_TO_RES.entrySet() first { it.value == v }).key
+    private fun keyOfTr(v: Int) = (RES_TO_TRANSPARENT_RES.entrySet() first { it.value == v }).key
 }

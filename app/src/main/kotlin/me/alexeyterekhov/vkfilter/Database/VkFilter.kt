@@ -28,9 +28,9 @@ public class VkFilter(): Model() {
     [Column(name = "EnableState")]
     var state: Int = STATE_DISABLED
 
-    fun setIconResource(res: Int) { iconId = GroupIconIds.resToId(res) }
-    fun getIconResource() = GroupIconIds.idToRes(iconId)
-    fun getIconTransparentBackgroundResource() = GroupIconIds.idToTransparentRes(iconId)
+    fun setIconResource(res: Int) { iconId = FilterIcons.resourceToId(res) }
+    fun getIconResource() = FilterIcons.idToResource(iconId)
+    fun getIconTransparentBackgroundResource() = FilterIcons.idToTransparentResource(iconId)
 
     fun invalidateCache() { cached = false }
     fun identifiers(): List<VkIdentifier> {

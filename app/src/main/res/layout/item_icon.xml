@@ -4,12 +4,6 @@
     android:layout_width="70dp"
     android:layout_height="70dp">
 
-    <View
-        android:id="@+id/chooserView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/icon_chooser"/>
-
     <me.alexeyterekhov.circularimageview.CircularImageView
         android:id="@+id/iconImage"
         android:layout_width="match_parent"

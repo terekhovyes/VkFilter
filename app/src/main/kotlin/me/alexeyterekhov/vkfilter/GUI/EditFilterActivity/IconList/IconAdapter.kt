@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Database.FilterIcons
 import me.alexeyterekhov.vkfilter.R
 
 
 class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
-    private val icons = createIcons()
     private var selectedIcon: Int = 0
+
+    private val normalColor = AppContext.instance.getResources().getColor(R.color.material_green)
+    private val selectedColor = AppContext.instance.getResources().getColor(R.color.material_blue)
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): IconHolder? {
         val inflater = LayoutInflater.from(AppContext.instance)
@@ -20,8 +23,14 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
 
     override fun onBindViewHolder(holder: IconHolder, position: Int) {
         with (holder) {
-            icon.setImageResource(icons[position])
-            chooser setVisibility if (position == selectedIcon) View.VISIBLE else View.INVISIBLE
+            icon.setImageResource(FilterIcons.idToTransparentResource(position + 1))
+            icon.setBackgroundColor(
+                    if (position == selectedIcon)
+                        selectedColor
+                    else
+                        normalColor
+            )
+
             v setOnClickListener {
                 selectedIcon = position
                 notifyDataSetChanged()
@@ -29,18 +38,10 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
         }
     }
 
-    override fun getItemCount() = icons.size()
+    override fun getItemCount() = FilterIcons.iconCount()
 
-    fun getSelectedIconResource() = icons[selectedIcon]
+    fun getSelectedIconResource() = FilterIcons.idToTransparentResource(selectedIcon + 1)
     fun setSelectedIconResource(res: Int) {
-        selectedIcon = icons indexOf res
+        selectedIcon = FilterIcons.resourceToId(res) - 1
     }
-
-    private fun createIcons() = arrayListOf(
-            R.drawable.group_icon_01,
-            R.drawable.group_icon_02,
-            R.drawable.group_icon_03,
-            R.drawable.group_icon_04,
-            R.drawable.group_icon_05
-    )
 }

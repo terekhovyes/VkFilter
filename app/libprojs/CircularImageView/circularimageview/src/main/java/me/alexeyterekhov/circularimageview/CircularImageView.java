@@ -22,8 +22,6 @@ public class CircularImageView extends ImageView {
     private Paint backgroundPaint;
     private Paint paintBorder;
 
-    private int backgroundColor = 0;
-
     public CircularImageView(final Context context) {
         this(context, null);
     }
@@ -77,6 +75,11 @@ public class CircularImageView extends ImageView {
     public void addShadow() {
         setLayerType(LAYER_TYPE_SOFTWARE, paintBorder);
         paintBorder.setShadowLayer(4.0f, 0.0f, 0.0f, Color.GRAY);
+    }
+
+    public void setBackgroundColor(int color) {
+        backgroundPaint.setColor(color | 0xFF000000);
+        invalidate();
     }
 
     @Override
