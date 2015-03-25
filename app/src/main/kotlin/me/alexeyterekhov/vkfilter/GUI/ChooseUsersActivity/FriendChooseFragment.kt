@@ -30,8 +30,8 @@ public class FriendChooseFragment: Fragment(), DataDepend {
     val LOAD_THRESHOLD = 15
 
 
-    fun setSelectedUsers(selected: MutableSet<Long>) {
-        adapter = FriendListAdapter(selected)
+    fun setSelectedUsers(selected: MutableSet<Long>, notifyAction: () -> Unit) {
+        adapter = FriendListAdapter(selected, notifyAction)
     }
 
     override fun onCreateView(

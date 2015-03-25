@@ -12,7 +12,8 @@ import me.alexeyterekhov.vkfilter.R
 
 public class DialogListAdapter(
         val selectedUsers: MutableSet<Long>,
-        val selectedChats: MutableSet<Long>
+        val selectedChats: MutableSet<Long>,
+        val onChangeSelection: () -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var snapshot = DialogListCache.emptySnapshot()
     private val imageLoader = ImageLoader.getInstance()
@@ -113,6 +114,7 @@ public class DialogListAdapter(
                         !dialog.isChat() && checked -> selectedUsers add dialog.id
                         !dialog.isChat() && !checked -> selectedUsers remove dialog.id
                     }
+                    onChangeSelection()
                 }
             }
         }

@@ -29,8 +29,12 @@ public class DialogChooseFragment: Fragment(), DataDepend {
     val LOAD_PORTION = 50
     val LOAD_THRESHOLD = 15
 
-    fun setSelected(users: MutableSet<Long>, chats: MutableSet<Long>) {
-        adapter = DialogListAdapter(users, chats)
+    fun setSelected(
+            users: MutableSet<Long>,
+            chats: MutableSet<Long>,
+            notifyAction: () -> Unit
+    ) {
+        adapter = DialogListAdapter(users, chats, notifyAction)
     }
 
     override fun onCreateView(

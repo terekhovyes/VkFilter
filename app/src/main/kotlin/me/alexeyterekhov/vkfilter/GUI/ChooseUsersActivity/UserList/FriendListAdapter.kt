@@ -14,7 +14,8 @@ import java.util.Vector
 
 
 public class FriendListAdapter(
-        val selected: MutableSet<Long>
+        val selected: MutableSet<Long>,
+        val onSelectionChange: () -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val friends = Vector<User>()
     private var update = -1L
@@ -73,6 +74,7 @@ public class FriendListAdapter(
                     } else {
                         selected remove id
                     }
+                    onSelectionChange
                 }
             }
         }
