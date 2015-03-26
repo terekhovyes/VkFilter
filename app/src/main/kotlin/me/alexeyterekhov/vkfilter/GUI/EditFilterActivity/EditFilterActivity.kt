@@ -3,12 +3,12 @@ package me.alexeyterekhov.vkfilter.GUI.EditFilterActivity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.EditText
+import android.widget.GridView
 import android.widget.TextView
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
@@ -17,7 +17,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.ChooseUsersActivity
-import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
 import me.alexeyterekhov.vkfilter.R
@@ -97,12 +97,11 @@ public class EditFilterActivity: ActionBarActivity() {
             setStateWithListener(FilterStates.filterToSwitch(filter.state), false)
         }
 
-        with (findViewById(R.id.memberList) as RecyclerView) {
-            setLayoutManager(GridLayoutManager(AppContext.instance, 4))
+        with (findViewById(R.id.memberList) as GridView) {
             val adapter = if (wasSaved)
-                              (DataSaver removeObject KEY_AVATAR_ADAPTER) as AvatarAdapter
+                              (DataSaver removeObject KEY_AVATAR_ADAPTER) as AvatarListAdapter
                           else
-                              AvatarAdapter(R.layout.item_avatar_70dp)
+                              AvatarListAdapter(R.layout.item_avatar_70dp)
             filter.invalidateCache()
             adapter setIds filter.identifiers()
             setAdapter(adapter)
@@ -159,6 +158,6 @@ public class EditFilterActivity: ActionBarActivity() {
 
     private fun getIconAdapter() = (findViewById(R.id.iconList) as RecyclerView)
             .getAdapter() as IconAdapter
-    private fun getAvatarAdapter() = (findViewById(R.id.memberList) as RecyclerView)
-            .getAdapter() as AvatarAdapter
+    private fun getAvatarAdapter() = (findViewById(R.id.memberList) as GridView)
+            .getAdapter() as AvatarListAdapter
 }

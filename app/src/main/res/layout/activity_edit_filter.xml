@@ -132,11 +132,14 @@
                 android:text="Участники"
                 android:textSize="18sp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <GridView
                 android:id="@+id/memberList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="3dp"
+                android:columnWidth="70dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="spacingWidthUniform"/>
 
         </LinearLayout>
 
