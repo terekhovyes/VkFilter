@@ -54,4 +54,7 @@ class Dialog {
     public fun isChat(): Boolean = chatPartners.size() > 1
 
     public fun showOnlineIcon(): Boolean = chatPartners.size() == 1 && chatPartners[0].isOnline
+
+    public fun same(other: Dialog): Boolean = (other.isChat() == isChat() && other.id == id)
+    public fun notSame(other: Dialog): Boolean = !same(other)
 }

@@ -1,6 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.R
+import java.util.LinkedList
 import java.util.Vector
 
 class DialogAdapter(val list: RecyclerView) :
@@ -49,84 +52,54 @@ class DialogAdapter(val list: RecyclerView) :
         updateListWithNewData()
     }
     private fun updateListWithNewData() {
-        filteredDialogs = Filtrator.filter(snapshot, filters)
-        notifyDataSetChanged()
+        // animateListChangesOld(filteredDialogs, Filtrator.filter(snapshot, filters))
+        updateWithAnimation(Filtrator.filter(snapshot, filters))
     }
-    /*fun checkDialogCache() {
-        Log.d("debug", "check dialog cache on $this")
-        if (DialogListCache.getSnapshot().snapshotTime > snapshot.snapshotTime) {
-            val newSnapshot = DialogListCache.getSnapshot()
-            val updatedCount = ChangeAnalyzer.countUpdatedDialogs(snapshot, newSnapshot)
-            if (updatedCount == newSnapshot.dialogs.size()) {
-                notifyDataSetChanged()
-            } else {
-                val curPos = (list.getLayoutManager() as LinearLayoutManager).findFirstVisibleItemPosition()
-                for (i in 0..updatedCount - 1) {
-                    val oldPos = ChangeAnalyzer.findOldPositionOfDialog(snapshot, newSnapshot, i)
-                    if (oldPos == -1) {
-                        Log.d("debug", "insert $i")
-                        notifyItemInserted(i)
-                    } else {
-                        Log.d("debug", "move $oldPos to $i")
-                        notifyItemMoved(oldPos, i)
-                        notifyItemChanged(i)
-                    }
-                }
-                if (curPos == 0)
-                    list.scrollToPosition(0)
-            }
-            snapshot = newSnapshot
+
+    private fun updateWithAnimation(newData: Vector<Dialog>) {
+        val man = list.getLayoutManager() as LinearLayoutManager
+        val curPos = man.findFirstVisibleItemPosition()
+
+        // Delete items that not present in new collection
+        val positionsToRemove = LinkedList<Int>()
+        filteredDialogs forEachIndexed {
+            pos, dialog ->
+            if (newData none { it same dialog })
+                positionsToRemove add pos
         }
-    }*/
-    /*fun checkDialogCache() {
-        Log.d("debug", "check dialog cache on $this")
-        if (DialogListCache.getSnapshot().snapshotTime > snapshot.snapshotTime) {
-            val newSnapshot = DialogListCache.getSnapshot()
-            val oldSnapshot = snapshot
-            snapshot = newSnapshot
+        positionsToRemove.reverse() forEach {
+            filteredDialogs remove it
+            notifyItemRemoved(it)
+            Log.d("debug", "delete $it")
+        }
 
-            // Global changes, instead of "notifyDataSetChanged()"
-            if (newSnapshot.dialogs.size() < oldSnapshot.dialogs.size())
-                notifyItemRangeRemoved(newSnapshot.dialogs.size(), oldSnapshot.dialogs.size())
-            if (newSnapshot.dialogs.size() > oldSnapshot.dialogs.size())
-                notifyItemRangeInserted(oldSnapshot.dialogs.size(), newSnapshot.dialogs.size())
-
-            // Animate visible range
-            if (oldSnapshot.dialogs.isNotEmpty()) {
-                // Visible range
-                val firstVisible = (list.getLayoutManager() as LinearLayoutManager).findFirstVisibleItemPosition()
-                val lastVisible = (list.getLayoutManager() as LinearLayoutManager).findLastVisibleItemPosition()
-
-                if (lastVisible < newSnapshot.dialogs.size()) {
-                    val handledItems = HashSet<Long>()
-                    for (i in firstVisible..lastVisible) {
-                        val d = oldSnapshot.dialogs[i]
-                        handledItems add d.id
-                        val newPos = ChangeAnalyzer.findPositionOfDialog(newSnapshot, d)
-                        if (newPos == -1)
-                            notifyItemRemoved(i)
-                        else {
-                            notifyItemMoved(i, newPos)
-                            notifyItemChanged(newPos)
-                        }
-                    }
-                    for (i in firstVisible..lastVisible) {
-                        val d = newSnapshot.dialogs[i]
-                        if (handledItems contains d.id)
-                            continue
-                        val oldPos = ChangeAnalyzer.findPositionOfDialog(oldSnapshot, d)
-                        if (oldPos == -1)
-                            notifyItemInserted(i)
-                        else {
-                            notifyItemMoved(oldPos, i)
-                            notifyItemChanged(i)
-                        }
-                    }
-                    list.scrollToPosition(firstVisible)
-                }
+        // Add non existing items
+        newData forEachIndexed {
+            pos, dialog ->
+            if (filteredDialogs none { it same dialog }) {
+                filteredDialogs.add(pos, dialog)
+                notifyItemInserted(pos)
+                Log.d("debug", "insert $pos")
             }
         }
-    }*/
+
+        // Move existing items
+        newData forEachIndexed {
+            pos, dialog ->
+            if (filteredDialogs get pos notSame dialog) {
+                val index = filteredDialogs indexOfFirst { it same dialog }
+                filteredDialogs.set(index, dialog)
+                notifyItemChanged(index)
+                filteredDialogs remove index
+                filteredDialogs.add(pos, dialog)
+                notifyItemMoved(index, pos)
+                Log.d("debug", "move from $index to $pos")
+            }
+        }
+
+        if (curPos == 0 && !(positionsToRemove contains 0))
+            list.smoothScrollToPosition(curPos)
+    }
 
     private fun makeVisible(v: View) = v.setVisibility(View.VISIBLE)
     private fun makeInvisible(v: View) = v.setVisibility(View.INVISIBLE)
