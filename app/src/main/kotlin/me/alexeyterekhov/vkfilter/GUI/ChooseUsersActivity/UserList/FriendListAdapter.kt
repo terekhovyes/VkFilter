@@ -74,7 +74,7 @@ public class FriendListAdapter(
                     } else {
                         selected remove id
                     }
-                    onSelectionChange
+                    onSelectionChange()
                 }
             }
         }
