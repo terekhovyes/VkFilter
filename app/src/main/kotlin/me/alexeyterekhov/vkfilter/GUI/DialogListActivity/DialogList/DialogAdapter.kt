@@ -59,6 +59,10 @@ class DialogAdapter(val list: RecyclerView) :
     private fun updateWithAnimation(newData: Vector<Dialog>) {
         val man = list.getLayoutManager() as LinearLayoutManager
         val curPos = man.findFirstVisibleItemPosition()
+        val top = if (curPos != -1)
+            man.findViewByPosition(curPos).getTop()
+        else
+            0
 
         // Delete items that not present in new collection
         val positionsToRemove = LinkedList<Int>()
@@ -86,7 +90,8 @@ class DialogAdapter(val list: RecyclerView) :
         // Move existing items
         newData forEachIndexed {
             pos, dialog ->
-            if (filteredDialogs get pos notSame dialog) {
+            val oldDialog = filteredDialogs get pos
+            if (oldDialog notSame dialog) {
                 val index = filteredDialogs indexOfFirst { it same dialog }
                 filteredDialogs.set(index, dialog)
                 notifyItemChanged(index)
@@ -94,11 +99,15 @@ class DialogAdapter(val list: RecyclerView) :
                 filteredDialogs.add(pos, dialog)
                 notifyItemMoved(index, pos)
                 Log.d("debug", "move from $index to $pos")
+            } else {
+                filteredDialogs.set(pos, dialog)
+                if (!(oldDialog equals dialog))
+                    notifyItemChanged(pos)
             }
         }
 
-        if (curPos == 0 && !(positionsToRemove contains 0))
-            list.smoothScrollToPosition(curPos)
+        if (curPos != -1)
+            man.scrollToPositionWithOffset(curPos, top)
     }
 
     private fun makeVisible(v: View) = v.setVisibility(View.VISIBLE)

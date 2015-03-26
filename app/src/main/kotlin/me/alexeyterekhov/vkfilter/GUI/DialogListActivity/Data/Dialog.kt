@@ -57,4 +57,22 @@ class Dialog {
 
     public fun same(other: Dialog): Boolean = (other.isChat() == isChat() && other.id == id)
     public fun notSame(other: Dialog): Boolean = !same(other)
+    public fun equals(other: Dialog): Boolean {
+        return (same(other)
+                && other.photoUrl == photoUrl
+                && other.title == title
+                && sameMessage(other.lastMessage)
+                && samePartners(other))
+    }
+    private fun sameMessage(other: Message?): Boolean {
+        return (other == null && lastMessage == null)
+                || (other != null
+                && lastMessage != null
+                && other.id == lastMessage!!.id
+                && other.text == lastMessage!!.text
+                && other.isRead == lastMessage!!.isRead)
+    }
+    private fun samePartners(other: Dialog): Boolean {
+        return other.getPartnersCount() == chatPartners.size()
+    }
 }
