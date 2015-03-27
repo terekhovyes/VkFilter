@@ -9,12 +9,12 @@
             android:layout_height="match_parent"
             android:src="@color/material_white"/>
 
-    <LinearLayout
-            android:orientation="vertical"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -26,31 +26,49 @@
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/title"
                 android:adjustViewBounds="true"
                 android:src="@drawable/app_icon_big"/>
+
+        <Button
+            android:id="@+id/secondLoginButton"
+            android:layout_width="290dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            android:textAllCaps="false"
+            android:text="@string/weblogin_button_text"
+            android:textSize="18sp"
+            android:textColor="@color/material_green"/>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="290dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@id/secondLoginButton"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/login_button"
+            android:textAllCaps="false"
+            android:text="@string/login_button_text"
+            android:textSize="20sp"
+            android:textColor="@color/material_greeny_white"/>
 
         <TextView
                 android:id="@+id/infoTextView"
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginBottom="20dp"
-                android:layout_gravity="center"
+                android:layout_above="@id/loginButton"
+                android:layout_centerHorizontal="true"
                 android:text="@string/login_warning"
                 android:textSize="14sp"
                 android:gravity="center"
                 android:textColor="@color/material_black"/>
 
-        <Button
-                android:id="@+id/loginButton"
-                android:layout_width="290dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:background="@drawable/login_button"
-                android:text="@string/login_button_text"
-                android:textSize="22sp"
-                android:textColor="@color/material_greeny_white"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

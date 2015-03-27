@@ -20,7 +20,9 @@ object VkSdkInitializer {
     private fun createSdkListener() = object: VKSdkListener() {
         override fun onCaptchaError(e: VKError) = VKCaptchaDialog(e).show()
         override fun onTokenExpired(t: VKAccessToken) = VKSdk.authorize(vkScopes, true, false)
-        override fun onAccessDenied(e: VKError) { AlertDialog.Builder(VKUIHelper.getTopActivity())
-                .setMessage(e.toString()).show() }
+        override fun onAccessDenied(e: VKError) {
+            if (e.errorCode != VKError.VK_CANCELED)
+                AlertDialog.Builder(VKUIHelper.getTopActivity()).setMessage(e.toString()).show()
+        }
     }
 }

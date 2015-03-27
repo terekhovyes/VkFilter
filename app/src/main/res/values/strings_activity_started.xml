@@ -3,4 +3,5 @@
     <string name="app_title">VKFilter</string>
     <string name="login_warning">Для работы приложения требуется доступ к вашим личным данным сети ВКонтакте</string>
     <string name="login_button_text">Войти</string>
+    <string name="weblogin_button_text">Войти через браузер</string>
 </resources>

@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
@@ -19,15 +18,18 @@ import me.alexeyterekhov.vkfilter.R
 import java.io.IOException
 
 
-public class LoginActivity: ActionBarActivity(), View.OnClickListener {
+public class LoginActivity: ActionBarActivity() {
     private var loginPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<ActionBarActivity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        if (savedInstanceState != null) {
+            if (savedInstanceState containsKey "loginPressed")
+                loginPressed = savedInstanceState getBoolean "loginPressed"
+        }
         VKUIHelper.onCreate(this)
         VkSdkInitializer.init()
-        registerForGCM()
         // String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         // Log.d("Fingerprint", fingerprint[0]);
         if (VKSdk.wakeUpSession())
@@ -51,23 +53,32 @@ public class LoginActivity: ActionBarActivity(), View.OnClickListener {
         VKUIHelper.onDestroy(this)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("loginPressed", loginPressed)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super<ActionBarActivity>.onActivityResult(requestCode, resultCode, data)
         VKUIHelper.onActivityResult(this, requestCode, resultCode, data)
     }
 
-    override fun onClick(v: View) {
-        VKSdk.authorize(VkSdkInitializer.vkScopes, true, false)
-        loginPressed = true
-    }
-
     private fun startDialogActivity() {
         startActivity(Intent(this, javaClass<DialogListActivity>()))
+        registerForGCM()
         finish()
     }
 
     private fun init() {
-        findViewById(R.id.loginButton) setOnClickListener this
+        findViewById(R.id.loginButton) setOnClickListener {
+            VKSdk.authorize(VkSdkInitializer.vkScopes, true, false)
+            loginPressed = true
+        }
+
+        findViewById(R.id.secondLoginButton) setOnClickListener {
+            VKSdk.authorize(VkSdkInitializer.vkScopes, true, true)
+            loginPressed = true
+        }
     }
 
     private fun registerForGCM() {
