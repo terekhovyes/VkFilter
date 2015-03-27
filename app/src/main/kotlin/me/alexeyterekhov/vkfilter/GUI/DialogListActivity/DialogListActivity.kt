@@ -238,6 +238,7 @@ public open class DialogListActivity:
     private fun showMeInSideMenu() {
         val photo = findViewById(R.id.my_photo) as ImageView
         val name = findViewById(R.id.my_name) as TextView
+        val lastSeen = findViewById(R.id.my_last_seen) as TextView
         if (UserCache.getMe() != null) {
             val me = UserCache.getMe()!!
             ImageLoader.getInstance().displayImage(
@@ -245,9 +246,11 @@ public open class DialogListActivity:
                     photo
             )
             name setText TextFormat.userTitle(me, false)
+            lastSeen setText TextFormat.userOnlineStatus(me)
         } else {
             photo setImageResource R.drawable.user_photo_loading
             name setText ""
+            lastSeen setText ""
         }
     }
 

@@ -4,4 +4,5 @@
     <string name="last_visit_common">Последнее посещение:</string>
     <string name="last_visit_woman">Была в сети:</string>
     <string name="last_visit_man">Был в сети:</string>
+    <string name="online">Онлайн</string>
 </resources>

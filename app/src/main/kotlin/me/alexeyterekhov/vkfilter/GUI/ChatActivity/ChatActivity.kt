@@ -11,11 +11,10 @@ import android.widget.ImageView
 import android.widget.ListView
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Common.DataSaver
-import me.alexeyterekhov.vkfilter.Common.DateFormat
+import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
@@ -241,19 +240,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
     fun refreshUserLastSeen() {
         if (!isChat && UserCache.contains(id)) {
             val u = UserCache.getUser(id)!!
-            getSupportActionBar().setSubtitle(when {
-                u.isOnline -> "Онлайн"
-                u.lastOnlineTime == 0L -> ""
-                else -> {
-                    val t = u.lastOnlineTime
-                    val lastVisit = when (u.sex) {
-                        Sex.WOMAN -> getString(R.string.last_visit_woman)
-                        Sex.MAN -> getString(R.string.last_visit_man)
-                        else -> getString(R.string.last_visit_common)
-                    }
-                    "$lastVisit ${DateFormat.lastOnline(t)}"
-                }
-            })
+            getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
         }
     }
 
