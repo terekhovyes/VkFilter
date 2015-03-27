@@ -20,6 +20,7 @@ import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
+import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
@@ -52,9 +53,14 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         }
 
         findMainBtn() setOnClickListener {
-            when (findLayout().getVisibility()) {
-                View.VISIBLE -> hide()
-                else -> show()
+            val list = findList()
+            if ((list.getAdapter() as FilterGlassAdapter).filters.isEmpty()) {
+                activity.startActivity(Intent(activity, javaClass<EditFilterActivity>()))
+            } else {
+                when (findLayout().getVisibility()) {
+                    View.VISIBLE -> hide()
+                    else -> show()
+                }
             }
         }
 
@@ -69,7 +75,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             (list.getAdapter() as FilterGlassAdapter).resetFilters()
         }
 
-        val filterFromDatabase = DAOFilters.loadVkFilters()
+        val filtersFromDatabase = DAOFilters.loadVkFilters()
 
         with (findList()) {
             if (getAdapter() == null) setAdapter(
@@ -87,11 +93,11 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             ))
             val adapter = getAdapter() as FilterGlassAdapter
             adapter.filters.clear()
-            adapter.filters addAll filterFromDatabase
+            adapter.filters addAll filtersFromDatabase
             adapter.notifyDataSetChanged()
         }
 
-        infoRequest(filterFromDatabase)
+        infoRequest(filtersFromDatabase)
     }
     fun onDestroy() {
         unsubscribe()
