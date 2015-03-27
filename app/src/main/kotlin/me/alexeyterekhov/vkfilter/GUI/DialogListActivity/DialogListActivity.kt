@@ -3,17 +3,23 @@ package me.alexeyterekhov.vkfilter.GUI.DialogListActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.widget.DrawerLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.ActionBarActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import com.nostra13.universalimageloader.core.ImageLoader
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Common.*
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
@@ -96,7 +102,8 @@ public open class DialogListActivity:
         }
 
         // Initialization of refresh layout
-        with (findRefreshLayout()) {
+        val refreshLayout = findRefreshLayout()
+        with (refreshLayout) {
             setOnRefreshListener(this@DialogListActivity)
             setRecyclerView(findDialogList())
             setColorSchemeResources(
@@ -105,6 +112,22 @@ public open class DialogListActivity:
                     R.color.refresh_color_3,
                     R.color.refresh_color_4
             )
+        }
+
+        with (findViewById(R.id.side_layout) as DrawerLayout) {
+            setDrawerListener(object : DrawerLayout.DrawerListener {
+                override fun onDrawerSlide(drawerView: View?, slideOffset: Float) {}
+                override fun onDrawerOpened(drawerView: View?) {
+                }
+                override fun onDrawerClosed(drawerView: View?) {
+                }
+                override fun onDrawerStateChanged(newState: Int) {}
+            })
+        }
+
+        findViewById(R.id.logout_button) as Button setOnClickListener {
+            VKSdk.logout()
+            toLoginActivity()
         }
 
         // Subscribe on cache
@@ -116,7 +139,7 @@ public open class DialogListActivity:
         super<ActionBarActivity>.onResume()
         VkSdkInitializer.init()
         if (!VKSdk.wakeUpSession(this))
-            startActivity(Intent(this, javaClass<LoginActivity>()))
+            toLoginActivity()
         VKUIHelper.onResume(this)
 
         refreshActionBar()
@@ -124,6 +147,7 @@ public open class DialogListActivity:
         onRefresh()
         subscribeOnGCM()
         startRefreshingActionBar()
+        showMeInSideMenu()
     }
     override fun onPause() {
         super<ActionBarActivity>.onPause()
@@ -203,10 +227,34 @@ public open class DialogListActivity:
     override fun onDataUpdate() {
         val adapter = getDialogAdapter()!!
         adapter.checkDialogCache()
+        showMeInSideMenu()
         handler removeCallbacks showRefreshingIcon
         findRefreshLayout() setRefreshing false
         stopRefreshingActionBar()
         refreshActionBar()
         startRefreshingActionBar()
+    }
+
+    private fun showMeInSideMenu() {
+        val photo = findViewById(R.id.my_photo) as ImageView
+        val name = findViewById(R.id.my_name) as TextView
+        if (UserCache.getMe() != null) {
+            val me = UserCache.getMe()!!
+            ImageLoader.getInstance().displayImage(
+                    me.photoUrl,
+                    photo
+            )
+            name setText TextFormat.userTitle(me, false)
+        } else {
+            photo setImageResource R.drawable.user_photo_loading
+            name setText ""
+        }
+    }
+
+    private fun toLoginActivity() {
+        val intent = Intent(this, javaClass<LoginActivity>())
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
 }

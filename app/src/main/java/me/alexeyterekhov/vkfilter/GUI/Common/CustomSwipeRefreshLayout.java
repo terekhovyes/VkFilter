@@ -12,6 +12,8 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
     private RecyclerView list;
     private Runnable onDown = null;
 
+    private boolean allowScrolling = true;
+
     public CustomSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -38,6 +40,10 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
         return false;
     }
 
+    public void setAllowScrolling(boolean value) {
+        allowScrolling = value;
+    }
+
     public void setOnDownAction(Runnable onDownAction) {
         onDown = onDownAction;
     }
@@ -48,5 +54,10 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
                 && onDown != null)
             onDown.run();
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return allowScrolling && super.onInterceptTouchEvent(ev);
     }
 }

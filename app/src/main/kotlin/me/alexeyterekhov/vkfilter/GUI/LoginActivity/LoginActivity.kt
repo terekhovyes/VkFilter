@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
@@ -62,6 +63,7 @@ public class LoginActivity: ActionBarActivity(), View.OnClickListener {
 
     private fun startDialogActivity() {
         startActivity(Intent(this, javaClass<DialogListActivity>()))
+        finish()
     }
 
     private fun init() {
@@ -81,7 +83,10 @@ public class LoginActivity: ActionBarActivity(), View.OnClickListener {
                     }
                 }
             }).execute()
-        } else
-            Log.d("Google Play Services", "No valid Google Play Services APK found.")
+        } else {
+            val error = "No valid Google Play Services APK found."
+            Log.d("Google Play Services", error)
+            Toast.makeText(this, error, Toast.LENGTH_SHORT)
+        }
     }
 }
