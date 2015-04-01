@@ -12,11 +12,10 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
-import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DateFormat
+import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
@@ -92,7 +91,7 @@ class MessageListAdapter(
                 activity.startActivity(intent)
             }
             container.addView(imgView)
-            loadImage(imgView, img.smallSizeUrl)
+            loadNormalImage(imgView, img.smallSizeUrl)
         }
 
         if (msg.isOut) {
@@ -133,7 +132,7 @@ class MessageListAdapter(
             if (chat && (f || d)) {
                 with (h.senderPhoto) {
                     setVisibility(View.VISIBLE)
-                    loadImage(this, msg.sender.photoUrl)
+                    loadUserImage(this, msg.sender.photoUrl)
                 }
             } else
                 h.senderPhoto.setVisibility(View.GONE)
@@ -187,20 +186,25 @@ class MessageListAdapter(
             shouldNotify = false
         } else shouldNotify = true
     }
-    private fun loadImage(view: ImageView, url: String) {
-        val options = DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .showImageOnLoading(R.drawable.user_photo_loading)
-                .showImageOnFail(R.drawable.user_photo_loading)
-        if (url !in shownImages) {
+
+    private fun loadUserImage(view: ImageView, url: String) {
+        val conf = if (url !in shownImages) {
             shownImages add url
-            ImageLoader.getInstance().displayImage(url, view, options
-                            .displayer(FadeInBitmapDisplayer(150))
-                            .build())
+            ImageLoadConf.loadUser
         } else {
-            ImageLoader.getInstance().displayImage(url, view, options.build())
+            ImageLoadConf.loadUserWithoutAnim
         }
+        ImageLoader.getInstance().displayImage(url, view, conf)
+    }
+
+    private fun loadNormalImage(view: ImageView, url: String) {
+        val conf = if (url !in shownImages) {
+            shownImages add url
+            ImageLoadConf.loadImage
+        } else {
+            ImageLoadConf.loadImageWithoutAnim
+        }
+        ImageLoader.getInstance().displayImage(url, view, conf)
     }
 
     private fun changeBackground(view: View, res: Int) {
