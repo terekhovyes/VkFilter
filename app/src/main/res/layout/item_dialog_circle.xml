@@ -222,11 +222,10 @@
                         android:layout_width="@dimen/dialog_item_bottom_size"
                         android:layout_height="@dimen/dialog_item_bottom_size"
                         android:layout_marginRight="2dp"
-                        android:background="@drawable/group_icon_01"
                         app:border="false"
                         app:shadow="true"/>
 
-                    <TextView
+                    <com.rockerhieu.emojicon.EmojiconTextView
                         android:id="@+id/dialogLastMessage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -236,6 +235,7 @@
                         android:ellipsize="end"
                         android:textColor="@color/material_gray"
                         android:textSize="14sp"
+                        app:emojiconSize="16sp"
                         android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
 
                 </LinearLayout>

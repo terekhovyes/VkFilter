@@ -46,11 +46,12 @@
                 android:paddingBottom="@dimen/text_padding_bottom"
                 android:paddingLeft="@dimen/text_padding_left">
 
-            <TextView
+            <com.rockerhieu.emojicon.EmojiconTextView
                     android:id="@+id/messageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/message_size"
+                    app:emojiconSize="20sp"
                     android:textColor="@color/material_greeny_white"
                     android:text="Привет!"/>
 
