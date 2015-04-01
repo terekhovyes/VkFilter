@@ -8,9 +8,10 @@ import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.animation.*
 import com.getbase.floatingactionbutton.FloatingActionButton
+import io.codetail.animation.SupportAnimator
+import io.codetail.animation.ViewAnimationUtils
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
@@ -173,10 +174,9 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         blocked = true
         val glassLayout = findLayout()
         val btn = findMainBtn()
-        var revealDuration = 100L
+        val revealDuration = 300L
         findList().scrollToPosition(0)
         with (glassLayout) {
-            // TODO java.lang.NoClassDefFoundError: android.view.ViewAnimationUtils
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
                     btn.getLeft() + btn.getWidth() / 2,
@@ -184,7 +184,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     0f,
                     Math.max(getWidth(), getHeight()).toFloat()
             )
-            revealDuration = animator.getDuration()
+            animator setDuration revealDuration.toInt()
             setVisibility(View.VISIBLE)
             animator.start()
         }
@@ -239,7 +239,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         blocked = true
         val glassLayout = findLayout()
         val btn = findMainBtn()
-        var revealDuration = 100L
+        val revealDuration = 300L
         with (glassLayout) {
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
@@ -248,13 +248,15 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     Math.max(getWidth(), getHeight()).toFloat(),
                     0f
             )
-            revealDuration = animator.getDuration()
-            animator addListener object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    super.onAnimationEnd(animation)
+            animator addListener object : SupportAnimator.AnimatorListener {
+                override fun onAnimationEnd() {
                     setVisibility(View.INVISIBLE)
                 }
+                override fun onAnimationStart() {}
+                override fun onAnimationCancel() {}
+                override fun onAnimationRepeat() {}
             }
+            animator setDuration revealDuration.toInt()
             animator.start()
         }
         with (findResetBtn()) {
