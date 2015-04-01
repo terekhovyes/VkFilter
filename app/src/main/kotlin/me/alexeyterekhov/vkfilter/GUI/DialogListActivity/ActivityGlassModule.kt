@@ -176,6 +176,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         var revealDuration = 100L
         findList().scrollToPosition(0)
         with (glassLayout) {
+            // TODO java.lang.NoClassDefFoundError: android.view.ViewAnimationUtils
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
                     btn.getLeft() + btn.getWidth() / 2,

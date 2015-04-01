@@ -146,9 +146,9 @@ class ChatActivity: ActionBarActivity(), DataDepend {
         listView.setOnScrollListener(createScrollListener())
         listView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                if (oldBottom != 0 && oldBottom > bottom) {
+                if (oldBottom != 0) {
                     val dif = oldBottom - bottom
-                    listView.scrollListBy(dif)
+                    listView.scrollBy(0, dif)
                 }
             }
         })
@@ -180,7 +180,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
 
     fun initActionBar() {
         setTitle(title)
-        getActionBar()?.setDisplayHomeAsUpEnabled(true)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
     }
 
     fun createScrollListener() = object : AbsListView.OnScrollListener {
