@@ -41,21 +41,27 @@
         </me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout>
 
         <io.codetail.widget.RevealFrameLayout
-            android:id="@+id/glassLayout"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/filterGlass"
+            <FrameLayout
+                android:id="@+id/glassLayout"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="#cc6abaab"/>
+                android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/filterList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/filterGlass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="#cc6abaab"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/filterList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
 
         </io.codetail.widget.RevealFrameLayout>
 
