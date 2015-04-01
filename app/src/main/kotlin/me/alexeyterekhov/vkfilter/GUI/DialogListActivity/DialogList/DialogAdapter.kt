@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +73,6 @@ class DialogAdapter(val list: RecyclerView) :
         positionsToRemove.reverse() forEach {
             filteredDialogs remove it
             notifyItemRemoved(it)
-            Log.d("debug", "delete $it")
         }
 
         // Add non existing items
@@ -83,7 +81,6 @@ class DialogAdapter(val list: RecyclerView) :
             if (filteredDialogs none { it same dialog }) {
                 filteredDialogs.add(pos, dialog)
                 notifyItemInserted(pos)
-                Log.d("debug", "insert $pos")
             }
         }
 
@@ -98,7 +95,6 @@ class DialogAdapter(val list: RecyclerView) :
                 filteredDialogs remove index
                 filteredDialogs.add(pos, dialog)
                 notifyItemMoved(index, pos)
-                Log.d("debug", "move from $index to $pos")
             } else {
                 filteredDialogs.set(pos, dialog)
                 if (!(oldDialog equals dialog))
