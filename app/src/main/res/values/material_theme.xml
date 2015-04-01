@@ -4,6 +4,6 @@
         <item name="colorPrimary">@color/material_green</item>
         <item name="android:textColorPrimary">@color/material_greeny_white</item>
         <item name="colorAccent">@color/material_green</item>
-        <item name="android:textColorSecondary">@color/material_black</item>
+        <item name="android:textColorSecondary">@color/material_greeny_white</item>
     </style>
 </resources>
