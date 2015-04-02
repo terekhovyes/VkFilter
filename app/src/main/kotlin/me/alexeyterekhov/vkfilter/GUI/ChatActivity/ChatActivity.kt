@@ -2,9 +2,16 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import android.graphics.Point
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.widget.AbsListView
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ListView
 import com.rockerhieu.emojicon.EmojiconGridFragment
 import com.rockerhieu.emojicon.EmojiconsFragment
 import com.rockerhieu.emojicon.emoji.Emojicon
@@ -41,6 +48,8 @@ class ChatActivity:
     private var loadingMessages: Boolean = false
     private var allMessagesGot = false
     private var adapterIsEmpty = true
+
+    private var allowHideEmoji = true
 
     private val messageCacheListener = createMessageListener()
 
@@ -162,16 +171,21 @@ class ChatActivity:
         }
         messageText setOnLongClickListener {
             view ->
-            val container = findViewById(R.id.emoji_container) as FrameLayout
-            container.setVisibility(
-                    if (container.getVisibility() == View.INVISIBLE)
-                        View.VISIBLE
-                    else
-                        View.INVISIBLE
-            )
+            val container = findViewById(R.id.emoji_container)
+            if (container.getVisibility() == View.INVISIBLE)
+                showEmoji()
+            else
+                hideEmoji()
             true
         }
-
+        messageText addTextChangedListener object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (allowHideEmoji)
+                    hideEmoji()
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        }
     }
 
     fun parseIntent() {
@@ -259,11 +273,43 @@ class ChatActivity:
 
     override fun onEmojiconClicked(emoji: Emojicon?) {
         val text = findViewById(R.id.messageText) as EditText
+        allowHideEmoji = false
         EmojiconsFragment.input(text, emoji)
+        allowHideEmoji = true
     }
 
     override fun onEmojiconBackspaceClicked(p0: View?) {
         val text = findViewById(R.id.messageText) as EditText
+        allowHideEmoji = false
         EmojiconsFragment.backspace(text)
+        allowHideEmoji = true
+    }
+
+    private fun showEmoji() {
+        val container = findViewById(R.id.emoji_container)
+        val animation = AlphaAnimation(0f, 1f)
+        animation setDuration 200L
+        container setVisibility View.VISIBLE
+        container startAnimation animation
+    }
+
+    private fun hideEmoji() {
+        val container = findViewById(R.id.emoji_container)
+        if (container.getVisibility() == View.VISIBLE) {
+            val animation = AlphaAnimation(1f, 0f)
+            animation setDuration 200L
+            animation setAnimationListener object : Animation.AnimationListener {
+                override fun onAnimationStart(p0: Animation?) {
+                }
+
+                override fun onAnimationEnd(p0: Animation?) {
+                    container setVisibility View.INVISIBLE
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                }
+            }
+            container startAnimation animation
+        }
     }
 }
