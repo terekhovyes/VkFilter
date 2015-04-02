@@ -296,6 +296,7 @@ class ChatActivity:
     private fun hideEmoji() {
         val container = findViewById(R.id.emoji_container)
         if (container.getVisibility() == View.VISIBLE) {
+            allowHideEmoji = false
             val animation = AlphaAnimation(1f, 0f)
             animation setDuration 200L
             animation setAnimationListener object : Animation.AnimationListener {
@@ -304,6 +305,7 @@ class ChatActivity:
 
                 override fun onAnimationEnd(p0: Animation?) {
                     container setVisibility View.INVISIBLE
+                    allowHideEmoji = true
                 }
 
                 override fun onAnimationRepeat(p0: Animation?) {
