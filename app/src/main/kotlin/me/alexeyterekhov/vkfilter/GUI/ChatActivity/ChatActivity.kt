@@ -4,10 +4,10 @@ import android.graphics.Point
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.AbsListView
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ListView
+import android.widget.*
+import com.rockerhieu.emojicon.EmojiconGridFragment
+import com.rockerhieu.emojicon.EmojiconsFragment
+import com.rockerhieu.emojicon.emoji.Emojicon
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
@@ -19,7 +19,12 @@ import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.R
 
-class ChatActivity: VkActivity(), DataDepend {
+class ChatActivity:
+        VkActivity(),
+        DataDepend,
+        EmojiconGridFragment.OnEmojiconClickedListener,
+        EmojiconsFragment.OnEmojiconBackspaceClickedListener
+{
     companion object {
         val KEY_SAVED = "ChatActivitySaved"
         val KEY_ADAPTER = "ChatActivityAdapter"
@@ -155,6 +160,18 @@ class ChatActivity: VkActivity(), DataDepend {
                 messageText.setText("")
             }
         }
+        messageText setOnLongClickListener {
+            view ->
+            val container = findViewById(R.id.emoji_container) as FrameLayout
+            container.setVisibility(
+                    if (container.getVisibility() == View.INVISIBLE)
+                        View.VISIBLE
+                    else
+                        View.INVISIBLE
+            )
+            true
+        }
+
     }
 
     fun parseIntent() {
@@ -238,5 +255,15 @@ class ChatActivity: VkActivity(), DataDepend {
 
     override fun onDataUpdate() {
         refreshUserLastSeen()
+    }
+
+    override fun onEmojiconClicked(emoji: Emojicon?) {
+        val text = findViewById(R.id.messageText) as EditText
+        EmojiconsFragment.input(text, emoji)
+    }
+
+    override fun onEmojiconBackspaceClicked(p0: View?) {
+        val text = findViewById(R.id.messageText) as EditText
+        EmojiconsFragment.backspace(text)
     }
 }

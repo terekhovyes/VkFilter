@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
             android:id="@+id/messageBar"
@@ -14,7 +15,7 @@
             android:background="@color/material_white"
             android:elevation="10dp">
 
-        <EditText
+        <com.rockerhieu.emojicon.EmojiconEditText
                 android:id="@+id/messageText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
                 android:gravity="center_vertical"
                 android:backgroundTint="@color/material_green"
                 android:textSize="16sp"
+                app:emojiconSize="20sp"
                 android:textColor="@color/main_black"
                 android:background="@null"
                 android:inputType="textMultiLine|textCapSentences"
@@ -45,15 +47,38 @@
 
     </LinearLayout>
 
-    <ListView
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/messageBar"
+        android:layout_alignParentTop="true">
+
+        <ListView
             android:id="@+id/messageList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/messageBar"
-            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/material_white"
             android:stackFromBottom="true"
             android:divider="@null"
             android:dividerHeight="0dp"/>
+
+        <FrameLayout
+            android:id="@+id/emoji_container"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="bottom"
+            android:background="@color/material_white"
+            android:elevation="5dp"
+            android:visibility="invisible">
+
+            <fragment
+                android:id="@+id/emoji_fragment"
+                class="com.rockerhieu.emojicon.EmojiconsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+    </FrameLayout>
 
 </RelativeLayout>
