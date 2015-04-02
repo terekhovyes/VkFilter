@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.GUI.EditFilterActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.ActionBarActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
@@ -19,12 +18,13 @@ import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.ChooseUsersActivity
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
+import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
 import me.alexeyterekhov.vkfilter.R
 import kotlin.properties.Delegates
 
 
-public class EditFilterActivity: ActionBarActivity() {
+public class EditFilterActivity: VkActivity() {
     companion object {
         // Intent
         val KEY_FILTER_ID = "filter_id"

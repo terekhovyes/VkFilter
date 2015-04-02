@@ -6,4 +6,9 @@
         <item name="android:textColor">@color/material_greeny_white</item>
     </style>
 
+    <style name="Theme.AppCompat.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 </resources>

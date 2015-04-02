@@ -3,7 +3,6 @@ package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v7.app.ActionBarActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -21,13 +20,14 @@ import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
+import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.R
 import org.lucasr.twowayview.ItemClickSupport
 import java.util.Vector
 
 
-public class ManageFiltersActivity: ActionBarActivity() {
+public class ManageFiltersActivity: VkActivity() {
     companion object {
         val KEY_SAVED = "ManageFiltersSaved"
         val KEY_SELECTION_MODE = "ManageFiltersSelectionMode"

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.widget.DrawerLayout
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.ActionBarActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,7 +14,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.vk.sdk.VKSdk
-import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Common.*
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
@@ -24,17 +22,16 @@ import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
+import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
-import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
-import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
 import me.alexeyterekhov.vkfilter.R
 
 public open class DialogListActivity:
-    ActionBarActivity(),
+    VkActivity(),
     SwipeRefreshLayout.OnRefreshListener,
     DataDepend
 {
@@ -49,12 +46,11 @@ public open class DialogListActivity:
     private val glassModule = ActivityGlassModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<ActionBarActivity>.onCreate(savedInstanceState)
-        VKUIHelper.onCreate(this)
+        super<VkActivity>.onCreate(savedInstanceState)
         onCreateOrRestart()
     }
     override fun onRestart() {
-        super<ActionBarActivity>.onRestart()
+        super<VkActivity>.onRestart()
         onCreateOrRestart()
     }
     private fun onCreateOrRestart() {
@@ -136,12 +132,7 @@ public open class DialogListActivity:
         onDataUpdate()
     }
     override fun onResume() {
-        super<ActionBarActivity>.onResume()
-        VkSdkInitializer.init()
-        if (!VKSdk.wakeUpSession(this))
-            toLoginActivity()
-        VKUIHelper.onResume(this)
-
+        super<VkActivity>.onResume()
         refreshActionBar()
         VkRequestControl.resume()
         onRefresh()
@@ -150,20 +141,19 @@ public open class DialogListActivity:
         showMeInSideMenu()
     }
     override fun onPause() {
-        super<ActionBarActivity>.onPause()
+        super<VkActivity>.onPause()
         unsubscribeFromGCM()
         VkRequestControl.pause()
         stopRefreshingActionBar()
     }
     override fun onDestroy() {
-        super<ActionBarActivity>.onDestroy()
-        VKUIHelper.onDestroy(this)
+        super<VkActivity>.onDestroy()
         glassModule.onDestroy()
         DialogListCache.listeners remove this
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super<ActionBarActivity>.onSaveInstanceState(outState)
+        super<VkActivity>.onSaveInstanceState(outState)
         glassModule.saveState()
     }
 
@@ -171,7 +161,7 @@ public open class DialogListActivity:
         if (glassModule.isShown())
             glassModule.hide()
         else
-            super<ActionBarActivity>.onBackPressed()
+            super<VkActivity>.onBackPressed()
     }
 
     fun getDialogAdapter() = findDialogList().getAdapter() as DialogAdapter?
@@ -267,12 +257,5 @@ public open class DialogListActivity:
             lastSeen setText ""
             lastSeenTime setText ""
         }
-    }
-
-    private fun toLoginActivity() {
-        val intent = Intent(this, javaClass<LoginActivity>())
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
     }
 }

@@ -2,25 +2,24 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import android.graphics.Point
 import android.os.Bundle
-import android.support.v7.app.ActionBarActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
-import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.R
 
-class ChatActivity: ActionBarActivity(), DataDepend {
+class ChatActivity: VkActivity(), DataDepend {
     companion object {
         val KEY_SAVED = "ChatActivitySaved"
         val KEY_ADAPTER = "ChatActivityAdapter"
@@ -41,8 +40,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
     private val messageCacheListener = createMessageListener()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<ActionBarActivity>.onCreate(savedInstanceState)
-        VKUIHelper.onCreate(this)
+        super<VkActivity>.onCreate(savedInstanceState)
         parseIntent()
         initActionBar()
         setContentView(R.layout.activity_chat)
@@ -53,13 +51,12 @@ class ChatActivity: ActionBarActivity(), DataDepend {
     }
 
     override fun onStart() {
-        super<ActionBarActivity>.onStart()
+        super<VkActivity>.onStart()
     }
 
     override fun onResume() {
-        super<ActionBarActivity>.onResume()
+        super<VkActivity>.onResume()
         refreshAdapterImageSize()
-        VKUIHelper.onResume(this)
         tryRestoreAdapter()
         VkRequestControl.resume()
         DialogRefresher.start(id, isChat)
@@ -67,24 +64,19 @@ class ChatActivity: ActionBarActivity(), DataDepend {
     }
 
     override fun onPause() {
-        super<ActionBarActivity>.onPause()
+        super<VkActivity>.onPause()
         DialogRefresher.stop()
         VkRequestControl.pause()
     }
 
-    override fun onStop() {
-        super<ActionBarActivity>.onStop()
-    }
-
     override fun onDestroy() {
-        super<ActionBarActivity>.onDestroy()
-        VKUIHelper.onDestroy(this)
+        super<VkActivity>.onDestroy()
         MessageCache.getDialog(id, isChat).listeners remove messageCacheListener
         MessageCache.getDialog(id, isChat).listeners remove this
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super<ActionBarActivity>.onSaveInstanceState(outState)
+        super<VkActivity>.onSaveInstanceState(outState)
 
         val list = findViewById(R.id.messageList) as ListView
         val index = list.getFirstVisiblePosition()
@@ -100,7 +92,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
     }
 
     override fun onBackPressed() {
-        super<ActionBarActivity>.onBackPressed()
+        super<VkActivity>.onBackPressed()
         overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
     }
 
@@ -110,7 +102,7 @@ class ChatActivity: ActionBarActivity(), DataDepend {
                 onBackPressed()
                 return true
             }
-            else -> return super<ActionBarActivity>.onOptionsItemSelected(item)
+            else -> return super<VkActivity>.onOptionsItemSelected(item)
         }
     }
 

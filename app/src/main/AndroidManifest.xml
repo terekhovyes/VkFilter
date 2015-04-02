@@ -33,7 +33,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar.FullScreen"/>
 
         <activity android:name=".GUI.ManageFiltersActivity.ManageFiltersActivity"
             android:label="Управление фильтрами"/>
