@@ -118,9 +118,9 @@ public open class DialogListActivity:
             setDrawerListener(object : DrawerLayout.DrawerListener {
                 override fun onDrawerSlide(drawerView: View?, slideOffset: Float) {}
                 override fun onDrawerOpened(drawerView: View?) {
+                    showMeInSideMenu()
                 }
-                override fun onDrawerClosed(drawerView: View?) {
-                }
+                override fun onDrawerClosed(drawerView: View?) {}
                 override fun onDrawerStateChanged(newState: Int) {}
             })
         }
@@ -239,6 +239,7 @@ public open class DialogListActivity:
         val photo = findViewById(R.id.my_photo) as ImageView
         val name = findViewById(R.id.my_name) as TextView
         val lastSeen = findViewById(R.id.my_last_seen) as TextView
+        val lastSeenTime = findViewById(R.id.my_last_seen_time) as TextView
         if (UserCache.getMe() != null) {
             val me = UserCache.getMe()!!
             ImageLoader.getInstance().displayImage(
@@ -246,11 +247,25 @@ public open class DialogListActivity:
                     photo
             )
             name setText TextFormat.userTitle(me, false)
-            lastSeen setText TextFormat.userOnlineStatus(me)
+            when {
+                me.lastOnlineTime == 0L -> {
+                    lastSeen setText ""
+                    lastSeenTime setText ""
+                }
+                me.isOnline -> {
+                    lastSeen setText TextFormat.userOnlineStatus(me)
+                    lastSeenTime setText ""
+                }
+                else -> {
+                    lastSeen setText TextFormat.lastVisitPhrase(me)
+                    lastSeenTime setText TextFormat.lastVisitTime(me)
+                }
+            }
         } else {
             photo setImageResource R.drawable.user_photo_loading
             name setText ""
             lastSeen setText ""
+            lastSeenTime setText ""
         }
     }
 

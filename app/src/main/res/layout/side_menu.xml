@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="120dp"
         android:padding="8dp"
         android:orientation="vertical"
         android:background="@color/material_green">
@@ -38,7 +38,19 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="была онлайн сегодня в 20:03"/>
+            android:text="Последнее посещение:"/>
+
+        <TextView
+            android:id="@+id/my_last_seen_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_greeny_white"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="25 минут назад"/>
 
     </LinearLayout>
 
