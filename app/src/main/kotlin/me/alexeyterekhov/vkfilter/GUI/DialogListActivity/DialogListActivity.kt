@@ -123,7 +123,7 @@ public open class DialogListActivity:
 
         findViewById(R.id.logout_button) as Button setOnClickListener {
             VKSdk.logout()
-            toLoginActivity()
+            super<VkActivity>.toLoginActivity()
         }
 
         // Subscribe on cache
