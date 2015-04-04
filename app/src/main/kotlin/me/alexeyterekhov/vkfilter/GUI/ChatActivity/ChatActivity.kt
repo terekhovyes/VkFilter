@@ -4,7 +4,9 @@ import android.graphics.Point
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.GestureDetector
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -169,14 +171,21 @@ class ChatActivity:
                 messageText.setText("")
             }
         }
-        messageText setOnLongClickListener {
-            view ->
-            val container = findViewById(R.id.emoji_container)
-            if (container.getVisibility() == View.INVISIBLE)
-                showEmoji()
-            else
-                hideEmoji()
-            true
+        val gesture = GestureDetector(
+                object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onDoubleTap(e: MotionEvent?): Boolean {
+                        val container = findViewById(R.id.emoji_container)
+                        if (container.getVisibility() == View.INVISIBLE)
+                            showEmoji()
+                        else
+                            hideEmoji()
+                        return true
+                    }
+                }
+        )
+        messageText setOnTouchListener {
+            view, event ->
+            gesture.onTouchEvent(event)
         }
         messageText addTextChangedListener object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
