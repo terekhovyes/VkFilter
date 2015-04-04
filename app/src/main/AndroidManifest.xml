@@ -24,7 +24,7 @@
         </activity>
 
         <activity android:name=".GUI.DialogListActivity.DialogListActivity"
-            android:label="Сообщения"
+            android:theme="@style/Theme.material_theme.NoActionBar"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Test.TestDialogActivityAnimations"/>

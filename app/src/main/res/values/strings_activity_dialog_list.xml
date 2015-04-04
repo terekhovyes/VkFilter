@@ -2,4 +2,5 @@
 <resources>
     <string name="last_update">Обновление:</string>
     <string name="there_are_no_update">Обновление не выполнялось</string>
+    <string name="title">Сообщения</string>
 </resources>

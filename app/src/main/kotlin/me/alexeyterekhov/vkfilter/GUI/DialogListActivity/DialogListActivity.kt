@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.widget.DrawerLayout
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -57,6 +59,28 @@ public open class DialogListActivity:
         setContentView(R.layout.activity_dialog)
         if (android.os.Build.VERSION.SDK_INT <= 20)
             BrandUI.brandScrollEffectColors()
+
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        val drawerLayout = findViewById(R.id.side_layout) as DrawerLayout
+        val toggle = object : ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.title,
+                R.string.title
+        ) {
+            override fun onDrawerOpened(drawerView: View?) {
+                super.onDrawerOpened(drawerView)
+                showMeInSideMenu()
+            }
+        }
+        drawerLayout setDrawerListener toggle
+        with (getSupportActionBar()) {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
+        toggle.syncState()
 
         glassModule.onCreate()
 
@@ -108,17 +132,6 @@ public open class DialogListActivity:
                     R.color.refresh_color_3,
                     R.color.refresh_color_4
             )
-        }
-
-        with (findViewById(R.id.side_layout) as DrawerLayout) {
-            setDrawerListener(object : DrawerLayout.DrawerListener {
-                override fun onDrawerSlide(drawerView: View?, slideOffset: Float) {}
-                override fun onDrawerOpened(drawerView: View?) {
-                    showMeInSideMenu()
-                }
-                override fun onDrawerClosed(drawerView: View?) {}
-                override fun onDrawerStateChanged(newState: Int) {}
-            })
         }
 
         findViewById(R.id.logout_button) as Button setOnClickListener {
