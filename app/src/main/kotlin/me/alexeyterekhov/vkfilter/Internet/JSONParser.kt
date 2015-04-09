@@ -9,6 +9,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Vector
@@ -55,6 +56,10 @@ object JSONParser {
         return respObj.getJSONArray("chats")
     }
 
+    fun notificationInfoToObject(response: JSONObject): JSONObject {
+        return response getJSONObject "response"
+    }
+
     // Parsers
 
     fun parseDialogs(array: JSONArray): Vector<Dialog> {
@@ -95,6 +100,23 @@ object JSONParser {
             chats add chatInfo
         }
         return chats
+    }
+
+    fun parseNotificationInfo(response: JSONObject): NotificationInfo {
+        var info = NotificationInfo()
+        with (info) {
+            messageId = response getString "message_id"
+            date = response getLong "date"
+            text = response optString "text"
+            senderId = response optString "user_id"
+            firstName = response optString "first_name"
+            lastName = response optString "last_name"
+            senderPhotoUrl = response optString "user_photo"
+            chatId = response optString "chat_id"
+            chatTitle = response optString "title"
+            chatPhotoUrl = response optString "chat_photo"
+        }
+        return info
     }
 
     private fun parseItemChatInfo(item: JSONObject): ChatInfo {

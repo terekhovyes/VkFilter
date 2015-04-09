@@ -10,4 +10,6 @@ enum class VkFun {
     sendMessage
     markIncomesAsRead
     registerGCM
+    unregisterGCM
+    notificationInfo
 }

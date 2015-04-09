@@ -77,6 +77,19 @@ public object RunFun {
     public fun registerGCM(id: String) {
         val params = VKParameters()
         params["token"] = id
+        params["subscribe"] = "msg"
         VkRequestControl.addRequest(VkRequestBundle(VkFun.registerGCM, params))
+    }
+
+    public fun unregisterGCM(id: String) {
+        val params = VKParameters()
+        params["token"] = id
+        VkRequestControl.addRequest(VkRequestBundle(VkFun.unregisterGCM, params))
+    }
+
+    public fun notificationInfo(messageId: String) {
+        val params = VKParameters()
+        params["message_id"] = messageId
+        VkRequestControl.addRequest(VkRequestBundle(VkFun.notificationInfo, params))
     }
 }

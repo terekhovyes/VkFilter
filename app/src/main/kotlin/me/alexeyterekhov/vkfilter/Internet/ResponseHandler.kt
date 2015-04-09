@@ -11,6 +11,7 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
+import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import org.json.JSONObject
 import java.util.Collections
 import java.util.Vector
@@ -28,6 +29,7 @@ object ResponseHandler {
             VkFun.markIncomesAsRead -> markIncomesAsRead(request, result)
             VkFun.refreshDialog -> refreshDialog(request, result)
             VkFun.sendMessage -> sendMessage(request, result)
+            VkFun.notificationInfo -> notificationInfo(request, result)
         }
     }
 
@@ -188,5 +190,10 @@ object ResponseHandler {
                     msgs = Collections.singleton(sentMessage),
                     itsAll = false
                 )
+    }
+
+    private fun notificationInfo(request: VkRequestBundle, result: JSONObject) {
+        val info = JSONParser parseNotificationInfo (JSONParser notificationInfoToObject result)
+        GCMStation onLoadNotification info
     }
 }

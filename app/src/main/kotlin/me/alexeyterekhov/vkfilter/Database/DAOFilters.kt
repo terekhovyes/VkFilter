@@ -2,8 +2,12 @@ package me.alexeyterekhov.vkfilter.Database
 
 import com.activeandroid.Model
 import com.activeandroid.query.Select
+import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import java.util.Vector
 
 public object DAOFilters {
+    val changeListeners = Vector<DataDepend>()
+
     fun loadVkFilters(): List<VkFilter> {
         return Select().all()
                     .from(javaClass<VkFilter>())
@@ -17,6 +21,8 @@ public object DAOFilters {
 
     fun saveFilter(f: VkFilter) {
         f.save()
+        for (l in changeListeners)
+            l.onDataUpdate()
     }
 
     fun deleteFilter(f: VkFilter) {

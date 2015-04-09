@@ -17,6 +17,7 @@ import android.widget.ListView
 import com.rockerhieu.emojicon.EmojiconGridFragment
 import com.rockerhieu.emojicon.EmojiconsFragment
 import com.rockerhieu.emojicon.emoji.Emojicon
+import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
@@ -26,6 +27,10 @@ import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
+import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 
 class ChatActivity:
@@ -54,6 +59,7 @@ class ChatActivity:
     private var allowHideEmoji = true
 
     private val messageCacheListener = createMessageListener()
+    private val notificationListener = createNotifListener()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -76,13 +82,19 @@ class ChatActivity:
         tryRestoreAdapter()
         VkRequestControl.resume()
         DialogRefresher.start(id, isChat)
+        GCMStation.addNotificationListener(notificationListener)
         if (!isChat) refreshUserLastSeen()
+        if (isChat)
+            NotificationMaker.clearChatNotifications(id, AppContext.instance)
+        else
+            NotificationMaker.clearDialogNotifications(id, AppContext.instance)
     }
 
     override fun onPause() {
         super<VkActivity>.onPause()
         DialogRefresher.stop()
         VkRequestControl.pause()
+        GCMStation.removeNotificationListener(notificationListener)
     }
 
     override fun onDestroy() {
@@ -321,6 +333,13 @@ class ChatActivity:
                 }
             }
             container startAnimation animation
+        }
+    }
+
+    private fun createNotifListener() = object : NotificationListener {
+        override fun onNotification(info: NotificationInfo): Boolean {
+            return (isChat && id == info.chatId
+                || !isChat && id == info.senderId && info.chatId == "")
         }
     }
 }

@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.Common
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
@@ -20,5 +21,9 @@ object GooglePlay {
             return false
         }
         return true
+    }
+    public fun checkGooglePlayServicesWithoutError(context: Context): Boolean {
+        val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context)
+        return resultCode == ConnectionResult.SUCCESS
     }
 }

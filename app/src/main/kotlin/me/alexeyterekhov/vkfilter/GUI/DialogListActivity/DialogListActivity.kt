@@ -30,6 +30,8 @@ import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
+import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 
 public open class DialogListActivity:
@@ -152,6 +154,7 @@ public open class DialogListActivity:
         subscribeOnGCM()
         startRefreshingActionBar()
         showMeInSideMenu()
+        NotificationMaker.clearAllNotifications(AppContext.instance)
     }
     override fun onPause() {
         super<VkActivity>.onPause()
@@ -211,10 +214,11 @@ public open class DialogListActivity:
             animateDialogRefreshing = savedValue
         }
     }
-    private fun subscribeOnGCM() { ReceiverStation.listener = GCMListener }
+    private fun subscribeOnGCM() {
+        GCMStation addRawIntentListener GCMListener
+    }
     private fun unsubscribeFromGCM() {
-        if (ReceiverStation.listener == GCMListener)
-            ReceiverStation.listener = null
+        GCMStation removeRawIntentListener GCMListener
     }
 
     private fun loadDialogs(offset: Int) = RunFun.dialogList(offset, DIALOG_LOAD_PORTION)
