@@ -65,16 +65,15 @@ object GCMStation {
     }
 
     fun onAuthorizedActivityOpen() {
-        // TODO calling or remove method
         if (!isServiceRunning() && notificationsEnabled())
             launchService()
     }
     fun onLogout() {
-        // TODO calling method
-        killService()
+        if (isServiceRunning())
+            killService()
     }
     fun onFiltersChanged() {
-        // TODO refresh filters
+        // TODO refresh filters and update NotificationMaker
     }
 
     private fun launchService() {

@@ -137,6 +137,7 @@ public open class DialogListActivity:
         }
 
         findViewById(R.id.logout_button) as Button setOnClickListener {
+            GCMStation.onLogout()
             VKSdk.logout()
             super<VkActivity>.toLoginActivity()
         }

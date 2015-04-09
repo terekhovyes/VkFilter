@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.provider.Settings
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
-import android.util.Log
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.utils.DiskCacheUtils
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils
@@ -25,7 +25,6 @@ public object NotificationMaker {
     private val notifications = LinkedList<NotificationInfo>()
 
     fun addNotification(context: Context, info: NotificationInfo) {
-        Log.d("debug", "NOTIFICATION")
         addOrReplace(info)
         updateNotification(context)
     }
@@ -53,21 +52,14 @@ public object NotificationMaker {
         val notification = if (notifications.size() == 1) {
             val n = notifications.first()
             val onClickIntent = createChatActivityIntent(context, n)
-
-            val builder = NotificationCompat.Builder(context)
+            notificationBase(context, n.senderPhotoUrl)
                     .setContentTitle("${n.getName()}")
                     .setContentText(n.text)
-                    .setColor(context.getResources().getColor(R.color.material_green))
-                    .setSmallIcon(R.drawable.icon_notification)
                     .setContentIntent(onClickIntent)
-            val photo = loadPhoto(n.senderPhotoUrl)
-            if (photo != null)
-                builder.setLargeIcon(photo)
-            builder.build()
+                    .build()
         } else {
             val firstDialog = notifications.last()
             val moreDialogs = notifications.reverse() drop 1 take 3
-            val notAllDialogsShown = notifications.size() > 4
             val onClickIntent = createDialogListActivityIntent(context)
 
             val inbox = NotificationCompat.InboxStyle()
@@ -75,17 +67,12 @@ public object NotificationMaker {
             inbox setSummaryText (TextFormat.newDialogs(context, notifications.size()))
             inbox setBigContentTitle "${firstDialog.getName(compact = true)}: ${firstDialog.text}"
 
-            val builder = NotificationCompat.Builder(context)
+            notificationBase(context, firstDialog.senderPhotoUrl)
                     .setContentTitle("${firstDialog.getName()} ${TextFormat.andMoreDialogs(context, notifications.size() - 1)}")
                     .setContentText(firstDialog.text)
                     .setContentIntent(onClickIntent)
-                    .setSmallIcon(R.drawable.icon_notification)
-                    .setColor(context.getResources().getColor(R.color.material_green))
                     .setStyle(inbox)
-            val photo = loadPhoto(firstDialog.senderPhotoUrl)
-            if (photo != null)
-                builder.setLargeIcon(photo)
-            builder.build()
+                    .build()
         }
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(ID, notification)
@@ -93,6 +80,29 @@ public object NotificationMaker {
     private fun killNotification(context: Context) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(ID)
+    }
+
+    private fun notificationBase(context: Context, photoUrl: String): NotificationCompat.Builder {
+        val builder = NotificationCompat.Builder(context)
+                .setColor(context.getResources().getColor(R.color.material_green))
+                .setSmallIcon(R.drawable.icon_notification)
+                .setDeleteIntent(createDismissIntent(context))
+        val photo = loadPhoto(photoUrl)
+        if (photo != null)
+            builder.setLargeIcon(photo)
+        if (allowVibration(context)) {
+            val arr = LongArray(2)
+            arr.set(0, 1000)
+            arr.set(1, 1000)
+            builder.setVibrate(arr)
+        }
+        if (allowSound(context))
+            builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+        if (colorLight(context))
+            builder.setLights(0xFF00FF91.toInt(), 1000, 5000)
+        else
+            builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS)
+        return builder
     }
 
     private fun addOrReplace(info: NotificationInfo) {
@@ -144,4 +154,13 @@ public object NotificationMaker {
         stackBuilder.addNextIntent(dialogIntent)
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+    private fun createDismissIntent(context: Context): PendingIntent {
+        val intent = Intent(context, javaClass<NotificationDismissBroadcast>())
+        return PendingIntent.getBroadcast(context, 0, intent, 0)
+    }
+
+    // TODO reading from preferences
+    private fun allowVibration(context: Context) = true
+    private fun allowSound(context: Context) = true
+    private fun colorLight(context: Context) = true
 }

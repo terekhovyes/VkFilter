@@ -7,6 +7,7 @@ import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 
 public open class VkActivity: ActionBarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,7 @@ public open class VkActivity: ActionBarActivity() {
         VkSdkInitializer.init()
         if (!VKSdk.wakeUpSession(this))
             toLoginActivity()
+        GCMStation.onAuthorizedActivityOpen()
         VKUIHelper.onResume(this)
     }
 
@@ -33,6 +35,7 @@ public open class VkActivity: ActionBarActivity() {
     }
 
     protected fun toLoginActivity() {
+        GCMStation.onLogout()
         val intent = Intent(this, javaClass<LoginActivity>())
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
