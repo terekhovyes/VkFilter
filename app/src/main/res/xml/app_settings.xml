@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/category_notifications"
+        >
+
+        <CheckBoxPreference
+            android:key="pref_notifications"
+            android:title="@string/pref_notifications"
+            android:summary="@string/sum_notifications"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:key="pref_sound"
+            android:dependency="pref_notifications"
+            android:title="@string/pref_sound"
+            android:summary="@string/sum_sound"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="pref_vibration"
+            android:dependency="pref_notifications"
+            android:title="@string/pref_vibration"
+            android:summary="@string/sum_vibration"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:key="pref_color_lights"
+            android:dependency="pref_notifications"
+            android:title="@string/pref_color_lights"
+            android:summary="@string/sum_color_lights"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

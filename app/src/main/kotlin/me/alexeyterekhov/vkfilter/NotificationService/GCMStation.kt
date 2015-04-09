@@ -3,8 +3,10 @@ package me.alexeyterekhov.vkfilter.NotificationService
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.preference.PreferenceManager
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.IntentListener
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import java.util.LinkedList
 import kotlin.properties.Delegates
@@ -93,8 +95,8 @@ object GCMStation {
     }
 
     private fun notificationsEnabled(): Boolean {
-        // TODO preferences check
-        return true
+        val s = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
+        return Settings.notificationsEnabled(s)
     }
     private fun allowNotification(info: NotificationInfo): Boolean {
         // TODO filter notifications

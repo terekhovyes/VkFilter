@@ -30,6 +30,8 @@
         <activity android:name=".GUI.DialogListActivity.DialogListActivity"
             android:theme="@style/Theme.material_theme.NoActionBar"
             android:launchMode="singleTask"/>
+        
+        <activity android:name=".GUI.SettingsActivity.SettingsActivity"/>
 
         <activity android:name=".Test.TestDialogActivityAnimations"/>
 

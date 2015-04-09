@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.provider.Settings
+import android.preference.PreferenceManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -16,6 +16,7 @@ import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.Common.RoundBitmap
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
 import java.util.LinkedList
 
@@ -52,8 +53,9 @@ public object NotificationMaker {
         val notification = if (notifications.size() == 1) {
             val n = notifications.first()
             val onClickIntent = createChatActivityIntent(context, n)
+            val title = if (n.getName().length() > 18) n.getName(compact = true) else n.getName()
             notificationBase(context, n.senderPhotoUrl)
-                    .setContentTitle("${n.getName()}")
+                    .setContentTitle(title)
                     .setContentText(n.text)
                     .setContentIntent(onClickIntent)
                     .build()
@@ -91,13 +93,15 @@ public object NotificationMaker {
         if (photo != null)
             builder.setLargeIcon(photo)
         if (allowVibration(context)) {
-            val arr = LongArray(2)
-            arr.set(0, 1000)
-            arr.set(1, 1000)
+            val arr = LongArray(4)
+            arr.set(0, 0)
+            arr.set(1, 300)
+            arr.set(2, 300)
+            arr.set(3, 300)
             builder.setVibrate(arr)
         }
         if (allowSound(context))
-            builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+            builder.setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
         if (colorLight(context))
             builder.setLights(0xFF00FF91.toInt(), 1000, 5000)
         else
@@ -159,8 +163,8 @@ public object NotificationMaker {
         return PendingIntent.getBroadcast(context, 0, intent, 0)
     }
 
-    // TODO reading from preferences
-    private fun allowVibration(context: Context) = true
-    private fun allowSound(context: Context) = true
-    private fun colorLight(context: Context) = true
+    private fun allowVibration(context: Context) = Settings.allowVibration(preferences(context))
+    private fun allowSound(context: Context) = Settings.allowSound(preferences(context))
+    private fun colorLight(context: Context) = Settings.allowCustomLights(preferences(context))
+    private fun preferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
 }

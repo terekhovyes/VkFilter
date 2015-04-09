@@ -26,6 +26,7 @@ import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.SettingsActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
@@ -140,6 +141,10 @@ public open class DialogListActivity:
             GCMStation.onLogout()
             VKSdk.logout()
             super<VkActivity>.toLoginActivity()
+        }
+
+        findViewById(R.id.settings_button) as Button setOnClickListener {
+            startActivity(Intent(this, javaClass<SettingsActivity>()))
         }
 
         // Subscribe on cache

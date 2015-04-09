@@ -75,6 +75,17 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/material_green"
-        android:text="Выход"/>
+        android:text="@string/logout"/>
+
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/logout_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/material_green"
+        android:text="@string/settings"/>
 
 </RelativeLayout>
