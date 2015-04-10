@@ -75,7 +75,7 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/material_green"
-        android:text="@string/logout"/>
+        android:text="@string/a_dialog_logout"/>
 
     <Button
         android:id="@+id/settings_button"
@@ -86,6 +86,6 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/material_green"
-        android:text="@string/settings"/>
+        android:text="@string/a_dialog_settings"/>
 
 </RelativeLayout>

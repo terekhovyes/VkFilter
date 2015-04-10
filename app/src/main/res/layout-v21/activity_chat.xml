@@ -32,7 +32,7 @@
                 android:textColor="@color/main_black"
                 android:background="@null"
                 android:inputType="textMultiLine|textCapSentences"
-                android:hint="@string/message_hint"/>
+                android:hint="@string/a_chat_message_hint"/>
 
         <ImageView
                 android:id="@+id/sendButton"

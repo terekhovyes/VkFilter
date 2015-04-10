@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filter_name_hint">Название фильтра</string>
-    <string name="filter_state_disabled">Не активен</string>
-    <string name="filter_state_allowing">Показывать только участников фильтра</string>
-    <string name="filter_state_blocking">Скрывать участников фильтра</string>
+    <string name="a_edit_filter_title">Редактирование фильтра</string>
+    <string name="a_edit_filter_filter_name_hint">Название фильтра</string>
+    <string name="a_edit_filter_filter_state_disabled">Не активен</string>
+    <string name="a_edit_filter_filter_state_allowing">Показывать только участников фильтра</string>
+    <string name="a_edit_filter_filter_state_blocking">Скрывать участников фильтра</string>
 </resources>

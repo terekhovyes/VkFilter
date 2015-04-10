@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="message_hint">Сообщение (двойной тап для смайлов)</string>
-    <string name="last_visit_common">Последнее посещение:</string>
-    <string name="last_visit_woman">Была в сети:</string>
-    <string name="last_visit_man">Был в сети:</string>
-    <string name="online">Онлайн</string>
+    <string name="a_chat_title">Диалог</string>
+    <string name="a_chat_message_hint">Сообщение (двойной тап для смайлов)</string>
+    <string name="a_chat_last_visit_common">Последнее посещение:</string>
+    <string name="a_chat_last_visit_woman">Была в сети:</string>
+    <string name="a_chat_last_visit_man">Был в сети:</string>
+    <string name="a_chat_online">Онлайн</string>
 </resources>

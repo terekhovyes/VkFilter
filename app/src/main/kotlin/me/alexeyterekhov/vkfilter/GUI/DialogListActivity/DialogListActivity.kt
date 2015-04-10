@@ -74,8 +74,8 @@ public open class DialogListActivity:
                 this,
                 drawerLayout,
                 toolbar,
-                R.string.title,
-                R.string.title
+                R.string.a_dialog_title,
+                R.string.a_dialog_title
         ) {
             override fun onDrawerOpened(drawerView: View?) {
                 super.onDrawerOpened(drawerView)
@@ -204,9 +204,9 @@ public open class DialogListActivity:
         val lastUpdateTime = DialogListCache.getSnapshot().snapshotTime
         getSupportActionBar().setSubtitle(
                 if (lastUpdateTime == 0L)
-                    getString(R.string.there_are_no_update)
+                    getString(R.string.a_dialog_no_update)
                 else
-                    getString(R.string.last_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
+                    getString(R.string.a_dialog_last_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
         )
     }
     private fun startRefreshingActionBar() {

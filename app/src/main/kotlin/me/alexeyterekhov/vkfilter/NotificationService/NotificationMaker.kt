@@ -144,6 +144,7 @@ public object NotificationMaker {
             chatIntent.putExtra("user_id", n.senderId)
             chatIntent.putExtra("title", n.getName())
         }
+        chatIntent.putExtra("from_notification", true)
 
         val stackBuilder = TaskStackBuilder.create(context)
             .addParentStack(javaClass<ChatActivity>())

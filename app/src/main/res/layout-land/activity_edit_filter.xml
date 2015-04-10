@@ -32,7 +32,7 @@
                 android:textColor="@color/material_black"
                 android:inputType="textCapSentences"
                 android:background="@null"
-                android:hint="@string/filter_name_hint"/>
+                android:hint="@string/a_edit_filter_filter_name_hint"/>
 
         </android.support.v7.widget.CardView>
 
@@ -99,7 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="100dp"
-                        android:text="@string/filter_state_allowing"
+                        android:text="@string/a_edit_filter_filter_state_allowing"
                         android:textSize="18sp"
                         android:gravity="center_vertical"
                         android:textColor="@color/material_black"/>

@@ -17,9 +17,9 @@ object FilterStates {
         else -> VkFilter.STATE_DISABLED
     }
     fun filterToString(filterState: Int) = when (filterState) {
-        VkFilter.STATE_ALLOWING -> R.string.filter_state_allowing
-        VkFilter.STATE_BLOCKING -> R.string.filter_state_blocking
-        else -> R.string.filter_state_disabled
+        VkFilter.STATE_ALLOWING -> R.string.a_edit_filter_filter_state_allowing
+        VkFilter.STATE_BLOCKING -> R.string.a_edit_filter_filter_state_blocking
+        else -> R.string.a_edit_filter_filter_state_disabled
     }
     fun switchToString(switchState: Int) = filterToString(switchToFilter(switchState))
 }

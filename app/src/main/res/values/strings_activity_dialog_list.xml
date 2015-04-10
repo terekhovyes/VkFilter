@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="last_update">Обновление:</string>
-    <string name="there_are_no_update">Обновление не выполнялось</string>
-    <string name="title">Сообщения</string>
-    <string name="logout">Выход</string>
-    <string name="settings">Настройки</string>
+    <string name="a_dialog_last_update">Обновление:</string>
+    <string name="a_dialog_no_update">Обновление не выполнялось</string>
+    <string name="a_dialog_title">Сообщения</string>
+    <string name="a_dialog_logout">Выход</string>
+    <string name="a_dialog_settings">Настройки</string>
 </resources>

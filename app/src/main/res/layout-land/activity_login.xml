@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:text="@string/app_title"
+                android:text="@string/a_login_app_title"
                 android:textSize="36sp"
                 android:textColor="@color/material_green"/>
 
@@ -40,7 +40,7 @@
             android:layout_marginBottom="5dp"
             android:background="@android:color/transparent"
             android:textAllCaps="false"
-            android:text="@string/weblogin_button_text"
+            android:text="@string/a_login_weblogin_button"
             android:textSize="18sp"
             android:textColor="@color/material_green"/>
 
@@ -53,7 +53,7 @@
             android:layout_marginBottom="5dp"
             android:textAllCaps="false"
             android:background="@drawable/login_button"
-            android:text="@string/login_button_text"
+            android:text="@string/a_login_login_button"
             android:textSize="20sp"
             android:textColor="@color/material_greeny_white"/>
 
@@ -64,7 +64,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:textSize="14sp"
-                android:text="@string/login_warning"
+                android:text="@string/a_login_warning"
                 android:gravity="center"
                 android:textColor="@color/material_black"/>
 

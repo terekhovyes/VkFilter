@@ -15,7 +15,7 @@ object TextFormat {
 
     fun userOnlineStatus(user: User): String {
         return when {
-            user.isOnline -> AppContext.instance.getString(R.string.online)
+            user.isOnline -> AppContext.instance.getString(R.string.a_chat_online)
             user.lastOnlineTime == 0L -> ""
             else -> "${lastVisitPhrase(user)} ${lastVisitTime(user)}"
         }
@@ -23,9 +23,9 @@ object TextFormat {
 
     fun lastVisitPhrase(user: User): String {
         return when (user.sex) {
-            Sex.WOMAN -> AppContext.instance.getString(R.string.last_visit_woman)
-            Sex.MAN -> AppContext.instance.getString(R.string.last_visit_man)
-            else -> AppContext.instance.getString(R.string.last_visit_common)
+            Sex.WOMAN -> AppContext.instance.getString(R.string.a_chat_last_visit_woman)
+            Sex.MAN -> AppContext.instance.getString(R.string.a_chat_last_visit_man)
+            else -> AppContext.instance.getString(R.string.a_chat_last_visit_common)
         }
     }
 

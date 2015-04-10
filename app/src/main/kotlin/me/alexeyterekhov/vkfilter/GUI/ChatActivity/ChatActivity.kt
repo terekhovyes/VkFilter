@@ -1,5 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.text.Editable
@@ -24,6 +25,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
+import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
@@ -122,7 +124,11 @@ class ChatActivity:
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.getItemId()) {
             android.R.id.home -> {
-                onBackPressed()
+                if (getIntent().hasExtra("from_notification")) {
+                    startActivity(Intent(AppContext.instance, javaClass<DialogListActivity>()))
+                    finish()
+                } else
+                    onBackPressed()
                 return true
             }
             else -> return super<VkActivity>.onOptionsItemSelected(item)
