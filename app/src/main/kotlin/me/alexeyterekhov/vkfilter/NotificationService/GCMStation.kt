@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.IntentListener
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import java.util.LinkedList

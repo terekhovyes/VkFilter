@@ -16,7 +16,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.vk.sdk.VKSdk
-import me.alexeyterekhov.vkfilter.Common.*
+import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.DataSaver
+import me.alexeyterekhov.vkfilter.Common.DateFormat
+import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
@@ -32,6 +35,7 @@ import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 

@@ -1,19 +1,19 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import android.content.Intent
 import android.os.Handler
 import com.vk.sdk.api.VKParameters
-import me.alexeyterekhov.vkfilter.Common.IntentListener
-import me.alexeyterekhov.vkfilter.Common.ReceiverStation
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
+import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
 import java.util.NoSuchElementException
 
-object DialogRefresher: DataDepend, IntentListener {
+object DialogRefresher: DataDepend, NotificationListener {
     private val DELAY = 1500L
     private var running = false
     private var scheduled = false
@@ -32,23 +32,27 @@ object DialogRefresher: DataDepend, IntentListener {
         chat = isChat
         running = true
         MessageCache.getDialog(id, isChat).listeners add this
-        ReceiverStation.listener = this
+        GCMStation.addNotificationListener(this)
         run()
     }
 
     fun stop() {
         running = false
         MessageCache.getDialog(id, chat).listeners remove this
-        if (ReceiverStation.listener == this)
-            ReceiverStation.listener = null
+        GCMStation.removeNotificationListener(this)
     }
 
     override fun onDataUpdate() {
         run()
     }
 
-    override fun onGetIntent(intent: Intent) {
-        runFromIntent()
+    override fun onNotification(info: NotificationInfo): Boolean {
+        return if (info.chatId == "" && !chat && info.senderId == id ||
+                    info.chatId == id && chat) {
+            runFromIntent()
+            true
+        } else
+            false
     }
 
     private fun runFromIntent() {

@@ -1,21 +1,13 @@
 package me.alexeyterekhov.vkfilter.GUI.LoginActivity
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.ActionBarActivity
-import android.util.Log
-import android.widget.Toast
-import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.GooglePlay
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.R
-import java.io.IOException
 
 
 public class LoginActivity: ActionBarActivity() {
@@ -65,7 +57,6 @@ public class LoginActivity: ActionBarActivity() {
 
     private fun startDialogActivity() {
         startActivity(Intent(this, javaClass<DialogListActivity>()))
-        registerForGCM()
         finish()
     }
 
@@ -78,26 +69,6 @@ public class LoginActivity: ActionBarActivity() {
         findViewById(R.id.secondLoginButton) setOnClickListener {
             VKSdk.authorize(VkSdkInitializer.vkScopes, true, true)
             loginPressed = true
-        }
-    }
-
-    private fun registerForGCM() {
-        if (GooglePlay.checkGooglePlayServices(this)) {
-            (object: AsyncTask<Unit, Unit, Unit>() {
-                override fun doInBackground(vararg params: Unit?) {
-                    try {
-                        val gcm = GoogleCloudMessaging.getInstance(AppContext.instance)
-                        val regId = gcm register "419930423637"
-                        RunFun registerGCM regId
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }).execute()
-        } else {
-            val error = "No valid Google Play Services APK found."
-            Log.d("Google Play Services", error)
-            Toast.makeText(this, error, Toast.LENGTH_SHORT)
         }
     }
 }
