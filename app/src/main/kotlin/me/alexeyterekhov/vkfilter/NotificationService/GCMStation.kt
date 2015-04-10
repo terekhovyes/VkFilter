@@ -74,9 +74,6 @@ object GCMStation {
         if (isServiceRunning())
             killService()
     }
-    fun onFiltersChanged() {
-        // TODO refresh filters and update NotificationMaker
-    }
 
     private fun launchService() {
         val context = AppContext.instance
@@ -98,8 +95,5 @@ object GCMStation {
         val s = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
         return Settings.notificationsEnabled(s)
     }
-    private fun allowNotification(info: NotificationInfo): Boolean {
-        // TODO filter notifications
-        return true
-    }
+    private fun allowNotification(info: NotificationInfo) = NotificationFiltrator.allowNotification(info)
 }
