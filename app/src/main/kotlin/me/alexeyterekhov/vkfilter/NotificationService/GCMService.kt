@@ -32,6 +32,7 @@ public class GCMService: Service() {
             enableReceiver()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d("GCMService", "I'm destroyed :(")

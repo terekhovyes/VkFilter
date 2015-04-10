@@ -20,6 +20,16 @@
 
         <service android:name=".NotificationService.GCMService"/>
 
+        <receiver android:name=".NotificationService.NotificationDismissBroadcast"/>
+
+        <receiver android:name=".NotificationService.TestBroadcast"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="vkfilter.gcm"/>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".GUI.LoginActivity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -50,8 +60,6 @@
 
         <activity android:name=".GUI.ChooseUsersActivity.ChooseUsersActivity"
             android:label="Выбор участников"/>
-
-        <receiver android:name=".NotificationService.NotificationDismissBroadcast"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="AA_DB_NAME" android:value="vkfilter2.db" />

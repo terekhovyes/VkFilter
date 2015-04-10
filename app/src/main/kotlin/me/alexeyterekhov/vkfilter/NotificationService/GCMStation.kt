@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
+import android.util.Log
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
@@ -18,6 +19,7 @@ object GCMStation {
 
     fun onNewIntent(context: Context, intent: Intent) {
         this.context = context
+        Log.d("GCMStation", "Receive new intent")
         if (intent.getStringExtra("collapse_key") == "msg") {
             if (intentListeners.isEmpty()) {
                 val messageId = intent getStringExtra "msg_id"
@@ -85,8 +87,11 @@ object GCMStation {
     private fun isServiceRunning(): Boolean {
         val manager = AppContext.instance.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE))
-            if (service.service.getClassName() == javaClass<GCMService>().getName())
+            if (service.service.getClassName() == javaClass<GCMService>().getName()) {
+                Log.d("GCMStation", "GCMService already running")
                 return true
+            }
+        Log.d("GCMStation", "GCMService isn't running")
         return false
     }
 
