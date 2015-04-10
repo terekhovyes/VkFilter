@@ -58,7 +58,6 @@ class ChatActivity:
     private var allowHideEmoji = true
 
     private val messageCacheListener = createMessageListener()
-    //private val notificationListener = createNotifListener()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)

@@ -245,8 +245,8 @@ object JSONParser {
             val attachment = array.getJSONObject(i)
             if (attachment.getString("type") == "photo") {
                 val photo = attachment.getJSONObject("photo")
-                val width = photo.getInt("width")
-                val height = photo.getInt("height")
+                val width = photo.optInt("width", 1)
+                val height = photo.optInt("height", 1)
                 val photoSizes = arrayListOf("photo_2560", "photo_1280", "photo_807",
                         "photo_604", "photo_130", "photo_75")
                 var url = ""
@@ -260,7 +260,8 @@ object JSONParser {
                         break
                     }
                 }
-                attachments.images add ImageAttachment(smallUrl, url, width, height)
+                if (url != "")
+                    attachments.images add ImageAttachment(smallUrl, url, width, height)
             }
         }
     }
