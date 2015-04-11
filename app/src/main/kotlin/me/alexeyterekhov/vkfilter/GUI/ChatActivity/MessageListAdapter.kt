@@ -228,10 +228,17 @@ class MessageListAdapter(
         return view
     }
 
-    private fun isFirstReply(pos: Int)
-        = pos > 0 && (
-            messages!![pos].isOut && !messages!![pos - 1].isOut ||
-            !messages!![pos].isOut && messages!![pos - 1].sender != messages!![pos].sender)
+    private fun isFirstReply(pos: Int): Boolean {
+        if (pos == 0)
+            return true
+        val cur = messages!![pos]
+        val prev = messages!![pos - 1]
+        return when {
+            cur.isOut != prev.isOut -> true
+            cur.sender.id != prev.sender.id -> true
+            else -> false
+        }
+    }
 
     private fun isSameDay(date1: Long, date2: Long): Boolean {
         if (Math.abs(date1 - date2) > 3600000 * 24) return false
