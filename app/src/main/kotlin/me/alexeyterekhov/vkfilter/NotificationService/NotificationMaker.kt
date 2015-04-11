@@ -89,7 +89,7 @@ public object NotificationMaker {
                 .setColor(context.getResources().getColor(R.color.material_green))
                 .setSmallIcon(R.drawable.icon_notification)
                 .setDeleteIntent(createDismissIntent(context))
-        val photo = loadPhoto(photoUrl)
+        val photo = loadPhoto(context, photoUrl)
         if (photo != null)
             builder.setLargeIcon(photo)
         if (allowVibration(context)) {
@@ -115,19 +115,30 @@ public object NotificationMaker {
         notifications add info
     }
 
-    private fun loadPhoto(url: String): Bitmap? {
+    private fun loadPhoto(context: Context, url: String): Bitmap? {
         val loader = ImageLoader.getInstance()
         val dc = loader.getDiskCache()
         val mc = loader.getMemoryCache()
 
         try {
+            var loadedBitmap: Bitmap? = null
             val bitmaps = MemoryCacheUtils.findCachedBitmapsForImageUri(url, mc)
             if (bitmaps.isNotEmpty())
-                return RoundBitmap make bitmaps.first()
+                loadedBitmap = bitmaps.first()
 
             val file = DiskCacheUtils.findInCache(url, dc)
             if (file != null)
-                return RoundBitmap make BitmapFactory.decodeFile(file.getAbsolutePath())
+                loadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath())
+            if (loadedBitmap == null)
+                loadedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.user_photo_loading)
+            if (loadedBitmap != null) {
+                val res = context.getResources()
+                val height = res.getDimension(android.R.dimen.notification_large_icon_height).toInt()
+                val width = res.getDimension(android.R.dimen.notification_large_icon_width).toInt()
+                loadedBitmap = Bitmap.createScaledBitmap(loadedBitmap!!, width * 3 / 4, height * 3 / 4, false)
+                loadedBitmap = RoundBitmap make loadedBitmap!!
+            }
+            return loadedBitmap
         } catch (e: Exception) {}
         return null
     }
