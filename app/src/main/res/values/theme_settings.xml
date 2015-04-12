@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.settings_theme" parent="Theme.material_theme">
-        <item name="android:textColorPrimary">@color/material_black</item>
-        <item name="android:textColorSecondary">@color/material_gray</item>
-    </style>
-
-</resources>

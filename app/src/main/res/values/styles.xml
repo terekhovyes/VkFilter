@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="fam_style">
-        <item name="android:background">@color/material_gray</item>
-        <item name="android:textColor">@color/material_greeny_white</item>
+    <!-- THEMES -->
+
+    <style name="Theme.MyMaterialTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/my_action_bar</item>
+        <item name="android:popupMenuStyle">@style/my_popup</item>
+        <item name="android:textColorPrimary">@color/material_greeny_white</item>
+        <item name="android:textColorSecondary">@color/material_greeny_white</item>
+        <item name="android:itemTextAppearance">@style/my_black_appearance</item>
+
+        <item name="popupMenuStyle">@style/my_popup</item>
+        <item name="actionBarStyle">@style/my_action_bar</item>
+        <item name="colorPrimary">@color/material_green</item>
+        <item name="drawerArrowStyle">@style/my_drawer_style</item>
+    </style>
+
+    <style name="Theme.MyMaterialTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.AppCompat.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.MySettingsTheme" parent="@style/Theme.MyMaterialTheme">
+        <item name="android:textColor">@color/material_green</item>
+        <item name="android:textColorPrimary">@color/material_green</item>
+        <item name="android:textColorSecondary">@color/material_gray</item>
+    </style>
+
+    <!-- STYLES -->
+
+    <style name="my_drawer_style" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/material_greeny_white</item>
+    </style>
+
+    <style name="my_black_appearance">
+        <item name="android:textColor">@drawable/menu_item_text</item>
+    </style>
+
+    <style name="my_fam_style">
+        <item name="android:background">@color/material_gray</item>
+        <item name="android:textColor">@color/material_greeny_white</item>
+    </style>
+
+    <style name="my_action_bar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/material_green</item>
+        <item name="android:titleTextStyle">@style/my_title_style</item>
+        <item name="android:subtitleTextStyle">@style/my_subtitle_style</item>
+
+        <item name="background">@color/material_green</item>
+        <item name="titleTextStyle">@style/my_title_style</item>
+        <item name="subtitleTextStyle">@style/my_subtitle_style</item>
+    </style>
+
+    <style name="my_title_style" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/material_greeny_white</item>
+    </style>
+
+    <style name="my_menu_text_style" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textColor">@color/material_greeny_white</item>
+    </style>
+
+    <style name="my_subtitle_style" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/material_greeny_white</item>
+    </style>
+
+    <style name="my_popup" parent="@style/Widget.AppCompat.Light.ListPopupWindow">
+        <item name="android:textColor">@drawable/menu_item_text</item>
+        <item name="android:color">@drawable/menu_item_text</item>
+        <item name="android:colorForeground">@drawable/menu_item_text</item>
+        <item name="android:textColorPrimary">@drawable/menu_item_text</item>
+        <item name="android:textColorSecondary">@drawable/menu_item_text</item>
+        <item name="android:textColorTertiary">@drawable/menu_item_text</item>
+        <item name="android:actionMenuTextColor">@drawable/menu_item_text</item>
+        <item name="android:popupBackground">@color/material_green</item>
+        <item name="android:background">@color/material_green</item>
+
+        <item name="color">@drawable/menu_item_text</item>
+        <item name="background">@color/material_green</item>
+        <item name="actionMenuTextColor">@drawable/menu_item_text</item>
     </style>
 
 </resources>

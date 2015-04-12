@@ -1,10 +1,11 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import android.content.Intent
+import android.content.*
 import android.graphics.Point
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -118,6 +119,30 @@ class ChatActivity:
         overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        getMenuInflater().inflate(R.menu.activity_chat_menu, menu)
+        return super<VkActivity>.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (menu != null) {
+            val copyItem = menu.findItem(R.id.copy_text)
+            val messageText = findViewById(R.id.messageText) as EditText
+            copyItem.setEnabled(messageText.getText().length() > 0)
+
+            val pasteItem = menu.findItem(R.id.paste_text)
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            pasteItem.setEnabled(
+                    when {
+                        !clipboard.hasPrimaryClip() -> false
+                        !clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) -> false
+                        else -> true
+                    }
+            )
+        }
+        return super<VkActivity>.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.getItemId()) {
             android.R.id.home -> {
@@ -126,6 +151,40 @@ class ChatActivity:
                     finish()
                 } else
                     onBackPressed()
+                return true
+            }
+            R.id.copy_text -> {
+                val messageText = findViewById(R.id.messageText) as EditText
+                if (messageText.getText().length() > 0) {
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("vkfilter text", messageText.getText().toString())
+                    clipboard.setPrimaryClip(clip)
+                }
+                return true
+            }
+            R.id.paste_text -> {
+                val messageText = findViewById(R.id.messageText) as EditText
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                if (clipboard.hasPrimaryClip()) {
+                    val clip = clipboard.getPrimaryClip().getItemAt(0)
+                    val text = when {
+                        clip.getText() != null -> clip.getText()
+                        clip.getUri() != null -> clip.getUri().toString()
+                        else -> null
+                    }
+                    if (text != null) {
+                        val start = messageText.getSelectionStart()
+                        val end = messageText.getSelectionEnd()
+                        if (start < 0)
+                            messageText.append(text)
+                        else
+                            messageText.getText().replace(
+                                    Math.min(start, end),
+                                    Math.max(start, end),
+                                    text
+                            )
+                    }
+                }
                 return true
             }
             else -> return super<VkActivity>.onOptionsItemSelected(item)

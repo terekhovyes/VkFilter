@@ -10,7 +10,6 @@ import me.alexeyterekhov.vkfilter.R
 class SettingsActivity: PreferenceActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_settings_theme)
         addPreferencesFromResource(R.xml.app_settings)
     }
 
