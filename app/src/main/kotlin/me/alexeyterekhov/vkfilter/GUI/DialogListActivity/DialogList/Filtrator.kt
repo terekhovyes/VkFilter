@@ -4,11 +4,15 @@ import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import java.util.Vector
 
 
 object Filtrator {
     fun filter(snap: DialogListSnapshot, filters: List<VkFilter>): Vector<Dialog> {
+        if (Mocker.MOCK_MODE)
+            return snap.dialogs
+
         val allowing = filters filter { it.state == VkFilter.STATE_ALLOWING }
         val blocking = filters filter { it.state == VkFilter.STATE_BLOCKING }
         val out = Vector<Dialog>()

@@ -5,6 +5,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -23,8 +24,10 @@ import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
@@ -78,7 +81,10 @@ class ChatActivity:
         refreshAdapterImageSize()
         tryRestoreAdapter()
         VkRequestControl.resume()
-        DialogRefresher.start(id, isChat)
+        if (!Mocker.MOCK_MODE)
+            DialogRefresher.start(id, isChat)
+        else
+            messageCacheListener.onDataUpdate()
         if (!isChat) refreshUserLastSeen()
         if (isChat)
             NotificationMaker.clearChatNotifications(id, AppContext.instance)
@@ -88,7 +94,8 @@ class ChatActivity:
 
     override fun onPause() {
         super<VkActivity>.onPause()
-        DialogRefresher.stop()
+        if (!Mocker.MOCK_MODE)
+            DialogRefresher.stop()
         VkRequestControl.pause()
     }
 
@@ -254,6 +261,7 @@ class ChatActivity:
             override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
                 if (allowHideEmoji)
                     hideEmoji()
+                Log.d("debug", messageText.getText().toString())
             }
             override fun afterTextChanged(p0: Editable?) {}
         }
@@ -314,6 +322,8 @@ class ChatActivity:
     fun loadMoreMessages(lastMessageId: String = "", count: Int = MESSAGE_PORTION, offset: Int = 0) {
         if (!loadingMessages && !allMessagesGot) {
             loadingMessages = true
+            if (Mocker.MOCK_MODE)
+                return
             RunFun.messageList(
                     dialogId = id,
                     dialogIsChat = isChat,
@@ -332,9 +342,15 @@ class ChatActivity:
     }
 
     fun refreshUserLastSeen() {
-        if (!isChat && UserCache.contains(id)) {
-            val u = UserCache.getUser(id)!!
+        if (Mocker.MOCK_MODE) {
+            val u = User()
+            u.isOnline = true
             getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
+        } else {
+            if (!isChat && UserCache.contains(id)) {
+                val u = UserCache.getUser(id)!!
+                getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
+            }
         }
     }
 

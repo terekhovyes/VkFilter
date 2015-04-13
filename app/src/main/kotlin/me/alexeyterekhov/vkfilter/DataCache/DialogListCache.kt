@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.DataCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import java.util.Vector
 
 object DialogListCache {
@@ -15,7 +16,12 @@ object DialogListCache {
         for (l in listeners) l.onDataUpdate()
     }
 
-    fun getSnapshot() = snapshot
+    fun getSnapshot(): DialogListSnapshot {
+        return if (Mocker.MOCK_MODE)
+            Mocker.mockDialogSnapshot()
+        else
+            snapshot
+    }
 
     fun clear() {
         snapshot = emptySnapshot()

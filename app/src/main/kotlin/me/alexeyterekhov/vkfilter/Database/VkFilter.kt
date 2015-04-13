@@ -13,14 +13,14 @@ public class VkFilter(): Model() {
         val STATE_BLOCKING = 2
     }
 
-    private var cached = false
-    private val cachedIds = Vector<VkIdentifier>()
+    var cached = false
+    val cachedIds = Vector<VkIdentifier>()
 
     [Column(name = "FilterName")]
     var filterName: String = ""
 
     [Column(name = "FilterIcon")]
-    private var iconId: Int = 1
+    var iconId: Int = 1
 
     [Column(name = "ListOrder")]
     var listOrder: Int = 9000
