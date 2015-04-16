@@ -126,8 +126,14 @@ class ChatActivity:
     }
 
     override fun onBackPressed() {
-        super<VkActivity>.onBackPressed()
-        overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
+        if (getIntent().hasExtra("from_notification")) {
+            startActivity(Intent(AppContext.instance, javaClass<DialogListActivity>()))
+            overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
+            finish()
+        } else {
+            super<VkActivity>.onBackPressed()
+            overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -157,11 +163,7 @@ class ChatActivity:
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.getItemId()) {
             android.R.id.home -> {
-                if (getIntent().hasExtra("from_notification")) {
-                    startActivity(Intent(AppContext.instance, javaClass<DialogListActivity>()))
-                    finish()
-                } else
-                    onBackPressed()
+                onBackPressed()
                 return true
             }
             R.id.copy_text -> {
