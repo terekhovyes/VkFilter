@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 
 class MessageForSending {
@@ -12,7 +11,7 @@ class MessageForSending {
     var text = ""
 
     fun transformToMessage(messageId: Long): Message {
-        val msg = Message(UserCache.getUser("me")!!)
+        val msg = Message("me")
         with (msg) {
             id = messageId
             text = this@MessageForSending.text

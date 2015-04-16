@@ -60,6 +60,10 @@ object JSONParser {
         return response getJSONObject "response"
     }
 
+    fun dialogPartnersToArray(response: JSONObject): JSONArray {
+        return response getJSONArray "response"
+    }
+
     // Parsers
 
     fun parseDialogs(array: JSONArray): Vector<Dialog> {
@@ -141,13 +145,10 @@ object JSONParser {
         val dialog = Dialog()
 
         val id = if (item.getInt("out") == 1) "me" else item.getString("user_id")
-        var sender = UserCache.getUser(id)
-        if (sender == null)
-            sender = emptyUser()
 
         // fill last message
         val dateInSeconds = item.getLong("date")
-        val message = Message(sender!!)
+        val message = Message(id)
         with (message) {
             dateMSC = dateInSeconds * 1000L
             formattedDate = DateFormat.dialogReceivedDate(dateInSeconds)
@@ -214,17 +215,8 @@ object JSONParser {
     private fun parseItemMessage(item: JSONObject): Message {
         val userId = item.getString("user_id")
         val out = item.getInt("out") == 1
-        val userExist = out && UserCache.contains("me") || !out && UserCache.contains(userId)
 
-        val message = Message(
-                if (!userExist)
-                    emptyUser()
-                else
-                    if (out)
-                        UserCache.getUser("me")!!
-                    else
-                        UserCache.getUser(userId)!!
-        )
+        val message = Message(if (out) "me" else userId)
         with (message) {
             id = item.getLong("id")
             isOut = out

@@ -14,8 +14,8 @@ object UserCache {
         for (l in listeners)
             l.onDataUpdate()
     }
-    public fun putUser(id: String, user: User) {
-        map[id] = user
+    public fun putUser(user: User) {
+        map[user.id] = user
     }
     public fun contains(id: String): Boolean = map.containsKey(id)
     public fun getUser(id: String): User? = map[id]

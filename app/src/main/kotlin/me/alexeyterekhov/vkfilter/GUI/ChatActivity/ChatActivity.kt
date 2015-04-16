@@ -60,6 +60,7 @@ class ChatActivity:
     private var allowHideEmoji = true
 
     private val messageCacheListener = createMessageListener()
+    private val userCacheListener = createUserListener()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -70,6 +71,8 @@ class ChatActivity:
         initUI()
         MessageCache.getDialog(id, isChat).listeners add messageCacheListener
         MessageCache.getDialog(id, isChat).listeners add this
+        UserCache.listeners add userCacheListener
+        loadUsersIfNotLoaded()
     }
 
     override fun onStart() {
@@ -101,6 +104,7 @@ class ChatActivity:
 
     override fun onDestroy() {
         super<VkActivity>.onDestroy()
+        UserCache.listeners remove userCacheListener
         MessageCache.getDialog(id, isChat).listeners remove messageCacheListener
         MessageCache.getDialog(id, isChat).listeners remove this
     }
@@ -400,5 +404,16 @@ class ChatActivity:
             }
             container startAnimation animation
         }
+    }
+
+    private fun createUserListener() = object : DataDepend {
+        override fun onDataUpdate() {
+            adapter?.notifyWhenPossible()
+        }
+    }
+
+    private fun loadUsersIfNotLoaded() {
+        if (UserCache.getMe() == null)
+            RunFun.getDialogPartners(id.toLong(), isChat)
     }
 }

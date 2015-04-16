@@ -114,7 +114,7 @@ public object Mocker {
 
         val messages = ArrayList<Message>()
         for (i in texts.size() - 1 downTo 0) {
-            val m = Message(User())
+            val m = Message("")
             with (m) {
                 id = i.toLong()
                 text = texts[i]
@@ -168,6 +168,7 @@ public object Mocker {
                 cur - 1000 * 60 * 68
         )
 
+        UserCache.putUser(generateMe())
         for (i in 0..firstNames.size() - 1) {
             val partner = User()
             with (partner) {
@@ -177,7 +178,8 @@ public object Mocker {
                 photoUrl = photos[i]
                 isOnline = online[i]
             }
-            val message = Message( if (income[i]) partner else generateMe() )
+            UserCache.putUser(partner)
+            val message = Message( if (income[i]) partner.id else "me" )
             with (message) {
                 text = messages[i]
                 isRead = read[i]
@@ -220,6 +222,7 @@ public object Mocker {
                 cur - 1000 * 60 * 283
         )
 
+        UserCache.putUser(generateMe())
         for (i in 0..chatTitles.size() - 1) {
             val dialog = Dialog()
 
@@ -230,7 +233,7 @@ public object Mocker {
                 partner.photoUrl = chatPhotos[i][j]
                 dialog.addPartner(partner)
             }
-            val message = Message(generateMe())
+            val message = Message("me")
             with (message) {
                 text = messages[i]
                 isRead = read[i]
@@ -252,6 +255,7 @@ public object Mocker {
     private fun generateMe(): User {
         val me = User()
         with (me) {
+            id = "me"
             photoUrl = "http://api.randomuser.me/portraits/men/13.jpg"
             firstName = "Сергей"
             lastName = "Деловитый"
@@ -282,7 +286,7 @@ public object Mocker {
                 user.id = id.toString()
                 photoUrl = photo
             }
-            UserCache.putUser(user.id, user)
+            UserCache.putUser(user)
         }
     }
 

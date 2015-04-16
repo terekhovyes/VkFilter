@@ -37,10 +37,10 @@ public class TestDialogActivityAnimations: DialogListActivity() {
         val updated = Dialog()
         with (updated) {
             id = removed.id
-            lastMessage = Message(removed.lastMessage!!.sender)
+            lastMessage = Message(removed.lastMessage!!.senderId)
             photoUrl = removed.photoUrl
             title = removed.title
-            addPartner(removed.lastMessage!!.sender)
+            addPartner(removed.lastMessage!!.senderOrEmpty())
         }
         with (updated.lastMessage!!) {
             dateMSC = System.currentTimeMillis()

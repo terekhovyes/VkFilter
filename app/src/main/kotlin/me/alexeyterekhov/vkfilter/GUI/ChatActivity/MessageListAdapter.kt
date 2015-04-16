@@ -132,7 +132,7 @@ class MessageListAdapter(
             if (chat && (f || d)) {
                 with (h.senderPhoto) {
                     setVisibility(View.VISIBLE)
-                    loadUserImage(this, msg.sender.photoUrl)
+                    loadUserImage(this, msg.senderOrEmpty().photoUrl)
                 }
             } else
                 h.senderPhoto.setVisibility(View.GONE)
@@ -235,7 +235,7 @@ class MessageListAdapter(
         val prev = messages!![pos - 1]
         return when {
             cur.isOut != prev.isOut -> true
-            cur.sender.id != prev.sender.id -> true
+            cur.senderId != prev.senderId -> true
             else -> false
         }
     }

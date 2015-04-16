@@ -94,7 +94,7 @@ public class DialogListAdapter(
             name setText dialog.title
             val message = dialog.lastMessage
             if (message != null) {
-                imageLoader.displayImage(message.sender.photoUrl, senderIcon)
+                imageLoader.displayImage(message.senderOrEmpty().photoUrl, senderIcon)
                 lastMessage setText message.text
             }
 

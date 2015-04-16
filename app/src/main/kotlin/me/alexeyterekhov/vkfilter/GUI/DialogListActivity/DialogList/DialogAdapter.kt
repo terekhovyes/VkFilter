@@ -174,7 +174,7 @@ class DialogAdapter(val list: RecyclerView) :
     private fun fillContentChat(h: DialogHolder, data: Dialog) {
         h.onlineIcon setVisibility View.GONE
         makeVisible(h.messageImage)
-        loadImage(h.messageImage, data.lastMessage!!.sender.photoUrl)
+        loadImage(h.messageImage, data.lastMessage!!.senderOrEmpty().photoUrl)
     }
     private fun fillContentPersonal(h: DialogHolder, data: Dialog) {
         if (data.showOnlineIcon())
@@ -183,7 +183,7 @@ class DialogAdapter(val list: RecyclerView) :
             makeInvisible(h.onlineIcon)
         if (data.lastMessage!!.isOut) {
             makeVisible(h.messageImage)
-            loadImage(h.messageImage, data.lastMessage!!.sender.photoUrl)
+            loadImage(h.messageImage, data.lastMessage!!.senderOrEmpty().photoUrl)
         } else
             h.messageImage.setVisibility(View.GONE)
     }

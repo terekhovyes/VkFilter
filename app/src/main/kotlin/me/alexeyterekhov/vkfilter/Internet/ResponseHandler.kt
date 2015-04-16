@@ -30,6 +30,7 @@ object ResponseHandler {
             VkFun.refreshDialog -> refreshDialog(request, result)
             VkFun.sendMessage -> sendMessage(request, result)
             VkFun.notificationInfo -> notificationInfo(request, result)
+            VkFun.getDialogPartners -> getDialogPartners(request, result)
         }
     }
 
@@ -44,7 +45,7 @@ object ResponseHandler {
 
                 users addAll (JSONParser parseUsers jsonUsers)
                 for (u in users)
-                    UserCache.putUser(u.id, u)
+                    UserCache.putUser(u)
 
                 val dialogs = JSONParser parseDialogs jsonDialogs
                 val prevSnap = DialogListCache.getSnapshot()
@@ -66,7 +67,7 @@ object ResponseHandler {
 
         val friends = JSONParser parseUsers jsonUsers
         for (u in friends)
-            UserCache.putUser(u.id, u)
+            UserCache.putUser(u)
         if (offset == 0)
             FriendsListCache reloadList friends
         else
@@ -113,14 +114,14 @@ object ResponseHandler {
         val jsonUsers = JSONParser userInfoResponseToUserList result
         val users = JSONParser parseUsers jsonUsers
         for (u in users)
-            UserCache.putUser(u.id, u)
+            UserCache.putUser(u)
         UserCache.dataUpdated()
     }
 
     private fun chatInfo(request: VkRequestBundle, result: JSONObject) {
         val jsonUsers = JSONParser chatInfoResponseToUserList result
         val users = JSONParser parseUsers jsonUsers
-        users forEach { UserCache.putUser(it.id, it) }
+        users forEach { UserCache.putUser(it) }
         UserCache.dataUpdated()
 
         val jsonChats = JSONParser chatInfoResponseToChatList result
@@ -195,5 +196,11 @@ object ResponseHandler {
     private fun notificationInfo(request: VkRequestBundle, result: JSONObject) {
         val info = JSONParser parseNotificationInfo (JSONParser notificationInfoToObject result)
         GCMStation onLoadNotification info
+    }
+
+    private fun getDialogPartners(request: VkRequestBundle, result: JSONObject) {
+        val jsonUsers = JSONParser dialogPartnersToArray result
+        val users = JSONParser parseUsers jsonUsers
+        users forEach { UserCache.putUser(it) }
     }
 }

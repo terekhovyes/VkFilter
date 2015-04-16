@@ -63,14 +63,14 @@ public class FriendListAdapter(
 
             name setText TextFormat.userTitle(user, false)
 
-            val id = user.id.toLong()
+            val id = user.id
             with (checkBox) {
                 setOnCheckedChangeListener(null)
                 setChecked(selected contains id)
                 setOnCheckedChangeListener {
                     view, checked ->
                     if (checked) {
-                        selected add id
+                        selected add id.toLong()
                     } else {
                         selected remove id
                     }

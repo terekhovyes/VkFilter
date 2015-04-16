@@ -92,4 +92,11 @@ public object RunFun {
         params["message_id"] = messageId
         VkRequestControl.addRequest(VkRequestBundle(VkFun.notificationInfo, params))
     }
+
+    public fun getDialogPartners(id: Long, isChat: Boolean) {
+        val params = VKParameters()
+        params["id"] = id
+        params["chat"] = if (isChat) 1 else 0
+        VkRequestControl.addRequest(VkRequestBundle(VkFun.getDialogPartners, params))
+    }
 }

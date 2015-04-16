@@ -12,4 +12,5 @@ enum class VkFun {
     registerGCM
     unregisterGCM
     notificationInfo
+    getDialogPartners
 }
