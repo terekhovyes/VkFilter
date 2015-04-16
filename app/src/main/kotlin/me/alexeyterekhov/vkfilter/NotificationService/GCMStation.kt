@@ -76,15 +76,15 @@ object GCMStation {
             killService()
     }
 
-    private fun launchService() {
+    fun launchService() {
         val context = AppContext.instance
         context.startService(Intent(context, javaClass<GCMService>()))
     }
-    private fun killService() {
+    fun killService() {
         val context = AppContext.instance
         context.stopService(Intent(context, javaClass<GCMService>()))
     }
-    private fun isServiceRunning(): Boolean {
+    fun isServiceRunning(): Boolean {
         val manager = AppContext.instance.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE))
             if (service.service.getClassName() == javaClass<GCMService>().getName()) {

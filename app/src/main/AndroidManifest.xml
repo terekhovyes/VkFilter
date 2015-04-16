@@ -22,7 +22,7 @@
 
         <receiver android:name=".NotificationService.NotificationDismissBroadcast"/>
 
-        <receiver android:name=".NotificationService.TestBroadcast"
+        <receiver android:name=".NotificationService.StaticBroadcast"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
