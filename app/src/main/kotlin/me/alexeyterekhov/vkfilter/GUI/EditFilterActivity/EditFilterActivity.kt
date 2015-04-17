@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.GridView
@@ -48,6 +49,7 @@ public class EditFilterActivity: VkActivity() {
     }
     fun onCreateOrRestart() {
         setContentView(R.layout.activity_edit_filter)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         val intent = getIntent()
         val wasSaved = (DataSaver removeObject KEY_SAVED) != null
 
@@ -148,6 +150,16 @@ public class EditFilterActivity: VkActivity() {
             state = selectedState
             DAOFilters.saveFilter(this)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun createVkFilter(): VkFilter {

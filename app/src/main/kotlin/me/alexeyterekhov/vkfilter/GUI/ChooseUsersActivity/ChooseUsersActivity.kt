@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity
 
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.view.MenuItem
 import com.astuetz.PagerSlidingTabStrip
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
@@ -18,6 +19,7 @@ public class ChooseUsersActivity: VkActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_users)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val filterId = getIntent().getLongExtra(KEY_FILTER_ID, -1)
         val filter = DAOFilters loadVkFilterById filterId
@@ -66,5 +68,15 @@ public class ChooseUsersActivity: VkActivity() {
             }
             onBackPressed()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

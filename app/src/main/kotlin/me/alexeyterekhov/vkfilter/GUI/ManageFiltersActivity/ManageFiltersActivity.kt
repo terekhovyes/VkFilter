@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
@@ -45,6 +46,7 @@ public class ManageFiltersActivity: VkActivity() {
     }
     fun onCreateOrRestart() {
         setContentView(R.layout.activity_manage_filters)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val wasSaved = DataSaver.removeObject(KEY_SAVED) != null
         if (wasSaved) {
@@ -174,6 +176,16 @@ public class ManageFiltersActivity: VkActivity() {
             putObject(KEY_SAVED, true)
             putObject(KEY_SELECTION_MODE, selectionMode)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun refreshList() {
