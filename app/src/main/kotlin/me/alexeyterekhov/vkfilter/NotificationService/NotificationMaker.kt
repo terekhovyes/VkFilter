@@ -54,10 +54,16 @@ public object NotificationMaker {
             val n = notifications.first()
             val onClickIntent = createChatActivityIntent(context, n)
             val title = if (n.getName().length() > 18) n.getName(compact = true) else n.getName()
+
+            val bigText = NotificationCompat
+                    .BigTextStyle()
+                    .bigText(n.text)
+
             notificationBase(context, n.senderPhotoUrl)
                     .setContentTitle(title)
                     .setContentText(n.text)
                     .setContentIntent(onClickIntent)
+                    .setStyle(bigText)
                     .build()
         } else {
             val firstDialog = notifications.last()
