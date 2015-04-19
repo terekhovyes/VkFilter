@@ -58,6 +58,7 @@
             android:label="@string/a_manage_title"/>
 
         <activity android:name=".GUI.EditFilterActivity.EditFilterActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/a_edit_filter_title"/>
 
         <activity android:name=".GUI.ChooseUsersActivity.ChooseUsersActivity"

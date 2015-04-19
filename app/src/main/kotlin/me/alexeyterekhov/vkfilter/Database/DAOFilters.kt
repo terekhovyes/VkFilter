@@ -29,6 +29,7 @@ public object DAOFilters {
     }
 
     fun deleteFilter(f: VkFilter) {
+        f.identifiers() forEach { it.delete() }
         f.delete()
     }
 }
