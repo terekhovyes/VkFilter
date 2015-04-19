@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.util.Log
 import java.util.HashSet
 
 
@@ -33,6 +34,7 @@ public class PagerAdapter(
                         selectedUsers,
                         selectedChats,
                         {
+                            Log.d("debug", "CHANGE CURRENT")
                             dialogFragment?.adapter?.notifyDataSetChanged()
                             friendFragment?.adapter?.notifyDataSetChanged()
                         }
@@ -45,6 +47,7 @@ public class PagerAdapter(
                 friendFragment!!.setSelectedUsers(
                         selectedUsers,
                         {
+                            Log.d("debug", "CHANGE FRIENDS")
                             dialogFragment?.adapter?.notifyDataSetChanged()
                             currentFragment?.adapter?.notifyDataSetChanged()
                         }
@@ -58,6 +61,7 @@ public class PagerAdapter(
                         selectedUsers,
                         selectedChats,
                         {
+                            Log.d("debug", "CHANGE DIALOGS")
                             friendFragment?.adapter?.notifyDataSetChanged()
                             currentFragment?.adapter?.notifyDataSetChanged()
                         }
