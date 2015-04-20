@@ -35,7 +35,6 @@ import me.alexeyterekhov.vkfilter.R
 
 class ChatActivity:
         VkActivity(),
-        DataDepend,
         EmojiconGridFragment.OnEmojiconClickedListener,
         EmojiconsFragment.OnEmojiconBackspaceClickedListener
 {
@@ -44,14 +43,19 @@ class ChatActivity:
         val KEY_ADAPTER = "ChatActivityAdapter"
         val KEY_INDEX = "ChatActivityIndex"
         val KEY_TOP = "ChatActivityTop"
+
+        val INTENT_CHAT_ID = "chat_id"
+        val INTENT_USER_ID = "user_id"
+        val INTENT_TITLE = "title"
+        val INTENT_FROM_NOTIFICATION = "from_notification"
     }
 
     val MESSAGE_PORTION = 40
     private val DIALOG_LOAD_VALUE = 20
+
     private var id = ""
     private var isChat = false
     private var title = ""
-    private var adapter: MessageListAdapter? = null
     private var loadingMessages: Boolean = false
     private var allMessagesGot = false
     private var adapterIsEmpty = true
@@ -61,33 +65,33 @@ class ChatActivity:
     private val messageCacheListener = createMessageListener()
     private val userCacheListener = createUserListener()
 
+    /*
+    Activity methods
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
-        parseIntent()
+        id = idFromIntent()
+        isChat = isChatFromIntent()
+        title = titleFromIntent()
         initActionBar()
         setContentView(R.layout.activity_chat)
-        tryRestoreAdapter()
-        initUI()
+        initUIControls()
+        initAdapter()
         MessageCache.getDialog(id, isChat).listeners add messageCacheListener
-        MessageCache.getDialog(id, isChat).listeners add this
         UserCache.listeners add userCacheListener
         loadUsersIfNotLoaded()
-    }
-
-    override fun onStart() {
-        super<VkActivity>.onStart()
     }
 
     override fun onResume() {
         super<VkActivity>.onResume()
         refreshAdapterImageSize()
-        tryRestoreAdapter()
+        initAdapter()
         VkRequestControl.resume()
         if (!Mocker.MOCK_MODE)
             DialogRefresher.start(id, isChat)
         else
             messageCacheListener.onDataUpdate()
-        if (!isChat) refreshUserLastSeen()
+        if (!isChat) updateUserLastSeen()
         if (isChat)
             NotificationMaker.clearChatNotifications(id, AppContext.instance)
         else
@@ -105,7 +109,6 @@ class ChatActivity:
         super<VkActivity>.onDestroy()
         UserCache.listeners remove userCacheListener
         MessageCache.getDialog(id, isChat).listeners remove messageCacheListener
-        MessageCache.getDialog(id, isChat).listeners remove this
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -118,14 +121,14 @@ class ChatActivity:
 
         with (DataSaver) {
             putObject(KEY_SAVED, true)
-            putObject(KEY_ADAPTER, adapter)
+            putObject(KEY_ADAPTER, getAdapter())
             putObject(KEY_INDEX, index)
             putObject(KEY_TOP, viewTop)
         }
     }
 
     override fun onBackPressed() {
-        if (getIntent().hasExtra("from_notification")) {
+        if (launchedFromNotification()) {
             startActivity(Intent(AppContext.instance, javaClass<DialogListActivity>()))
             overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
             finish()
@@ -166,75 +169,40 @@ class ChatActivity:
                 return true
             }
             R.id.copy_text -> {
-                val messageText = findViewById(R.id.messageText) as EditText
-                if (messageText.getText().length() > 0) {
-                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("vkfilter text", messageText.getText().toString())
-                    clipboard.setPrimaryClip(clip)
-                }
+                copyText()
                 return true
             }
             R.id.paste_text -> {
-                val messageText = findViewById(R.id.messageText) as EditText
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                if (clipboard.hasPrimaryClip()) {
-                    val clip = clipboard.getPrimaryClip().getItemAt(0)
-                    val text = when {
-                        clip.getText() != null -> clip.getText()
-                        clip.getUri() != null -> clip.getUri().toString()
-                        else -> null
-                    }
-                    if (text != null) {
-                        val start = messageText.getSelectionStart()
-                        val end = messageText.getSelectionEnd()
-                        if (start < 0)
-                            messageText.append(text)
-                        else
-                            messageText.getText().replace(
-                                    Math.min(start, end),
-                                    Math.max(start, end),
-                                    text
-                            )
-                    }
-                }
+                pasteText()
                 return true
             }
             else -> return super<VkActivity>.onOptionsItemSelected(item)
         }
     }
 
-    fun tryRestoreAdapter() {
-        if ((DataSaver removeObject KEY_SAVED) != null) {
-            val list = findViewById(R.id.messageList) as ListView
-            adapter = (DataSaver removeObject KEY_ADAPTER) as MessageListAdapter
-            if (adapter != null)
-                list setAdapter adapter!!
-            val index = (DataSaver removeObject KEY_INDEX) as Int
-            val top = (DataSaver removeObject KEY_TOP) as Int
-            list.setSelectionFromTop(index, top)
-        }
+    /*
+    Finding and getting
+     */
+    private fun idFromIntent() = with (getIntent()) {
+        getStringExtra(INTENT_USER_ID) ?: getStringExtra(INTENT_CHAT_ID)!!
     }
+    private fun isChatFromIntent() = getIntent().hasExtra(INTENT_CHAT_ID)
+    private fun titleFromIntent() = getIntent().getStringExtra(INTENT_TITLE)!!
+    private fun getAdapter() = (findViewById(R.id.messageList) as ListView).getAdapter() as MessageListAdapter?
+    private fun launchedFromNotification() = getIntent().hasExtra(INTENT_FROM_NOTIFICATION)
 
-    fun initUI() {
+    /*
+    Working with UI
+    */
+    fun initUIControls() {
         val listView = findViewById(R.id.messageList) as ListView
         val messageText = findViewById(R.id.messageText) as EditText
         val sendButton = findViewById(R.id.sendButton) as ImageView
-        if (adapter == null) {
-            val size = Point()
-            getWindowManager().getDefaultDisplay().getSize(size)
 
-            adapter = MessageListAdapter(
-                    activity = this,
-                    id = id,
-                    chat = isChat
-            )
-            adapter!!.maxImageHeight = size.y * 2 / 3
-            adapter!!.maxImageWidth = size.x * 2 / 3
-            listView.setAdapter(adapter!!)
-        }
         listView.setOnScrollListener(createScrollListener())
         listView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int,
+                                        oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
                 if (oldBottom != 0) {
                     val dif = oldBottom - bottom
                     listView.scrollBy(0, dif)
@@ -242,15 +210,7 @@ class ChatActivity:
             }
         })
         sendButton.setOnClickListener {
-            val text = messageText.getText()?.toString()
-            if (text != null && text != "") {
-                val outMessage = MessageForSending()
-                outMessage.dialogId = id
-                outMessage.isChat = isChat
-                outMessage.text = text
-                RunFun.sendMessage(outMessage)
-                messageText.setText("")
-            }
+            sendMessage()
         }
         messageText setOnLongClickListener {
             view ->
@@ -271,16 +231,32 @@ class ChatActivity:
         }
     }
 
-    fun parseIntent() {
-        val intent = getIntent()
-        if (intent != null) {
-            val userId = intent.getStringExtra("user_id")
-            val chatId = intent.getStringExtra("chat_id")
-            if (userId == null && chatId == null)
-                return
-            id = userId ?: chatId!!
-            isChat = userId == null
-            title = intent.getStringExtra("title")!!
+    fun initAdapter() {
+        val list = findViewById(R.id.messageList) as ListView
+        var adapterLoaded = false
+
+        if ((DataSaver removeObject KEY_SAVED) != null) {
+            val adapter = (DataSaver removeObject KEY_ADAPTER) as MessageListAdapter
+            if (adapter.id == id && adapter.chat == isChat) {
+                adapterLoaded = true
+                list setAdapter adapter
+                val index = (DataSaver removeObject KEY_INDEX) as Int
+                val top = (DataSaver removeObject KEY_TOP) as Int
+                list.setSelectionFromTop(index, top)
+            }
+        }
+        if (!adapterLoaded) {
+            val size = Point()
+            getWindowManager().getDefaultDisplay().getSize(size)
+
+            val adapter = MessageListAdapter(
+                    activity = this,
+                    id = id,
+                    chat = isChat
+            )
+            adapter.maxImageHeight = size.y * 2 / 3
+            adapter.maxImageWidth = size.x * 2 / 3
+            list.setAdapter(adapter)
         }
     }
 
@@ -289,12 +265,36 @@ class ChatActivity:
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
     }
 
+    fun refreshAdapterImageSize() {
+        val adapter = getAdapter()
+        if (adapter != null) {
+            val size = Point()
+            getWindowManager().getDefaultDisplay().getSize(size)
+            adapter.maxImageHeight = size.y * 3 / 4
+            adapter.maxImageWidth = size.x * 3 / 4
+        }
+    }
+
+    fun updateUserLastSeen() {
+        if (Mocker.MOCK_MODE) {
+            val u = User()
+            u.isOnline = true
+            getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
+        } else {
+            if (!isChat && UserCache.contains(id)) {
+                val u = UserCache.getUser(id)!!
+                getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
+            }
+        }
+    }
+
     fun createScrollListener() = object : AbsListView.OnScrollListener {
         override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {}
         override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
             if (firstVisibleItem < DIALOG_LOAD_VALUE) {
-                if (adapter != null && adapter!!.getCount() > 0)
-                    loadMoreMessages(adapter?.getItem(0)!!.id.toString())
+                val adapter = getAdapter()
+                if (adapter != null && adapter.getCount() > 0)
+                    loadMoreMessages(adapter.getItem(0)!!.id.toString())
                 else
                     loadMoreMessages()
             }
@@ -304,22 +304,77 @@ class ChatActivity:
     fun createMessageListener() = object : DataDepend {
         override fun onDataUpdate() {
             loadingMessages = false
+            val adapter = getAdapter()!!
             if (adapterIsEmpty) {
                 adapterIsEmpty = false
-                adapter!!.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
+                adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
             } else {
                 with (MessageCache.getDialog(id, isChat)) {
                     if (info.addedMessagesCount > 0) {
                         allMessagesGot = allHistoryLoaded
-                        adapter!!.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
+                        adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
                     }
                     if (info.markedFrom > 0 && info.markedTo > 0) {
-                        adapter!!.markAsRead(
+                        adapter.markAsRead(
                                 findViewById(R.id.messageList) as ListView,
                                 info.markedFrom, info.markedTo, info.markedMessagesAreIncomes)
                     }
                 }
             }
+            updateUserLastSeen()
+        }
+    }
+
+    private fun createUserListener() = object : DataDepend {
+        override fun onDataUpdate() {
+            getAdapter()?.notifyWhenPossible()
+        }
+    }
+
+    fun copyText() {
+        val messageText = findViewById(R.id.messageText) as EditText
+        if (messageText.getText().length() > 0) {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("vkfilter text", messageText.getText().toString())
+            clipboard.setPrimaryClip(clip)
+        }
+    }
+
+    fun pasteText() {
+        val messageText = findViewById(R.id.messageText) as EditText
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        if (clipboard.hasPrimaryClip()) {
+            val clip = clipboard.getPrimaryClip().getItemAt(0)
+            val text = when {
+                clip.getText() != null -> clip.getText()
+                clip.getUri() != null -> clip.getUri().toString()
+                else -> null
+            }
+            if (text != null) {
+                val start = messageText.getSelectionStart()
+                val end = messageText.getSelectionEnd()
+                if (start < 0)
+                    messageText.append(text)
+                else
+                    messageText.getText().replace(
+                            Math.min(start, end),
+                            Math.max(start, end),
+                            text
+                    )
+            }
+        }
+    }
+
+    fun sendMessage() {
+        val messageText = findViewById(R.id.messageText) as EditText
+        val text = messageText.getText()?.toString()
+        if (text != null && text != "") {
+            val outMessage = MessageForSending()
+            outMessage.dialogId = id
+            outMessage.isChat = isChat
+            outMessage.text = text
+            RunFun.sendMessage(outMessage)
+            messageText.setText("")
         }
     }
 
@@ -336,30 +391,6 @@ class ChatActivity:
                     startMessageId = lastMessageId
             )
         }
-    }
-
-    fun refreshAdapterImageSize() {
-        val size = Point()
-        getWindowManager().getDefaultDisplay().getSize(size)
-        adapter!!.maxImageHeight = size.y * 3 / 4
-        adapter!!.maxImageWidth = size.x * 3 / 4
-    }
-
-    fun refreshUserLastSeen() {
-        if (Mocker.MOCK_MODE) {
-            val u = User()
-            u.isOnline = true
-            getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
-        } else {
-            if (!isChat && UserCache.contains(id)) {
-                val u = UserCache.getUser(id)!!
-                getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(u))
-            }
-        }
-    }
-
-    override fun onDataUpdate() {
-        refreshUserLastSeen()
     }
 
     override fun onEmojiconClicked(emoji: Emojicon?) {
@@ -403,12 +434,6 @@ class ChatActivity:
                 }
             }
             container startAnimation animation
-        }
-    }
-
-    private fun createUserListener() = object : DataDepend {
-        override fun onDataUpdate() {
-            adapter?.notifyWhenPossible()
         }
     }
 

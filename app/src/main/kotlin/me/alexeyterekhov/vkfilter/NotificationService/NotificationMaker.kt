@@ -162,6 +162,7 @@ public object NotificationMaker {
             chatIntent.putExtra("title", n.getName())
         }
         chatIntent.putExtra("from_notification", true)
+        chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
         val stackBuilder = TaskStackBuilder.create(context)
             .addParentStack(javaClass<ChatActivity>())
