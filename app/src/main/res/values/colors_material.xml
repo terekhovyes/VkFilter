@@ -9,6 +9,7 @@
     <color name="material_red">#e5675d</color>
     <color name="material_blue">#00BCD4</color>
     <color name="material_light_gray">#DDD</color>
+    <color name="material_links">#FFFFE1</color>
 
     <color name="material_pressed_green">#007b6d</color>
 </resources>

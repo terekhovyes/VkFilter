@@ -31,7 +31,7 @@ class MessageListAdapter(
         val id: String,
         val chat: Boolean
 ) : BaseAdapter() {
-    private val inflater = LayoutInflater.from(AppContext.instance)
+    private val inflater = LayoutInflater.from(activity)
 
     // messages from oldest to newest
     private var messages: LinkedList<Message>? = null

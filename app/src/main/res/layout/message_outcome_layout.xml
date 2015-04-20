@@ -46,6 +46,9 @@
                     android:textSize="@dimen/message_size"
                     app:emojiconSize="20sp"
                     android:textColor="@color/material_greeny_white"
+                    android:textColorLink="@color/material_links"
+                    android:linksClickable="true"
+                    android:autoLink="web|email"
                     android:text="Привет! Я так давно тебя не видел! Как твои дела?\nПриедешь в Слюдянку?"/>
 
         </LinearLayout>

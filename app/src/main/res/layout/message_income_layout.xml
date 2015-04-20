@@ -52,7 +52,10 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/message_size"
                     app:emojiconSize="20sp"
-                    android:textColor="@color/material_greeny_white"
+                    android:textColor="@color/material_white"
+                    android:textColorLink="@color/material_links"
+                    android:linksClickable="true"
+                    android:autoLink="web|email"
                     android:text="Привет!"/>
 
         </LinearLayout>
