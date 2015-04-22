@@ -2,15 +2,20 @@ package me.alexeyterekhov.vkfilter.DataClasses
 
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
+import java.util.LinkedList
 
 class Message(val senderId: String) {
-    public var id: Long = 0
-    public var isRead: Boolean = false
-    public var isOut: Boolean = false
-    public var text: String = ""
-    public var formattedDate: String = ""
-    public var dateMSC: Long = 0
-    public val attachments: Attachments = Attachments()
+    var id = 0L
+    // State
+    var isRead = false
+    var isOut = false
+    // Date
+    var formattedDate = ""
+    var dateMSC = 0L
+    // Data
+    var text = ""
+    val attachments = Attachments()
+    val forwardMessages = LinkedList<Message>()
 
-    public fun senderOrEmpty(): User = UserCache.getUser(senderId) ?: User()
+    fun senderOrEmpty(): User = UserCache.getUser(senderId) ?: User()
 }

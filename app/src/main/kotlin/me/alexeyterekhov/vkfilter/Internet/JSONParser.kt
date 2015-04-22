@@ -1,5 +1,6 @@
 package me.alexeyterekhov.vkfilter.Internet
 
+import android.util.Log
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
@@ -11,9 +12,17 @@ import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
+import java.util.LinkedList
 import java.util.Vector
 
+fun JSONArray.asListOfJSON(): List<JSONObject> {
+    val list = LinkedList<JSONObject>()
+    for (i in 0..this.length() - 1)
+        list add this.getJSONObject(i)
+    return list
+}
 
 object JSONParser {
     // Util
@@ -66,45 +75,10 @@ object JSONParser {
 
     // Parsers
 
-    fun parseDialogs(array: JSONArray): Vector<Dialog> {
-        val dialogs = Vector<Dialog>()
-        for (i in 0..array.length() - 1) {
-            val item = array.getJSONObject(i).getJSONObject("message")
-            val dialog = parseItemDialog(item)
-            dialogs add dialog
-        }
-        return dialogs
-    }
-
-    fun parseUsers(array: JSONArray): Vector<User> {
-        val users = Vector<User>()
-        for (i in 0..array.length() - 1) {
-            val json = array.getJSONObject(i)
-            val user = parseItemUser(json)
-            users add user
-        }
-        return users
-    }
-
-    fun parseMessages(array: JSONArray): Vector<Message> {
-        val messages = Vector<Message>()
-        for (i in 0..array.length() - 1) {
-            val json = array.getJSONObject(i)
-            val message = parseItemMessage(json)
-            messages add message
-        }
-        return messages
-    }
-
-    fun parseChatInfo(array: JSONArray): Vector<ChatInfo> {
-        val chats = Vector<ChatInfo>()
-        for (i in 0..array.length() - 1) {
-            val json = array.getJSONObject(i)
-            val chatInfo = parseItemChatInfo(json)
-            chats add chatInfo
-        }
-        return chats
-    }
+    fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemDialog(it.getJSONObject("message")) })
+    fun parseUsers(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemUser(it) })
+    fun parseMessages(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemMessage(it) })
+    fun parseChatInfo(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemChatInfo(it) })
 
     fun parseNotificationInfo(response: JSONObject): NotificationInfo {
         var info = NotificationInfo()
@@ -152,13 +126,13 @@ object JSONParser {
         with (message) {
             dateMSC = dateInSeconds * 1000L
             formattedDate = DateFormat.dialogReceivedDate(dateInSeconds)
-            text = item.getString("body")
-            isRead = item.getInt("read_state") == 1
-            isOut = item.getInt("out") == 1
+            text = item.optString("body", "")
+            isRead = item.optInt("read_state", 1) == 1
+            isOut = item.optInt("out", 0) == 1
         }
         dialog.lastMessage = message
 
-        dialog.id = if (item.has("chat_id")) item.getLong("chat_id") else item.getLong("user_id")
+        dialog.id = item.optLong("chat_id", item.optLong("user_id", 0))
 
         // fill conversation partners
         if (item.has("chat_id")) {
@@ -172,14 +146,13 @@ object JSONParser {
         val title = item.getString("title")
         if (title != " ... ")
             dialog.title = title
-        var photoUrl = if (item.has("photo_200"))
-            item.getString("photo_200")
-        else if (item.has("photo_100"))
-            item.getString("photo_100")
-        else if (item.has("photo_50"))
-            item.getString("photo_50")
-        else ""
-        dialog.photoUrl = photoUrl
+
+        val photoSizes = arrayListOf("photo_200", "photo_100", "photo_50")
+        val availableSize = photoSizes firstOrNull { item has it }
+        dialog.photoUrl = if (availableSize != null)
+            item.getString(availableSize)
+        else
+            ""
 
         return dialog
     }
@@ -213,17 +186,20 @@ object JSONParser {
     }
 
     private fun parseItemMessage(item: JSONObject): Message {
-        val userId = item.getString("user_id")
-        val out = item.getInt("out") == 1
+        val userId = item.optString("user_id", "")
+        val out = item.optInt("out", -1) == 1
 
         val message = Message(if (out) "me" else userId)
         with (message) {
-            id = item.getLong("id")
+            id = item.optLong("id", 0L)
             isOut = out
-            text = item.getString("body")
-            dateMSC = item.getLong("date") * 1000L
-            formattedDate = DateFormat.time(dateMSC / 1000L)
-            isRead = item.getInt("read_state") == 1
+            text = item.optString("body", "")
+            dateMSC = item.optLong("date", 0L) * 1000L
+            formattedDate = if (dateMSC != 0L)
+                DateFormat.time(dateMSC / 1000L)
+            else
+                ""
+            isRead = item.optInt("read_state", 1) == 1
         }
 
         if (item.has("attachments"))
@@ -233,28 +209,32 @@ object JSONParser {
     }
 
     private fun parseMessageAttachments(array: JSONArray, attachments: Attachments) {
-        for (i in 0..array.length() - 1) {
-            val attachment = array.getJSONObject(i)
-            if (attachment.getString("type") == "photo") {
-                val photo = attachment.getJSONObject("photo")
-                val width = photo.optInt("width", 1)
-                val height = photo.optInt("height", 1)
-                val photoSizes = arrayListOf("photo_2560", "photo_1280", "photo_807",
-                        "photo_604", "photo_130", "photo_75")
-                var url = ""
-                var smallUrl = ""
-                for (j in 0..photoSizes.size() - 1) {
-                    val size = photoSizes[j]
-                    if (url == "" && photo.has(size))
-                        url = photo.getString(size)
-                    if (j > 1 && photo.has(size)) {
-                        smallUrl = photo.getString(size)
-                        break
+        array.asListOfJSON() forEach {
+            try {
+                when (it.getString("type")) {
+                    "photo" -> {
+                        val image = parseImageAttachment(it.getJSONObject("photo"))
+                        if (image.fullSizeUrl != "")
+                            attachments.images add image
                     }
                 }
-                if (url != "")
-                    attachments.images add ImageAttachment(smallUrl, url, width, height)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                Log.d("JSONParser", "Error parsing attachment")
             }
         }
+    }
+
+    private fun parseImageAttachment(json: JSONObject): ImageAttachment {
+        val photoSizes = arrayListOf("photo_2560", "photo_1280", "photo_807",
+                "photo_604", "photo_130", "photo_75")
+        val bigSizeCount = 3
+
+        val width = json.optInt("width", 1)
+        val height = json.optInt("height", 1)
+        val url = json getString (photoSizes first { json has it })
+        val smallUrl = json getString (photoSizes drop bigSizeCount first { json has it })
+
+        return ImageAttachment(smallUrl, url, width, height)
     }
 }
