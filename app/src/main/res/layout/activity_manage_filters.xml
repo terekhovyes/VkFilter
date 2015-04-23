@@ -16,8 +16,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="126dp"
         android:layout_gravity="right"
-        but:fab_colorNormal="@color/material_green"
-        but:fab_colorPressed="@color/material_pressed_green"
+        but:fab_colorNormal="@color/my_green"
+        but:fab_colorPressed="@color/my_green_darker"
         />
 
 </FrameLayout>

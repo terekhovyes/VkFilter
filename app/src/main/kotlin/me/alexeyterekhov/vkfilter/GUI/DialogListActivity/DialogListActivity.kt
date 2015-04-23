@@ -134,10 +134,10 @@ public open class DialogListActivity:
             setOnRefreshListener(this@DialogListActivity)
             setRecyclerView(findDialogList())
             setColorSchemeResources(
-                    R.color.refresh_color_1,
-                    R.color.refresh_color_2,
-                    R.color.refresh_color_3,
-                    R.color.refresh_color_4
+                    R.color.my_refresh_1,
+                    R.color.my_refresh_2,
+                    R.color.my_refresh_3,
+                    R.color.my_refresh_4
             )
         }
 

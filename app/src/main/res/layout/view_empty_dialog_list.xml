@@ -8,7 +8,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@color/material_white"/>
+            android:src="@color/my_white"/>
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:gravity="center_horizontal|bottom"
                 android:text="Не выбран ни один фильтр"
                 android:textSize="22sp"
-                android:textColor="@color/material_green"/>
+                android:textColor="@color/my_green"/>
         <TextView
                 android:id="@+id/emptyBottomText"
                 android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:gravity="center_horizontal|top"
                 android:text="Выбрать, от кого вы хотите получать сообщения, можно с помощью панели снизу"
                 android:textSize="14sp"
-                android:textColor="@color/material_gray"/>
+                android:textColor="@color/my_gray"/>
 
     </LinearLayout>
 

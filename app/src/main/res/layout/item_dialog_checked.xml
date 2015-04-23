@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="@color/material_white">
+    android:background="@color/my_white">
 
     <me.alexeyterekhov.circularimageview.CircularImageView
         android:id="@+id/singlePic"
@@ -157,7 +157,7 @@
             android:lines="1"
             android:ellipsize="end"
             android:textSize="16sp"
-            android:textColor="@color/material_black"
+            android:textColor="@color/my_black"
             android:text="Федосов"/>
 
         <LinearLayout
@@ -181,7 +181,7 @@
                 android:gravity="center_vertical"
                 android:lines="2"
                 android:ellipsize="end"
-                android:textColor="@color/material_gray"
+                android:textColor="@color/my_gray"
                 android:textSize="14sp"
                 android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
 

@@ -7,13 +7,13 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/material_white">
+            android:background="@color/my_white">
 
         <ImageView
                 android:id="@+id/unreadBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/material_light_green"
+                android:src="@color/my_green_lighter"
                 android:visibility="invisible"/>
 
         <LinearLayout android:id="@+id/dialogLayout"
@@ -154,7 +154,7 @@
                             android:layout_alignParentRight="true"
                             android:gravity="center_vertical"
                             android:textSize="14sp"
-                            android:textColor="@color/material_gray"
+                            android:textColor="@color/my_gray"
                             android:textStyle="italic"
                             android:text="14 июл"/>
 
@@ -179,7 +179,7 @@
                             android:lines="1"
                             android:ellipsize="end"
                             android:textSize="16sp"
-                            android:textColor="@color/material_black"
+                            android:textColor="@color/my_black"
                             android:text="Федосов"/>
 
                 </RelativeLayout>
@@ -207,7 +207,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:visibility="invisible"
-                                android:src="@color/material_light_green"/>
+                                android:src="@color/my_green_lighter"/>
 
                         <TextView
                                 android:id="@+id/dialogLastMessage"
@@ -217,7 +217,7 @@
                                 android:gravity="center_vertical"
                                 android:lines="2"
                                 android:ellipsize="end"
-                                android:textColor="@color/material_gray"
+                                android:textColor="@color/my_gray"
                                 android:textSize="14sp"
                                 android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
 

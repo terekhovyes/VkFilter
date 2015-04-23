@@ -19,7 +19,7 @@
                     android:id="@+id/messageBack"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@color/material_light_green"/>
+                    android:src="@color/my_green_lighter"/>
 
             <include layout="@layout/message_income_layout"/>
 

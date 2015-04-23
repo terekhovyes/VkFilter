@@ -26,7 +26,7 @@
                 android:maxLines="1"
                 android:gravity="center_vertical"
                 android:textSize="20sp"
-                android:textColor="@color/material_black"
+                android:textColor="@color/my_black"
                 android:inputType="textCapSentences"
                 android:background="@null"
                 android:hint="@string/a_edit_filter_filter_name_hint"/>
@@ -52,7 +52,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/a_edit_filter_icon"
                     android:textSize="16sp"
-                    android:textColor="@color/material_green"/>
+                    android:textColor="@color/my_green"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/iconList"
@@ -83,7 +83,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/a_edit_filter_state"
                     android:textSize="16sp"
-                    android:textColor="@color/material_green"/>
+                    android:textColor="@color/my_green"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,17 +101,17 @@
                         android:text="@string/a_edit_filter_filter_state_allowing"
                         android:textSize="18sp"
                         android:gravity="center_vertical"
-                        android:textColor="@color/material_black"/>
+                        android:textColor="@color/my_black"/>
 
                     <me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
                         android:id="@+id/filterStateSwitch"
                         android:layout_width="100dp"
                         android:layout_height="50dp"
                         android:layout_marginLeft="-100dp"
-                        app:backgroundColor="@color/material_light_green"
-                        app:roundColorLeft="@color/material_red"
-                        app:roundColorMid="@color/material_light_gray"
-                        app:roundColorRight="@color/material_green"/>
+                        app:backgroundColor="@color/my_green_lighter"
+                        app:roundColorLeft="@color/my_red"
+                        app:roundColorMid="@color/my_gray_lighter"
+                        app:roundColorRight="@color/my_green"/>
 
                 </LinearLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/a_edit_filter_members"
                     android:textSize="16sp"
-                    android:textColor="@color/material_green"/>
+                    android:textColor="@color/my_green"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/a_edit_filter_actions"
                     android:textSize="16sp"
-                    android:textColor="@color/material_green"/>
+                    android:textColor="@color/my_green"/>
 
                 <Button
                     android:id="@+id/cancelButton"
@@ -195,7 +195,7 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:textAllCaps="false"
                     android:textSize="20sp"
-                    android:textColor="@color/material_green"
+                    android:textColor="@color/my_green"
                     android:text="@string/a_edit_filter_cancel"/>
 
                 <Button
@@ -205,7 +205,7 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:textAllCaps="false"
                     android:textSize="20sp"
-                    android:textColor="@color/material_green"
+                    android:textColor="@color/my_green"
                     android:text="@string/a_edit_filter_delete"/>
                 
                 <Space

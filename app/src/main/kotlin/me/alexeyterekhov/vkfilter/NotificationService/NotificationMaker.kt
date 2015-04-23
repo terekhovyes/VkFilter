@@ -92,7 +92,7 @@ public object NotificationMaker {
 
     private fun notificationBase(context: Context, photoUrl: String): NotificationCompat.Builder {
         val builder = NotificationCompat.Builder(context)
-                .setColor(context.getResources().getColor(R.color.material_green))
+                .setColor(context.getResources().getColor(R.color.my_green))
                 .setSmallIcon(R.drawable.icon_notification)
                 .setDeleteIntent(createDismissIntent(context))
         val photo = loadPhoto(context, photoUrl)

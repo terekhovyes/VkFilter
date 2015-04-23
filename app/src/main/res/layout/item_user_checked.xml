@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="@color/material_white">
+    android:background="@color/my_white">
 
     <me.alexeyterekhov.circularimageview.CircularImageView
         android:id="@+id/singlePic"
@@ -147,7 +147,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center_vertical"
         android:textSize="18sp"
-        android:textColor="@color/material_black"
+        android:textColor="@color/my_black"
         android:text="Name will be here\nin several lines"/>
 
     <CheckBox

@@ -5,7 +5,7 @@
     android:layout_width="240dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="@color/material_white"
+    android:background="@color/my_white"
     android:clickable="true">
 
     <LinearLayout
@@ -14,13 +14,13 @@
         android:layout_height="120dp"
         android:padding="8dp"
         android:orientation="vertical"
-        android:background="@color/material_green">
+        android:background="@color/my_green">
         
         <TextView
             android:id="@+id/my_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_white"
+            android:textColor="@color/my_white"
             android:textSize="18sp"
             android:singleLine="true"
             android:maxLines="1"
@@ -32,7 +32,7 @@
             android:id="@+id/my_last_seen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_greeny_white"
+            android:textColor="@color/my_white_greeny"
             android:textSize="14sp"
             android:singleLine="true"
             android:maxLines="1"
@@ -44,7 +44,7 @@
             android:id="@+id/my_last_seen_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_greeny_white"
+            android:textColor="@color/my_white_greeny"
             android:textSize="14sp"
             android:singleLine="true"
             android:maxLines="1"
@@ -74,7 +74,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:textColor="@color/material_green"
+        android:textColor="@color/my_green"
         android:text="@string/a_dialog_logout"/>
 
     <Button
@@ -85,7 +85,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:textColor="@color/material_green"
+        android:textColor="@color/my_green"
         android:text="@string/a_dialog_settings"/>
 
 </RelativeLayout>

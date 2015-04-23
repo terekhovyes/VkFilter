@@ -14,8 +14,8 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="48dip"
-            android:background="@color/material_green"
-            psts:pstsIndicatorColor="@color/material_greeny_white"/>
+            android:background="@color/my_green"
+            psts:pstsIndicatorColor="@color/my_white_greeny"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
@@ -31,8 +31,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="16dp"
         android:layout_gravity="bottom|right"
-        psts:fab_colorNormal="@color/material_green"
-        psts:fab_colorPressed="@color/material_pressed_green"
+        psts:fab_colorNormal="@color/my_green"
+        psts:fab_colorPressed="@color/my_green_darker"
         psts:fab_icon="@drawable/ok_button"/>
 
 </FrameLayout>

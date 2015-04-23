@@ -9,7 +9,7 @@
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/material_white"
+        android:background="@color/my_white"
         android:layout_marginRight="1dp"/>
 
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@id/senderPhoto"
-            android:textColor="@color/material_transp_white"
+            android:textColor="@color/my_white_transparent"
             android:textSize="16sp"
             android:text="Имя фамилия"/>
 
@@ -39,7 +39,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@id/senderPhoto"
             android:layout_below="@id/senderName"
-            android:textColor="@color/material_transp_white"
+            android:textColor="@color/my_white_transparent"
             android:textSize="14sp"
             android:text="вчера 16:05"/>
 
@@ -50,8 +50,8 @@
             android:layout_below="@id/senderPhoto"
             android:textSize="@dimen/message_size"
             app:emojiconSize="20sp"
-            android:textColor="@color/material_white"
-            android:textColorLink="@color/material_links"
+            android:textColor="@color/my_white"
+            android:textColorLink="@color/my_links_color"
             android:linksClickable="true"
             android:autoLink="web|email"
             android:text="привет!"/>

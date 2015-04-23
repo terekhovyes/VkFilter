@@ -8,7 +8,7 @@
         android:id="@+id/selectionBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@color/material_light_green"
+        android:src="@color/my_green_lighter"
         android:visibility="invisible"/>
 
     <LinearLayout
@@ -38,7 +38,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                app:background_color="@color/material_green"/>
+                app:background_color="@color/my_green"/>
 
         </FrameLayout>
 
@@ -58,7 +58,7 @@
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textSize="18sp"
-                android:textColor="@color/material_black"
+                android:textColor="@color/my_black"
                 android:text="Коллеги с работы"/>
 
             <android.support.v7.widget.RecyclerView

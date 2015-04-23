@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/material_green"/>
+        android:background="@color/my_green"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -74,8 +74,8 @@
                     android:visibility="invisible"
                     fab:fab_icon="@drawable/icon_reset_filters"
                     fab:fab_size="mini"
-                    fab:fab_colorNormal="@color/material_green"
-                    fab:fab_colorPressed="@color/material_pressed_green" />
+                    fab:fab_colorNormal="@color/my_green"
+                    fab:fab_colorPressed="@color/my_green_darker" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/manageFiltersBtn"
@@ -87,8 +87,8 @@
                     android:visibility="invisible"
                     fab:fab_icon="@drawable/icon_preferences"
                     fab:fab_size="mini"
-                    fab:fab_colorNormal="@color/material_green"
-                    fab:fab_colorPressed="@color/material_pressed_green" />
+                    fab:fab_colorNormal="@color/my_green"
+                    fab:fab_colorPressed="@color/my_green_darker" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/showFilterGlass"
@@ -97,8 +97,8 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="16dp"
-                    fab:fab_colorNormal="@color/material_green"
-                    fab:fab_colorPressed="@color/material_pressed_green"
+                    fab:fab_colorNormal="@color/my_green"
+                    fab:fab_colorPressed="@color/my_green_darker"
                     fab:fab_icon="@drawable/icon_people"/>
 
             </FrameLayout>

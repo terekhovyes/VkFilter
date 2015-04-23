@@ -33,8 +33,8 @@ class MessageListAdapter(
 
     // messages from oldest to newest
     private var messages: LinkedList<Message>? = null
-    private val normalColor = AppContext.instance.getResources()!!.getColor(R.color.main_white)
-    private val unreadColor = AppContext.instance.getResources()!!.getColor(R.color.light_green)
+    private val normalColor = AppContext.instance.getResources()!!.getColor(R.color.my_white)
+    private val unreadColor = AppContext.instance.getResources()!!.getColor(R.color.my_green_lighter)
     private val calendar = Calendar.getInstance()
 
     private var animationCount = 0

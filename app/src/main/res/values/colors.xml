@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_green">#67C29C</color>
-    <color name="main_white">#EEEEEE</color>
-    <color name="main_dark_white">#DDDDDD</color>
-    <color name="main_gray">#999999</color>
-    <color name="main_black">#444444</color>
+    <color name="my_green_darker">#007b6d</color>
+    <color name="my_green">#009688</color>
+    <color name="my_green_lighter">#d7ede9</color>
 
-    <color name="light_green">#CEEADB</color>
-    <color name="light_red">#E59585</color>
-    <color name="light_white">#F8F8F8</color>
+    <color name="my_red">#e5675d</color>
+    <color name="my_blue">#00BCD4</color>
+    <color name="my_links_color">#FFFFE1</color>
 
-    <color name="button_pressed_green">#5BA581</color>
+    <color name="my_black">#444444</color>
+    <color name="my_gray">#999</color>
+    <color name="my_gray_lighter">#DDD</color>
+    <color name="my_white_greeny">#E0F2F1</color>
+    <color name="my_white">#f0f0f0</color>
+    <color name="my_white_lighter">#F8F8F8</color>
+    <color name="my_white_transparent">#7FFF</color>
 
-    <color name="refresh_color_1">#439872</color>
-    <color name="refresh_color_2">#68c0bf</color>
-    <color name="refresh_color_3">#85d0d2</color>
-    <color name="refresh_color_4">#abdde3</color>
+    <color name="my_refresh_1">@color/my_green</color>
+    <color name="my_refresh_2">#00A1A0</color>
+    <color name="my_refresh_3">#00AEB9</color>
+    <color name="my_refresh_4">@color/my_blue</color>
 </resources>

@@ -36,8 +36,8 @@
         android:layout_marginLeft="-97dp"
         android:layout_gravity="center_vertical"
         app:backgroundColor="#99bfe0da"
-        app:roundColorLeft="@color/material_red"
+        app:roundColorLeft="@color/my_red"
         app:roundColorMid="#bfe0da"
-        app:roundColorRight="@color/material_green"/>
+        app:roundColorRight="@color/my_green"/>
 
 </LinearLayout>
