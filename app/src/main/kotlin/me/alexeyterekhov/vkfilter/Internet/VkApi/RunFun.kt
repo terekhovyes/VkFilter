@@ -43,7 +43,7 @@ public object RunFun {
     public fun userInfo(ids: Collection<String>) {
         val params = VKParameters()
         params["user_ids"] = ids.join(separator = ",")
-        params["fields"] = "name,sex,photo_max,last_seen"
+        params["fields"] = "name,sex,online,photo_max,last_seen"
         VkRequestControl.addRequest(VkRequestBundle(VkFun.userInfo, params))
     }
 

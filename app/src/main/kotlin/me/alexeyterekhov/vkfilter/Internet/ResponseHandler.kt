@@ -14,6 +14,7 @@ import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import org.json.JSONObject
 import java.util.Collections
+import java.util.LinkedList
 import java.util.Vector
 import kotlin.properties.Delegates
 
@@ -103,6 +104,33 @@ object ResponseHandler {
 
             override fun onPostExecute(result: Unit) {
                 val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
+
+                fun notLoadedUsers(m: Message): LinkedList<String> {
+                    val list = if (m.forwardMessages.isNotEmpty())
+                        m.forwardMessages
+                            .map { notLoadedUsers(it) }
+                            .foldRight(LinkedList<String>(), {
+                                list, el ->
+                                list addAll el
+                                list
+                            })
+                    else
+                        LinkedList<String>()
+
+                    if (!UserCache.contains(m.senderId))
+                        list add m.senderId
+                    return list
+                }
+                val notLoadedIds = messages
+                    .map { notLoadedUsers(it) }
+                    .foldRight(LinkedList<String>(), {
+                        list, el ->
+                        list addAll el
+                        list
+                    })
+                if (notLoadedIds.isNotEmpty())
+                    RunFun userInfo notLoadedIds
+
                 MessageCache
                         .getDialog(id, isChat)
                         .addMessagesWithReplace(messages, messages.size() < originalCount)
