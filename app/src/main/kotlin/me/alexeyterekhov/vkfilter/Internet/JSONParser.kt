@@ -106,12 +106,8 @@ object JSONParser {
             if (UserCache contains id)
                 info.chatPartners add (UserCache getUser id)
         }
-        if (item has "title")
-            info.title = item getString "title"
-        arrayListOf("photo_50", "photo_100", "photo_200") forEach {
-            if (item has it)
-                info.photoUrl = item getString it
-        }
+        info.title = item.optString("title")
+        info.photoUrl = findPhotoMax(item) ?: ""
         return info
     }
 
@@ -147,12 +143,7 @@ object JSONParser {
         if (title != " ... ")
             dialog.title = title
 
-        val photoSizes = arrayListOf("photo_200", "photo_100", "photo_50")
-        val availableSize = photoSizes firstOrNull { item has it }
-        dialog.photoUrl = if (availableSize != null)
-            item.getString(availableSize)
-        else
-            ""
+        dialog.photoUrl = findPhotoMax(item) ?: ""
 
         return dialog
     }
@@ -229,15 +220,38 @@ object JSONParser {
     }
 
     private fun parseImageAttachment(json: JSONObject): ImageAttachment {
-        val photoSizes = arrayListOf("photo_2560", "photo_1280", "photo_807",
-                "photo_604", "photo_130", "photo_75")
-        val bigSizeCount = 3
+        val smallSize = 700
 
         val width = json.optInt("width", 1)
         val height = json.optInt("height", 1)
-        val url = json getString (photoSizes first { json has it })
-        val smallUrl = json getString (photoSizes drop bigSizeCount first { json has it })
+        val url = findPhotoMax(json) ?: ""
+        val smallUrl = findPhotoLess(smallSize, json) ?: ""
 
         return ImageAttachment(smallUrl, url, width, height)
+    }
+
+    private fun findPhotoMax(json: JSONObject): String? {
+        if (json.has("photo_max"))
+            return json getString "photo_max"
+        val sizes = findAllPhotoSizes(json)
+        if (sizes.isEmpty())
+            return null
+        return json getString "photo_${sizes.last}"
+    }
+    private fun findPhotoLess(value: Int, json: JSONObject): String? {
+        val sizes = findAllPhotoSizes(json)
+        return when {
+            sizes.isEmpty() && json.has("photo_max") -> json getString "photo_max"
+            sizes.isEmpty() -> null
+            sizes.first() > value -> json getString "photo_${sizes.first()}"
+            else -> json getString "photo_${sizes.filter { it <= value }.last()}"
+        }
+    }
+    private fun findAllPhotoSizes(json: JSONObject): List<Int> {
+        return json.keys().toArrayList()
+                .filter { it.startsWith("photo_") }
+                .map { it.substring(6).toInt() }
+                .filter { json.has("photo_$it") }
+                .sort()
     }
 }
