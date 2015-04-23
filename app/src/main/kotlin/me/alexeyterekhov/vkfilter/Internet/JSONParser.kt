@@ -211,6 +211,11 @@ object JSONParser {
                         if (image.fullSizeUrl != "")
                             attachments.images add image
                     }
+                    "sticker" -> {
+                        val image = parseStickerAttachment(it.getJSONObject("sticker"))
+                        if (image.fullSizeUrl != "")
+                            attachments.images add image
+                    }
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -221,13 +226,17 @@ object JSONParser {
 
     private fun parseImageAttachment(json: JSONObject): ImageAttachment {
         val smallSize = 700
-
         val width = json.optInt("width", 1)
         val height = json.optInt("height", 1)
         val url = findPhotoMax(json) ?: ""
         val smallUrl = findPhotoLess(smallSize, json) ?: ""
-
         return ImageAttachment(smallUrl, url, width, height)
+    }
+    private fun parseStickerAttachment(json: JSONObject): ImageAttachment {
+        val width = json.optInt("width", 1)
+        val height = json.optInt("height", 1)
+        val url = findPhotoMax(json) ?: ""
+        return ImageAttachment(url, url, width, height)
     }
 
     private fun findPhotoMax(json: JSONObject): String? {
