@@ -6,7 +6,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.R
 
 object TextFormat {
-    fun userTitle(user: User, compact: Boolean): String {
+    fun userTitle(user: User, compact: Boolean = false): String {
         if (compact)
             return user.firstName.first() + "." + user.lastName
         else

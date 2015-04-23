@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.GUI.ChatActivity
+package me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList
 
 import android.view.View
 import android.widget.ImageView

@@ -25,7 +25,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageListAdapter
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.MessageListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter

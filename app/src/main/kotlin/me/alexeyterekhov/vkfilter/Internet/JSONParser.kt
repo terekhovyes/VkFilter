@@ -202,6 +202,9 @@ object JSONParser {
             isRead = item.optInt("read_state", 1) == 1
         }
 
+        if (item.has("fwd_messages"))
+            message.forwardMessages addAll (parseMessages(item.getJSONArray("fwd_messages")))
+
         if (item.has("attachments"))
             parseMessageAttachments(item.getJSONArray("attachments"), message.attachments)
 

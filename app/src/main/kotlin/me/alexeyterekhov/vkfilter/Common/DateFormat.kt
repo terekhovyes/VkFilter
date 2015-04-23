@@ -15,6 +15,7 @@ public object DateFormat {
     private var ago: String by Delegates.notNull()
     private var seconds: String by Delegates.notNull()
     private var minutes: String by Delegates.notNull()
+    private var at: String by Delegates.notNull()
     private var minutesFrom1To5: Array<String> by Delegates.notNull()
     private var hoursFrom1To6: Array<String> by Delegates.notNull()
 
@@ -27,6 +28,7 @@ public object DateFormat {
         ago = context.getString(R.string.ago)
         seconds = context.getString(R.string.seconds)
         minutes = context.getString(R.string.minutes)
+        at = context.getString(R.string.at)
         minutesFrom1To5 = context.getResources()!!.getStringArray(R.array.minutes1_5)
         hoursFrom1To6 = context.getResources()!!.getStringArray(R.array.hours1_6)
     }
@@ -144,6 +146,27 @@ public object DateFormat {
             isToday(msc / 1000L) -> today
             isThisYear(msc / 1000L) -> dayMonth(date)
             else -> dayMonthYear(date)
+        }
+    }
+
+    /*
+    Shows:
+    time
+    yesterday + time
+    day month + time
+    day month year + time
+     */
+    public fun forwardMessageDate(msc: Long): String {
+        if (!initialized) init()
+        val date = Calendar.getInstance()
+        date.setTimeInMillis(msc)
+
+        val time = time(date)
+        return when {
+            isToday(msc / 1000L) -> time
+            isYesterday(msc / 1000L) -> "$yesterday $at $time"
+            isThisYear(msc / 1000L) -> "${dayMonth(date)} $time"
+            else -> "${dayMonthYear(date)} $time"
         }
     }
 

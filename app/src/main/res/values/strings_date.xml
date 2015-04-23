@@ -6,6 +6,7 @@
     <string name="ago">назад</string>
     <string name="seconds">секунд</string>
     <string name="minutes">минут</string>
+    <string name="at">в</string>
     <string-array name="minutes1_5">
         <item>минуту</item>
         <item>2 минуты</item>

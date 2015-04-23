@@ -1,10 +1,9 @@
-package me.alexeyterekhov.vkfilter.GUI.ChatActivity
+package me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList
 
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.Activity
-import android.content.Intent
+import android.support.v7.app.ActionBarActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
 import java.util.Calendar
@@ -27,7 +25,7 @@ import java.util.LinkedList
 import java.util.Vector
 
 class MessageListAdapter(
-        val activity: Activity,
+        val activity: ActionBarActivity,
         val id: String,
         val chat: Boolean
 ) : BaseAdapter() {
@@ -47,7 +45,18 @@ class MessageListAdapter(
 
     private val shownImages = HashSet<String>()
     public var maxImageWidth: Int = 0
+        set(w) {
+            $maxImageWidth = w
+            attachmentGenerator = createAttachmentGenerator()
+        }
     public var maxImageHeight: Int = 0
+        set(h) {
+            $maxImageHeight = h
+            attachmentGenerator = createAttachmentGenerator()
+        }
+
+    private var attachmentGenerator = createAttachmentGenerator()
+    private val forwardMessageGenerator = ForwardMessageViewGenerator()
 
     override fun getCount() = if (messages == null) 0 else messages!!.size()
     override fun getItem(position: Int) = messages!![position]
@@ -67,44 +76,24 @@ class MessageListAdapter(
 
         val container = view.findViewById(R.id.messageContainer) as LinearLayout
         container.removeViews(1, container.getChildCount() - 1)
-        for (img in msg.attachments.images) {
-            val imgView = inflater.inflate(R.layout.message_image, container, false) as ImageView
-            val aimRatio = maxImageWidth / maxImageHeight.toDouble()
-            val imgRatio = img.width / img.height.toDouble()
-            when {
-                imgRatio > aimRatio -> {
-                    with (imgView.getLayoutParams()) {
-                        width = maxImageWidth
-                        height = (maxImageWidth / imgRatio).toInt()
-                    }
-                }
-                else -> {
-                    with (imgView.getLayoutParams()) {
-                        width = (maxImageHeight * imgRatio).toInt()
-                        height = maxImageHeight
-                    }
-                }
-            }
-            imgView.setOnClickListener {
-                val intent = Intent(AppContext.instance, javaClass<PhotoViewerActivity>())
-                intent.putExtra("photo_url", img.fullSizeUrl)
-                activity.startActivity(intent)
-            }
-            container.addView(imgView)
-            loadNormalImage(imgView, img.smallSizeUrl)
+        attachmentGenerator.inflate(msg.attachments, inflater, container) forEach {
+            container addView it
+        }
+        forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, container) forEach {
+            container addView it
         }
 
         if (msg.isOut) {
             val h = holder as OutcomeMessageHolder
             with (h) {
                 messageText.setText(msg.text)
-                messageText.setVisibility(if (msg.text != "") View.VISIBLE else android.view.View.GONE)
+                messageText.setVisibility(if (msg.text != "") View.VISIBLE else View.GONE)
                 date.setText(msg.formattedDate)
-                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else android.view.View.VISIBLE)
+                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else View.VISIBLE)
                 changeBackground(messageContainer,
                         if (f || d) R.drawable.message_out
                         else R.drawable.message_out_compact)
-                topMargin.setVisibility(if (f || d) View.VISIBLE else android.view.View.GONE)
+                topMargin.setVisibility(if (f || d) View.VISIBLE else View.GONE)
                 if (d) {
                     messageDayLayout.setVisibility(View.VISIBLE)
                     messageDay.setText(DateFormat.messageListDayContainer(msg.dateMSC))
@@ -114,16 +103,16 @@ class MessageListAdapter(
             val h = holder as IncomeMessageHolder
             with (h) {
                 messageText.setText(msg.text)
-                messageText.setVisibility(if (msg.text != "") View.VISIBLE else android.view.View.GONE)
+                messageText.setVisibility(if (msg.text != "") View.VISIBLE else View.GONE)
                 date.setText(msg.formattedDate)
-                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else android.view.View.VISIBLE)
+                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else View.VISIBLE)
                 changeBackground(messageContainer,
                         if (f || d) R.drawable.message_in
                         else R.drawable.message_in_compact)
                 leftMargin.setVisibility(
                         if (chat && !(f || d)) View.VISIBLE
                         else View.GONE)
-                topMargin.setVisibility(if (f || d) View.VISIBLE else android.view.View.GONE)
+                topMargin.setVisibility(if (f || d) View.VISIBLE else View.GONE)
                 if (d) {
                     messageDayLayout.setVisibility(View.VISIBLE)
                     messageDay.setText(DateFormat.messageListDayContainer(msg.dateMSC))
@@ -197,16 +186,6 @@ class MessageListAdapter(
         ImageLoader.getInstance().displayImage(url, view, conf)
     }
 
-    private fun loadNormalImage(view: ImageView, url: String) {
-        val conf = if (url !in shownImages) {
-            shownImages add url
-            ImageLoadConf.loadImage
-        } else {
-            ImageLoadConf.loadImageWithoutAnim
-        }
-        ImageLoader.getInstance().displayImage(url, view, conf)
-    }
-
     private fun changeBackground(view: View, res: Int) {
         val bottom = view.getPaddingBottom()
         val top = view.getPaddingTop()
@@ -248,6 +227,13 @@ class MessageListAdapter(
         val d2 = calendar.get(Calendar.DAY_OF_YEAR)
         return d1 == d2
     }
+
+    private fun createAttachmentGenerator() = AttachmentsViewGenerator(
+            maxImageWidth,
+            maxImageHeight,
+            shownImages,
+            activity
+    )
 
     fun notifyOnNewMessages(listView: ListView) {
         allowAppearAnimation = false
