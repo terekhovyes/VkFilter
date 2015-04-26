@@ -9,8 +9,8 @@
 
     <dimen name="margin_between_replies">10dp</dimen>
 
-    <dimen name="text_padding_right">8dp</dimen>
+    <dimen name="text_padding_right">10dp</dimen>
     <dimen name="text_padding_top">6dp</dimen>
     <dimen name="text_padding_bottom">8dp</dimen>
-    <dimen name="text_padding_left">18dp</dimen>
+    <dimen name="text_padding_left">20dp</dimen>
 </resources>

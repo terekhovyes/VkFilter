@@ -10,7 +10,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/stub_user"/>
+        android:src="@drawable/icon_doc"/>
     
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/my_gray_lighter"
+            android:textColor="@color/my_white_transparent"
             android:text="12 мб"/>
 
     </LinearLayout>
