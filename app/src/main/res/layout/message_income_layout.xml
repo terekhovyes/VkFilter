@@ -22,7 +22,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/user_photo_loading"
+                android:src="@drawable/stub_user"
                 app:border="false"
                 app:shadow="true"/>
 

@@ -311,15 +311,20 @@ class ChatActivity:
                 adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
             } else {
                 with (MessageCache.getDialog(id, isChat)) {
+                    var update = true
                     if (info.addedMessagesCount > 0) {
                         allMessagesGot = allHistoryLoaded
                         adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
+                        update = false
                     }
                     if (info.markedFrom > 0 && info.markedTo > 0) {
                         adapter.markAsRead(
                                 findViewById(R.id.messageList) as ListView,
                                 info.markedFrom, info.markedTo, info.markedMessagesAreIncomes)
+                        update = false
                     }
+                    if (update)
+                        adapter.notifyWhenPossible()
                 }
             }
             updateUserLastSeen()

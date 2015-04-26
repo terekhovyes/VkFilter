@@ -9,6 +9,7 @@
     <color name="my_links_color">#FFFFE1</color>
 
     <color name="my_black">#444444</color>
+    <color name="my_black_transparent">#8000</color>
     <color name="my_gray">#999</color>
     <color name="my_gray_lighter">#DDD</color>
     <color name="my_white_greeny">#E0F2F1</color>

@@ -136,7 +136,7 @@ public object NotificationMaker {
             if (file != null)
                 loadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath())
             if (loadedBitmap == null)
-                loadedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.user_photo_loading)
+                loadedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub_user)
             if (loadedBitmap != null) {
                 val res = context.getResources()
                 val height = res.getDimension(android.R.dimen.notification_large_icon_height).toInt()

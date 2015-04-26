@@ -194,4 +194,16 @@ public object DateFormat {
             else -> dayMonthYear(cal)
         }
     }
+
+    /*
+    Duration
+     */
+    public fun duration(sec: Long): String {
+        val cal = Calendar.getInstance()
+        cal.setTimeInMillis(sec * 1000L)
+        return if (sec > 3600)
+            SimpleDateFormat("HH:mm:ss").format(cal.getTime())
+        else
+            SimpleDateFormat("mm:ss").format(cal.getTime())
+    }
 }

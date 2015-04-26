@@ -279,7 +279,7 @@ public open class DialogListActivity:
                 }
             }
         } else {
-            photo setImageResource R.drawable.user_photo_loading
+            photo setImageResource R.drawable.stub_user
             name setText ""
             lastSeen setText ""
             lastSeenTime setText ""

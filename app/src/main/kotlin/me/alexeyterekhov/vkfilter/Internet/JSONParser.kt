@@ -212,7 +212,7 @@ object JSONParser {
         return VideoAttachment(
                 id = id,
                 title = "",
-                duration = 0,
+                durationSec = 0,
                 previewUrl = "",
                 playerUrl = url
         )

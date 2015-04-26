@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.Internet
 
 import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.*
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.VideoAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
@@ -256,16 +257,33 @@ object ResponseHandler {
         val isChat = request.additionalParams.getBoolean("chat")
 
         val gotUrls = JSONParser parseVideoUrls (JSONParser videoUrlsResponseToArray result)
-        val messages = MessageCache.getDialog(dialogId.toString(), isChat).messages
+        val dialog = MessageCache.getDialog(dialogId, isChat)
+
+        fun findAttachments(vid: Long, m: Message): LinkedList<VideoAttachment> {
+            val list = if (m.forwardMessages.isNotEmpty())
+                m.forwardMessages
+                        .map { findAttachments(vid, it) }
+                        .foldRight(LinkedList<VideoAttachment>(), {
+                            list, el ->
+                            list addAll el
+                            list
+                        })
+            else
+                LinkedList<VideoAttachment>()
+            m.attachments.videos filter { it.id == vid } forEach {
+                list add it
+            }
+            return list
+        }
+
 
         gotUrls forEach {
             val id = it.id
-            val videoAttachment = messages
-                    .firstOrNull { it.attachments.videos any { it.id == id } }
-                    ?.attachments?.videos
-                    ?.firstOrNull { it.id == id }
-            if (videoAttachment != null)
-                videoAttachment.playerUrl = it.playerUrl
+            val url = it.playerUrl
+
+            dialog.messages
+                    .map { findAttachments(id, it) }
+                    .map { it forEach { it.playerUrl = url } }
         }
         MessageCache.getDialog(dialogId, isChat).onDataUpdate()
     }

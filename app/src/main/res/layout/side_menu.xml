@@ -61,7 +61,7 @@
         android:layout_marginTop="-48dp"
         android:layout_below="@id/top_layout"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/user_photo_loading"
+        android:src="@drawable/stub_user"
         app:border="false"
         app:shadow="true"/>
 

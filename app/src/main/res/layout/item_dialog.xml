@@ -26,7 +26,7 @@
                     android:layout_width="@dimen/dialog_item_size"
                     android:layout_height="@dimen/dialog_item_size"
                     android:padding="@dimen/dialog_item_margin"
-                    android:src="@drawable/user_photo_loading"/>
+                    android:src="@drawable/stub_user"/>
 
             <RelativeLayout
                     android:id="@+id/doubleDialogIconLayout"
@@ -39,7 +39,7 @@
                         android:id="@+id/doubleDialogIcon1"
                         android:layout_width="33dp"
                         android:layout_height="70dp"
-                        android:src="@drawable/user_photo_loading"
+                        android:src="@drawable/stub_user"
                         android:scaleType="centerCrop"/>
 
                 <ImageView
@@ -47,7 +47,7 @@
                         android:layout_width="33dp"
                         android:layout_height="70dp"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/user_photo_loading"
+                        android:src="@drawable/stub_user"
                         android:scaleType="centerCrop"/>
 
             </RelativeLayout>
@@ -65,7 +65,7 @@
                         android:layout_width="33dp"
                         android:layout_height="70dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
                 <ImageView
                         android:id="@+id/tripleDialogIcon2"
@@ -74,7 +74,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/dialog_item_margin"
-                        android:src="@drawable/user_photo_loading"                android:scaleType="centerCrop"/>
+                        android:src="@drawable/stub_user"                android:scaleType="centerCrop"/>
 
                 <ImageView
                         android:id="@+id/tripleDialogIcon3"
@@ -82,7 +82,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="33dp"
                         android:layout_height="33dp"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
             </RelativeLayout>
 
@@ -99,7 +99,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_width="33dp"
                         android:layout_height="33dp"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
                 <ImageView
                         android:id="@+id/quadDialogIcon2"
@@ -107,7 +107,7 @@
                         android:layout_height="33dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
                 <ImageView
                         android:id="@+id/quadDialogIcon3"
@@ -115,7 +115,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_width="33dp"
                         android:layout_height="33dp"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
                 <ImageView
                         android:id="@+id/quadDialogIcon4"
@@ -123,7 +123,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="33dp"
                         android:layout_height="33dp"
-                        android:src="@drawable/user_photo_loading"/>
+                        android:src="@drawable/stub_user"/>
 
             </RelativeLayout>
 
@@ -196,7 +196,7 @@
                             android:id="@+id/dialogSenderIcon"
                             android:layout_width="@dimen/dialog_item_bottom_size"
                             android:layout_height="@dimen/dialog_item_bottom_size"
-                            android:src="@drawable/user_photo_loading"/>
+                            android:src="@drawable/stub_user"/>
 
                     <FrameLayout
                             android:layout_width="match_parent"
