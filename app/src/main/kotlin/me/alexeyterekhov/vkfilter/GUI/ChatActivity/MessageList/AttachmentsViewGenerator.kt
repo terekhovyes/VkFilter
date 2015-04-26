@@ -13,10 +13,7 @@ import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
 import me.alexeyterekhov.vkfilter.Common.TextFormat
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.DocAttachment
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.VideoAttachment
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
 import me.alexeyterekhov.vkfilter.R
 
@@ -31,6 +28,7 @@ class AttachmentsViewGenerator(
         return inflateImages(attachments.images, inflater, root)
             .plus(inflateVideos(attachments.videos, inflater, root))
             .plus(inflateDocs(attachments.documents, inflater, root))
+            .plus(inflateAudios(attachments.audios, inflater, root))
     }
 
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
@@ -118,6 +116,27 @@ class AttachmentsViewGenerator(
 
             val size = view.findViewById(R.id.docSize) as TextView
             size setText (TextFormat size it.sizeInBytes)
+
+            val url = it.url
+            view setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                activity startActivity intent
+            }
+
+            view
+        }
+    }
+
+    fun inflateAudios(audios: Collection<AudioAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
+        return audios map {
+            val view = inflater.inflate(R.layout.message_audio, root, false)
+
+            val title = view.findViewById(R.id.title) as TextView
+            title setText it.title
+            val artist = view.findViewById(R.id.artist) as TextView
+            artist setText it.artist
+            val duration = view.findViewById(R.id.duration) as TextView
+            duration setText (DateFormat duration it.durationInSec.toLong())
 
             val url = it.url
             view setOnClickListener {

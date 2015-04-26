@@ -281,7 +281,7 @@ object JSONParser {
         val title = json.optString("title")
         val duration = json.optInt("duration", -1)
         val url = json.optString("url")
-        return AudioAttachment(title, artist, duration, url)
+        return AudioAttachment(artist, title, duration, url)
     }
     private fun parseVideoAttachment(json: JSONObject): VideoAttachment {
         val id = json.getLong("id")
