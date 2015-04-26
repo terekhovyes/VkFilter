@@ -49,4 +49,16 @@ object TextFormat {
         val str = context.getString(R.string.plus_more)
         return str.replace("#", count.toString())
     }
+
+    fun size(sizeInBytes: Int): String {
+        val kb = 1024
+        val mb = kb * 1024
+        val gb = mb * 1024
+        return when {
+            sizeInBytes < kb -> "$sizeInBytes ${AppContext.instance.getString(R.string.bytes)}"
+            sizeInBytes < mb -> "${sizeInBytes / kb} ${AppContext.instance.getString(R.string.kbytes)}"
+            sizeInBytes < gb -> "${sizeInBytes / mb} ${AppContext.instance.getString(R.string.mbytes)}"
+            else -> "${sizeInBytes / gb} ${AppContext.instance.getString(R.string.gbytes)}"
+        }
+    }
 }

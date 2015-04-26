@@ -12,7 +12,9 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
+import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.DocAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.VideoAttachment
 import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
@@ -28,6 +30,7 @@ class AttachmentsViewGenerator(
     fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup): List<View> {
         return inflateImages(attachments.images, inflater, root)
             .plus(inflateVideos(attachments.videos, inflater, root))
+            .plus(inflateDocs(attachments.documents, inflater, root))
     }
 
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
@@ -94,13 +97,32 @@ class AttachmentsViewGenerator(
             val url = it.playerUrl
             if (it.playerUrl != "") {
                 preview.setOnClickListener {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent setData Uri.parse(url)
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     activity startActivity intent
                 }
                 playImage setVisibility View.VISIBLE
             } else {
                 playImage setVisibility View.INVISIBLE
+            }
+
+            view
+        }
+    }
+
+    fun inflateDocs(docs: Collection<DocAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
+        return docs map {
+            val view = inflater.inflate(R.layout.message_document, root, false)
+
+            val title = view.findViewById(R.id.title) as TextView
+            title setText it.title
+
+            val size = view.findViewById(R.id.docSize) as TextView
+            size setText (TextFormat size it.sizeInBytes)
+
+            val url = it.url
+            view setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                activity startActivity intent
             }
 
             view
