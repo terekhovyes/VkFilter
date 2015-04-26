@@ -246,7 +246,7 @@ class ChatActivity:
                 list.setSelectionFromTop(index, top)
             }
         }
-        if (!adapterLoaded) {
+        if (!adapterLoaded && getAdapter() == null) {
             val size = Point()
             getWindowManager().getDefaultDisplay().getSize(size)
 
