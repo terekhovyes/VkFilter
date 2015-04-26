@@ -15,6 +15,11 @@ class MessagePack {
         private set
     // > 0 when added history < 0 when added new messages
 
+    fun onDataUpdate() {
+        info = MessagePackChange(0, false, false, 0, 0)
+        listeners forEach { it.onDataUpdate() }
+    }
+
     fun addMessagesWithReplace(msgs: Collection<Message>, itsAll: Boolean) {
         allHistoryLoaded = itsAll || allHistoryLoaded
 

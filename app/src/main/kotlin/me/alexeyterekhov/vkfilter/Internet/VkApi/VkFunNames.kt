@@ -16,7 +16,8 @@ public object VkFunNames {
                 VkFun.userInfo to "users.get",
                 VkFun.chatInfo to "execute.detailedChats",
                 VkFun.notificationInfo to "execute.notificationInfo",
-                VkFun.getDialogPartners to "execute.getDialogPartners"
+                VkFun.getDialogPartners to "execute.getDialogPartners",
+                VkFun.videoUrls to "execute.videoUrls"
         )
     }
 

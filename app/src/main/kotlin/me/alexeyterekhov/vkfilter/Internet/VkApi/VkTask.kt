@@ -15,7 +15,7 @@ import kotlin.properties.Delegates
 
 object VkTask {
     private val MAX_WAIT_FOR_RESPONSE = 5000
-    private val LOG_TAG = "VKBackgroundTask"
+    val LOG_TAG = "VkTask"
 
     public val instance: BackgroundTask<VkRequestBundle, VKResponse> by Delegates.lazy {
         var obj = BackgroundTask (
@@ -63,7 +63,10 @@ object VkTask {
                 override fun onError(err: VKError?) {
                     if (!canceled) {
                         super<VKRequestListener>.onError(err)
-                        Log.d("Error", "Vk error while do request")
+                        if (err != null && err.apiError != null)
+                            Log.d(LOG_TAG, "Vk error: ${err.apiError.toString()}")
+                        else
+                            Log.d(LOG_TAG, "Vk error")
                         gotError = true
                     }
                 }
@@ -74,7 +77,7 @@ object VkTask {
             val request = VKRequest(VkFunNames.name(bundle.vkFun), bundle.vkParams)
             request.attempts = 1
             request.executeWithListener(listener)
-            Log.d(LOG_TAG, "Do request for vk: ${VkFunNames.name(bundle.vkFun)}")
+            Log.d(LOG_TAG, "Start [${VkFunNames.name(bundle.vkFun)}]")
 
             // Waiting while complete
             val sleepTime = 50L
@@ -101,10 +104,10 @@ object VkTask {
     private fun createErrorHandler() = object : ErrorHandler<VkRequestBundle> {
         override fun onError(
                 task: BackgroundTask<out Any?, out Any?>?,
-                bundle: VkRequestBundle?,
+                bundle: VkRequestBundle,
                 e: Exception?)
         {
-            Log.d(LOG_TAG, "error, will try again")
+            Log.d(LOG_TAG, "Error at [${VkFunNames.name(bundle.vkFun)}]")
         }
     }
 
@@ -112,9 +115,11 @@ object VkTask {
         override fun onNext(task: BackgroundTask<out Any?, out Any?>?,
                             bundle: VkRequestBundle,
                             result: VKResponse) {
-            Log.d(LOG_TAG, "ok!")
+            Log.d(LOG_TAG, "Done [${VkFunNames.name(bundle.vkFun)}]")
             ResponseHandler.handle(bundle, result.json)
         }
-        override fun onComplete(task: BackgroundTask<out Any?, out Any?>?) {}
+        override fun onComplete(task: BackgroundTask<out Any?, out Any?>?) {
+            Log.d(LOG_TAG, "Done all tasks")
+        }
     }
 }

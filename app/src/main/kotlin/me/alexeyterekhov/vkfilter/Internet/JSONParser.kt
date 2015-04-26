@@ -4,8 +4,7 @@ import android.util.Log
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
-import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User
@@ -73,12 +72,17 @@ object JSONParser {
         return response getJSONArray "response"
     }
 
+    fun videoUrlsResponseToArray(response: JSONObject): JSONArray {
+        return response getJSONArray "response"
+    }
+
     // Parsers
 
     fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemDialog(it.getJSONObject("message")) })
     fun parseUsers(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemUser(it) })
     fun parseMessages(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemMessage(it) })
     fun parseChatInfo(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemChatInfo(it) })
+    fun parseVideoUrls(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemVideoUrl(it) })
 
     fun parseNotificationInfo(response: JSONObject): NotificationInfo {
         var info = NotificationInfo()
@@ -202,6 +206,18 @@ object JSONParser {
         return message
     }
 
+    private fun parseItemVideoUrl(json: JSONObject): VideoAttachment {
+        val id = json.getLong("id")
+        val url = json.getString("player")
+        return VideoAttachment(
+                id = id,
+                title = "",
+                duration = 0,
+                previewUrl = "",
+                playerUrl = url
+        )
+    }
+
     private fun parseMessageAttachments(array: JSONArray, attachments: Attachments) {
         array.asListOfJSON() forEach {
             try {
@@ -215,6 +231,22 @@ object JSONParser {
                         val image = parseStickerAttachment(it.getJSONObject("sticker"))
                         if (image.fullSizeUrl != "")
                             attachments.images add image
+                    }
+                    "doc" -> {
+                        val doc = parseDocAttachment(it.getJSONObject("doc"))
+                        if (doc.url != "")
+                            attachments.documents add doc
+                    }
+                    "audio" -> {
+                        val audio = parseAudioAttachment(it.getJSONObject("audio"))
+                        if (audio.url != "")
+                            attachments.audios add audio
+                    }
+                    "video" -> {
+                        val video = parseVideoAttachment(it.getJSONObject("video"))
+                        attachments.videos add video
+                        if (video.playerUrl == "")
+                            video.requestKey = videoJsonToRequestId(it.getJSONObject("video"))
                     }
                 }
             } catch (e: JSONException) {
@@ -238,6 +270,35 @@ object JSONParser {
         val url = findPhotoMax(json) ?: ""
         return ImageAttachment(url, url, width, height)
     }
+    private fun parseDocAttachment(json: JSONObject): DocAttachment {
+        val title = json.optString("title", "???")
+        val size = json.optInt("size", -1)
+        val url = json.optString("url")
+        return DocAttachment(title, size, url)
+    }
+    private fun parseAudioAttachment(json: JSONObject): AudioAttachment {
+        val artist = json.optString("artist")
+        val title = json.optString("title")
+        val duration = json.optInt("duration", -1)
+        val url = json.optString("url")
+        return AudioAttachment(title, artist, duration, url)
+    }
+    private fun parseVideoAttachment(json: JSONObject): VideoAttachment {
+        val id = json.getLong("id")
+        val title = json.optString("title")
+        val duration = json.optInt("duration", -1)
+        val previewImageUrl = findPhotoMax(json) ?: ""
+        val playerUrl = json.optString("player")
+        return VideoAttachment(
+                id,
+                title,
+                duration,
+                previewImageUrl,
+                playerUrl
+        )
+    }
+
+    // Util methods
 
     private fun findPhotoMax(json: JSONObject): String? {
         if (json.has("photo_max"))
@@ -262,5 +323,21 @@ object JSONParser {
                 .map { it.substring(6).toInt() }
                 .filter { json.has("photo_$it") }
                 .sort()
+    }
+
+    private fun videoJsonToRequestId(json: JSONObject): String {
+        val id = json.getString("id")
+        val owner = json.optString("owner_id")
+        val accessKey = json.optString("access_key")
+
+        val begin = if (owner == "")
+            id
+        else
+            "${owner}_${id}"
+
+        return if (accessKey == "")
+            begin
+        else
+            "${begin}_${accessKey}"
     }
 }

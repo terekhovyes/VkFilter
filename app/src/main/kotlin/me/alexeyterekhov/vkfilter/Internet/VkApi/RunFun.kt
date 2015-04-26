@@ -99,4 +99,13 @@ public object RunFun {
         params["chat"] = if (isChat) 1 else 0
         VkRequestControl.addRequest(VkRequestBundle(VkFun.getDialogPartners, params))
     }
+
+    public fun getVideoUrls(dialogId: String, isChat: Boolean, ids: Collection<String>) {
+        val params = VKParameters()
+        params["video_ids"] = "'${ids.joinToString(separator = ",")}'"
+        val additional = Bundle()
+        additional.putString("id", dialogId)
+        additional.putBoolean("chat", isChat)
+        VkRequestControl.addRequest(VkRequestBundle(VkFun.videoUrls, params, additional))
+    }
 }

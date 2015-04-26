@@ -1,6 +1,7 @@
 package me.alexeyterekhov.backgroundtask;
 
 import android.os.AsyncTask;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class BackgroundTask <SourceType, ResultType> {
     private void run() {
         running = true;
         worker = new Worker();
-        worker.execute();
+        worker.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public BackgroundTask(SourceHandler<SourceType, ResultType> sourceHandler,

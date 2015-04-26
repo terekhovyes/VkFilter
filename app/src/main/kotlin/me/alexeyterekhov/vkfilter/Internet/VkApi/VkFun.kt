@@ -13,4 +13,5 @@ enum class VkFun {
     unregisterGCM
     notificationInfo
     getDialogPartners
+    videoUrls
 }

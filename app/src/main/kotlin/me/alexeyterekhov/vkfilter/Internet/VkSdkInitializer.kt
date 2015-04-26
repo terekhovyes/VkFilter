@@ -11,6 +11,7 @@ object VkSdkInitializer {
             VKScope.FRIENDS,
             VKScope.MESSAGES,
             VKScope.PHOTOS,
+            VKScope.VIDEO,
             VKScope.NOHTTPS
     )
 

@@ -1,6 +1,5 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import android.os.AsyncTask
 import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.*
 import me.alexeyterekhov.vkfilter.DataClasses.Message
@@ -16,7 +15,6 @@ import org.json.JSONObject
 import java.util.Collections
 import java.util.LinkedList
 import java.util.Vector
-import kotlin.properties.Delegates
 
 
 object ResponseHandler {
@@ -32,34 +30,30 @@ object ResponseHandler {
             VkFun.sendMessage -> sendMessage(request, result)
             VkFun.notificationInfo -> notificationInfo(request, result)
             VkFun.getDialogPartners -> getDialogPartners(request, result)
+            VkFun.videoUrls -> videoUrls(request, result)
         }
     }
 
     private fun dialogList(request: VkRequestBundle, result: JSONObject) {
-        object : AsyncTask<Unit, Unit, Unit>() {
-            var newSnap: DialogListSnapshot by Delegates.notNull()
-            val users = Vector<User>()
-            override fun doInBackground(vararg params: Unit?) {
-                val offset = request.vkParams["offset"] as Int
-                val jsonUsers = JSONParser detailedDialogsResponseToUserList result
-                val jsonDialogs = JSONParser detailedDialogsResponseToDialogList result
+        val users = Vector<User>()
 
-                users addAll (JSONParser parseUsers jsonUsers)
-                for (u in users)
-                    UserCache.putUser(u)
+        val offset = request.vkParams["offset"] as Int
+        val jsonUsers = JSONParser detailedDialogsResponseToUserList result
+        val jsonDialogs = JSONParser detailedDialogsResponseToDialogList result
 
-                val dialogs = JSONParser parseDialogs jsonDialogs
-                val prevSnap = DialogListCache.getSnapshot()
-                val mergedList = Vector<Dialog>()
-                mergedList addAll prevSnap.dialogs.subList(0, offset)
-                mergedList addAll dialogs
-                newSnap = DialogListSnapshot(System.currentTimeMillis(), mergedList)
-            }
-            override fun onPostExecute(result: Unit?) {
-                DialogListCache updateSnapshot newSnap
-                UserCache.dataUpdated()
-            }
-        }.execute()
+        users addAll (JSONParser parseUsers jsonUsers)
+        for (u in users)
+            UserCache.putUser(u)
+
+        val dialogs = JSONParser parseDialogs jsonDialogs
+        val prevSnap = DialogListCache.getSnapshot()
+        val mergedList = Vector<Dialog>()
+        mergedList addAll prevSnap.dialogs.subList(0, offset)
+        mergedList addAll dialogs
+        val newSnap = DialogListSnapshot(System.currentTimeMillis(), mergedList)
+
+        DialogListCache updateSnapshot newSnap
+        UserCache.dataUpdated()
     }
 
     private fun friendList(request: VkRequestBundle, result: JSONObject) {
@@ -77,65 +71,90 @@ object ResponseHandler {
 
     private fun messageList(request: VkRequestBundle, result: JSONObject) {
         val p = request.vkParams
-        object : AsyncTask<Unit, Unit, Unit>() {
-            val count = p["count"] as Int
-            val isChat = p contains "chat_id"
-            val id =
-                    if (!isChat)
-                        p["user_id"] as String
-                    else
-                        p["chat_id"] as String
-            val startMessageId =
-                    if (p contains "start_message_id")
-                        p["start_message_id"] as String
-                    else ""
-            val offset =
-                    if (p contains "offset") p["offset"] as Int
-                    else 0
-            val firstMessageIsUseless = startMessageId != "" && offset == 0
-            var messages: Vector<Message> by Delegates.notNull()
 
-            override fun doInBackground(vararg params: Unit?) {
-                val jsonMessages = JSONParser messageListResponseToMessageList result
-                messages = JSONParser parseMessages jsonMessages
-                if (firstMessageIsUseless && messages.isNotEmpty())
-                    messages.remove(0)
+        val count = p["count"] as Int
+        val isChat = p contains "chat_id"
+        val id =
+                if (!isChat)
+                    p["user_id"] as String
+                else
+                    p["chat_id"] as String
+        val startMessageId =
+                if (p contains "start_message_id")
+                    p["start_message_id"] as String
+                else ""
+        val offset =
+                if (p contains "offset") p["offset"] as Int
+                else 0
+        val firstMessageIsUseless = startMessageId != "" && offset == 0
+
+        val jsonMessages = JSONParser messageListResponseToMessageList result
+        val messages = JSONParser parseMessages jsonMessages
+        if (firstMessageIsUseless && messages.isNotEmpty())
+            messages.remove(0)
+
+        val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
+        loadNotLoadedUsers(messages)
+        loadNotLoadedVideos(id, isChat, messages)
+        MessageCache
+                .getDialog(id, isChat)
+                .addMessagesWithReplace(messages, messages.size() < originalCount)
+    }
+
+    private fun loadNotLoadedUsers(messages: Vector<Message>) {
+        fun notLoadedUsers(m: Message): LinkedList<String> {
+            val list = if (m.forwardMessages.isNotEmpty())
+                m.forwardMessages
+                        .map { notLoadedUsers(it) }
+                        .foldRight(LinkedList<String>(), {
+                            list, el ->
+                            list addAll el
+                            list
+                        })
+            else
+                LinkedList<String>()
+
+            if (!UserCache.contains(m.senderId))
+                list add m.senderId
+            return list
+        }
+        val notLoadedIds = messages
+                .map { notLoadedUsers(it) }
+                .foldRight(LinkedList<String>(), {
+                    list, el ->
+                    list addAll el
+                    list
+                })
+        if (notLoadedIds.isNotEmpty())
+            RunFun userInfo notLoadedIds
+    }
+
+    private fun loadNotLoadedVideos(dialogId: String, isChat: Boolean, messages: Vector<Message>) {
+        fun notLoadedIds(m: Message): LinkedList<String> {
+            val list = if (m.forwardMessages.isNotEmpty())
+                m.forwardMessages
+                        .map { notLoadedIds(it) }
+                        .foldRight(LinkedList<String>(), {
+                            list, el ->
+                            list addAll el
+                            list
+                        })
+            else
+                LinkedList<String>()
+            m.attachments.videos filter { it.playerUrl == "" } forEach {
+                list add it.requestKey
             }
-
-            override fun onPostExecute(result: Unit) {
-                val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
-
-                fun notLoadedUsers(m: Message): LinkedList<String> {
-                    val list = if (m.forwardMessages.isNotEmpty())
-                        m.forwardMessages
-                            .map { notLoadedUsers(it) }
-                            .foldRight(LinkedList<String>(), {
-                                list, el ->
-                                list addAll el
-                                list
-                            })
-                    else
-                        LinkedList<String>()
-
-                    if (!UserCache.contains(m.senderId))
-                        list add m.senderId
-                    return list
-                }
-                val notLoadedIds = messages
-                    .map { notLoadedUsers(it) }
-                    .foldRight(LinkedList<String>(), {
-                        list, el ->
-                        list addAll el
-                        list
-                    })
-                if (notLoadedIds.isNotEmpty())
-                    RunFun userInfo notLoadedIds
-
-                MessageCache
-                        .getDialog(id, isChat)
-                        .addMessagesWithReplace(messages, messages.size() < originalCount)
-            }
-        }.execute()
+            return list
+        }
+        val notLoadedIds = messages
+                .map { notLoadedIds(it) }
+                .foldRight(LinkedList<String>(), {
+                    list, el ->
+                    list addAll el
+                    list
+                })
+        if (notLoadedIds.isNotEmpty())
+            RunFun.getVideoUrls(dialogId, isChat, notLoadedIds)
     }
 
     private fun userInfo(request: VkRequestBundle, result: JSONObject) {
@@ -230,5 +249,24 @@ object ResponseHandler {
         val jsonUsers = JSONParser dialogPartnersToArray result
         val users = JSONParser parseUsers jsonUsers
         users forEach { UserCache.putUser(it) }
+    }
+
+    private fun videoUrls(request: VkRequestBundle, result: JSONObject) {
+        val dialogId = request.additionalParams.getString("id")
+        val isChat = request.additionalParams.getBoolean("chat")
+
+        val gotUrls = JSONParser parseVideoUrls (JSONParser videoUrlsResponseToArray result)
+        val messages = MessageCache.getDialog(dialogId.toString(), isChat).messages
+
+        gotUrls forEach {
+            val id = it.id
+            val videoAttachment = messages
+                    .firstOrNull { it.attachments.videos any { it.id == id } }
+                    ?.attachments?.videos
+                    ?.firstOrNull { it.id == id }
+            if (videoAttachment != null)
+                videoAttachment.playerUrl = it.playerUrl
+        }
+        MessageCache.getDialog(dialogId, isChat).onDataUpdate()
     }
 }
