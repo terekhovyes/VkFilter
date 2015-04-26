@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.ListView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DateFormat
@@ -75,29 +78,21 @@ class MessageListAdapter(
         val holder = view!!.getTag()
 
         if (msg.isOut) {
-            val container = view.findViewById(R.id.messageContainer) as LinearLayout
-            container.removeViews(1, container.getChildCount() - 1)
-            attachmentGenerator.inflate(msg.attachments, inflater, container) forEach {
-                container addView it
-            }
-            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, container) forEach {
-                container addView it
-            }
-
-            val h = holder as OutcomeMessageHolder
+            val h = holder as MessageOutHolder
+            h.clearIncludes()
             with (h) {
-                messageText.setText(msg.text)
-                messageText.setVisibility(if (msg.text != "") View.VISIBLE else View.GONE)
-                date.setText(msg.formattedDate)
-                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else View.VISIBLE)
-                changeBackground(messageContainer,
-                        if (f || d) R.drawable.message_out
-                        else R.drawable.message_out_compact)
-                topMargin.setVisibility(if (f || d) View.VISIBLE else View.GONE)
-                if (d) {
-                    messageDayLayout.setVisibility(View.VISIBLE)
-                    messageDay.setText(DateFormat.messageListDayContainer(msg.dateMSC))
-                } else messageDayLayout.setVisibility(View.GONE)
+                setText(msg.text)
+                setDate(msg.formattedDate)
+                setUnread(!msg.isRead)
+                firstMessage(f || d)
+                showRedStrip(d)
+                if (d) setRedStripText(DateFormat.messageListDayContainer(msg.dateMSC))
+            }
+            attachmentGenerator.inflate(msg.attachments, inflater, h.attachments) forEach {
+                h addAttachment  it
+            }
+            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, h.forwardMessages) forEach {
+                h addForwardMessage it
             }
         } else {
             val h = holder as MessageInHolder
@@ -107,18 +102,11 @@ class MessageListAdapter(
                 setDate(msg.formattedDate)
                 setUnread(!msg.isRead)
                 firstMessage(f || d)
-                if (chat && (f || d)) {
-                    showPhoto(true)
-                    loadUserImage(h.senderPhoto, msg.senderOrEmpty().photoUrl)
-                } else
-                    showPhoto(false)
-                if (d) {
-                    showRedStrip(true)
-                    setRedStripText(DateFormat.messageListDayContainer(msg.dateMSC))
-                } else
-                    showRedStrip(false)
+                showPhoto(chat && (f || d))
+                if (chat && (f || d)) loadUserImage(h.senderPhoto, msg.senderOrEmpty().photoUrl)
+                showRedStrip(d)
+                if (d) setRedStripText(DateFormat.messageListDayContainer(msg.dateMSC))
             }
-
             attachmentGenerator.inflate(msg.attachments, inflater, h.attachments) forEach {
                 h addAttachment it
             }
@@ -186,24 +174,15 @@ class MessageListAdapter(
         ImageLoader.getInstance().displayImage(url, view, conf)
     }
 
-    private fun changeBackground(view: View, res: Int) {
-        val bottom = view.getPaddingBottom()
-        val top = view.getPaddingTop()
-        val right = view.getPaddingRight()
-        val left = view.getPaddingLeft()
-        view.setBackgroundResource(res)
-        view.setPadding(left, top, right, bottom)
-    }
-
     private fun getInView(parent: ViewGroup): View {
-        val view = inflater.inflate(R.layout.message_in_tmp, parent, false)
+        val view = inflater.inflate(R.layout.message_in, parent, false)
         view.setTag(MessageInHolder(view))
         return view
     }
 
     private fun getOutView(parent: ViewGroup): View {
-        val view = inflater.inflate(R.layout.message_outcome, parent, false)!!
-        view.setTag(OutcomeMessageHolder(view))
+        val view = inflater.inflate(R.layout.message_out, parent, false)!!
+        view.setTag(MessageOutHolder(view))
         return view
     }
 
@@ -335,7 +314,7 @@ class MessageListAdapter(
                 if (view != null) {
                     val h = view.getTag()
                     val alreadyRead = if (h is MessageInHolder) h.isRead()
-                    else (h as OutcomeMessageHolder).unreadBackground.getVisibility() == View.INVISIBLE
+                    else (h as MessageOutHolder).isRead()
                     if (!alreadyRead) {
                         val a = AnimationUtils.loadAnimation(AppContext.instance, R.anim.message_read)
                         val l = object : Animation.AnimationListener {
@@ -346,7 +325,7 @@ class MessageListAdapter(
                                 if (h is MessageInHolder)
                                     h.setUnread(false)
                                 else
-                                    (h as OutcomeMessageHolder).unreadBackground.setVisibility(View.INVISIBLE)
+                                    (h as MessageOutHolder).setUnread(false)
                             }
 
                             override fun onAnimationRepeat(animation: Animation?) {
@@ -356,7 +335,7 @@ class MessageListAdapter(
                         if (h is MessageInHolder)
                             h.unreadBackground.startAnimation(a)
                         else
-                            (h as OutcomeMessageHolder).unreadBackground.startAnimation(a)
+                            (h as MessageOutHolder).unreadBackground.startAnimation(a)
                     }
                 }
             }

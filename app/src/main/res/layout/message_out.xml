@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/message_day"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/messageBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/my_green_lighter"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/chat_spacer_mini"
+                android:orientation="vertical">
+
+                <Space
+                    android:id="@+id/spaceAbove"
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/chat_spacer_big" />
+
+                <RelativeLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/chat_spacer">
+
+                    <ImageView
+                        android:id="@+id/messageTriangle"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="-20dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/triangle_right"/>
+
+                    <LinearLayout
+                        android:id="@+id/messageContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="30dp"
+                        android:layout_marginLeft="37dp"
+                        android:layout_toLeftOf="@id/messageTriangle"
+                        android:orientation="vertical"
+                        android:padding="@dimen/chat_spacer"
+                        android:gravity="center"
+                        android:background="@drawable/green_round_background">
+
+                        <com.rockerhieu.emojicon.EmojiconTextView
+                            android:id="@+id/messageText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-2dp"
+                            android:layout_gravity="left"
+                            android:textSize="@dimen/my_text"
+                            app:emojiconSize="@dimen/my_emoji"
+                            android:textColor="@color/my_white_greeny"
+                            android:textColorLink="@color/my_links_color"
+                            android:linksClickable="true"
+                            android:autoLink="web|email"
+                            android:text="Привет!"/>
+
+                        <LinearLayout
+                            android:id="@+id/attachmentsLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"/>
+
+                        <LinearLayout
+                            android:id="@+id/forwardMessagesLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="-32dp"
+                        android:layout_toLeftOf="@id/messageContainer"
+                        android:gravity="center"
+                        android:textSize="@dimen/my_text_micro"
+                        android:textColor="@color/my_gray"
+                        android:text="18:05"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
