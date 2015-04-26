@@ -74,16 +74,16 @@ class MessageListAdapter(
         }
         val holder = view!!.getTag()
 
-        val container = view.findViewById(R.id.messageContainer) as LinearLayout
-        container.removeViews(1, container.getChildCount() - 1)
-        attachmentGenerator.inflate(msg.attachments, inflater, container) forEach {
-            container addView it
-        }
-        forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, container) forEach {
-            container addView it
-        }
-
         if (msg.isOut) {
+            val container = view.findViewById(R.id.messageContainer) as LinearLayout
+            container.removeViews(1, container.getChildCount() - 1)
+            attachmentGenerator.inflate(msg.attachments, inflater, container) forEach {
+                container addView it
+            }
+            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, container) forEach {
+                container addView it
+            }
+
             val h = holder as OutcomeMessageHolder
             with (h) {
                 messageText.setText(msg.text)
@@ -100,31 +100,31 @@ class MessageListAdapter(
                 } else messageDayLayout.setVisibility(View.GONE)
             }
         } else {
-            val h = holder as IncomeMessageHolder
+            val h = holder as MessageInHolder
+            h.clearIncludes()
             with (h) {
-                messageText.setText(msg.text)
-                messageText.setVisibility(if (msg.text != "") View.VISIBLE else View.GONE)
-                date.setText(msg.formattedDate)
-                unreadBackground.setVisibility(if (msg.isRead) View.INVISIBLE else View.VISIBLE)
-                changeBackground(messageContainer,
-                        if (f || d) R.drawable.message_in
-                        else R.drawable.message_in_compact)
-                leftMargin.setVisibility(
-                        if (chat && !(f || d)) View.VISIBLE
-                        else View.GONE)
-                topMargin.setVisibility(if (f || d) View.VISIBLE else View.GONE)
+                setText(msg.text)
+                setDate(msg.formattedDate)
+                setUnread(!msg.isRead)
+                firstMessage(f || d)
+                if (chat && (f || d)) {
+                    showPhoto(true)
+                    loadUserImage(h.senderPhoto, msg.senderOrEmpty().photoUrl)
+                } else
+                    showPhoto(false)
                 if (d) {
-                    messageDayLayout.setVisibility(View.VISIBLE)
-                    messageDay.setText(DateFormat.messageListDayContainer(msg.dateMSC))
-                } else messageDayLayout.setVisibility(View.GONE)
+                    showRedStrip(true)
+                    setRedStripText(DateFormat.messageListDayContainer(msg.dateMSC))
+                } else
+                    showRedStrip(false)
             }
-            if (chat && (f || d)) {
-                with (h.senderPhoto) {
-                    setVisibility(View.VISIBLE)
-                    loadUserImage(this, msg.senderOrEmpty().photoUrl)
-                }
-            } else
-                h.senderPhoto.setVisibility(View.GONE)
+
+            attachmentGenerator.inflate(msg.attachments, inflater, h.attachments) forEach {
+                h addAttachment it
+            }
+            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, h.forwardMessages) forEach {
+                h addForwardMessage it
+            }
         }
 
         // Animation
@@ -196,8 +196,8 @@ class MessageListAdapter(
     }
 
     private fun getInView(parent: ViewGroup): View {
-        val view = inflater.inflate(R.layout.message_income, parent, false)!!
-        view.setTag(IncomeMessageHolder(view))
+        val view = inflater.inflate(R.layout.message_in_tmp, parent, false)
+        view.setTag(MessageInHolder(view))
         return view
     }
 
@@ -334,7 +334,7 @@ class MessageListAdapter(
                 val view = listView.getChildAt(i - firstPos)
                 if (view != null) {
                     val h = view.getTag()
-                    val alreadyRead = if (h is IncomeMessageHolder) h.unreadBackground.getVisibility() == View.INVISIBLE
+                    val alreadyRead = if (h is MessageInHolder) h.isRead()
                     else (h as OutcomeMessageHolder).unreadBackground.getVisibility() == View.INVISIBLE
                     if (!alreadyRead) {
                         val a = AnimationUtils.loadAnimation(AppContext.instance, R.anim.message_read)
@@ -343,8 +343,8 @@ class MessageListAdapter(
                             }
 
                             override fun onAnimationEnd(animation: Animation?) {
-                                if (h is IncomeMessageHolder)
-                                    h.unreadBackground.setVisibility(View.INVISIBLE)
+                                if (h is MessageInHolder)
+                                    h.setUnread(false)
                                 else
                                     (h as OutcomeMessageHolder).unreadBackground.setVisibility(View.INVISIBLE)
                             }
@@ -353,7 +353,7 @@ class MessageListAdapter(
                             }
                         }
                         a!!.setAnimationListener(l)
-                        if (h is IncomeMessageHolder)
+                        if (h is MessageInHolder)
                             h.unreadBackground.startAnimation(a)
                         else
                             (h as OutcomeMessageHolder).unreadBackground.startAnimation(a)

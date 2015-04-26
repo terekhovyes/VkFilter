@@ -7,9 +7,9 @@
     android:orientation="vertical">
 
     <View
-            android:id="@+id/messageTopMargin"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/chat_spacer_big"/>
+        android:id="@+id/messageTopMargin"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/chat_spacer_big"/>
 
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"

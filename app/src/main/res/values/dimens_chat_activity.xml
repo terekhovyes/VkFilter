@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="chat_roundness">5dp</dimen>
+    <dimen name="chat_roundness">8dp</dimen>
 
     <dimen name="chat_spacer_big">10dp</dimen>
     <dimen name="chat_spacer">5dp</dimen>
