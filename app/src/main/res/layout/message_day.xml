@@ -8,11 +8,11 @@
     <TextView android:id="@+id/messageDay"
               android:layout_width="match_parent"
               android:layout_height="30dp"
-              android:layout_marginTop="@dimen/margin_between_replies"
+              android:layout_marginTop="@dimen/chat_spacer_big"
               android:gravity="center|center_vertical"
               android:background="@color/my_red"
               android:textColor="@color/my_white"
-              android:textSize="16sp"
+              android:textSize="@dimen/my_text"
               android:text="Сегодня"/>
 
 </LinearLayout>

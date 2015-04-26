@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="date_size">12sp</dimen>
-    <dimen name="message_size">16sp</dimen>
-
     <dimen name="date_margin">-32dp</dimen>
     <dimen name="message_margin">37dp</dimen>
     <dimen name="date_top">14dp</dimen>
-
-    <dimen name="margin_between_replies">10dp</dimen>
 
     <dimen name="text_padding_right">10dp</dimen>
     <dimen name="text_padding_top">6dp</dimen>

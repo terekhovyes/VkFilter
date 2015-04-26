@@ -4,14 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="left"
-    android:padding="2dp"
+    android:padding="@dimen/chat_spacer_mini"
     android:orientation="horizontal">
     
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:background="@color/my_white"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="@dimen/chat_spacer"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
             android:id="@+id/senderPhoto"
             android:layout_height="40dp"
             android:layout_width="40dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="@dimen/chat_spacer"
             app:border="false"
             app:shadow="true"/>
         
@@ -31,7 +31,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@id/senderPhoto"
             android:textColor="@color/my_white_transparent"
-            android:textSize="16sp"
+            android:textSize="@dimen/my_text"
             android:text="Имя фамилия"/>
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_toRightOf="@id/senderPhoto"
             android:layout_below="@id/senderName"
             android:textColor="@color/my_white_transparent"
-            android:textSize="14sp"
+            android:textSize="@dimen/my_text_mini"
             android:text="вчера 16:05"/>
 
         <com.rockerhieu.emojicon.EmojiconTextView
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/senderPhoto"
-            android:textSize="@dimen/message_size"
+            android:textSize="@dimen/my_text"
             app:emojiconSize="20sp"
             android:textColor="@color/my_white"
             android:textColorLink="@color/my_links_color"

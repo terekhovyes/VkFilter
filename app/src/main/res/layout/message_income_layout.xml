@@ -9,19 +9,19 @@
     <View
             android:id="@+id/messageTopMargin"
             android:layout_width="0dp"
-            android:layout_height="@dimen/margin_between_replies"/>
+            android:layout_height="@dimen/chat_spacer_big"/>
 
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:paddingRight="5dp">
+                  android:paddingRight="@dimen/chat_spacer">
 
         <me.alexeyterekhov.circularimageview.CircularImageView
                 android:id="@+id/senderPhoto"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/chat_spacer"
+                android:layout_marginTop="@dimen/chat_spacer"
                 android:src="@drawable/stub_user"
                 app:border="false"
                 app:shadow="true"/>
@@ -51,8 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:textSize="@dimen/message_size"
-                    app:emojiconSize="20sp"
+                    android:textSize="@dimen/my_text"
+                    app:emojiconSize="@dimen/my_emoji"
                     android:textColor="@color/my_white"
                     android:textColorLink="@color/my_links_color"
                     android:linksClickable="true"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/date_top"
                 android:layout_marginLeft="@dimen/date_margin"
-                android:textSize="@dimen/date_size"
+                android:textSize="@dimen/my_text_micro"
                 android:textColor="@color/my_gray"
                 android:text="18:05"/>
 
