@@ -117,22 +117,12 @@ object JSONParser {
 
     private fun parseItemDialog(item: JSONObject): Dialog {
         val dialog = Dialog()
-
-        val id = if (item.getInt("out") == 1) "me" else item.getString("user_id")
-
-        // fill last message
-        val dateInSeconds = item.getLong("date")
-        val message = Message(id)
-        with (message) {
-            dateMSC = dateInSeconds * 1000L
-            formattedDate = DateFormat.dialogReceivedDate(dateInSeconds)
-            text = item.optString("body", "")
-            isRead = item.optInt("read_state", 1) == 1
-            isOut = item.optInt("out", 0) == 1
-        }
-        dialog.lastMessage = message
-
+        dialog.lastMessage = parseItemMessage(item)
         dialog.id = item.optLong("chat_id", item.optLong("user_id", 0))
+        dialog.photoUrl = findPhotoMax(item) ?: ""
+        val title = item.getString("title")
+        if (title != " ... ")
+            dialog.title = title
 
         // fill conversation partners
         if (item.has("chat_id")) {
@@ -141,13 +131,6 @@ object JSONParser {
                 dialog.addPartner(UserCache.getUser(partners.getString(j))!!)
         } else
             dialog.addPartner(UserCache.getUser(item.getString("user_id"))!!)
-
-        // check if dialog has own picture and title
-        val title = item.getString("title")
-        if (title != " ... ")
-            dialog.title = title
-
-        dialog.photoUrl = findPhotoMax(item) ?: ""
 
         return dialog
     }
