@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.R
 
 class DialogHolder(val dialogView: View): RecyclerView.ViewHolder(dialogView) {
@@ -33,4 +34,30 @@ class DialogHolder(val dialogView: View): RecyclerView.ViewHolder(dialogView) {
     val messageText = dialogView.findViewById(R.id.dialogLastMessage) as TextView
     val unreadBackground = dialogView.findViewById(R.id.unreadBackground) as ImageView
     val unreadMessage = dialogView.findViewById(R.id.unreadMessage) as ImageView
+    val attachmentIcon = dialogView.findViewById(R.id.attachmentIcon) as ImageView
+
+    fun setAttachmentIcon(m: Message) {
+        val a = m.attachments
+        val icons = hashMapOf(
+            a.audios to R.drawable.icon_sound,
+            a.images to R.drawable.icon_image,
+            a.videos to R.drawable.icon_video,
+            a.documents to R.drawable.icon_doc,
+            a.messages to R.drawable.icon_message
+        )
+        when {
+            icons.keySet() all { it.isEmpty() } -> {
+                attachmentIcon setVisibility View.GONE
+            }
+            icons.keySet() count { it.isNotEmpty() } > 1 -> {
+                attachmentIcon setVisibility View.VISIBLE
+                attachmentIcon setImageResource R.drawable.icon_plus_gray
+            }
+            else -> {
+                attachmentIcon setVisibility View.VISIBLE
+                val col = icons.keySet() first { it.isNotEmpty() }
+                attachmentIcon setImageResource (icons get col)
+            }
+        }
+    }
 }

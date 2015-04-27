@@ -16,7 +16,6 @@ class ForwardMessageHolder(val view: View) {
     val date = view.findViewById(R.id.date) as TextView
     val messageText = view.findViewById(R.id.messageText) as TextView
     val attachmentsLayout = view.findViewById(R.id.attachmentsLayout) as LinearLayout
-    val forwardMessagesLayout = view.findViewById(R.id.forwardMessagesLayout) as LinearLayout
 
     // Base info
     fun fillUserInfo(user: User) {
@@ -39,9 +38,6 @@ class ForwardMessageHolder(val view: View) {
     }
 
     // Fill attachments and forward messages
-    fun addForwardMessage(view: View) {
-        forwardMessagesLayout.addView(view)
-    }
     fun addAttachment(view: View) {
         attachmentsLayout.addView(view)
     }

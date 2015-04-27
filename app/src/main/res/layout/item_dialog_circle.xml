@@ -212,7 +212,7 @@
                         android:visibility="visible"
                         android:src="@drawable/unread_message"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -224,11 +224,26 @@
                         android:layout_marginRight="2dp"
                         app:border="false"
                         app:shadow="true"/>
+                    
+                    <ImageView
+                        android:id="@+id/attachmentIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="@dimen/chat_spacer"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/chat_spacer"
+                        android:visibility="gone"
+                        android:background="@drawable/black_circle_background"
+                        android:src="@drawable/icon_image"/>
 
                     <com.rockerhieu.emojicon.EmojiconTextView
                         android:id="@+id/dialogLastMessage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/dialogSenderIcon"
+                        android:layout_toLeftOf="@id/attachmentIcon"
                         android:layout_marginRight="10dp"
                         android:gravity="center_vertical"
                         android:lines="2"
@@ -238,7 +253,7 @@
                         app:emojiconSize="16sp"
                         android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </FrameLayout>
 

@@ -12,7 +12,6 @@ class MessageOutHolder(view: View) {
     val date = view.findViewById(R.id.date) as TextView
     val messageText = view.findViewById(R.id.messageText) as TextView
     val attachments = view.findViewById(R.id.attachmentsLayout) as LinearLayout
-    val forwardMessages = view.findViewById(R.id.forwardMessagesLayout) as LinearLayout
     // Additional Elements
     val messageDay = view.findViewById(R.id.messageDay) as TextView
     val messageDayLayout = view.findViewById(R.id.messageDayLayout) as LinearLayout
@@ -23,12 +22,10 @@ class MessageOutHolder(view: View) {
 
     fun isRead() = unreadBackground.getVisibility() != View.VISIBLE
 
-    fun clearIncludes() {
+    fun clearAttachments() {
         attachments.removeAllViews()
-        forwardMessages.removeAllViews()
     }
     fun addAttachment(v: View) = attachments addView v
-    fun addForwardMessage(v: View) = forwardMessages addView v
     fun setText(t: CharSequence) {
         if (t.length() == 0)
             messageText setVisibility View.GONE

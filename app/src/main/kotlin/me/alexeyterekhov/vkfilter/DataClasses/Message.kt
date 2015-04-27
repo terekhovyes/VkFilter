@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.DataClasses
 
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
-import java.util.LinkedList
 
 class Message(val senderId: String) {
     var id = 0L
@@ -15,7 +14,6 @@ class Message(val senderId: String) {
     // Data
     var text = ""
     val attachments = Attachments()
-    val forwardMessages = LinkedList<Message>()
 
     fun senderOrEmpty(): User = UserCache.getUser(senderId) ?: User()
 }

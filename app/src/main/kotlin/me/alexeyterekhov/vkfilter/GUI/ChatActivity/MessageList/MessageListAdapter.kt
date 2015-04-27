@@ -59,7 +59,6 @@ class MessageListAdapter(
         }
 
     private var attachmentGenerator = createAttachmentGenerator()
-    private val forwardMessageGenerator = ForwardMessageViewGenerator()
 
     override fun getCount() = if (messages == null) 0 else messages!!.size()
     override fun getItem(position: Int) = messages!![position]
@@ -79,7 +78,7 @@ class MessageListAdapter(
 
         if (msg.isOut) {
             val h = holder as MessageOutHolder
-            h.clearIncludes()
+            h.clearAttachments()
             with (h) {
                 setText(msg.text)
                 setDate(msg.formattedDate)
@@ -91,12 +90,9 @@ class MessageListAdapter(
             attachmentGenerator.inflate(msg.attachments, inflater, h.attachments) forEach {
                 h addAttachment  it
             }
-            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, h.forwardMessages) forEach {
-                h addForwardMessage it
-            }
         } else {
             val h = holder as MessageInHolder
-            h.clearIncludes()
+            h.clearAttachments()
             with (h) {
                 setText(msg.text)
                 setDate(msg.formattedDate)
@@ -109,9 +105,6 @@ class MessageListAdapter(
             }
             attachmentGenerator.inflate(msg.attachments, inflater, h.attachments) forEach {
                 h addAttachment it
-            }
-            forwardMessageGenerator.inflateFor(msg, attachmentGenerator, inflater, h.forwardMessages) forEach {
-                h addForwardMessage it
             }
         }
 

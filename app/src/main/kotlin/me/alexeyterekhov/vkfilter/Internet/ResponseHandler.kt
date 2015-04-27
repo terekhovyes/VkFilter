@@ -104,8 +104,8 @@ object ResponseHandler {
 
     private fun loadNotLoadedUsers(messages: Vector<Message>) {
         fun notLoadedUsers(m: Message): LinkedList<String> {
-            val list = if (m.forwardMessages.isNotEmpty())
-                m.forwardMessages
+            val list = if (m.attachments.messages.isNotEmpty())
+                m.attachments.messages
                         .map { notLoadedUsers(it) }
                         .foldRight(LinkedList<String>(), {
                             list, el ->
@@ -132,8 +132,8 @@ object ResponseHandler {
 
     private fun loadNotLoadedVideos(dialogId: String, isChat: Boolean, messages: Vector<Message>) {
         fun notLoadedIds(m: Message): LinkedList<String> {
-            val list = if (m.forwardMessages.isNotEmpty())
-                m.forwardMessages
+            val list = if (m.attachments.messages.isNotEmpty())
+                m.attachments.messages
                         .map { notLoadedIds(it) }
                         .foldRight(LinkedList<String>(), {
                             list, el ->
@@ -260,8 +260,8 @@ object ResponseHandler {
         val dialog = MessageCache.getDialog(dialogId, isChat)
 
         fun findAttachments(vid: Long, m: Message): LinkedList<VideoAttachment> {
-            val list = if (m.forwardMessages.isNotEmpty())
-                m.forwardMessages
+            val list = if (m.attachments.messages.isNotEmpty())
+                m.attachments.messages
                         .map { findAttachments(vid, it) }
                         .foldRight(LinkedList<VideoAttachment>(), {
                             list, el ->

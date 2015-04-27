@@ -198,7 +198,7 @@ object JSONParser {
         }
 
         if (item.has("fwd_messages"))
-            message.forwardMessages addAll (parseMessages(item.getJSONArray("fwd_messages")))
+            message.attachments.messages addAll (parseMessages(item.getJSONArray("fwd_messages")))
 
         if (item.has("attachments"))
             parseMessageAttachments(item.getJSONArray("attachments"), message.attachments)

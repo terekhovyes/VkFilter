@@ -13,7 +13,9 @@ import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
 import me.alexeyterekhov.vkfilter.Common.TextFormat
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
 import me.alexeyterekhov.vkfilter.R
 
@@ -29,6 +31,7 @@ class AttachmentsViewGenerator(
             .plus(inflateVideos(attachments.videos, inflater, root))
             .plus(inflateDocs(attachments.documents, inflater, root))
             .plus(inflateAudios(attachments.audios, inflater, root))
+            .plus(inflateForwardMessages(attachments.messages, inflater, root))
     }
 
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
@@ -148,6 +151,17 @@ class AttachmentsViewGenerator(
         }
     }
 
+    fun inflateForwardMessages(
+            messages: Collection<Message>,
+            inflater: LayoutInflater,
+            root: ViewGroup
+    ): List<View> {
+        return messages map {
+            val holder = messageToView(it, inflater, root)
+            holder.view
+        }
+    }
+
     private fun loadImage(loader: ImageLoader, view: ImageView, url: String) {
         val conf = if (url !in shownUrls) {
             shownUrls add url
@@ -155,5 +169,22 @@ class AttachmentsViewGenerator(
         } else
             ImageLoadConf.loadImageWithoutAnim
         loader.displayImage(url, view, conf)
+    }
+
+    private fun messageToView(m: Message, i: LayoutInflater, root: ViewGroup): ForwardMessageHolder {
+        val view = i.inflate(R.layout.item_fwd_message, root, false)
+        val holder = ForwardMessageHolder(view)
+        with (holder) {
+            if (UserCache.contains(m.senderId))
+                fillUserInfo(UserCache.getUser(m.senderId)!!)
+            else
+                fillUserNotLoaded()
+            setDate(m.dateMSC)
+            setMessageText(m.text)
+            inflate(m.attachments, i, attachmentsLayout) forEach {
+                addAttachment(it)
+            }
+        }
+        return holder
     }
 }

@@ -64,13 +64,6 @@
             android:layout_below="@id/messageText"
             android:orientation="vertical"/>
 
-        <LinearLayout
-            android:id="@+id/forwardMessagesLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/attachmentsLayout"
-            android:orientation="vertical"/>
-
     </RelativeLayout>
 
 </LinearLayout>

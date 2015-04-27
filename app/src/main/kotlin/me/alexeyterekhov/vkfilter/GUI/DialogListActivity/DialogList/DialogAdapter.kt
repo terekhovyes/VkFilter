@@ -132,6 +132,7 @@ class DialogAdapter(val list: RecyclerView) :
             else
                 makeInvisible(h.unreadBackground)
         }
+        h.setAttachmentIcon(lastMessage)
 
         // picture
         when (data.getImageCount()) {
