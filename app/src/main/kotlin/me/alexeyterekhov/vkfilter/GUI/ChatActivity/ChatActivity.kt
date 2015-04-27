@@ -255,8 +255,8 @@ class ChatActivity:
                     id = id,
                     chat = isChat
             )
-            adapter.maxImageHeight = size.y * 2 / 3
-            adapter.maxImageWidth = size.x * 2 / 3
+            adapter.maxImageHeight = (size.y * 0.7).toInt()
+            adapter.maxImageWidth = (size.x * 0.7).toInt()
             list.setAdapter(adapter)
         }
     }
@@ -271,8 +271,8 @@ class ChatActivity:
         if (adapter != null) {
             val size = Point()
             getWindowManager().getDefaultDisplay().getSize(size)
-            adapter.maxImageHeight = size.y * 3 / 4
-            adapter.maxImageWidth = size.x * 3 / 4
+            adapter.maxImageHeight = (size.y * 0.7).toInt()
+            adapter.maxImageWidth = (size.x * 0.7).toInt()
         }
     }
 

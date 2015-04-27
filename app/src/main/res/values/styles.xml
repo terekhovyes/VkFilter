@@ -13,6 +13,7 @@
         <item name="popupMenuStyle">@style/my_popup</item>
         <item name="actionBarStyle">@style/my_action_bar</item>
         <item name="colorPrimary">@color/my_green</item>
+        <item name="colorPrimaryDark">@color/my_green_darker</item>
         <item name="drawerArrowStyle">@style/my_drawer_style</item>
     </style>
 

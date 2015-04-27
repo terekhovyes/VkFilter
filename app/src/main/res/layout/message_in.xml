@@ -42,7 +42,7 @@
                         android:id="@+id/senderPhoto"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/chat_spacer"
+                        android:layout_marginLeft="@dimen/chat_spacer_big"
                         android:src="@drawable/stub_user"
                         app:border="false"
                         app:shadow="true"/>
@@ -62,7 +62,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/chat_spacer"
                         android:gravity="center"
-                        android:background="@drawable/blue_round_background">
+                        android:background="@drawable/green_round_background">
 
                         <com.rockerhieu.emojicon.EmojiconTextView
                             android:id="@+id/messageText"

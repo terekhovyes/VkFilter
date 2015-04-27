@@ -20,7 +20,7 @@
         android:layout_alignRight="@id/preview"
         android:layout_marginRight="1dp"
         android:textColor="@color/my_white"
-        android:background="@color/my_black_transparent"
+        android:background="@drawable/black_round_background"
         android:padding="4dp"
         android:textSize="@dimen/my_text_mini"
         android:text="0:10"/>

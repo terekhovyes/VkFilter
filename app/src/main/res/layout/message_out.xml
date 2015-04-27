@@ -56,7 +56,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/chat_spacer"
                         android:gravity="center"
-                        android:background="@drawable/green_round_background">
+                        android:background="@drawable/blue_round_background">
 
                         <com.rockerhieu.emojicon.EmojiconTextView
                             android:id="@+id/messageText"
