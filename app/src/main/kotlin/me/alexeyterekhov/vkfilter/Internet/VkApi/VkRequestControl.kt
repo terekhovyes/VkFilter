@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
 import android.util.Log
+import me.alexeyterekhov.vkfilter.Common.Chef
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
-import java.util.Collections
 
 public object VkRequestControl {
     private fun checkSdkInitialized() {
@@ -13,25 +13,21 @@ public object VkRequestControl {
     public fun addRequest(request: VkRequestBundle) {
         checkSdkInitialized()
         Log.d(VkTask.LOG_TAG, ">>> Add request [${VkFunNames.name(request.vkFun)}]")
-        VkTask.instance.handle(Collections.singleton(request))
+        Chef.cook(VkRecipes.normalRecipe, request)
     }
 
     public fun addUnstoppableRequest(request: VkRequestBundle) {
         checkSdkInitialized()
         Log.d(VkTask.LOG_TAG, ">>> Add unstoppable request [${VkFunNames.name(request.vkFun)}]")
-        VkTask.unstoppableInstance.handle(Collections.singleton(request))
+        Chef.cook(VkRecipes.veryImportantRecipe, request)
     }
 
     public fun pause() {
-        val task = VkTask.instance
-        if (task.isRunning() && !task.willPause())
-            task.pauseAfterCurrentSource()
+        Chef.denyCooking(VkRecipes.normalRecipe)
     }
 
     public fun resume() {
         checkSdkInitialized()
-        val task = VkTask.instance
-        if (!task.isRunning() || task.willPause())
-            task.resumeHandling()
+        Chef.allowCooking(VkRecipes.normalRecipe)
     }
 }
