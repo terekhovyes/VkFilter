@@ -24,6 +24,23 @@ public object Chef {
         recipe.cooking addIngredients ingredients
     }
 
+    fun express<Dish>(cooking: () -> Dish, serving: (Dish) -> Unit) {
+        val recipe = Chef.createRecipe<Any, Dish>()
+                .cookThisWay { cooking() }
+                .serveThisWay { any, dish -> serving(dish) }
+                .maxCookAttempts(1)
+                .create()
+        Chef.cook(recipe, 1)
+    }
+    fun express(cooking: () -> Unit, serving: () -> Unit) {
+        val recipe = Chef.createRecipe<Any, Any>()
+                .cookThisWay { cooking() }
+                .serveThisWay { any, any2 -> serving() }
+                .maxCookAttempts(1)
+                .create()
+        Chef.cook(recipe, 1)
+    }
+
     fun denyCooking(recipe: Recipe<*, *>) = recipe.cooking.deny()
     fun allowCooking(recipe: Recipe<*, *>) = recipe.cooking.allow()
 }
