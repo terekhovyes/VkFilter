@@ -77,7 +77,7 @@ object DialogRefresher: DataDepend, NotificationListener {
 
     private fun request() {
         lastRun = System.currentTimeMillis()
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.refreshDialog, createParams()))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.refreshDialog, createParams()))
     }
 
     private fun createParams(): VKParameters {

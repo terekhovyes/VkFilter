@@ -10,7 +10,7 @@ public object RunFun {
         val params = VKParameters()
         params["offset"] = offset
         params["count"] = count
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.dialogList, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.dialogList, params))
     }
 
     public fun messageList(
@@ -28,7 +28,7 @@ public object RunFun {
         params[if (dialogIsChat) "chat_id" else "user_id"] = dialogId
         if (offset != 0) params["offset"] = offset
         if (startMessageId != "") params["start_message_id"] = startMessageId
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.messageList, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.messageList, params))
     }
 
     public fun friendList(offset: Int, count: Int) {
@@ -37,20 +37,20 @@ public object RunFun {
         params["offset"] = offset
         params["order"] = "hints"
         params["fields"] = "name,sex,photo_max,last_seen"
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.friendList, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.friendList, params))
     }
 
     public fun userInfo(ids: Collection<String>) {
         val params = VKParameters()
         params["user_ids"] = ids.join(separator = ",")
         params["fields"] = "name,sex,online,photo_max,last_seen"
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.userInfo, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.userInfo, params))
     }
 
     public fun chatInfo(ids: Collection<String>) {
         val params = VKParameters()
         params["chat_ids"] = ids.join(separator = ",")
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.chatInfo, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.chatInfo, params))
     }
 
     public fun sendMessage(msg: MessageForSending) {
@@ -58,7 +58,7 @@ public object RunFun {
         params["message"] = msg.text
         params[if (msg.isChat) "chat_id" else "user_id"] = msg.dialogId
         params["guid"] = System.currentTimeMillis()
-        VkRequestControl.addUnstoppableRequest(VkRequestBundle(VkFun.sendMessage, params))
+        VkRequestControl.addOrderImportantRequest(VkRequestBundle(VkFun.sendMessage, params))
     }
 
     public fun markIncomesAsRead(id: String, chat: Boolean) {
@@ -70,7 +70,7 @@ public object RunFun {
             val additionalParams = Bundle()
             additionalParams.putString("id", id)
             additionalParams.putBoolean("chat", chat)
-            VkRequestControl.addRequest(VkRequestBundle(VkFun.markIncomesAsRead, params, additionalParams))
+            VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.markIncomesAsRead, params, additionalParams))
         }
     }
 
@@ -78,26 +78,26 @@ public object RunFun {
         val params = VKParameters()
         params["token"] = id
         params["subscribe"] = "msg"
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.registerGCM, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.registerGCM, params))
     }
 
     public fun unregisterGCM(id: String) {
         val params = VKParameters()
         params["token"] = id
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.unregisterGCM, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.unregisterGCM, params))
     }
 
     public fun notificationInfo(messageId: String) {
         val params = VKParameters()
         params["message_id"] = messageId
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.notificationInfo, params))
+        VkRequestControl.addUnstoppableRequest(VkRequestBundle(VkFun.notificationInfo, params))
     }
 
     public fun getDialogPartners(id: Long, isChat: Boolean) {
         val params = VKParameters()
         params["id"] = id
         params["chat"] = if (isChat) 1 else 0
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.getDialogPartners, params))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.getDialogPartners, params))
     }
 
     public fun getVideoUrls(dialogId: String, isChat: Boolean, ids: Collection<String>) {
@@ -106,6 +106,6 @@ public object RunFun {
         val additional = Bundle()
         additional.putString("id", dialogId)
         additional.putBoolean("chat", isChat)
-        VkRequestControl.addRequest(VkRequestBundle(VkFun.videoUrls, params, additional))
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.videoUrls, params, additional))
     }
 }

@@ -12,25 +12,28 @@ public object VkRecipes {
     private val MAX_WAIT_FOR_RESPONSE = 5000
     val LOG_TAG = "VkRequest"
 
-    public val normalRecipe: Recipe<VkRequestBundle, VKResponse> =
-            Chef.createRecipe<VkRequestBundle, VKResponse>()
-                    .cookThisWay(cook())
-                    .serveThisWay(serve())
-                    .cleanUpThisWay(cleanUp())
-                    .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
-                    .ifCookingFail(Chef.COOK_AGAIN_LATER)
-                    .waitAfterCookingFail(500)
-                    .create()
+    public val stoppableRecipe: Recipe<VkRequestBundle, VKResponse> = requestBase()
+            .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
+            .ifCookingFail(Chef.COOK_AGAIN_LATER)
+            .waitAfterCookingFail(500)
+            .create()
 
-    public val veryImportantRecipe: Recipe<VkRequestBundle, VKResponse> =
-            Chef.createRecipe<VkRequestBundle, VKResponse>()
-                    .cookThisWay(cook())
-                    .serveThisWay(serve())
-                    .cleanUpThisWay(cleanUp())
-                    .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
-                    .ifCookingFail(Chef.COOK_AGAIN_IMMEDIATELY)
-                    .waitAfterCookingFail(500)
-                    .create()
+    public val unstoppabeRecipe: Recipe<VkRequestBundle, VKResponse> = requestBase()
+            .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
+            .ifCookingFail(Chef.COOK_AGAIN_LATER)
+            .waitAfterCookingFail(500)
+            .create()
+
+    public val orderImportantRecipe: Recipe<VkRequestBundle, VKResponse> = requestBase()
+            .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
+            .ifCookingFail(Chef.COOK_AGAIN_IMMEDIATELY)
+            .waitAfterCookingFail(500)
+            .create()
+
+    private fun requestBase() = Chef.createRecipe<VkRequestBundle, VKResponse>()
+            .cookThisWay(cook())
+            .serveThisWay(serve())
+            .cleanUpThisWay(cleanUp())
 
     private fun cook(): (VkRequestBundle) -> VKResponse = {
         bundle: VkRequestBundle ->

@@ -22,8 +22,8 @@ public class LoginActivity: ActionBarActivity() {
         }
         VKUIHelper.onCreate(this)
         VkSdkInitializer.init()
-        // String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-        // Log.d("Fingerprint", fingerprint[0]);
+        // val fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName())
+        // Log.d("Fingerprint", fingerprint[0])
         if (VKSdk.wakeUpSession())
             startDialogActivity()
         loginPressed = false

@@ -5,29 +5,35 @@ import me.alexeyterekhov.vkfilter.Common.Chef
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 
 public object VkRequestControl {
+    private val LOG_TAG = "VkRequestControl"
+
     private fun checkSdkInitialized() {
         if (VkSdkInitializer.isNull())
             VkSdkInitializer.init()
     }
 
-    public fun addRequest(request: VkRequestBundle) {
+    public fun addStoppableRequest(request: VkRequestBundle) {
         checkSdkInitialized()
-        Log.d(VkTask.LOG_TAG, ">>> Add request [${VkFunNames.name(request.vkFun)}]")
-        Chef.cook(VkRecipes.normalRecipe, request)
+        Log.d(LOG_TAG, ">>> Stoppable request [${VkFunNames.name(request.vkFun)}]]")
+        Chef.cook(VkRecipes.stoppableRecipe, request)
     }
-
     public fun addUnstoppableRequest(request: VkRequestBundle) {
         checkSdkInitialized()
-        Log.d(VkTask.LOG_TAG, ">>> Add unstoppable request [${VkFunNames.name(request.vkFun)}]")
-        Chef.cook(VkRecipes.veryImportantRecipe, request)
+        Log.d(LOG_TAG, ">>> Unstoppable request [${VkFunNames.name(request.vkFun)}]]")
+        Chef.cook(VkRecipes.unstoppabeRecipe, request)
+    }
+    public fun addOrderImportantRequest(request: VkRequestBundle) {
+        checkSdkInitialized()
+        Log.d(LOG_TAG, ">>> Order important request [${VkFunNames.name(request.vkFun)}]]")
+        Chef.cook(VkRecipes.orderImportantRecipe, request)
     }
 
     public fun pause() {
-        Chef.denyCooking(VkRecipes.normalRecipe)
+        Chef.denyCooking(VkRecipes.stoppableRecipe)
     }
 
     public fun resume() {
         checkSdkInitialized()
-        Chef.allowCooking(VkRecipes.normalRecipe)
+        Chef.allowCooking(VkRecipes.stoppableRecipe)
     }
 }
