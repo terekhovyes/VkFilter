@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.Mock
 
 import com.rockerhieu.emojicon.emoji.People
-import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessagePack
@@ -120,7 +119,6 @@ public object Mocker {
                 text = texts[i]
                 isOut = !income[i]
                 dateMSC = dates[i]
-                formattedDate = DateFormat.time(dateMSC / 1000L)
                 isRead = true
             }
             messages add m
@@ -185,7 +183,6 @@ public object Mocker {
                 isRead = read[i]
                 isOut = !income[i]
                 dateMSC = date[i]
-                formattedDate = DateFormat.time(dateMSC / 1000L)
             }
 
             val dialog = Dialog()
@@ -239,7 +236,6 @@ public object Mocker {
                 isRead = read[i]
                 isOut = true
                 dateMSC = date[i]
-                formattedDate = DateFormat.time(dateMSC / 1000L)
             }
 
             with (dialog) {

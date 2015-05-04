@@ -9,7 +9,6 @@ class Message(val senderId: String) {
     var isRead = false
     var isOut = false
     // Date
-    var formattedDate = ""
     var dateMSC = 0L
     // Data
     var text = ""

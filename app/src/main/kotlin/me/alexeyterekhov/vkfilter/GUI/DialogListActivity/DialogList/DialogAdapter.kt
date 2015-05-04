@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.Common.AppContext
+import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
@@ -51,7 +52,6 @@ class DialogAdapter(val list: RecyclerView) :
         updateListWithNewData()
     }
     private fun updateListWithNewData() {
-        // animateListChangesOld(filteredDialogs, Filtrator.filter(snapshot, filters))
         updateWithAnimation(Filtrator.filter(snapshot, filters))
     }
 
@@ -117,7 +117,7 @@ class DialogAdapter(val list: RecyclerView) :
         h.title setText data.title
 
         // last message info
-        h.messageDate setText lastMessage.formattedDate
+        h.messageDate setText DateFormat.dialogReceivedDate(lastMessage.dateMSC / 1000L)
         h.messageText setText lastMessage.text
         if (lastMessage.isOut) {
             makeInvisible(h.unreadBackground)

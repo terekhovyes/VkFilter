@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.Internet
 
 import android.util.Log
-import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
@@ -173,10 +172,6 @@ object JSONParser {
             isOut = out
             text = item.optString("body", "")
             dateMSC = item.optLong("date", 0L) * 1000L
-            formattedDate = if (dateMSC != 0L)
-                DateFormat.time(dateMSC / 1000L)
-            else
-                ""
             isRead = item.optInt("read_state", 1) == 1
         }
 

@@ -81,7 +81,7 @@ class MessageListAdapter(
             h.clearAttachments()
             with (h) {
                 setText(msg.text)
-                setDate(msg.formattedDate)
+                setDate(DateFormat.time(msg.dateMSC / 1000L))
                 setUnread(!msg.isRead)
                 firstMessage(f || d)
                 showRedStrip(d)
@@ -95,7 +95,7 @@ class MessageListAdapter(
             h.clearAttachments()
             with (h) {
                 setText(msg.text)
-                setDate(msg.formattedDate)
+                setDate(DateFormat.time(msg.dateMSC / 1000L))
                 setUnread(!msg.isRead)
                 firstMessage(f || d)
                 showPhoto(chat && (f || d))

@@ -3,7 +3,6 @@ package me.alexeyterekhov.vkfilter.Test
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import me.alexeyterekhov.vkfilter.Common.DateFormat
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
@@ -45,7 +44,6 @@ public class TestDialogActivityAnimations: DialogListActivity() {
         with (updated.lastMessage!!) {
             dateMSC = System.currentTimeMillis()
             isRead = false
-            formattedDate = DateFormat.dialogReceivedDate(dateMSC / 1000L)
             text = "Updated Test Text"
             isOut = false
         }

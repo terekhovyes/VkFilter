@@ -62,10 +62,10 @@ public object DateFormat {
         return cur.get(Calendar.YEAR) == cal.get(Calendar.YEAR)
     }
 
-    private fun time(c: Calendar) = SimpleDateFormat("HH:mm").format(c.getTime())
+    private fun time(c: Calendar) = SimpleDateFormat("H:mm").format(c.getTime())
 
     private fun dayMonth(c: Calendar)
-            = SimpleDateFormat("dd ").format(c.getTime()) + months[c.get(Calendar.MONTH)]
+            = SimpleDateFormat("d ").format(c.getTime()) + months[c.get(Calendar.MONTH)]
 
     private fun monthYear(c: Calendar)
             = months[c.get(Calendar.MONTH)] + SimpleDateFormat("' '''yy").format(c.getTime())
