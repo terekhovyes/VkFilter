@@ -31,7 +31,6 @@ import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.SettingsActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
@@ -159,7 +158,6 @@ public open class DialogListActivity:
     override fun onResume() {
         super<VkActivity>.onResume()
         refreshActionBar()
-        VkRequestControl.resume()
         onRefresh()
         subscribeOnGCM()
         startRefreshingActionBar()
@@ -169,7 +167,6 @@ public open class DialogListActivity:
     override fun onPause() {
         super<VkActivity>.onPause()
         unsubscribeFromGCM()
-        VkRequestControl.pause()
         stopRefreshingActionBar()
     }
     override fun onDestroy() {

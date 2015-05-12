@@ -159,6 +159,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Нажать для выбора участников"
+                        android:textColor="@color/my_black_transparent"
                         android:visibility="gone"/>
 
                 </FrameLayout>

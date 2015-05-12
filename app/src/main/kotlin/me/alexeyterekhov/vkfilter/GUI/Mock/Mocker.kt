@@ -5,6 +5,7 @@ import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessagePack
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Database.VkFilter
@@ -159,6 +160,11 @@ public object Mocker {
                 true,
                 false
         )
+        val imageAttachments = arrayListOf(
+                null,
+                ImageAttachment("", "", 0, 0),
+                null
+        )
         val cur = System.currentTimeMillis()
         val date = arrayListOf(
                 cur - 1000 * 60 * 5,
@@ -183,6 +189,8 @@ public object Mocker {
                 isRead = read[i]
                 isOut = !income[i]
                 dateMSC = date[i]
+                if (imageAttachments[i] != null)
+                    attachments.images add imageAttachments[i]!!
             }
 
             val dialog = Dialog()

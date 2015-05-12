@@ -60,6 +60,12 @@ public class DialogChooseFragment: Fragment(), DataDepend {
         refreshLayout.setOnRefreshListener {
             RunFun.dialogList(0, LOAD_PORTION)
         }
+        refreshLayout.setColorSchemeResources(
+                R.color.my_refresh_1,
+                R.color.my_refresh_2,
+                R.color.my_refresh_3,
+                R.color.my_refresh_4
+        )
 
         refreshLayout setRefreshing true
         RunFun.dialogList(0, LOAD_PORTION)

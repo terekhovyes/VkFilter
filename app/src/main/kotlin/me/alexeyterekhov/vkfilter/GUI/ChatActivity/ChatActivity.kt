@@ -30,7 +30,6 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 
@@ -87,7 +86,6 @@ class ChatActivity:
         super<VkActivity>.onResume()
         refreshAdapterImageSize()
         initAdapter()
-        VkRequestControl.resume()
         if (!Mocker.MOCK_MODE)
             DialogRefresher.start(id, isChat)
         else
@@ -103,7 +101,6 @@ class ChatActivity:
         super<VkActivity>.onPause()
         if (!Mocker.MOCK_MODE)
             DialogRefresher.stop()
-        VkRequestControl.pause()
     }
 
     override fun onDestroy() {

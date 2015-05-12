@@ -57,6 +57,12 @@ public class FriendChooseFragment: Fragment(), DataDepend {
         refreshLayout.setOnRefreshListener {
             RunFun.friendList(0, LOAD_PORTION)
         }
+        refreshLayout.setColorSchemeResources(
+                R.color.my_refresh_1,
+                R.color.my_refresh_2,
+                R.color.my_refresh_3,
+                R.color.my_refresh_4
+        )
 
         refreshLayout setRefreshing true
         RunFun.friendList(0, LOAD_PORTION)
