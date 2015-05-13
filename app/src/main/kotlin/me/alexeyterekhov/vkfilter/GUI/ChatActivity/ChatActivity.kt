@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 import android.content.*
 import android.graphics.Point
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -58,7 +59,6 @@ class ChatActivity:
     private var title = ""
     private var loadingMessages: Boolean = false
     private var allMessagesGot = false
-    private var adapterIsEmpty = true
 
     private var allowHideEmoji = true
 
@@ -88,8 +88,7 @@ class ChatActivity:
         initAdapter()
         if (!Mocker.MOCK_MODE)
             DialogRefresher.start(id, isChat)
-        else
-            messageCacheListener.onDataUpdate()
+        Handler().postDelayed({ messageCacheListener.onDataUpdate() }, 500)
         if (!isChat) updateUserLastSeen()
         if (isChat)
             NotificationMaker.clearChatNotifications(id, AppContext.instance)
@@ -303,8 +302,7 @@ class ChatActivity:
         override fun onDataUpdate() {
             loadingMessages = false
             val adapter = getAdapter()!!
-            if (adapterIsEmpty) {
-                adapterIsEmpty = false
+            if (adapter.getCount() == 0) {
                 adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
             } else {
                 with (MessageCache.getDialog(id, isChat)) {
