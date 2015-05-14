@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.activeandroid.ActiveAndroid
 import me.alexeyterekhov.vkfilter.Common.AppContext
@@ -67,6 +68,7 @@ class FilterGlassAdapter(
                 }
             }
             filterName setText item.filterName
+            filterName setVisibility if (item.filterName == "") View.GONE else View.VISIBLE
             avatarList.getAdapter() as AvatarAdapterMini setIds item.identifiers()
         }
     }

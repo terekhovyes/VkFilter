@@ -34,6 +34,7 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
                 with (holder as FilterItemHolder) {
                     icon setImageResource item.getIconTransparentBackgroundResource()
                     name setText item.filterName
+                    name setVisibility if (item.filterName == "") View.GONE else View.VISIBLE
                     selection setVisibility if (selected contains posToId(position)) View.VISIBLE else View.INVISIBLE
                     avatarList.getAdapter() as AvatarAdapter setIds item.identifiers()
                 }
