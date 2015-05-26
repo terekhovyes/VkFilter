@@ -17,13 +17,13 @@ import com.emtronics.dragsortrecycler.DragSortRecycler
 import com.getbase.floatingactionbutton.FloatingActionButton
 import com.jensdriller.libs.undobar.UndoBar
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
 import org.lucasr.twowayview.ItemClickSupport
 import java.util.Vector
 

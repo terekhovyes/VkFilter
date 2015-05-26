@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.DialogListAdapter
@@ -16,6 +14,8 @@ import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
 import kotlin.properties.Delegates
 
 

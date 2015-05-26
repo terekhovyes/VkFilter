@@ -11,9 +11,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.TextView
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import me.alexeyterekhov.vkfilter.Common.FilterStates
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
@@ -24,6 +21,9 @@ import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
+import me.alexeyterekhov.vkfilter.Util.FilterStates
 import java.util.LinkedList
 import kotlin.properties.Delegates
 

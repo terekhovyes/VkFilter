@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
 import android.util.Log
-import me.alexeyterekhov.vkfilter.Common.Chef
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.Util.Chef
 
 public object VkRequestControl {
     private val LOG_TAG = "VkRequestControl"

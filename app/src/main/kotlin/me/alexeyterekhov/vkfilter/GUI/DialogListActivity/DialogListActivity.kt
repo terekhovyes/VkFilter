@@ -16,16 +16,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.vk.sdk.VKSdk
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.MessageListAdapter
+import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
@@ -37,6 +32,9 @@ import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DateFormat
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 
 public open class DialogListActivity:
     VkActivity(),
@@ -105,14 +103,14 @@ public open class DialogListActivity:
                             val key = if (dialog.isChat()) "chat_id" else "user_id"
                             intent.putExtra(key, dialogId)
                             intent.putExtra("title", dialog.title)
-                            if (DataSaver contains ChatActivity.KEY_SAVED) {
+                            /*if (DataSaver contains ChatActivity.KEY_SAVED) {
                                 val chatAdapter = (DataSaver removeObject ChatActivity.KEY_ADAPTER)
                                         as MessageListAdapter?
                                 if (chatAdapter != null) {
                                     chatAdapter.firstLoad = true
                                     DataSaver.putObject(ChatActivity.KEY_ADAPTER, chatAdapter)
                                 }
-                            }
+                            }*/
                             startActivity(intent)
                             overridePendingTransition(R.anim.activity_from_right, R.anim.activity_to_left)
                         }

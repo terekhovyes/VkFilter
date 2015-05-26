@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.MyMaterialTheme"
         android:hardwareAccelerated="true"
-        android:name=".Common.MyApp"
+        android:name=".Util.MyApp"
         tools:replace="android:icon,android:theme">
 
         <service android:name=".NotificationService.GCMService"/>
@@ -48,6 +48,10 @@
         <activity android:name=".Test.TestDialogActivityAnimations"/>
 
         <activity android:name=".GUI.ChatActivity.ChatActivity"
+            android:label="@string/a_chat_title"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".GUI.ChatActivityNew.ChatActivity"
             android:label="@string/a_chat_title"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 

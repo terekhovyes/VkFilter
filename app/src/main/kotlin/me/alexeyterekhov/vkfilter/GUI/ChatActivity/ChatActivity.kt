@@ -18,21 +18,21 @@ import android.widget.ListView
 import com.rockerhieu.emojicon.EmojiconGridFragment
 import com.rockerhieu.emojicon.EmojiconsFragment
 import com.rockerhieu.emojicon.emoji.Emojicon
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
-import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import me.alexeyterekhov.vkfilter.DataCache.MessageCache
+import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.MessageListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
-import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
+import me.alexeyterekhov.vkfilter.Internet.DialogRefresherOld
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 
 class ChatActivity:
         VkActivity(),
@@ -77,7 +77,7 @@ class ChatActivity:
         setContentView(R.layout.activity_chat)
         initUIControls()
         initAdapter()
-        MessageCache.getDialog(id, isChat).listeners add messageCacheListener
+        MessageCacheOld.getDialog(id, isChat).listeners add messageCacheListener
         UserCache.listeners add userCacheListener
         loadUsersIfNotLoaded()
     }
@@ -87,7 +87,7 @@ class ChatActivity:
         refreshAdapterImageSize()
         initAdapter()
         if (!Mocker.MOCK_MODE)
-            DialogRefresher.start(id, isChat)
+            DialogRefresherOld.start(id, isChat)
         Handler().postDelayed({ messageCacheListener.onDataUpdate() }, 500)
         if (!isChat) updateUserLastSeen()
         if (isChat)
@@ -99,13 +99,13 @@ class ChatActivity:
     override fun onPause() {
         super<VkActivity>.onPause()
         if (!Mocker.MOCK_MODE)
-            DialogRefresher.stop()
+            DialogRefresherOld.stop()
     }
 
     override fun onDestroy() {
         super<VkActivity>.onDestroy()
         UserCache.listeners remove userCacheListener
-        MessageCache.getDialog(id, isChat).listeners remove messageCacheListener
+        MessageCacheOld.getDialog(id, isChat).listeners remove messageCacheListener
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -305,7 +305,7 @@ class ChatActivity:
             if (adapter.getCount() == 0) {
                 adapter.notifyOnNewMessages(findViewById(R.id.messageList) as ListView)
             } else {
-                with (MessageCache.getDialog(id, isChat)) {
+                with (MessageCacheOld.getDialog(id, isChat)) {
                     var update = true
                     if (info.addedMessagesCount > 0) {
                         allMessagesGot = allHistoryLoaded
@@ -374,7 +374,7 @@ class ChatActivity:
             outMessage.dialogId = id
             outMessage.isChat = isChat
             outMessage.text = text
-            RunFun.sendMessage(outMessage)
+            RunFun.sendMessageOld(outMessage)
             messageText.setText("")
         }
     }

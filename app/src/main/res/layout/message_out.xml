@@ -44,7 +44,7 @@
                         android:layout_height="30dp"
                         android:layout_marginRight="-20dp"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/triangle_right"/>
+                        android:background="@drawable/triangle_right_blue"/>
 
                     <LinearLayout
                         android:id="@+id/messageContainer"

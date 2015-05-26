@@ -5,10 +5,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.DateFormat
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 
 class ForwardMessageHolder(val view: View) {
     val senderPhoto = view.findViewById(R.id.senderPhoto) as ImageView

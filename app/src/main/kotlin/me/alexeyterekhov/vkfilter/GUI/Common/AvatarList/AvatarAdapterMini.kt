@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.HashSet
 import java.util.Vector
 

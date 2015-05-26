@@ -4,9 +4,9 @@ import android.util.Log
 import com.vk.sdk.api.VKError
 import com.vk.sdk.api.VKRequest
 import com.vk.sdk.api.VKResponse
-import me.alexeyterekhov.vkfilter.Common.Chef
-import me.alexeyterekhov.vkfilter.Common.Recipe
 import me.alexeyterekhov.vkfilter.Internet.ResponseHandler
+import me.alexeyterekhov.vkfilter.Util.Chef
+import me.alexeyterekhov.vkfilter.Util.Recipe
 
 public object VkRecipes {
     private val MAX_WAIT_FOR_RESPONSE = 5000

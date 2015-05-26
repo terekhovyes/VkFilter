@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
-import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.HashSet
 import java.util.Vector
 

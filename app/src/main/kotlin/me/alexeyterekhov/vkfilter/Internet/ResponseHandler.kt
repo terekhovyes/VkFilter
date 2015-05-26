@@ -26,8 +26,10 @@ object ResponseHandler {
             VkFun.messageList -> messageList(request, result)
             VkFun.userInfo -> userInfo(request, result)
             VkFun.chatInfo -> chatInfo(request, result)
+            VkFun.markIncomesAsReadOld -> markIncomesAsReadOld(request, result)
             VkFun.markIncomesAsRead -> markIncomesAsRead(request, result)
             VkFun.refreshDialog -> refreshDialog(request, result)
+            VkFun.sendMessageOld -> sendMessageOld(request, result)
             VkFun.sendMessage -> sendMessage(request, result)
             VkFun.notificationInfo -> notificationInfo(request, result)
             VkFun.getDialogPartners -> getDialogPartners(request, result)
@@ -97,7 +99,11 @@ object ResponseHandler {
         val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
         loadNotLoadedUsers(messages)
         loadNotLoadedVideos(id, isChat, messages)
-        MessageCache
+        MessageCaches.getCache(id, isChat).putMessages(
+                messages = messages map { it.toNewFormat() },
+                allHistoryLoaded = messages.count() < originalCount
+        )
+        MessageCacheOld
                 .getDialog(id, isChat)
                 .addMessagesWithReplace(messages, messages.size() < originalCount)
     }
@@ -178,23 +184,38 @@ object ResponseHandler {
         ChatInfoCache.dataUpdated()
     }
 
-    private fun markIncomesAsRead(request: VkRequestBundle, result: JSONObject) {
+    private fun markIncomesAsReadOld(request: VkRequestBundle, result: JSONObject) {
         val response = result.getInt("response")
         val id = request.additionalParams.getString("id")
         val chat = request.additionalParams.getBoolean("chat")
         if (response == 1) {
-            MessageCache.getDialog(id, chat).markIncomesAsRead()
+            MessageCacheOld.getDialog(id, chat).markIncomesAsRead()
         } else {
             Handler().postDelayed({
-                RunFun.markIncomesAsRead(id, chat)
+                RunFun.markIncomesAsReadOld(id, chat)
+            }, 1000)
+        }
+    }
+
+    private fun markIncomesAsRead(request: VkRequestBundle, result: JSONObject) {
+        val response = result.getInt("response")
+        val dialogId = request.additionalParams.getString("dialogId")
+        val isChat = request.additionalParams.getBoolean("isChat")
+        val lastReadId = request.additionalParams.getLong("lastReadId")
+        if (response == 1) {
+            MessageCaches.getCache(dialogId, isChat).onReadMessages(false, lastReadId)
+        } else {
+            Handler().postDelayed({
+                RunFun.markIncomesAsRead(dialogId, isChat)
             }, 1000)
         }
     }
 
     private fun refreshDialog(request: VkRequestBundle, result: JSONObject) {
-        if (result.isNull("response"))
-            DialogRefresher.onDataUpdate()
-        else {
+        if (result.isNull("response")) {
+            DialogRefresherOld.onDataUpdate()
+            DialogRefresher.messageCacheListener.onAddNewMessages(0)
+        } else {
             val p = request.vkParams
 
             val chat = p contains "chat_id"
@@ -206,17 +227,25 @@ object ResponseHandler {
             val response = result.getJSONObject("response")
             if (response.has("read")) {
                 val lastReadId = response.getLong("read")
-                MessageCache.getDialog(id, chat).markOutcomesAsRead(lastReadId)
+                MessageCacheOld.getDialog(id, chat).markOutcomesAsRead(lastReadId)
+                MessageCaches.getCache(id, chat).onReadMessages(out = true, lastId = lastReadId)
             }
             if (response.has("new_messages")) {
                 val jsonMessages = response.getJSONArray("new_messages")
                 val messages = JSONParser parseMessages jsonMessages
-                MessageCache.getDialog(id, chat).addMessagesWithReplace(messages, false)
+                MessageCacheOld.getDialog(id, chat).addMessagesWithReplace(messages, false)
+                if (messages.isNotEmpty()) {
+                    MessageCaches.getCache(id, chat).putMessages(
+                            messages = messages map { it.toNewFormat() },
+                            allHistoryLoaded = false)
+                } else {
+                    DialogRefresher.messageCacheListener.onAddNewMessages(0)
+                }
             }
         }
     }
 
-    private fun sendMessage(request: VkRequestBundle, result: JSONObject) {
+    private fun sendMessageOld(request: VkRequestBundle, result: JSONObject) {
         val p = request.vkParams
 
         val sentMessageId = result.getLong("response")
@@ -233,12 +262,24 @@ object ResponseHandler {
             text = p["message"] as String
         }
         val sentMessage = outMessage.transformToMessage(sentMessageId)
-        MessageCache
+        MessageCacheOld
                 .getDialog(id, chat)
                 .addMessagesWithReplace(
                     msgs = Collections.singleton(sentMessage),
                     itsAll = false
                 )
+    }
+
+    private fun sendMessage(request: VkRequestBundle, result: JSONObject) {
+        val params = request.vkParams
+        val sentId = result.getLong("response")
+        val isChat = params contains "chat_id"
+        val dialogId = if (isChat)
+            params["chat_id"] as String
+        else
+            params["user_id"] as String
+        val guid = params["guid"] as Long
+        MessageCaches.getCache(dialogId, isChat).onFinishSending(guid, sentId)
     }
 
     private fun notificationInfo(request: VkRequestBundle, result: JSONObject) {
@@ -257,7 +298,7 @@ object ResponseHandler {
         val isChat = request.additionalParams.getBoolean("chat")
 
         val gotUrls = JSONParser parseVideoUrls (JSONParser videoUrlsResponseToArray result)
-        val dialog = MessageCache.getDialog(dialogId, isChat)
+        val dialog = MessageCacheOld.getDialog(dialogId, isChat)
 
         fun findAttachments(vid: Long, m: Message): LinkedList<VideoAttachment> {
             val list = if (m.attachments.messages.isNotEmpty())
@@ -285,6 +326,6 @@ object ResponseHandler {
                     .map { findAttachments(id, it) }
                     .map { it forEach { it.playerUrl = url } }
         }
-        MessageCache.getDialog(dialogId, isChat).onDataUpdate()
+        MessageCacheOld.getDialog(dialogId, isChat).onDataUpdate()
     }
 }

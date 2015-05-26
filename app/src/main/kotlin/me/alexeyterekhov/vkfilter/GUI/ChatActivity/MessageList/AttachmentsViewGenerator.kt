@@ -9,15 +9,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
-import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity.PhotoViewerActivity
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DateFormat
+import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 
 
 class AttachmentsViewGenerator(

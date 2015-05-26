@@ -2,9 +2,9 @@ package me.alexeyterekhov.vkfilter.GUI.PhotoViewerActivity
 
 import android.os.Bundle
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
 import uk.co.senab.photoview.PhotoView
 import uk.co.senab.photoview.PhotoViewAttacher
 

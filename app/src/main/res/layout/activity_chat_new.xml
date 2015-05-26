@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/my_white">
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/chat_spacer_mini"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/buttonBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/smileButton"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/button_smilies"/>
+
+                <ImageView
+                    android:id="@+id/photoButton"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@id/smileButton"
+                    android:src="@drawable/button_photo"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/my_white"
+                android:textSize="@dimen/my_text"
+                android:textColor="@color/my_green"
+                android:visibility="invisible"
+                android:text="Закрыть"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.rockerhieu.emojicon.EmojiconEditText
+                android:id="@+id/messageText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/chat_spacer_mini"
+                android:layout_marginTop="@dimen/chat_spacer"
+                android:layout_marginRight="45dp"
+                android:layout_marginBottom="@dimen/chat_spacer"
+                android:minLines="2"
+                android:maxLines="4"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/my_text"
+                app:emojiconSize="@dimen/my_emoji"
+                android:textColor="@color/my_black"
+                android:background="@null"
+                android:inputType="textMultiLine|textCapSentences"
+                android:hint="@string/a_chat_message_hint"/>
+
+            <ImageView
+                android:id="@+id/sendButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="-45dp"
+                android:padding="2dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/button_send"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messageList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bar"
+        android:background="@color/my_white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@id/bar"
+        android:background="@drawable/toolbar_shadow_inverted"/>
+
+</RelativeLayout>

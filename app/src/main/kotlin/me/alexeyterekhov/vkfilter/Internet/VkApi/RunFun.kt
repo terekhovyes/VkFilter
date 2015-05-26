@@ -2,7 +2,9 @@ package me.alexeyterekhov.vkfilter.Internet.VkApi
 
 import android.os.Bundle
 import com.vk.sdk.api.VKParameters
-import me.alexeyterekhov.vkfilter.DataCache.MessageCache
+import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
+import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
 
 public object RunFun {
@@ -53,16 +55,27 @@ public object RunFun {
         VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.chatInfo, params))
     }
 
-    public fun sendMessage(msg: MessageForSending) {
+    public fun sendMessageOld(msg: MessageForSending) {
         val params = VKParameters()
         params["message"] = msg.text
         params[if (msg.isChat) "chat_id" else "user_id"] = msg.dialogId
         params["guid"] = System.currentTimeMillis()
-        VkRequestControl.addOrderImportantRequest(VkRequestBundle(VkFun.sendMessage, params))
+        VkRequestControl.addOrderImportantRequest(VkRequestBundle(VkFun.sendMessageOld, params))
     }
 
-    public fun markIncomesAsRead(id: String, chat: Boolean) {
-        val messagePack = MessageCache.getDialog(id, chat)
+    public fun sendMessage(msg: MessageNew, dialogId: String, isChat: Boolean): Long {
+        val params = VKParameters()
+        params["message"] = msg.text
+        params[if (isChat) "chat_id" else "user_id"] = dialogId
+        val guid = System.currentTimeMillis()
+        params["guid"] = System.currentTimeMillis()
+        msg.sentId = guid
+        VkRequestControl.addOrderImportantRequest(VkRequestBundle(VkFun.sendMessage, params))
+        return guid
+    }
+
+    public fun markIncomesAsReadOld(id: String, chat: Boolean) {
+        val messagePack = MessageCacheOld.getDialog(id, chat)
         if (messagePack.messages any {!it.isOut && !it.isRead}) {
             val ids = messagePack.messages filter { !it.isOut && !it.isRead } map { it.id.toString() }
             val params = VKParameters()
@@ -70,6 +83,22 @@ public object RunFun {
             val additionalParams = Bundle()
             additionalParams.putString("id", id)
             additionalParams.putBoolean("chat", chat)
+            VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.markIncomesAsReadOld, params, additionalParams))
+        }
+    }
+
+    public fun markIncomesAsRead(dialogId: String, isChat: Boolean) {
+        val messages = MessageCaches.getCache(dialogId, isChat).getMessages()
+        val notRead = messages filter { it.isIn && it.isNotRead }
+        if (notRead.isNotEmpty()) {
+            val lastReadId = (notRead maxBy { it.sentId })!!.sentId
+            val ids = notRead map { it.sentId.toString() }
+            val params = VKParameters()
+            params["message_ids"] = ids.joinToString(separator = ",")
+            val additionalParams = Bundle()
+            additionalParams.putString("dialogId", dialogId)
+            additionalParams.putBoolean("isChat", isChat)
+            additionalParams.putLong("lastReadId", lastReadId)
             VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.markIncomesAsRead, params, additionalParams))
         }
     }

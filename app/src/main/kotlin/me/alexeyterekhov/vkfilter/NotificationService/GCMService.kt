@@ -10,9 +10,9 @@ import android.util.Log
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.Common.GooglePlay
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.Util.GooglePlay
 import java.io.IOException
 import kotlin.properties.Delegates
 

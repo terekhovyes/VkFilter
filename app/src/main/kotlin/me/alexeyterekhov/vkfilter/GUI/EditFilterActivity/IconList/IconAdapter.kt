@@ -3,9 +3,9 @@ package me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import me.alexeyterekhov.vkfilter.Common.AppContext
 import me.alexeyterekhov.vkfilter.Database.FilterIcons
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 
 
 class IconAdapter(): RecyclerView.Adapter<IconHolder>() {

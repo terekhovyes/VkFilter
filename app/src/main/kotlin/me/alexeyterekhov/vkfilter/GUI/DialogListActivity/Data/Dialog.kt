@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data
 
-import me.alexeyterekhov.vkfilter.Common.TextFormat
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 import java.util.Vector
 
 class Dialog {

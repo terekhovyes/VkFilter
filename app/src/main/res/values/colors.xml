@@ -6,6 +6,7 @@
 
     <color name="my_red">#e5675d</color>
     <color name="my_blue">#00BCD4</color>
+    <color name="my_blue_lighter">#3300BCD4</color>
     <color name="my_blue_msg">#52a9bd</color>
     <color name="my_links_color">#FFFFE1</color>
 
@@ -17,6 +18,7 @@
     <color name="my_white">#f0f0f0</color>
     <color name="my_white_lighter">#F8F8F8</color>
     <color name="my_white_transparent">#7FFF</color>
+    <color name="my_white_msg">@color/my_white_greeny</color>
 
     <color name="my_refresh_1">@color/my_green</color>
     <color name="my_refresh_2">#00A1A0</color>

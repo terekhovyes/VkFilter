@@ -7,7 +7,9 @@ enum class VkFun {
     refreshDialog
     userInfo
     chatInfo
+    sendMessageOld
     sendMessage
+    markIncomesAsReadOld
     markIncomesAsRead
     registerGCM
     unregisterGCM

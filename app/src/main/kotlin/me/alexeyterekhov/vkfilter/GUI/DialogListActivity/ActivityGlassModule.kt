@@ -12,8 +12,6 @@ import android.view.animation.*
 import com.getbase.floatingactionbutton.FloatingActionButton
 import io.codetail.animation.SupportAnimator
 import io.codetail.animation.ViewAnimationUtils
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DataSaver
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
@@ -25,6 +23,8 @@ import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
 import java.util.LinkedList
 
 

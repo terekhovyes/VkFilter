@@ -12,12 +12,12 @@ import android.support.v4.app.TaskStackBuilder
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.utils.DiskCacheUtils
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils
-import me.alexeyterekhov.vkfilter.Common.TextFormat
-import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
+import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.Common.RoundBitmap
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 import java.util.LinkedList
 
 

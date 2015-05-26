@@ -15,13 +15,13 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ListView
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.Common.AppContext
-import me.alexeyterekhov.vkfilter.Common.DateFormat
-import me.alexeyterekhov.vkfilter.Common.ImageLoadConf
-import me.alexeyterekhov.vkfilter.DataCache.MessageCache
+import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DateFormat
+import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
 import java.util.Calendar
 import java.util.HashSet
 import java.util.LinkedList
@@ -209,7 +209,7 @@ class MessageListAdapter(
 
     fun notifyOnNewMessages(listView: ListView) {
         allowAppearAnimation = false
-        val messagePack = MessageCache.getDialog(id, chat)
+        val messagePack = MessageCacheOld.getDialog(id, chat)
         when {
             messages == null -> {
                 messages = messagePack.messages
@@ -287,7 +287,7 @@ class MessageListAdapter(
             }
         }
         if (messagePack.messages any { !it.isOut && !it.isRead })
-            RunFun.markIncomesAsRead(id, chat)
+            RunFun.markIncomesAsReadOld(id, chat)
     }
 
     fun markAsRead(
