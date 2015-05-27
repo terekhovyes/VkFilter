@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
@@ -52,6 +53,15 @@ public class ChatActivity: VkActivity() {
         } else {
             super<VkActivity>.onBackPressed()
             overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
+        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }
