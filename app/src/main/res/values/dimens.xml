@@ -13,4 +13,7 @@
     <dimen name="quick_filter_item_size">55dp</dimen>
     <dimen name="filter_chooser_padding">15dp</dimen>
     <dimen name="button_icon_padding">9dp</dimen>
+
+    <dimen name="floating_button_margin_right">16dp</dimen>
+    <dimen name="floating_button_margin_bottom">12dp</dimen>
 </resources>
