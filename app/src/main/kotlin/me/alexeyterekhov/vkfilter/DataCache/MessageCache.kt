@@ -38,10 +38,14 @@ class MessageCache {
         else
             messages
 
-        if (orderedMessages.count() == 1
-                && orderedMessages.first().isOut
-                && (!messagesWithoutState.isEmpty() || processingMessages.isNotEmpty()))
+        if (messages.isNotEmpty()
+                && orderedMessages all { it.isOut }
+                && (processingMessages.isNotEmpty()
+                    || !messagesWithoutState.isEmpty())
+                && orderedMessages.size() <= (processingMessages.count() + messagesWithoutState.count())
+        ) {
             return
+        }
 
         when {
             orderedMessages.isEmpty() -> {}
@@ -61,7 +65,7 @@ class MessageCache {
         }
     }
 
-    fun onStartSending(guid: Long) {
+    fun onWillSendMessage(guid: Long) {
         val sentMessage = editMessage
         editMessage = createEditMessage()
         messagesWithoutState.put(guid, sentMessage)
@@ -77,7 +81,7 @@ class MessageCache {
             }
         })
     }
-    fun onFinishSending(guid: Long, sentId: Long) {
+    fun onDidSendMessage(guid: Long, sentId: Long) {
         concurrentActions.secondAction(
                 guid,
                 doIfFirstActionWaiting = {
@@ -96,8 +100,10 @@ class MessageCache {
                     message.sentState = MessageNew.STATE_SENT
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
-                    sentMessages add message
-                    listeners forEachSync { it.onUpdateMessages(Collections.singleton(message)) }
+                    if (sentMessages none { it.sentId == sentId }) {
+                        sentMessages add message
+                        listeners forEachSync { it.onUpdateMessages(Collections.singleton(message)) }
+                    }
                 }
         )
     }

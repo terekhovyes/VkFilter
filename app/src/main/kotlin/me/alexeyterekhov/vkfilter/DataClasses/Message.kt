@@ -15,4 +15,22 @@ class Message(val senderId: String) {
     val attachments = Attachments()
 
     fun senderOrEmpty(): User = UserCache.getUser(senderId) ?: User()
+
+    fun toNewFormat(): MessageNew {
+        val msg = MessageNew(senderId)
+        msg.sentId = id
+        msg.sentState = MessageNew.STATE_SENT
+        msg.isRead = isRead
+        msg.isOut = isOut
+        msg.sentTimeMillis = dateMSC
+        msg.text = text
+        with (msg.attachments) {
+            audios addAll attachments.audios
+            images addAll attachments.images
+            videos addAll attachments.videos
+            documents addAll attachments.documents
+            messages addAll attachments.messages
+        }
+        return msg
+    }
 }

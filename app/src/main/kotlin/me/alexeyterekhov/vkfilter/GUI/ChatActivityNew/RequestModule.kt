@@ -57,7 +57,7 @@ class RequestModule(val activity: ChatActivity) {
                 activity.launchParameters.dialogId(),
                 activity.launchParameters.isChat()
         )
-        getMessageCache().onStartSending(guid)
+        getMessageCache().onWillSendMessage(guid)
     }
 
     private fun getMessageCache() = MessageCaches.getCache(

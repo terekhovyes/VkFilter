@@ -6,6 +6,7 @@ import java.util.HashMap
 import java.util.Vector
 
 object UserCache {
+    private val myId = "me"
     private val map = HashMap<String, User>()
 
     public val listeners: Vector<DataDepend> = Vector()
@@ -19,5 +20,6 @@ object UserCache {
     }
     public fun contains(id: String): Boolean = map.containsKey(id)
     public fun getUser(id: String): User? = map[id]
-    public fun getMe(): User? = map["me"]
+    public fun getMe(): User? = map[myId]
+    public fun getMyId(): String = myId
 }

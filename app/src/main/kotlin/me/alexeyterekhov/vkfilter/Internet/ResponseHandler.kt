@@ -279,7 +279,7 @@ object ResponseHandler {
         else
             params["user_id"] as String
         val guid = params["guid"] as Long
-        MessageCaches.getCache(dialogId, isChat).onFinishSending(guid, sentId)
+        MessageCaches.getCache(dialogId, isChat).onDidSendMessage(guid, sentId)
     }
 
     private fun notificationInfo(request: VkRequestBundle, result: JSONObject) {
