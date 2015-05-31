@@ -6,6 +6,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkFun
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestBundle
 import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
