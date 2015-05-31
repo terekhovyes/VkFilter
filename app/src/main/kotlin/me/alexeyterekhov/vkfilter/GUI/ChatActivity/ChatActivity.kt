@@ -28,6 +28,9 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresherOld
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogPartners
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageHistory
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -379,17 +382,16 @@ class ChatActivity:
         }
     }
 
-    fun loadMoreMessages(lastMessageId: String = "", count: Int = MESSAGE_PORTION, offset: Int = 0) {
+    fun loadMoreMessages(lastMessageId: String = "", count: Int = MESSAGE_PORTION) {
         if (!loadingMessages && !allMessagesGot) {
             loadingMessages = true
             if (Mocker.MOCK_MODE)
                 return
-            RunFun.messageList(
+            RequestControl addForeground RequestMessageHistory(
                     dialogId = id,
-                    dialogIsChat = isChat,
-                    offset = offset,
+                    isChat = isChat,
                     count = count,
-                    startMessageId = lastMessageId
+                    olderThanId = lastMessageId
             )
         }
     }
@@ -440,6 +442,6 @@ class ChatActivity:
 
     private fun loadUsersIfNotLoaded() {
         if (UserCache.getMe() == null)
-            RunFun.getDialogPartners(id.toLong(), isChat)
+            RequestControl addBackground RequestDialogPartners(id.toLong(), isChat)
     }
 }

@@ -11,7 +11,9 @@ import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.CurrentListAdapter
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestChats
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DataSaver
@@ -47,9 +49,9 @@ public class CurrentChooseFragment(): Fragment(), DataDepend {
                 .map { it.toString() }
                 .filter { !ChatInfoCache.contains(it) }
         if (userIds.isNotEmpty())
-            RunFun userInfo userIds
+            RequestControl addForeground RequestUsers(userIds)
         if (chatIds.isNotEmpty())
-            RunFun chatInfo chatIds
+            RequestControl addForeground RequestChats(chatIds)
     }
 
     override fun onCreateView(

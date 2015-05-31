@@ -88,4 +88,15 @@
         android:textColor="@color/my_green"
         android:text="@string/a_dialog_settings"/>
 
+    <Button
+        android:id="@+id/testButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/settings_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/my_green"
+        android:text="Тестирование"/>
+
 </RelativeLayout>

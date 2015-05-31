@@ -1,10 +1,10 @@
-package me.alexeyterekhov.vkfilter.Internet
+package me.alexeyterekhov.vkfilter.InternetNew
 
 import android.util.Log
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
-import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
@@ -15,75 +15,21 @@ import org.json.JSONObject
 import java.util.LinkedList
 import java.util.Vector
 
-fun JSONArray.asListOfJSON(): List<JSONObject> {
-    val list = LinkedList<JSONObject>()
-    for (i in 0..this.length() - 1)
-        list add this.getJSONObject(i)
-    return list
-}
 
-object JSONParser {
-    // Util
-
-    private fun emptyUser() = User()
-
-    // Converters
-
-    fun detailedDialogsResponseToDialogList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("items")
+public object JSONParser {
+    private fun JSONArray.asListOfJSON(): List<JSONObject> {
+        val list = LinkedList<JSONObject>()
+        for (i in 0..this.length() - 1)
+            list add this.getJSONObject(i)
+        return list
     }
 
-    fun detailedDialogsResponseToUserList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("user_info")
-    }
-
-    fun friendListResponseToUserList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("items")
-    }
-
-    fun messageListResponseToMessageList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("items")
-    }
-
-    fun userInfoResponseToUserList(response: JSONObject): JSONArray {
-        return response.getJSONArray("response")
-    }
-
-    fun chatInfoResponseToUserList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("user_info")
-    }
-
-    fun chatInfoResponseToChatList(response: JSONObject): JSONArray {
-        val respObj = response.getJSONObject("response")
-        return respObj.getJSONArray("chats")
-    }
-
-    fun notificationInfoToObject(response: JSONObject): JSONObject {
-        return response getJSONObject "response"
-    }
-
-    fun dialogPartnersToArray(response: JSONObject): JSONArray {
-        return response getJSONArray "response"
-    }
-
-    fun videoUrlsResponseToArray(response: JSONObject): JSONArray {
-        return response getJSONArray "response"
-    }
-
-    // Parsers
-
-    fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemDialog(it.getJSONObject("message")) })
     fun parseUsers(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemUser(it) })
+    fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemDialog(it.getJSONObject("message")) })
     fun parseMessages(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemMessage(it) })
-    fun parseChatInfo(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemChatInfo(it) })
     fun parseVideoUrls(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemVideoUrl(it) })
-
-    fun parseNotificationInfo(response: JSONObject): NotificationInfo {
+    fun parseChats(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemChat(it) })
+    fun parseNotification(response: JSONObject): NotificationInfo {
         var info = NotificationInfo()
         with (info) {
             messageId = response getString "message_id"
@@ -98,40 +44,6 @@ object JSONParser {
             chatPhotoUrl = response optString "chat_photo"
         }
         return info
-    }
-
-    private fun parseItemChatInfo(item: JSONObject): ChatInfo {
-        val info = ChatInfo()
-        info.id = item getLong "id"
-        val users = item getJSONArray "users"
-        for (i in 0..users.length() - 1) {
-            val id = users.getLong(i).toString()
-            if (UserCache contains id)
-                info.chatPartners add (UserCache getUser id)
-        }
-        info.title = item.optString("title")
-        info.photoUrl = findPhotoMax(item) ?: ""
-        return info
-    }
-
-    private fun parseItemDialog(item: JSONObject): Dialog {
-        val dialog = Dialog()
-        dialog.lastMessage = parseItemMessage(item).toNewFormat()
-        dialog.id = item.optLong("chat_id", item.optLong("user_id", 0))
-        dialog.photoUrl = findPhotoMax(item) ?: ""
-        val title = item.getString("title")
-        if (title != " ... ")
-            dialog.title = title
-
-        // fill conversation partners
-        if (item.has("chat_id")) {
-            val partners = item.getJSONArray("chat_active")
-            for (j in 0..partners.length() - 1)
-                dialog.addPartner(UserCache.getUser(partners.getString(j))!!)
-        } else
-            dialog.addPartner(UserCache.getUser(item.getString("user_id"))!!)
-
-        return dialog
     }
 
     private fun parseItemUser(item: JSONObject): User {
@@ -162,38 +74,47 @@ object JSONParser {
         return user
     }
 
-    private fun parseItemMessage(item: JSONObject): MessageOld {
+    private fun parseItemDialog(item: JSONObject): Dialog {
+        val dialog = Dialog()
+        dialog.lastMessage = parseItemMessage(item)
+        dialog.id = item.optLong("chat_id", item.optLong("user_id", 0))
+        dialog.photoUrl = findPhotoMax(item) ?: ""
+        val title = item.getString("title")
+        if (title != " ... ")
+            dialog.title = title
+
+        // fill conversation partners
+        if (item.has("chat_id")) {
+            val partners = item.getJSONArray("chat_active")
+            for (j in 0..partners.length() - 1)
+                dialog.addPartner(UserCache.getUser(partners.getString(j))!!)
+        } else
+            dialog.addPartner(UserCache.getUser(item.getString("user_id"))!!)
+
+        return dialog
+    }
+
+    private fun parseItemMessage(item: JSONObject): Message {
         val userId = item.optString("user_id", "")
         val out = item.optInt("out", -1) == 1
 
-        val message = MessageOld(if (out) "me" else userId)
+        val message = Message(if (out) UserCache.getMyId() else userId)
         with (message) {
-            id = item.optLong("id", 0L)
+            sentId = item.optLong("id", 0L)
+            sentState = Message.STATE_SENT
             isOut = out
             text = item.optString("body", "")
-            dateMSC = item.optLong("date", 0L) * 1000L
+            sentTimeMillis = item.optLong("date", 0L) * 1000L
             isRead = item.optInt("read_state", 1) == 1
         }
 
         if (item.has("fwd_messages"))
-            message.attachments.messages addAll (parseMessages(item.getJSONArray("fwd_messages")) map { it.toNewFormat() })
+            message.attachments.messages addAll (parseMessages(item.getJSONArray("fwd_messages")))
 
         if (item.has("attachments"))
             parseMessageAttachments(item.getJSONArray("attachments"), message.attachments)
 
         return message
-    }
-
-    private fun parseItemVideoUrl(json: JSONObject): VideoAttachment {
-        val id = json.getLong("id")
-        val url = json.getString("player")
-        return VideoAttachment(
-                id = id,
-                title = "",
-                durationSec = 0,
-                previewUrl = "",
-                playerUrl = url
-        )
     }
 
     private fun parseMessageAttachments(array: JSONArray, attachments: Attachments) {
@@ -276,6 +197,32 @@ object JSONParser {
         )
     }
 
+    private fun parseItemChat(item: JSONObject): ChatInfo {
+        val info = ChatInfo()
+        info.id = item getLong "id"
+        val users = item getJSONArray "users"
+        for (i in 0..users.length() - 1) {
+            val id = users.getLong(i).toString()
+            if (UserCache contains id)
+                info.chatPartners add (UserCache getUser id)
+        }
+        info.title = item.optString("title")
+        info.photoUrl = findPhotoMax(item) ?: ""
+        return info
+    }
+
+    private fun parseItemVideoUrl(json: JSONObject): VideoAttachment {
+        val id = json.getLong("id")
+        val url = json.getString("player")
+        return VideoAttachment(
+                id = id,
+                title = "",
+                durationSec = 0,
+                previewUrl = "",
+                playerUrl = url
+        )
+    }
+
     // Util methods
 
     private fun findPhotoMax(json: JSONObject): String? {
@@ -318,4 +265,15 @@ object JSONParser {
         else
             "${begin}_${accessKey}"
     }
+
+
+
+    /*// Util
+
+    private fun emptyUser() = User()
+
+    // Converters
+
+    // Parsers
+*/
 }

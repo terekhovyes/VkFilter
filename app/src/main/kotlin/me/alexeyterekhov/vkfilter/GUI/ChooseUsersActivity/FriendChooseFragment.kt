@@ -11,7 +11,8 @@ import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.FriendListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestFriendList
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -47,7 +48,10 @@ public class FriendChooseFragment: Fragment(), DataDepend {
 
         val endless = object: EndlessScrollListener(recycler, LOAD_THRESHOLD) {
             override fun onReachThreshold(currentItemCount: Int) {
-                RunFun.friendList(FriendsListCache.list.size(), LOAD_PORTION)
+                RequestControl addForeground RequestFriendList(
+                        offset = FriendsListCache.list.size(),
+                        count = LOAD_PORTION
+                )
             }
         }
         recycler.setOnScrollListener(endless)
@@ -55,7 +59,7 @@ public class FriendChooseFragment: Fragment(), DataDepend {
         val refreshLayout = view.findViewById(R.id.refreshLayout) as CustomSwipeRefreshLayout
         refreshLayout.setRecyclerView(recycler)
         refreshLayout.setOnRefreshListener {
-            RunFun.friendList(0, LOAD_PORTION)
+            RequestControl addForeground RequestFriendList(0, LOAD_PORTION)
         }
         refreshLayout.setColorSchemeResources(
                 R.color.my_refresh_1,
@@ -65,7 +69,7 @@ public class FriendChooseFragment: Fragment(), DataDepend {
         )
 
         refreshLayout setRefreshing true
-        RunFun.friendList(0, LOAD_PORTION)
+        RequestControl addForeground RequestFriendList(0, LOAD_PORTION)
 
         return view
     }

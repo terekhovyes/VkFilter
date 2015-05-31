@@ -1,12 +1,12 @@
 package me.alexeyterekhov.vkfilter.DataCache.Helpers
 
 import android.util.Log
-import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
 import java.util.HashSet
 import java.util.LinkedList
 
 class MessagePack {
-    val messages = LinkedList<Message>()
+    val messages = LinkedList<MessageOld>()
     val listeners = LinkedList<DataDepend>()
 
     var allHistoryLoaded = false
@@ -20,7 +20,7 @@ class MessagePack {
         listeners forEach { it.onDataUpdate() }
     }
 
-    fun addMessagesWithReplace(msgs: Collection<Message>, itsAll: Boolean) {
+    fun addMessagesWithReplace(msgs: Collection<MessageOld>, itsAll: Boolean) {
         allHistoryLoaded = itsAll || allHistoryLoaded
 
         val collection = if (!msgs.isEmpty() && msgs.first().id > msgs.last().id)

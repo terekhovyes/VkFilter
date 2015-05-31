@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.Internet.VkApi
 
 import android.util.Log
-import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.InternetNew.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.Util.Chef
 
 public object VkRequestControl {

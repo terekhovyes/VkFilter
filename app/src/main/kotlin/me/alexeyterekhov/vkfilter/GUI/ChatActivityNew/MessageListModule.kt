@@ -7,10 +7,10 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.AttachmentsViewGenerator
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.ChatAdapter
-import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
+import me.alexeyterekhov.vkfilter.InternetNew.DialogRefresher
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -142,19 +142,19 @@ class MessageListModule(val activity: ChatActivity) {
         override fun onAddOldMessages(count: Int) {
             getAdapter()?.onAddOldMessages(count)
         }
-        override fun onReplaceMessage(old: MessageNew, new: MessageNew) {
+        override fun onReplaceMessage(old: Message, new: Message) {
             val atBottom = isAtBottom()
             getAdapter()?.onReplaceMessage(old, new)
             if (atBottom)
                 scrollDown()
         }
-        override fun onUpdateMessages(messages: Collection<MessageNew>) {
+        override fun onUpdateMessages(messages: Collection<Message>) {
             val atBottom = isAtBottom()
             getAdapter()?.onUpdateMessages(messages)
             if (atBottom)
                 scrollDown()
         }
-        override fun onReadMessages(messages: Collection<MessageNew>) {
+        override fun onReadMessages(messages: Collection<Message>) {
             getAdapter()?.onReadMessages(messages)
         }
     }

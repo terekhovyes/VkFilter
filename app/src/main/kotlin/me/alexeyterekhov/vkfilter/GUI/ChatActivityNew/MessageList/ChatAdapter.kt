@@ -9,8 +9,9 @@ import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
-import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestReadMessages
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
@@ -32,9 +33,9 @@ public class ChatAdapter(
     val TYPE_IN = 1
     val TYPE_OUT = 2
 
-    val readMessages = HashSet<MessageNew>()
+    val readMessages = HashSet<Message>()
     val inflater = LayoutInflater.from(activity)
-    val messages = LinkedList<MessageNew>()
+    val messages = LinkedList<Message>()
     var attachmentGenerator: AttachmentsViewGenerator by Delegates.notNull()
     val shownImages = HashSet<String>()
 
@@ -63,21 +64,21 @@ public class ChatAdapter(
         }
     }
 
-    override fun onReplaceMessage(old: MessageNew, new: MessageNew) {
+    override fun onReplaceMessage(old: Message, new: Message) {
         Log.d("debug", "ADAPTER REPLACE")
         val index = this.messages.indexOf(old)
         this.messages.set(index, new)
         notifyItemChanged(index)
     }
 
-    override fun onUpdateMessages(messages: Collection<MessageNew>) {
+    override fun onUpdateMessages(messages: Collection<Message>) {
         Log.d("debug", "ADAPTER UPDATE ${messages.count()}")
         val indexes = messages map { this.messages.indexOf(it) }
         indexes forEach { notifyItemChanged(it) }
         readIncomeMessages()
     }
 
-    override fun onReadMessages(messages: Collection<MessageNew>) {
+    override fun onReadMessages(messages: Collection<Message>) {
         Log.d("debug", "ADAPTER READ ${messages.count()}")
         readMessages addAll messages
         val indexes = messages map { this.messages.indexOf(it) }
@@ -126,7 +127,7 @@ public class ChatAdapter(
                     setColorsByMessageState(message.sentState)
                 }
                 when (message.sentState) {
-                    MessageNew.STATE_SENT -> {
+                    Message.STATE_SENT -> {
                         h.setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
                         h.setUnread(!message.isRead)
                         h.showRedStrip(isNewDay)
@@ -134,7 +135,7 @@ public class ChatAdapter(
                             h.setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
                         h.showSpaceAndTriangle(isFirstReply || isNewDay)
                     }
-                    MessageNew.STATE_PROCESSING -> {
+                    Message.STATE_PROCESSING -> {
                         h.setDateText(AppContext.instance.getString(R.string.a_chat_sending))
                         h.setUnread(false)
                         h.showRedStrip(false)
@@ -192,6 +193,6 @@ public class ChatAdapter(
     }
     private fun readIncomeMessages() {
         if (messages any { it.isIn && it.isNotRead })
-            RunFun.markIncomesAsRead(dialogId, isChat)
+            RequestControl addBackground RequestReadMessages(dialogId, isChat)
     }
 }

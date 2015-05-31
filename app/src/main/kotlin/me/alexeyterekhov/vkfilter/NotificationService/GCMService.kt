@@ -10,8 +10,10 @@ import android.util.Log
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestGCMRegister
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestGCMUnregister
+import me.alexeyterekhov.vkfilter.InternetNew.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.Util.GooglePlay
 import java.io.IOException
 import kotlin.properties.Delegates
@@ -53,7 +55,7 @@ public class GCMService: Service() {
                 override fun onPostExecute(result: Unit?) {
                     super.onPostExecute(result)
                     registeredToken = registeredKey
-                    RunFun registerGCM registeredToken
+                    RequestControl addBackground RequestGCMRegister(registeredToken)
                 }
             }).execute()
         } else {
@@ -63,7 +65,7 @@ public class GCMService: Service() {
     }
     private fun unregisterGCM(id: String) {
         if (id != "")
-            RunFun unregisterGCM id
+            RequestControl addBackground RequestGCMUnregister(id)
     }
     private fun enableReceiver() {
         val filter = IntentFilter()

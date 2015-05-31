@@ -117,7 +117,7 @@ class DialogAdapter(val list: RecyclerView) :
         h.title setText data.title
 
         // last message info
-        h.messageDate setText DateFormat.dialogReceivedDate(lastMessage.dateMSC / 1000L)
+        h.messageDate setText DateFormat.dialogReceivedDate(lastMessage.sentTimeMillis / 1000L)
         h.messageText setText lastMessage.text
         if (lastMessage.isOut) {
             makeInvisible(h.unreadBackground)

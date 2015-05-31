@@ -21,7 +21,9 @@ import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestChats
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DataSaver
@@ -141,7 +143,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     res})
                 .distinct()
         if (userIds.isNotEmpty())
-            RunFun userInfo userIds
+            RequestControl addBackground RequestUsers(userIds)
         val chatIds = filters
                 .map {
                     it.identifiers()
@@ -154,7 +156,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     res})
                 .distinct()
         if (chatIds.isNotEmpty())
-            RunFun chatInfo chatIds
+            RequestControl addBackground RequestChats(chatIds)
     }
 
     fun getAdapter() = findList().getAdapter() as FilterGlassAdapter?

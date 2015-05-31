@@ -6,7 +6,8 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestNotificationInfo
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.LinkedList
 import kotlin.properties.Delegates
@@ -23,7 +24,7 @@ object GCMStation {
         if (intent.getStringExtra("collapse_key") == "msg") {
             if (intentListeners.isEmpty()) {
                 val messageId = intent getStringExtra "msg_id"
-                RunFun notificationInfo messageId
+                RequestControl addBackground RequestNotificationInfo(messageId)
             } else {
                 for (l in intentListeners)
                     l onGetIntent intent

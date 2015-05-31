@@ -11,7 +11,8 @@ import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.UserList.DialogListAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogList
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -50,7 +51,10 @@ public class DialogChooseFragment: Fragment(), DataDepend {
 
         val endless = object: EndlessScrollListener(recycler, LOAD_THRESHOLD) {
             override fun onReachThreshold(currentItemCount: Int) {
-                RunFun.dialogList(DialogListCache.getSnapshot().dialogs.size(), LOAD_PORTION)
+                RequestControl addForeground RequestDialogList(
+                        offset = DialogListCache.getSnapshot().dialogs.size(),
+                        count = LOAD_PORTION
+                )
             }
         }
         recycler.setOnScrollListener(endless)
@@ -58,7 +62,7 @@ public class DialogChooseFragment: Fragment(), DataDepend {
         val refreshLayout = view.findViewById(R.id.refreshLayout) as CustomSwipeRefreshLayout
         refreshLayout.setRecyclerView(recycler)
         refreshLayout.setOnRefreshListener {
-            RunFun.dialogList(0, LOAD_PORTION)
+            RequestControl addForeground RequestDialogList(offset = 0, count = LOAD_PORTION)
         }
         refreshLayout.setColorSchemeResources(
                 R.color.my_refresh_1,
@@ -68,7 +72,7 @@ public class DialogChooseFragment: Fragment(), DataDepend {
         )
 
         refreshLayout setRefreshing true
-        RunFun.dialogList(0, LOAD_PORTION)
+        RequestControl addForeground RequestDialogList(offset = 0, count = LOAD_PORTION)
 
         return view
     }

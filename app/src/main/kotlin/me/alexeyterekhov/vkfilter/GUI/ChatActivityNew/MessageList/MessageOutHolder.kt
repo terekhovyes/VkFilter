@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TextView
-import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 
@@ -48,12 +48,12 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
     }
     fun setColorsByMessageState(state: Int) {
         when (state) {
-            MessageNew.STATE_PROCESSING -> {
+            Message.STATE_PROCESSING -> {
                 messageBase setBackgroundResource R.drawable.light_blue_round_background
                 messageTriangle setBackgroundResource R.drawable.triangle_right_light_blue
                 messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_black)
             }
-            MessageNew.STATE_SENT -> {
+            Message.STATE_SENT -> {
                 messageBase setBackgroundResource R.drawable.blue_round_background
                 messageTriangle setBackgroundResource R.drawable.triangle_right_blue
                 messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_white_greeny)

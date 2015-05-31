@@ -1,10 +1,9 @@
-package me.alexeyterekhov.vkfilter.Internet
+package me.alexeyterekhov.vkfilter.InternetNew
 
 import android.app.AlertDialog
 import com.vk.sdk.*
 import com.vk.sdk.api.VKError
 import com.vk.sdk.dialogs.VKCaptchaDialog
-
 
 object VkSdkInitializer {
     val vkScopes = array(

@@ -6,7 +6,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessagePack
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
-import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
@@ -23,7 +23,7 @@ public object Mocker {
     fun mockDialogSnapshot(): DialogListSnapshot {
         val dialogs = generateDialogs()
         val chats = generateChats()
-        val dialogList = dialogs plus chats sortDescendingBy { it.lastMessage!!.dateMSC }
+        val dialogList = dialogs plus chats sortDescendingBy { it.lastMessage!!.sentTimeMillis }
         return DialogListSnapshot(System.currentTimeMillis(), Vector(dialogList))
     }
 
@@ -112,9 +112,9 @@ public object Mocker {
                 false
         )
 
-        val messages = ArrayList<Message>()
+        val messages = ArrayList<MessageOld>()
         for (i in texts.size() - 1 downTo 0) {
-            val m = Message("")
+            val m = MessageOld("")
             with (m) {
                 id = i.toLong()
                 text = texts[i]
@@ -183,7 +183,7 @@ public object Mocker {
                 isOnline = online[i]
             }
             UserCache.putUser(partner)
-            val message = Message( if (income[i]) partner.id else "me" )
+            val message = MessageOld( if (income[i]) partner.id else "me" )
             with (message) {
                 text = messages[i]
                 isRead = read[i]
@@ -197,7 +197,7 @@ public object Mocker {
             with (dialog) {
                 id = i.toLong()
                 addPartner(partner)
-                lastMessage = message
+                lastMessage = message.toNewFormat()
             }
             out add dialog
         }
@@ -238,7 +238,7 @@ public object Mocker {
                 partner.photoUrl = chatPhotos[i][j]
                 dialog.addPartner(partner)
             }
-            val message = Message("me")
+            val message = MessageOld("me")
             with (message) {
                 text = messages[i]
                 isRead = read[i]
@@ -248,7 +248,7 @@ public object Mocker {
 
             with (dialog) {
                 id = i.toLong() + 100
-                lastMessage = message
+                lastMessage = message.toNewFormat()
             }
             out add dialog
         }

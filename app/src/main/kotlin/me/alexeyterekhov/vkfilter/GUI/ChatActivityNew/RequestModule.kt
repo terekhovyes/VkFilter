@@ -3,8 +3,11 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDependAdapter
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogPartners
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageHistory
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageSend
 
 class RequestModule(val activity: ChatActivity) {
     companion object {
@@ -19,12 +22,11 @@ class RequestModule(val activity: ChatActivity) {
         if (!messageLoading && !getMessageCache().historyLoaded) {
             messageLoading = true
             getMessageCache().listeners add messageListener
-            RunFun.messageList(
+            RequestControl addForeground RequestMessageHistory(
                     dialogId = activity.launchParameters.dialogId(),
-                    dialogIsChat = activity.launchParameters.isChat(),
-                    offset = 0,
+                    isChat = activity.launchParameters.isChat(),
                     count = LOAD_PORTION,
-                    startMessageId = oldestMessageId
+                    olderThanId = oldestMessageId
             )
         }
     }
@@ -33,30 +35,30 @@ class RequestModule(val activity: ChatActivity) {
         if (!messageLoading && !getMessageCache().historyLoaded) {
             messageLoading = true
             getMessageCache().listeners add messageListener
-            RunFun.messageList(
+            RequestControl addForeground RequestMessageHistory(
                     dialogId = activity.launchParameters.dialogId(),
-                    dialogIsChat = activity.launchParameters.isChat(),
-                    offset = 0,
-                    count = LOAD_PORTION,
-                    startMessageId = ""
+                    isChat = activity.launchParameters.isChat(),
+                    count = LOAD_PORTION
             )
         }
     }
 
     fun loadDialogPartners() {
         if (UserCache.getMe() == null)
-            RunFun.getDialogPartners(
+            RequestControl addBackground RequestDialogPartners(
                     activity.launchParameters.dialogId().toLong(),
                     activity.launchParameters.isChat()
             )
     }
 
-    fun sendMessage(editMessage: MessageNew) {
-        val guid = RunFun.sendMessage(
+    fun sendMessage(editMessage: Message) {
+        val request = RequestMessageSend(
                 editMessage,
                 activity.launchParameters.dialogId(),
                 activity.launchParameters.isChat()
         )
+        val guid = request.getSendingGuid()
+        RequestControl addBackgroundOrdered request
         getMessageCache().onWillSendMessage(guid)
     }
 

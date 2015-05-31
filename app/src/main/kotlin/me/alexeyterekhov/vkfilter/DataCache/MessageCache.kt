@@ -3,34 +3,34 @@ package me.alexeyterekhov.vkfilter.DataCache
 import android.os.Handler
 import android.util.Log
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
-import me.alexeyterekhov.vkfilter.DataClasses.MessageNew
+import me.alexeyterekhov.vkfilter.DataClasses.Message
 import java.util.Collections
 import java.util.HashMap
 import java.util.LinkedList
 
-fun <T> LinkedList<T>.forEachSync(action: (T) -> Unit) {
-    val copy = LinkedList(this)
-    copy forEach { action(it) }
-}
-
 class MessageCache {
-    private val concurrentActions = ConcurrentActions(delayMillis = 250, waitMillis = 300)
-    private val messagesWithoutState = HashMap<Long, MessageNew>()
+    fun <T> LinkedList<T>.forEachSync(action: (T) -> Unit) {
+        val copy = LinkedList(this)
+        copy forEach { action(it) }
+    }
 
-    private val sentMessages = LinkedList<MessageNew>()
-    private val processingMessages = LinkedList<MessageNew>()
-    private var editMessage: MessageNew = createEditMessage()
+    private val concurrentActions = ConcurrentActions(delayMillis = 250, waitMillis = 300)
+    private val messagesWithoutState = HashMap<Long, Message>()
+
+    private val sentMessages = LinkedList<Message>()
+    private val processingMessages = LinkedList<Message>()
+    private var editMessage: Message = createEditMessage()
     val listeners = LinkedList<MessageCacheListener>()
     var historyLoaded = false
         private set
 
-    fun getMessages(): Collection<MessageNew> {
+    fun getMessages(): Collection<Message> {
         val out = LinkedList(sentMessages)
         out addAll processingMessages
         return out
     }
     fun getEditMessage() = editMessage
-    fun putMessages(messages: Collection<MessageNew>, allHistoryLoaded: Boolean = false) {
+    fun putMessages(messages: Collection<Message>, allHistoryLoaded: Boolean = false) {
         Log.d("debug", "CACHE PUT MESSAGES ${messages.count()}")
         historyLoaded = allHistoryLoaded || historyLoaded
         val orderedMessages = if (messages.isNotEmpty() && messages.first().sentId > messages.last().sentId)
@@ -73,7 +73,7 @@ class MessageCache {
             if (messagesWithoutState contains guid) {
                 Log.d("debug", "YAY! ACTION 1")
                 val message = messagesWithoutState remove guid
-                message.sentState = MessageNew.STATE_PROCESSING
+                message.sentState = Message.STATE_PROCESSING
                 processingMessages add message
                 listeners forEachSync { it.onAddNewMessages(1) }
             } else {
@@ -87,7 +87,7 @@ class MessageCache {
                 doIfFirstActionWaiting = {
                     Log.d("debug", "CANCEL ACTION 1! ACTION 2!")
                     val message = messagesWithoutState remove guid
-                    message.sentState = MessageNew.STATE_SENT
+                    message.sentState = Message.STATE_SENT
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
                     sentMessages add message
@@ -97,7 +97,7 @@ class MessageCache {
                     Log.d("debug", "ACTION 2 AFTER ACTION 1!")
                     val index = processingMessages indexOfFirst { it.sentId == guid }
                     val message = processingMessages remove index
-                    message.sentState = MessageNew.STATE_SENT
+                    message.sentState = Message.STATE_SENT
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
                     if (sentMessages none { it.sentId == sentId }) {
@@ -119,16 +119,20 @@ class MessageCache {
             listeners forEachSync { it onReadMessages readMessages }
         }
     }
+    fun onUpdateMessages(updatedMessages: Collection<Message>) {
+        val filtered = updatedMessages filter { sentMessages contains it }
+        listeners forEachSync { it.onUpdateMessages(filtered) }
+    }
 
-    private fun putNewerSentMessages(messages: Collection<MessageNew>) {
+    private fun putNewerSentMessages(messages: Collection<Message>) {
         sentMessages addAll messages
         listeners forEachSync { it.onAddNewMessages(messages.count()) }
     }
-    private fun putOlderSentMessages(messages: Collection<MessageNew>) {
+    private fun putOlderSentMessages(messages: Collection<Message>) {
         sentMessages.addAll(0, messages)
         listeners forEachSync { it.onAddOldMessages(messages.count()) }
     }
-    private fun replaceSentMessages(messages: Collection<MessageNew>) {
+    private fun replaceSentMessages(messages: Collection<Message>) {
         for (m in messages) {
             val index = sentMessages indexOfFirst { it.sentId == m.sentId }
             if (index >= 0) {
@@ -139,9 +143,9 @@ class MessageCache {
         }
     }
 
-    private fun createEditMessage(): MessageNew {
-        val m = MessageNew(UserCache.getMyId())
-        m.sentState = MessageNew.STATE_IN_EDIT
+    private fun createEditMessage(): Message {
+        val m = Message(UserCache.getMyId())
+        m.sentState = Message.STATE_IN_EDIT
         m.isOut = true
         m.isRead = false
         return m

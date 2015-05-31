@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
 
 class MessageForSending {
     var dialogId = ""
@@ -9,8 +9,8 @@ class MessageForSending {
     // message content
     var text = ""
 
-    fun transformToMessage(messageId: Long): Message {
-        val msg = Message("me")
+    fun transformToMessage(messageId: Long): MessageOld {
+        val msg = MessageOld("me")
         with (msg) {
             id = messageId
             text = this@MessageForSending.text

@@ -11,6 +11,7 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
+import me.alexeyterekhov.vkfilter.InternetNew.DialogRefresher
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import org.json.JSONObject
 import java.util.Collections
@@ -97,8 +98,8 @@ object ResponseHandler {
             messages.remove(0)
 
         val originalCount = count - (if (firstMessageIsUseless) 1 else 0)
-        loadNotLoadedUsers(messages)
-        loadNotLoadedVideos(id, isChat, messages)
+        loadNotLoadedUsers(Vector(messages map { it.toNewFormat() }))
+        loadNotLoadedVideos(id, isChat, Vector(messages map { it.toNewFormat() }))
         MessageCaches.getCache(id, isChat).putMessages(
                 messages = messages map { it.toNewFormat() },
                 allHistoryLoaded = messages.count() < originalCount
@@ -298,7 +299,7 @@ object ResponseHandler {
         val isChat = request.additionalParams.getBoolean("chat")
 
         val gotUrls = JSONParser parseVideoUrls (JSONParser videoUrlsResponseToArray result)
-        val dialog = MessageCacheOld.getDialog(dialogId, isChat)
+        val dialog = MessageCaches.getCache(dialogId, isChat)
 
         fun findAttachments(vid: Long, m: Message): LinkedList<VideoAttachment> {
             val list = if (m.attachments.messages.isNotEmpty())
@@ -322,10 +323,10 @@ object ResponseHandler {
             val id = it.id
             val url = it.playerUrl
 
-            dialog.messages
+            dialog.getMessages()
                     .map { findAttachments(id, it) }
                     .map { it forEach { it.playerUrl = url } }
         }
-        MessageCacheOld.getDialog(dialogId, isChat).onDataUpdate()
+        //MessageCaches.getCache(dialogId, isChat).onDataUpdate()
     }
 }

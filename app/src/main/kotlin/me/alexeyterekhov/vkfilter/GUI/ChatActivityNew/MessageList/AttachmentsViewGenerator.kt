@@ -179,7 +179,7 @@ class AttachmentsViewGenerator(
                 fillUserInfo(UserCache.getUser(m.senderId)!!)
             else
                 fillUserNotLoaded()
-            setDate(m.dateMSC)
+            setDate(m.sentTimeMillis)
             setMessageText(m.text)
             inflate(m.attachments, i, attachmentsLayout) forEach {
                 addAttachment(it)

@@ -9,7 +9,9 @@ import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestChats
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.Vector
@@ -34,9 +36,9 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                 .filter { !ChatInfoCache.contains(it) }
 
         if (usersForLoading.isNotEmpty())
-            RunFun.userInfo(usersForLoading)
+            RequestControl addForeground RequestUsers(usersForLoading)
         if (chatsForLoading.isNotEmpty())
-            RunFun.chatInfo(chatsForLoading)
+            RequestControl addForeground RequestChats(chatsForLoading)
     }
 
     override fun onDataUpdate() {

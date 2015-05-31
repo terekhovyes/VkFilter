@@ -16,7 +16,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
-import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
 import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -35,7 +35,7 @@ class MessageListAdapter(
     private val inflater = LayoutInflater.from(activity)
 
     // messages from oldest to newest
-    private var messages: LinkedList<Message>? = null
+    private var messages: LinkedList<MessageOld>? = null
     private val normalColor = AppContext.instance.getResources()!!.getColor(R.color.my_white)
     private val unreadColor = AppContext.instance.getResources()!!.getColor(R.color.my_green_lighter)
     private val calendar = Calendar.getInstance()

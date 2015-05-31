@@ -4,7 +4,7 @@ import android.os.Handler
 import com.vk.sdk.api.VKParameters
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
-import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
 import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
@@ -89,7 +89,7 @@ object DialogRefresherOld : DataDepend, NotificationListener {
                     messagePack.messages.last().id
                 else
                     0
-        var lastRead: Message?
+        var lastRead: MessageOld?
         try {
             lastRead = messagePack.messages last { it.isOut && it.isRead }
         } catch (e: NoSuchElementException) {

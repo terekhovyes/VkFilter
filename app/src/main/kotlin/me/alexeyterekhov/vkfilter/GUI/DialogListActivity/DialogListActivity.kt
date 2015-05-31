@@ -25,13 +25,15 @@ import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogList.DialogAdapter
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.SettingsActivity
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
+import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogList
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollListener
 import me.alexeyterekhov.vkfilter.LibClasses.RecyclerItemClickAdapter
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Test.ChatTestActivity
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.TextFormat
@@ -148,6 +150,13 @@ public open class DialogListActivity:
             startActivity(Intent(this, javaClass<SettingsActivity>()))
         }
 
+        findViewById(R.id.testButton) as Button setOnClickListener {
+            val intent = Intent(this, javaClass<ChatTestActivity>())
+            intent.putExtra("chat_id", "test")
+            intent.putExtra("title", "Тестирование")
+            startActivity(intent)
+        }
+
         // Subscribe on cache
         if (!DialogListCache.listeners.contains(this))
             DialogListCache.listeners.add(this)
@@ -226,7 +235,7 @@ public open class DialogListActivity:
         GCMStation removeRawIntentListener GCMListener
     }
 
-    private fun loadDialogs(offset: Int) = RunFun.dialogList(offset, DIALOG_LOAD_PORTION)
+    private fun loadDialogs(offset: Int) = RequestControl addForeground RequestDialogList(offset, DIALOG_LOAD_PORTION)
 
     private val showRefreshingIcon = Runnable {
          findRefreshLayout() setRefreshing animateDialogRefreshing

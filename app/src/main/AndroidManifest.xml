@@ -45,13 +45,15 @@
         <activity android:name=".GUI.SettingsActivity.SettingsActivity"
             android:theme="@style/Theme.MySettingsTheme"/>
 
-        <activity android:name=".Test.TestDialogActivityAnimations"/>
-
         <activity android:name=".GUI.ChatActivity.ChatActivity"
             android:label="@string/a_chat_title"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity android:name=".GUI.ChatActivityNew.ChatActivity"
+            android:label="@string/a_chat_title"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".Test.ChatTestActivity"
             android:label="@string/a_chat_title"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 

@@ -10,7 +10,7 @@ import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 
 
-public class ChatActivity: VkActivity() {
+open public class ChatActivity: VkActivity() {
     val launchParameters = IntentParametersModule(this)
     val listModule = MessageListModule(this)
     val editPanelModule = EditPanelModule(this)

@@ -68,7 +68,8 @@ class Dialog {
         return (other == null && lastMessage == null)
                 || (other != null
                 && lastMessage != null
-                && other.id == lastMessage!!.id
+                && other.sentState == lastMessage!!.sentState
+                && other.sentId == lastMessage!!.sentId
                 && other.text == lastMessage!!.text
                 && other.isRead == lastMessage!!.isRead)
     }
