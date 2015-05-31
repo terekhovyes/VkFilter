@@ -1,9 +1,9 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.VideoAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.InternetNew.JSONParser
+import me.alexeyterekhov.vkfilter.Internet.JSONParser
 import org.json.JSONObject
 import java.util.LinkedList
 

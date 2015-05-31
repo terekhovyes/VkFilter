@@ -10,8 +10,8 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestReadMessages
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestReadMessages
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat

@@ -1,8 +1,8 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import org.json.JSONObject
 
 class RequestReadMessages(val dialogId: String, val isChat: Boolean) : Request("messages.markAsRead") {

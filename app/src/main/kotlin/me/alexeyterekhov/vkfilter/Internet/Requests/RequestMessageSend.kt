@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message

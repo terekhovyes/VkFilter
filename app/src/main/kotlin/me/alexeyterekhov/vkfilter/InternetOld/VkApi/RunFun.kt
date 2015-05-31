@@ -1,38 +1,37 @@
-package me.alexeyterekhov.vkfilter.InternetNew
+package me.alexeyterekhov.vkfilter.InternetOld.VkApi
 
-import android.util.Log
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.Request
-import me.alexeyterekhov.vkfilter.Util.Chef
-import me.alexeyterekhov.vkfilter.Util.Recipe
-import org.json.JSONObject
-
-public object RequestControl {
-    private val LOG_TAG = "RequestControl"
-
-    fun addForeground(request: Request) = addRequest(request, RequestRecipes.foregroundRecipe)
-    fun addBackground(request: Request) = addRequest(request, RequestRecipes.backgroundRecipe)
-    fun addBackgroundOrdered(request: Request) = addRequest(request, RequestRecipes.backgroundOrderedRecipe)
-    fun pause() = Chef.denyCooking(RequestRecipes.foregroundRecipe)
-    fun resume() {
-        checkSdkInitialized()
-        Chef.allowCooking(RequestRecipes.foregroundRecipe)
-    }
-
-    private fun addRequest(request: Request, recipe: Recipe<Request, JSONObject>) {
-        checkSdkInitialized()
-        Log.d(LOG_TAG, ">>> Request [${request.getServerFunName()}]]")
-        Chef.cook(recipe, request)
-    }
-
-    private fun checkSdkInitialized() {
-        if (VkSdkInitializer.isNull())
-            VkSdkInitializer.init()
-    }
-}
-
-/*
+import android.os.Bundle
+import com.vk.sdk.api.VKParameters
+import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
+import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
 
 public object RunFun {
+    public fun dialogList(offset: Int, count: Int) {
+        val params = VKParameters()
+        params["offset"] = offset
+        params["count"] = count
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.dialogList, params))
+    }
+
+    public fun messageList(
+            dialogId: String,
+            dialogIsChat: Boolean,
+            offset: Int,
+            count: Int,
+            startMessageId: String = ""
+    ) {
+        val firstMessageIsUseless = startMessageId != "" && offset == 0
+        val correctedCount = count + (if (firstMessageIsUseless) 1 else 0)
+
+        val params = VKParameters()
+        params["count"] = correctedCount + 1
+        params[if (dialogIsChat) "chat_id" else "user_id"] = dialogId
+        if (offset != 0) params["offset"] = offset
+        if (startMessageId != "") params["start_message_id"] = startMessageId
+        VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.messageList, params))
+    }
 
     public fun friendList(offset: Int, count: Int) {
         val params = VKParameters()
@@ -64,7 +63,7 @@ public object RunFun {
         VkRequestControl.addOrderImportantRequest(VkRequestBundle(VkFun.sendMessageOld, params))
     }
 
-    public fun sendMessage(msg: MessageNew, dialogId: String, isChat: Boolean): Long {
+    public fun sendMessage(msg: Message, dialogId: String, isChat: Boolean): Long {
         val params = VKParameters()
         params["message"] = msg.text
         params[if (isChat) "chat_id" else "user_id"] = dialogId
@@ -139,4 +138,3 @@ public object RunFun {
         VkRequestControl.addStoppableRequest(VkRequestBundle(VkFun.videoUrls, params, additional))
     }
 }
- */

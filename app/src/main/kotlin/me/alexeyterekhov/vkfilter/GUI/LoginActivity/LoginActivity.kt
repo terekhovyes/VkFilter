@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBarActivity
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
-import me.alexeyterekhov.vkfilter.InternetNew.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.R
 
 

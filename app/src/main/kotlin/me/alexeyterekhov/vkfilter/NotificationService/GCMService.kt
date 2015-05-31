@@ -10,10 +10,10 @@ import android.util.Log
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestGCMRegister
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestGCMUnregister
-import me.alexeyterekhov.vkfilter.InternetNew.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestGCMRegister
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestGCMUnregister
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.Util.GooglePlay
 import java.io.IOException
 import kotlin.properties.Delegates

@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import com.vk.sdk.api.VKParameters
 import org.json.JSONObject

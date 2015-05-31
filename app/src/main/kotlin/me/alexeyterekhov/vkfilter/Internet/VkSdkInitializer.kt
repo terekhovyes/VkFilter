@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.InternetNew
+package me.alexeyterekhov.vkfilter.Internet
 
 import android.app.AlertDialog
 import com.vk.sdk.*

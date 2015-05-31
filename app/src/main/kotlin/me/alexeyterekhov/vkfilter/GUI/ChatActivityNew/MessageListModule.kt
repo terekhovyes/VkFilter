@@ -10,7 +10,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.AttachmentsViewGenerator
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.ChatAdapter
-import me.alexeyterekhov.vkfilter.InternetNew.DialogRefresher
+import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext

@@ -26,11 +26,11 @@ import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.MessageListAdapte
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
-import me.alexeyterekhov.vkfilter.Internet.DialogRefresherOld
-import me.alexeyterekhov.vkfilter.Internet.VkApi.RunFun
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogPartners
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageHistory
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogPartners
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageHistory
+import me.alexeyterekhov.vkfilter.InternetOld.DialogRefresherOld
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext

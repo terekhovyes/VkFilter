@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.Internet.VkApi
+package me.alexeyterekhov.vkfilter.InternetOld.VkApi
 
 import android.util.Log
 import com.vk.sdk.api.VKError
@@ -9,7 +9,7 @@ import me.alexeyterekhov.backgroundtask.BackgroundTask
 import me.alexeyterekhov.backgroundtask.ErrorHandler
 import me.alexeyterekhov.backgroundtask.ResultHandler
 import me.alexeyterekhov.backgroundtask.SourceHandler
-import me.alexeyterekhov.vkfilter.Internet.ResponseHandler
+import me.alexeyterekhov.vkfilter.InternetOld.ResponseHandler
 import kotlin.properties.Delegates
 
 

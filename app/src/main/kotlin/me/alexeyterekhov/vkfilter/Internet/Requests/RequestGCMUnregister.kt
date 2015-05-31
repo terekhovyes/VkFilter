@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import org.json.JSONObject
 

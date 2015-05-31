@@ -6,8 +6,8 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestNotificationInfo
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestNotificationInfo
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.LinkedList
 import kotlin.properties.Delegates

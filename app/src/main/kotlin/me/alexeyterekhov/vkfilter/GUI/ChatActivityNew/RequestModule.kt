@@ -4,10 +4,10 @@ import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDependAdapter
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestDialogPartners
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageHistory
-import me.alexeyterekhov.vkfilter.InternetNew.Requests.RequestMessageSend
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogPartners
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageHistory
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageSend
 
 class RequestModule(val activity: ChatActivity) {
     companion object {

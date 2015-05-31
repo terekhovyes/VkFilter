@@ -1,10 +1,10 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.InternetNew.JSONParser
-import me.alexeyterekhov.vkfilter.InternetNew.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.JSONParser
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import org.json.JSONObject
 import java.util.LinkedList
 import java.util.Vector

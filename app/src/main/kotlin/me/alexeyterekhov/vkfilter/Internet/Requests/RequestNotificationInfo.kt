@@ -1,6 +1,6 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
-import me.alexeyterekhov.vkfilter.InternetNew.JSONParser
+import me.alexeyterekhov.vkfilter.Internet.JSONParser
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import org.json.JSONObject
 

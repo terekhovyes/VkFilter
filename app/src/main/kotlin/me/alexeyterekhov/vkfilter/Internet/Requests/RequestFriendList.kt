@@ -1,8 +1,8 @@
-package me.alexeyterekhov.vkfilter.InternetNew.Requests
+package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.FriendsListCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.InternetNew.JSONParser
+import me.alexeyterekhov.vkfilter.Internet.JSONParser
 import org.json.JSONObject
 
 class RequestFriendList(val offset: Int, val count: Int) : Request("friends.get") {

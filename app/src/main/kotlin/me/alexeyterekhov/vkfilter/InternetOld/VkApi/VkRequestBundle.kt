@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.Internet.VkApi
+package me.alexeyterekhov.vkfilter.InternetOld.VkApi
 
 import android.os.Bundle
 import com.vk.sdk.api.VKParameters

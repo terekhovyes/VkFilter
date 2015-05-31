@@ -6,8 +6,8 @@ import android.support.v7.app.ActionBarActivity
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
-import me.alexeyterekhov.vkfilter.InternetNew.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 
 public open class VkActivity: ActionBarActivity() {

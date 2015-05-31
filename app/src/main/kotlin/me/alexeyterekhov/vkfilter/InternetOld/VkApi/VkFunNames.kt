@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.Internet.VkApi
+package me.alexeyterekhov.vkfilter.InternetOld.VkApi
 
 import kotlin.properties.Delegates
 

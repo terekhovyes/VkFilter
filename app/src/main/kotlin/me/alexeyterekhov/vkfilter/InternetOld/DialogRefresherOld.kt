@@ -1,13 +1,13 @@
-package me.alexeyterekhov.vkfilter.Internet
+package me.alexeyterekhov.vkfilter.InternetOld
 
 import android.os.Handler
 import com.vk.sdk.api.VKParameters
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCacheOld
 import me.alexeyterekhov.vkfilter.DataClasses.MessageOld
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkFun
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestBundle
-import me.alexeyterekhov.vkfilter.Internet.VkApi.VkRequestControl
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkFun
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestBundle
+import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestControl
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
