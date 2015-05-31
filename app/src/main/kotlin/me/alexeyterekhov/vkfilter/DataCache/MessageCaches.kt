@@ -11,12 +11,6 @@ object MessageCaches {
             chat && !chats.contains(id) -> chats[id] = MessageCache()
             !chat && !dialogs.contains(id) -> dialogs[id] = MessageCache()
         }
-        return if (chat) $chats[id] else $dialogs[id]
-    }
-    fun deleteCache(id: String, chat: Boolean) {
-        when {
-            chat && chats contains id -> chats remove id
-            !chat && dialogs contains id -> dialogs remove id
-        }
+        return if (chat) chats[id] else dialogs[id]
     }
 }

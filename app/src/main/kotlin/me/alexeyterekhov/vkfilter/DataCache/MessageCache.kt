@@ -123,6 +123,10 @@ class MessageCache {
         val filtered = updatedMessages filter { sentMessages contains it }
         listeners forEachSync { it.onUpdateMessages(filtered) }
     }
+    fun clearData() {
+        sentMessages.clear()
+        processingMessages.clear()
+    }
 
     private fun putNewerSentMessages(messages: Collection<Message>) {
         sentMessages addAll messages
