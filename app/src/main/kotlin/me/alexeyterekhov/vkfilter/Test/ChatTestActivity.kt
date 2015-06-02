@@ -15,12 +15,18 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.ChatAdapter
 import me.alexeyterekhov.vkfilter.R
+import java.util.Collections
 import java.util.LinkedList
+import java.util.Random
 
 public class ChatTestActivity: ChatActivity() {
     val tests = arrayListOf(
+            Pair("Очистить", { clearList() }),
             Pair("Вложения", { testAttachments() }),
-            Pair("Сочетания вложений", { testCombinations() })
+            Pair("Сочетания вложений", { testCombinations() }),
+            Pair("Даты", { testDates() }),
+            Pair("Вставка сообщения", { testOneMsgInsert() }),
+            Pair("Изменение последнего сообщения", { testMsgChange() })
     )
     var currentTest = 0
 
@@ -195,6 +201,55 @@ public class ChatTestActivity: ChatActivity() {
             messages addAll msgs
         }
         getCache().putMessages(messages, true)
+    }
+
+    private fun testDates() {
+        clearList()
+        val messages = LinkedList<Message>()
+
+        // Dates
+        val time = System.currentTimeMillis()
+        val dates = arrayListOf(
+                time - 60L * 1000, // 1 min ago
+                time - 24L * 60 * 60 * 1000, // 1 day ago
+                time - 7L * 24 * 60 * 60 * 1000, // 1 week ago
+                time - 30L * 24 * 60 * 60 * 1000, // 1 month ago
+                time - 13L * 30 * 24 * 60 * 60 * 1000 // 1 year ago
+        )
+        dates.reverse() forEach {
+            val time = it
+            val msgs = generateAllTypesOfMessages()
+            msgs forEach {
+                it.sentTimeMillis = time
+            }
+            messages addAll msgs
+        }
+
+        getCache().putMessages(messages, true)
+    }
+
+    private fun testOneMsgInsert() {
+        val msg = generateMessage(false, Message.STATE_SENT)
+        msg.text = "Одно сообщение"
+        if (getCache().getMessages().isEmpty())
+            msg.sentId = System.currentTimeMillis()
+        else
+            msg.sentId = getCache().getMessages().last().sentId + 1
+        getCache().putMessages(Collections.singleton(msg), true)
+    }
+
+    private fun testMsgChange() {
+        if (getCache().getMessages().size() == 0)
+            1..20 forEach {
+                testOneMsgInsert()
+            }
+        val lastMsg = getCache().getMessages().last()
+        val lines = (Random(System.currentTimeMillis()).nextInt() % 5) + 1
+        var text = ""
+        for (i in 1..lines)
+            text += "${System.currentTimeMillis()}${if (i == lines) "\n" else ""}"
+        lastMsg.text = text
+        getCache().onUpdateMessages(Collections.singleton(lastMsg))
     }
 
     // Util methods
