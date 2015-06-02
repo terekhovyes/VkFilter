@@ -65,8 +65,8 @@ public object JSONParser {
             if (item.has("last_seen") && !item.isNull("last_seen")) {
                 val l = item get "last_seen"
                 when (l) {
-                    is Int -> lastOnlineTime = (l as Int).toLong()
-                    is Long -> lastOnlineTime = l as Long
+                    is Int -> lastOnlineTime = l.toLong()
+                    is Long -> lastOnlineTime = l
                     else -> lastOnlineTime = l as JSONObject getLong "time"
                 }
             }
@@ -231,7 +231,7 @@ public object JSONParser {
         val sizes = findAllPhotoSizes(json)
         if (sizes.isEmpty())
             return null
-        return json getString "photo_${sizes.last}"
+        return json getString "photo_${sizes.last()}"
     }
     private fun findPhotoLess(value: Int, json: JSONObject): String? {
         val sizes = findAllPhotoSizes(json)
@@ -243,7 +243,7 @@ public object JSONParser {
         }
     }
     private fun findAllPhotoSizes(json: JSONObject): List<Int> {
-        return json.keys().toArrayList()
+        return json.keys().asSequence().toArrayList()
                 .filter { it.startsWith("photo_") }
                 .map { it.substring(6).toInt() }
                 .filter { json.has("photo_$it") }

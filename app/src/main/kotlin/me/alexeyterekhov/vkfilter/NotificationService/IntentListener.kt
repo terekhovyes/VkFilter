@@ -2,6 +2,6 @@ package me.alexeyterekhov.vkfilter.NotificationService
 
 import android.content.Intent
 
-public trait IntentListener {
+public interface IntentListener {
     fun onGetIntent(intent: Intent)
 }

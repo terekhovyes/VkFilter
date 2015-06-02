@@ -141,7 +141,7 @@ public object NotificationMaker {
                 val res = context.getResources()
                 val height = res.getDimension(android.R.dimen.notification_large_icon_height).toInt()
                 val width = res.getDimension(android.R.dimen.notification_large_icon_width).toInt()
-                loadedBitmap = Bitmap.createScaledBitmap(loadedBitmap!!, width * 3 / 4, height * 3 / 4, false)
+                loadedBitmap = Bitmap.createScaledBitmap(loadedBitmap, width * 3 / 4, height * 3 / 4, false)
                 loadedBitmap = RoundBitmap make loadedBitmap!!
             }
             return loadedBitmap

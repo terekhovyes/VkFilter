@@ -6,7 +6,7 @@ import com.vk.sdk.api.VKError
 import com.vk.sdk.dialogs.VKCaptchaDialog
 
 object VkSdkInitializer {
-    val vkScopes = array(
+    val vkScopes = arrayOf(
             VKScope.FRIENDS,
             VKScope.MESSAGES,
             VKScope.PHOTOS,

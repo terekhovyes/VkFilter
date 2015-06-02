@@ -12,7 +12,7 @@ class User {
 }
 
 enum class Sex {
-    UNKNOWN
-    MAN
+    UNKNOWN,
+    MAN,
     WOMAN
 }

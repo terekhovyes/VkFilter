@@ -98,7 +98,7 @@ public open class DialogListActivity:
             addOnItemTouchListener(RecyclerItemClickAdapter(
                     AppContext.instance,
                     object : RecyclerItemClickAdapter.OnItemClickListener {
-                        override fun onItemClick(view: View, pos: Int) {
+                        override fun onItemClick(v: View, pos: Int) {
                             val dialog = getAdapter() as DialogAdapter getDialog pos
                             val dialogId = dialog.id.toString()
                             val intent = Intent(this@DialogListActivity, javaClass<ChatActivity>())

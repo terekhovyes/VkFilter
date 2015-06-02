@@ -11,7 +11,7 @@ public class PagerAdapter(
         val selectedUsers: MutableSet<Long>,
         val selectedChats: MutableSet<Long>
 ) : FragmentPagerAdapter(fm) {
-    val TITLES = array("Текущие", "Друзья", "Диалоги")
+    val TITLES = arrayOf("Текущие", "Друзья", "Диалоги")
 
     private val immutableUsers = HashSet<Long>(selectedUsers)
     private val immutableChats = HashSet<Long>(selectedChats)

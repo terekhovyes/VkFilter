@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
-import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.Internet.JSONParser
@@ -15,7 +14,6 @@ class RequestDialogList(val offset: Int, val count: Int) : Request("execute.deta
         params["count"] = count
     }
     override fun handleResponse(json: JSONObject) {
-        val users = Vector<User>()
         val jsonUserList = json getJSONObject "response" getJSONArray "user_info"
         val jsonDialogList = json getJSONObject "response" getJSONArray "items"
 

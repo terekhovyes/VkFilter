@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.Test
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,7 +27,8 @@ public class ChatTestActivity: ChatActivity() {
             Pair("Сочетания вложений", { testCombinations() }),
             Pair("Даты", { testDates() }),
             Pair("Вставка сообщения", { testOneMsgInsert() }),
-            Pair("Изменение последнего сообщения", { testMsgChange() })
+            Pair("Изменение последнего сообщения", { testMsgChange() }),
+            Pair("Скролл в самый низ", { testScrollDown() })
     )
     var currentTest = 0
 
@@ -208,13 +210,13 @@ public class ChatTestActivity: ChatActivity() {
         val messages = LinkedList<Message>()
 
         // Dates
-        val time = System.currentTimeMillis()
+        val cur = System.currentTimeMillis()
         val dates = arrayListOf(
-                time - 60L * 1000, // 1 min ago
-                time - 24L * 60 * 60 * 1000, // 1 day ago
-                time - 7L * 24 * 60 * 60 * 1000, // 1 week ago
-                time - 30L * 24 * 60 * 60 * 1000, // 1 month ago
-                time - 13L * 30 * 24 * 60 * 60 * 1000 // 1 year ago
+                cur - 60L * 1000, // 1 min ago
+                cur - 24L * 60 * 60 * 1000, // 1 day ago
+                cur - 7L * 24 * 60 * 60 * 1000, // 1 week ago
+                cur - 30L * 24 * 60 * 60 * 1000, // 1 month ago
+                cur - 13L * 30 * 24 * 60 * 60 * 1000 // 1 year ago
         )
         dates.reverse() forEach {
             val time = it
@@ -244,12 +246,33 @@ public class ChatTestActivity: ChatActivity() {
                 testOneMsgInsert()
             }
         val lastMsg = getCache().getMessages().last()
-        val lines = (Random(System.currentTimeMillis()).nextInt() % 5) + 1
+        val lines = Random(System.currentTimeMillis()).nextInt(5) + 1
         var text = ""
         for (i in 1..lines)
-            text += "${System.currentTimeMillis()}${if (i == lines) "\n" else ""}"
+            text += "${System.currentTimeMillis()}${if (i != lines) "\n" else ""}"
         lastMsg.text = text
         getCache().onUpdateMessages(Collections.singleton(lastMsg))
+    }
+
+    private fun testScrollDown() {
+        clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.isIn = true
+                m.text = "Сообщение"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = true
+                messages add m
+            }
+            getCache().onUpdateMessages(messages)
+        }, 500)
+    }
+
+    private fun testScrollToUnread() {
+        clearList()
     }
 
     // Util methods

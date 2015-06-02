@@ -11,14 +11,14 @@ public class RecyclerItemClickAdapter(
         val context: Context,
         val clickListener: OnItemClickListener
 ): RecyclerView.OnItemTouchListener {
-    public trait OnItemClickListener {
+    public interface OnItemClickListener {
         public fun onItemClick(v: View, pos: Int)
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
         val childView = rv.findChildViewUnder(e.getX(), e.getY())
         if (childView != null && gestureDetector.onTouchEvent(e)) {
-            clickListener.onItemClick(childView, rv.getChildPosition(childView))
+            clickListener.onItemClick(childView, rv.getChildAdapterPosition(childView))
             return true
         }
         return false

@@ -2,7 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ class AttachmentsViewGenerator(
         val maxViewWidth: Int,
         val maxViewHeight: Int,
         val shownUrls: MutableSet<String>,
-        val activity: ActionBarActivity
+        val activity: AppCompatActivity
 ) {
     fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup): List<View> {
         return inflateImages(attachments.images, inflater, root)

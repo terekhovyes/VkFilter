@@ -3,7 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.support.v7.app.ActionBarActivity
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +28,7 @@ import java.util.LinkedList
 import java.util.Vector
 
 class MessageListAdapter(
-        val activity: ActionBarActivity,
+        val activity: AppCompatActivity,
         val id: String,
         val chat: Boolean
 ) : BaseAdapter() {

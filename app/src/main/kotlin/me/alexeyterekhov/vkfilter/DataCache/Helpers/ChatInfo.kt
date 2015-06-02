@@ -19,11 +19,11 @@ class ChatInfo {
             val to = if (chatPartners.size() > 4) 4 else chatPartners.size()
             for (i in 0..to - 1) {
                 if (i != 0)
-                    names.append(", ": CharSequence)
-                names.append(TextFormat.userTitle(chatPartners[i], true): CharSequence)
+                    names.append(", ")
+                names.append(TextFormat.userTitle(chatPartners[i], true))
             }
             if (chatPartners.size() > 4)
-                names.append("...": CharSequence)
+                names.append("...")
             return names.toString()
         }
 

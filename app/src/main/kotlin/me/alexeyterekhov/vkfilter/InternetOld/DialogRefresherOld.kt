@@ -95,7 +95,7 @@ object DialogRefresherOld : DataDepend, NotificationListener {
         } catch (e: NoSuchElementException) {
             lastRead = null
         }
-        params["read_id"] = if (lastRead == null) 0 else lastRead!!.id
+        params["read_id"] = if (lastRead == null) 0 else lastRead.id
         return params
     }
 }

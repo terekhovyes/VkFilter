@@ -5,7 +5,7 @@ import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
 import java.util.Vector
 
-[Table(name = "VKFilters")]
+@Table(name = "VKFilters")
 public class VkFilter(): Model() {
     companion object {
         val STATE_DISABLED = 0
@@ -16,16 +16,16 @@ public class VkFilter(): Model() {
     var cached = false
     val cachedIds = Vector<VkIdentifier>()
 
-    [Column(name = "FilterName")]
+    @Column(name = "FilterName")
     var filterName: String = ""
 
-    [Column(name = "FilterIcon")]
+    @Column(name = "FilterIcon")
     var iconId: Int = 1
 
-    [Column(name = "ListOrder")]
+    @Column(name = "ListOrder")
     var listOrder: Int = 9000
 
-    [Column(name = "EnableState")]
+    @Column(name = "EnableState")
     var state: Int = STATE_DISABLED
 
     fun setIconResource(res: Int) { iconId = FilterIcons.resourceToId(res) }

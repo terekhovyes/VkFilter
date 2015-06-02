@@ -3,7 +3,7 @@ package me.alexeyterekhov.vkfilter.DataCache.Helpers
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 
 
-public trait MessageCacheListener {
+public interface MessageCacheListener {
     fun onAddNewMessages(count: Int)
     fun onAddOldMessages(count: Int)
     fun onReplaceMessage(old: Message, new: Message)
