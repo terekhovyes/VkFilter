@@ -34,7 +34,10 @@ public class ChatTestActivity: ChatActivity() {
             Pair("Скролл в самом верху", { testScrollAtTheTop() }),
             Pair("Скролл при изменении поля ввода", { testEditTestSizeChange() }),
             Pair("Цепочка изменений", { testChainOfChanges() }),
-            Pair("Отправка сообщений", { testSendMessage() })
+            Pair("Отправка сообщений", { testSendMessage() }),
+            Pair("Чтение одного сообщения", { testReadOneMessage() }),
+            Pair("Чтение, прокрутка", { testReadAndScroll() }),
+            Pair("Чтение, изменение", { testReadAndUpdate() })
     )
     var currentTest = 0
 
@@ -431,6 +434,68 @@ public class ChatTestActivity: ChatActivity() {
         Handler().postDelayed({
             getCache().onDidSendMessage(3L, 102L)
         }, 4350)
+    }
+
+    private fun testReadOneMessage() {
+        clearList()
+        Handler().postDelayed({
+            val m = Message("me")
+            m.isIn = true
+            m.text = "Сообщение"
+            m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
+            m.sentState = Message.STATE_SENT
+            m.sentId = 100L
+            m.isRead = false
+            getCache().putMessages(Collections.singleton(m))
+        }, 500)
+        Handler().postDelayed({
+            getCache().onReadMessages(out = false, lastId = 100L)
+        }, 600)
+    }
+
+    private fun testReadAndScroll() {
+        clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.isIn = true
+                m.text = "Сообщение"
+                m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
+                m.sentState = Message.STATE_SENT
+                m.sentId = it.toLong()
+                m.isRead = false
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 500)
+        Handler().postDelayed({
+            findViewById(R.id.messageList) as RecyclerView smoothScrollToPosition 19
+        }, 2000)
+    }
+
+    private fun testReadAndUpdate() {
+        clearList()
+        val m = Message("me")
+        m.isIn = true
+        m.text = "Сообщение"
+        m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
+        m.sentState = Message.STATE_SENT
+        m.sentId = 100L
+        m.isRead = false
+        val msgs = Collections.singleton(m)
+
+        Handler().postDelayed({
+            getCache().putMessages(Collections.singleton(m))
+        }, 500)
+        Handler().postDelayed({
+            getCache().onReadMessages(out = false, lastId = 100L)
+        }, 600)
+        for (i in 1..50) {
+            Handler().postDelayed({
+                getCache().onUpdateMessages(msgs)
+            }, 500L + 100 * i)
+        }
     }
 
     // Util methods
