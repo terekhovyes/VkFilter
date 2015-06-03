@@ -450,7 +450,7 @@ public class ChatTestActivity: ChatActivity() {
         }, 500)
         Handler().postDelayed({
             getCache().onReadMessages(out = false, lastId = 100L)
-        }, 600)
+        }, 1000)
     }
 
     private fun testReadAndScroll() {
@@ -491,10 +491,10 @@ public class ChatTestActivity: ChatActivity() {
         Handler().postDelayed({
             getCache().onReadMessages(out = false, lastId = 100L)
         }, 600)
-        for (i in 1..50) {
+        for (i in 1..20) {
             Handler().postDelayed({
                 getCache().onUpdateMessages(msgs)
-            }, 500L + 100 * i)
+            }, 500L + 250 * i)
         }
     }
 

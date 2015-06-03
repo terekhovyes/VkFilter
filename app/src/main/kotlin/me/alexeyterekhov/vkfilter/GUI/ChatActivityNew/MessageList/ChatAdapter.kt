@@ -1,5 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList
 
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -17,6 +18,7 @@ import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
 import java.util.Calendar
+import java.util.HashMap
 import java.util.HashSet
 import java.util.LinkedList
 import kotlin.properties.Delegates
@@ -33,11 +35,13 @@ public class ChatAdapter(
     val TYPE_IN = 1
     val TYPE_OUT = 2
 
-    val readMessages = HashSet<Message>()
     val inflater = LayoutInflater.from(activity)
     val messages = LinkedList<Message>()
     var attachmentGenerator: AttachmentsViewGenerator by Delegates.notNull()
     val shownImages = HashSet<String>()
+
+    val messagesForReading = HashSet<Message>()
+    val animationStartTime = HashMap<Message, Long>()
 
     override fun onAddNewMessages(count: Int) {
         Log.d("debug", "ADAPTER NEW $count")
@@ -80,7 +84,7 @@ public class ChatAdapter(
 
     override fun onReadMessages(messages: Collection<Message>) {
         Log.d("debug", "ADAPTER READ ${messages.count()}")
-        readMessages addAll messages
+        messagesForReading addAll messages
         val indexes = messages map { this.messages.indexOf(it) }
         indexes forEach { notifyItemChanged(it) }
         readIncomeMessages()
@@ -100,11 +104,21 @@ public class ChatAdapter(
                 with (h) {
                     setMessageText(message.text)
                     setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
-                    if (readMessages contains message) {
-                        readMessages remove message
-                        readMessage()
-                    } else
-                        setUnread(!message.isRead)
+                    when {
+                        messagesForReading contains message -> {
+                            messagesForReading remove message
+                            animationStartTime.put(message, System.currentTimeMillis())
+                            readMessage()
+                            Handler().postDelayed({ animationStartTime remove message }, h.READ_OFFSET + h.READ_DURATION)
+                        }
+                        animationStartTime contains message -> {
+                            val startTime = animationStartTime get message
+                            readMessage(timeFromAnimationStart = System.currentTimeMillis() - startTime)
+                        }
+                        else -> {
+                            setUnread(message.isNotRead)
+                        }
+                    }
                     showSpaceAndTriangle(isFirstReply || isNewDay)
                     showPhoto(isChat && (isFirstReply || isNewDay))
                     if (isChat && (isFirstReply || isNewDay)) loadUserImage(h.senderPhoto, message.senderOrEmpty().photoUrl)
@@ -120,8 +134,8 @@ public class ChatAdapter(
                 h.clearAttachments()
                 with (h) {
                     setMessageText(message.text)
-                    if (readMessages contains message) {
-                        readMessages remove message
+                    if (messagesForReading contains message) {
+                        messagesForReading remove message
                         readMessage()
                     }
                     setColorsByMessageState(message.sentState)
