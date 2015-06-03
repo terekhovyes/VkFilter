@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew
 import android.graphics.Point
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
@@ -26,6 +27,7 @@ class MessageListModule(val activity: ChatActivity) {
             initAdapterData()
             setPositionToLastUnread()
             setUpEndlessListener()
+            setUpOnLayoutChangeScroller()
         }
         getCache().listeners add messageListener
         UserCache.listeners add userListener
@@ -120,6 +122,16 @@ class MessageListModule(val activity: ChatActivity) {
                 }
         )
         getList().setOnScrollListener(endless)
+    }
+    private fun setUpOnLayoutChangeScroller() {
+        val list = getList()
+        list.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int,
+                                        oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                if (oldBottom != 0)
+                    list.scrollToPosition(getAdapter()!!.messages.size() - 1)
+            }
+        })
     }
     private fun isAtBottom(completely: Boolean = false): Boolean {
         val adapter = getAdapter()!!
