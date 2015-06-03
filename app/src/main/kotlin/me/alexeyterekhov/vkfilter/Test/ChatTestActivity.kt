@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.AudioAttachment
@@ -28,7 +29,12 @@ public class ChatTestActivity: ChatActivity() {
             Pair("Даты", { testDates() }),
             Pair("Вставка сообщения", { testOneMsgInsert() }),
             Pair("Изменение последнего сообщения", { testMsgChange() }),
-            Pair("Скролл в самый низ", { testScrollDown() })
+            Pair("Скролл в самый низ", { testScrollDown() }),
+            Pair("Скролл к непрочитанному", { testScrollToUnread() }),
+            Pair("Скролл в самом верху", { testScrollAtTheTop() }),
+            Pair("Скролл при изменении поля ввода", { testEditTestSizeChange() }),
+            Pair("Цепочка изменений", { testChainOfChanges() }),
+            Pair("Отправка сообщений", { testSendMessage() })
     )
     var currentTest = 0
 
@@ -267,12 +273,164 @@ public class ChatTestActivity: ChatActivity() {
                 m.isRead = true
                 messages add m
             }
-            getCache().onUpdateMessages(messages)
+            getCache().putMessages(messages)
         }, 500)
     }
 
     private fun testScrollToUnread() {
         clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.sentId = it.toLong()
+                m.isIn = true
+                m.text = "Старое сообщение $it"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = true
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 500)
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..10 forEach {
+                val m = Message("me")
+                m.sentId = it.toLong() + 20
+                m.isIn = true
+                m.text = "Новое прочитанное сообщение $it"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = true
+                messages add m
+            }
+            1..30 forEach {
+                val m = Message("me")
+                m.sentId = it.toLong() + 30
+                m.isIn = true
+                m.text = "Новое непрочитанное сообщение $it"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = false
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 1000)
+    }
+
+    private fun testScrollAtTheTop() {
+        clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.isIn = true
+                m.text = "Сообщение"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = false
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 500)
+    }
+
+    private fun testEditTestSizeChange() {
+        clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.isIn = true
+                m.text = "Сообщение"
+                m.sentTimeMillis = System.currentTimeMillis()
+                m.sentState = Message.STATE_SENT
+                m.isRead = true
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 500)
+        for (i in 1..5) {
+            Handler().postDelayed({
+                val line = "abcde"
+                var text = ""
+                1..i forEach {
+                    text += "$line${if (it == i) "" else "\n" }"
+                }
+                findViewById(R.id.messageText) as EditText setText text
+            }, 500L + 500 * i)
+        }
+        for (i in 6..9) {
+            Handler().postDelayed({
+                val line = "abcde"
+                var text = ""
+                1..(10 - i) forEach {
+                    text += "$line${if (it == 10 - i) "" else "\n" }"
+                }
+                findViewById(R.id.messageText) as EditText setText text
+            }, 500L + 500 * i)
+        }
+    }
+
+    private fun testChainOfChanges() {
+        clearList()
+        Handler().postDelayed({
+            val m = Message("me")
+            m.isIn = true
+            m.text = "Один"
+            m.sentId = 1
+            m.isRead = true
+            getCache().putMessages(Collections.singleton(m), true)
+        }, 500)
+        for (i in 1..10) {
+            Handler().postDelayed({
+                val m = getCache().getMessages().first()
+                m.text = "Номер $i"
+                getCache().onUpdateMessages(Collections.singleton(m))
+            }, 500L + 100 * i)
+        }
+    }
+
+    private fun testSendMessage() {
+        clearList()
+        Handler().postDelayed({
+            val messages = LinkedList<Message>()
+            1..20 forEach {
+                val m = Message("me")
+                m.isIn = true
+                m.text = "Сообщение"
+                m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
+                m.sentState = Message.STATE_SENT
+                m.isRead = false
+                messages add m
+            }
+            getCache().putMessages(messages)
+        }, 500)
+        Handler().postDelayed({
+            val m = getCache().getEditMessage()
+            m.text = "Долго отправляемое сообщение"
+            getCache().onWillSendMessage(1L)
+        }, 1500)
+        Handler().postDelayed({
+            getCache().onDidSendMessage(1L, 100L)
+        }, 2500)
+        Handler().postDelayed({
+            val m = getCache().getEditMessage()
+            m.text = "Быстро отправляемое сообщение"
+            getCache().onWillSendMessage(2L)
+        }, 3000)
+        Handler().postDelayed({
+            getCache().onDidSendMessage(2L, 101L)
+        }, 3100)
+        Handler().postDelayed({
+            val m = getCache().getEditMessage()
+            m.text = "Ни туда ни сюда отправляемое сообщение"
+            getCache().onWillSendMessage(3L)
+        }, 4000)
+        Handler().postDelayed({
+            getCache().onDidSendMessage(3L, 102L)
+        }, 4350)
     }
 
     // Util methods
