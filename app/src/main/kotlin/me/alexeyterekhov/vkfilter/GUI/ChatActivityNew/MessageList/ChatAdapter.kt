@@ -152,7 +152,11 @@ public class ChatAdapter(
                     Message.STATE_PROCESSING -> {
                         h.setDateText(AppContext.instance.getString(R.string.a_chat_sending))
                         h.setUnread(false)
-                        h.showRedStrip(false)
+                        val showStrip = position == 0 || (messages[position - 1].sentState != Message.STATE_PROCESSING
+                                && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis()))
+                        h.showRedStrip(showStrip)
+                        if (showStrip)
+                            h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
                         h.showSpaceAndTriangle(isFirstReply)
                     }
                 }

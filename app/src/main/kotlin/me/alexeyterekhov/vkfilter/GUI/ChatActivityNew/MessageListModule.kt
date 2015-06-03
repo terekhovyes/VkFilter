@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew
 
 import android.graphics.Point
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -175,7 +176,7 @@ class MessageListModule(val activity: ChatActivity) {
             val atBottom = isAtBottom()
             getAdapter()?.onUpdateMessages(messages)
             if (atBottom)
-                scrollDown(smooth = true)
+                Handler().postDelayed({ scrollDown(smooth = true) }, 500)
         }
         override fun onReadMessages(messages: Collection<Message>) {
             getAdapter()?.onReadMessages(messages)
