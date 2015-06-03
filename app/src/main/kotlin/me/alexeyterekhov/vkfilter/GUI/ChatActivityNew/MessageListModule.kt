@@ -121,13 +121,24 @@ class MessageListModule(val activity: ChatActivity) {
         )
         getList().setOnScrollListener(endless)
     }
-    private fun isAtBottom(): Boolean {
+    private fun isAtBottom(completely: Boolean = false): Boolean {
         val adapter = getAdapter()!!
         val layoutMan = getList().getLayoutManager() as LinearLayoutManager
-        return adapter.messages.isEmpty()
-                || layoutMan.findLastVisibleItemPosition() == adapter.messages.count() - 1
+        return if (!completely) {
+            adapter.messages.isEmpty()
+                    || layoutMan.findLastVisibleItemPosition() == adapter.messages.count() - 1
+        } else {
+            adapter.messages.isEmpty()
+                    || layoutMan.findLastCompletelyVisibleItemPosition() == adapter.messages.count() - 1
+        }
     }
-    private fun scrollDown() = getList().scrollToPosition(getAdapter()!!.messages.count() - 1)
+    private fun scrollDown(smooth: Boolean = false) {
+        val lastPos = getAdapter()!!.messages.count() - 1
+        if (smooth)
+            getList().smoothScrollToPosition(lastPos)
+        else
+            getList().scrollToPosition(lastPos)
+    }
     private fun createMessageListener() = object : MessageCacheListener {
         override fun onAddNewMessages(count: Int) {
             val adapter = getAdapter()!!
@@ -152,7 +163,7 @@ class MessageListModule(val activity: ChatActivity) {
             val atBottom = isAtBottom()
             getAdapter()?.onUpdateMessages(messages)
             if (atBottom)
-                scrollDown()
+                scrollDown(smooth = true)
         }
         override fun onReadMessages(messages: Collection<Message>) {
             getAdapter()?.onReadMessages(messages)
