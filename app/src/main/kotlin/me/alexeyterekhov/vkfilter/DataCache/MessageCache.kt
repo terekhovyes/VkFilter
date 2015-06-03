@@ -67,6 +67,7 @@ class MessageCache {
 
     fun onWillSendMessage(guid: Long) {
         val sentMessage = editMessage
+        sentMessage.sentId = guid
         editMessage = createEditMessage()
         messagesWithoutState.put(guid, sentMessage)
         concurrentActions.firstAction(guid, {
