@@ -133,6 +133,7 @@ class MessageListModule(val activity: ChatActivity) {
                     || layoutMan.findLastCompletelyVisibleItemPosition() == adapter.messages.count() - 1
         }
     }
+    private fun adapterHaveUnreadIncomeMessages() = getAdapter()!!.messages any { it.isIn && it.isNotRead }
     private fun scrollDown(smooth: Boolean = false) {
         val lastPos = getAdapter()!!.messages.count() - 1
         if (smooth)
@@ -145,7 +146,7 @@ class MessageListModule(val activity: ChatActivity) {
         if (adapter != null) {
             if (adapter.messages.isNotEmpty()) {
                 if (adapter.messages none { it.isIn && it.isNotRead })
-                    getList() scrollToPosition adapter.messages.count() - 1
+                    scrollDown()
                 else {
                     var unreadPos = adapter.messages.indexOfFirst { it.isIn && it.isNotRead }
                     val height = getList().getHeight()
@@ -159,10 +160,14 @@ class MessageListModule(val activity: ChatActivity) {
         override fun onAddNewMessages(count: Int) {
             val adapter = getAdapter()!!
             val atBottom = isAtBottom()
+            val haveUnreadMessages = adapterHaveUnreadIncomeMessages()
             adapter.onAddNewMessages(count)
-            if (atBottom)
-                scrollToFirstUnread()
-
+            if (atBottom) {
+                if (haveUnreadMessages)
+                    scrollDown()
+                else
+                    scrollToFirstUnread()
+            }
             if (adapter.messages.isNotEmpty() && activityIsResumed && !DialogRefresher.isRunning())
                 DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
         }
