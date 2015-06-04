@@ -35,6 +35,8 @@ public class ChatAdapter(
     val TYPE_IN = 1
     val TYPE_OUT = 2
 
+    val TIME_FOR_ANIMATION = 400L
+
     val inflater = LayoutInflater.from(activity)
     val messages = LinkedList<Message>()
     var attachmentGenerator: AttachmentsViewGenerator by Delegates.notNull()
@@ -42,6 +44,7 @@ public class ChatAdapter(
 
     val messagesForReading = HashSet<Message>()
     val animationStartTime = HashMap<Message, Long>()
+    var lastAnimationStartTime = 0L
 
     override fun onAddNewMessages(count: Int) {
         Log.d("debug", "ADAPTER NEW $count")
@@ -55,6 +58,7 @@ public class ChatAdapter(
             notifyItemInserted(messages.count() - 1)
         }
         readIncomeMessages()
+        updateAnimationTime()
     }
 
     override fun onAddOldMessages(count: Int) {
@@ -73,6 +77,7 @@ public class ChatAdapter(
         val index = this.messages.indexOf(old)
         this.messages.set(index, new)
         notifyItemChanged(index)
+        updateAnimationTime()
     }
 
     override fun onUpdateMessages(messages: Collection<Message>) {
@@ -80,14 +85,21 @@ public class ChatAdapter(
         val indexes = messages map { this.messages.indexOf(it) }
         indexes forEach { notifyItemChanged(it) }
         readIncomeMessages()
+        updateAnimationTime()
     }
 
     override fun onReadMessages(messages: Collection<Message>) {
-        Log.d("debug", "ADAPTER READ ${messages.count()}")
-        messagesForReading addAll messages
-        val indexes = messages map { this.messages.indexOf(it) }
-        indexes forEach { notifyItemChanged(it) }
-        readIncomeMessages()
+        val work = Runnable {
+            Log.d("debug", "ADAPTER READ ${messages.count()}")
+            messagesForReading addAll messages
+            notifyDataSetChanged()
+            readIncomeMessages()
+        }
+        val time = System.currentTimeMillis()
+        if (time - lastAnimationStartTime < TIME_FOR_ANIMATION)
+            Handler().postDelayed(work, TIME_FOR_ANIMATION + lastAnimationStartTime - time)
+        else
+            work.run()
     }
 
     override fun getItemCount() = messages.count()
@@ -209,8 +221,9 @@ public class ChatAdapter(
         }
         ImageLoader.getInstance().displayImage(url, view, conf)
     }
+    private fun updateAnimationTime() { lastAnimationStartTime = System.currentTimeMillis() }
     private fun readIncomeMessages() {
-        if (messages any { it.isIn && it.isNotRead })
+         if (messages any { it.isIn && it.isNotRead })
             RequestControl addBackground RequestReadMessages(dialogId, isChat)
     }
 }

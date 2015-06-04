@@ -37,7 +37,8 @@ public class ChatTestActivity: ChatActivity() {
             Pair("Отправка сообщений", { testSendMessage() }),
             Pair("Чтение одного сообщения", { testReadOneMessage() }),
             Pair("Чтение, прокрутка", { testReadAndScroll() }),
-            Pair("Чтение, изменение", { testReadAndUpdate() })
+            Pair("Чтение, изменение", { testReadAndUpdate() }),
+            Pair("Быстрое чтение", { testFastRead() })
     )
     var currentTest = 0
 
@@ -460,7 +461,7 @@ public class ChatTestActivity: ChatActivity() {
             1..20 forEach {
                 val m = Message("me")
                 m.isIn = true
-                m.text = "Сообщение"
+                m.text = "Сообщение $it"
                 m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
                 m.sentState = Message.STATE_SENT
                 m.sentId = it.toLong()
@@ -470,8 +471,11 @@ public class ChatTestActivity: ChatActivity() {
             getCache().putMessages(messages)
         }, 500)
         Handler().postDelayed({
+            getCache().onReadMessages(out = false, lastId = 20L)
+        }, 1000)
+        Handler().postDelayed({
             findViewById(R.id.messageList) as RecyclerView smoothScrollToPosition 19
-        }, 2000)
+        }, 3000)
     }
 
     private fun testReadAndUpdate() {
@@ -496,6 +500,22 @@ public class ChatTestActivity: ChatActivity() {
                 getCache().onUpdateMessages(msgs)
             }, 500L + 250 * i)
         }
+    }
+
+    private fun testFastRead() {
+        val time = System.currentTimeMillis()
+        val m = Message("me")
+        m.isIn = true
+        m.text = "Сообщение"
+        m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
+        m.sentState = Message.STATE_SENT
+        m.sentId = time
+        m.isRead = false
+        val msgs = Collections.singleton(m)
+        getCache().putMessages(msgs)
+        Handler().postDelayed({
+            getCache().onReadMessages(out = false, lastId = time)
+        }, 50)
     }
 
     // Util methods
