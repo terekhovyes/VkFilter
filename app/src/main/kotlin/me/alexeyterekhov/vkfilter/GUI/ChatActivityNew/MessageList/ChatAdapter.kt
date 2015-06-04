@@ -108,6 +108,7 @@ public class ChatAdapter(
         val message = messages[position]
         val isFirstReply = position == 0 || isFirstReply(position)
         val isNewDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
+        val isVeryFirstMessage = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
 
         when (getItemViewType(position)) {
             TYPE_IN -> {
@@ -134,8 +135,12 @@ public class ChatAdapter(
                     showSpaceAndTriangle(isFirstReply || isNewDay)
                     showPhoto(isChat && (isFirstReply || isNewDay))
                     if (isChat && (isFirstReply || isNewDay)) loadUserImage(h.senderPhoto, message.senderOrEmpty().photoUrl)
-                    showRedStrip(isNewDay)
-                    if (isNewDay) setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                    if (isNewDay || isVeryFirstMessage) {
+                        showRedStrip(true)
+                        setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                    } else {
+                        showRedStrip(false)
+                    }
                 }
                 attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
                     h addAttachment it
@@ -156,9 +161,12 @@ public class ChatAdapter(
                     Message.STATE_SENT -> {
                         h.setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
                         h.setUnread(!message.isRead)
-                        h.showRedStrip(isNewDay)
-                        if (isNewDay)
+                        if (isNewDay || isVeryFirstMessage) {
+                            h.showRedStrip(true)
                             h.setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                        } else {
+                            h.showRedStrip(false)
+                        }
                         h.showSpaceAndTriangle(isFirstReply || isNewDay)
                     }
                     Message.STATE_PROCESSING -> {
