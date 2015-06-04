@@ -129,8 +129,11 @@ class MessageListModule(val activity: ChatActivity) {
         list.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int,
                                         oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                if (oldBottom != 0)
-                    list.scrollToPosition(getAdapter()!!.messages.size() - 1)
+                if (oldBottom != 0) {
+                    val dif = oldBottom - bottom
+                    if (dif > 0)
+                        list.scrollBy(0, dif)
+                }
             }
         })
     }
