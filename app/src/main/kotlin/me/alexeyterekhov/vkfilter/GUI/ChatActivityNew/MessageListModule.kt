@@ -26,7 +26,7 @@ class MessageListModule(val activity: ChatActivity) {
         if (getAdapter() == null) {
             initList()
             initAdapterData()
-            setPositionToLastUnread()
+            scrollToFirstUnread()
             setUpEndlessListener()
             setUpOnLayoutChangeScroller()
         }
@@ -93,21 +93,6 @@ class MessageListModule(val activity: ChatActivity) {
             )
         }
     }
-    private fun setPositionToLastUnread() {
-        val adapter = getAdapter()
-        if (adapter != null) {
-            if (adapter.messages.isNotEmpty()) {
-                if (adapter.messages none { it.isIn && it.isNotRead })
-                    getList() scrollToPosition adapter.messages.count() - 1
-                else {
-                    var unreadPos = adapter.messages.indexOfFirst { it.isIn && it.isNotRead }
-                    if (unreadPos > 0)
-                        unreadPos -= 1
-                    getList() scrollToPosition unreadPos
-                }
-            }
-        }
-    }
     private fun setUpEndlessListener() {
         val endless = EndlessScrollNew(
                 recyclerView = getList(),
@@ -155,13 +140,28 @@ class MessageListModule(val activity: ChatActivity) {
         else
             getList().scrollToPosition(lastPos)
     }
+    private fun scrollToFirstUnread() {
+        val adapter = getAdapter()
+        if (adapter != null) {
+            if (adapter.messages.isNotEmpty()) {
+                if (adapter.messages none { it.isIn && it.isNotRead })
+                    getList() scrollToPosition adapter.messages.count() - 1
+                else {
+                    var unreadPos = adapter.messages.indexOfFirst { it.isIn && it.isNotRead }
+                    val height = getList().getHeight()
+                    val offset = Math.max(50, (height * 0.1).toInt())
+                    (getList().getLayoutManager() as LinearLayoutManager).scrollToPositionWithOffset(unreadPos, offset)
+                }
+            }
+        }
+    }
     private fun createMessageListener() = object : MessageCacheListener {
         override fun onAddNewMessages(count: Int) {
             val adapter = getAdapter()!!
             val atBottom = isAtBottom()
             adapter.onAddNewMessages(count)
             if (atBottom)
-                scrollDown()
+                scrollToFirstUnread()
 
             if (adapter.messages.isNotEmpty() && activityIsResumed && !DialogRefresher.isRunning())
                 DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
