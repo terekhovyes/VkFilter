@@ -49,10 +49,15 @@ public class ChatAdapter(
     override fun onAddNewMessages(messages: Collection<Message>) {
         Log.d("debug", "ADAPTER NEW ${messages.count()}")
         messages forEach {
-            val messageId = it.sentId
-            val index = 1 + (this.messages indexOfLast { it.sentId < messageId })
-            this.messages.add(index, it)
-            notifyItemInserted(index)
+            if (it.sentState == Message.STATE_SENT) {
+                val messageId = it.sentId
+                val index = 1 + (this.messages indexOfLast { it.sentState == Message.STATE_SENT && it.sentId < messageId })
+                this.messages.add(index, it)
+                notifyItemInserted(index)
+            } else {
+                this.messages add it
+                notifyItemInserted(this.messages.count() - 1)
+            }
         }
         readIncomeMessages()
         updateAnimationTime()

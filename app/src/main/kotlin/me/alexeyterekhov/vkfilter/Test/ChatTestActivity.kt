@@ -229,11 +229,12 @@ public class ChatTestActivity: ChatActivity() {
                 cur - 30L * 24 * 60 * 60 * 1000, // 1 month ago
                 cur - 13L * 30 * 24 * 60 * 60 * 1000 // 1 year ago
         )
-        dates.reverse() forEach {
-            val time = it
+        dates.reverse() forEachIndexed { ind, date ->
+            val time = date
             val msgs = generateAllTypesOfMessages()
-            msgs forEach {
-                it.sentTimeMillis = time
+            msgs forEachIndexed { ind2, msg ->
+                msg.sentTimeMillis = time
+                msg.sentId = (ind * 10 + ind2).toLong()
             }
             messages addAll msgs
         }
