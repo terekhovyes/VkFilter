@@ -134,6 +134,7 @@ public object DateFormat {
     /*
     Shows:
     "today" word
+    "yesterday" word
     day month
     day month year
      */
@@ -144,6 +145,7 @@ public object DateFormat {
 
         return when {
             isToday(msc / 1000L) -> today
+            isYesterday(msc / 1000L) -> yesterday
             isThisYear(msc / 1000L) -> dayMonth(date)
             else -> dayMonthYear(date)
         }

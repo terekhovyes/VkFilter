@@ -81,10 +81,11 @@
             <ImageView
                 android:id="@+id/sendButton"
                 android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="-45dp"
                 android:padding="2dp"
                 android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
                 android:src="@drawable/button_send"/>
 
         </LinearLayout>

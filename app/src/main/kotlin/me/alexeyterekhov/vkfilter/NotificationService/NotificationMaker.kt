@@ -50,40 +50,14 @@ public object NotificationMaker {
             killNotification(context)
     }
     private fun showNotification(context: Context) {
-        val notification = if (notifications.size() == 1) {
-            val n = notifications.first()
-            val onClickIntent = createChatActivityIntent(context, n)
-            val title = if (n.getName().length() > 18) n.getName(compact = true) else n.getName()
+        val notificationBuilder = if (notifications.count() == 1)
+            createSingleNotification(context)
+        else
+            createMultiNotification(context)
+        notificationBuilder.setNumber(notifications.count())
 
-            val bigText = NotificationCompat
-                    .BigTextStyle()
-                    .bigText(n.text)
-
-            notificationBase(context, n.senderPhotoUrl)
-                    .setContentTitle(title)
-                    .setContentText(n.text)
-                    .setContentIntent(onClickIntent)
-                    .setStyle(bigText)
-                    .build()
-        } else {
-            val firstDialog = notifications.last()
-            val moreDialogs = notifications.reverse() drop 1 take 3
-            val onClickIntent = createDialogListActivityIntent(context)
-
-            val inbox = NotificationCompat.InboxStyle()
-            moreDialogs forEach { n -> inbox addLine "${n.getName(compact = true)}: ${n.text}"}
-            inbox setSummaryText (TextFormat.newDialogs(context, notifications.size()))
-            inbox setBigContentTitle "${firstDialog.getName(compact = true)}: ${firstDialog.text}"
-
-            notificationBase(context, firstDialog.senderPhotoUrl)
-                    .setContentTitle("${firstDialog.getName()} ${TextFormat.andMoreDialogs(context, notifications.size() - 1)}")
-                    .setContentText(firstDialog.text)
-                    .setContentIntent(onClickIntent)
-                    .setStyle(inbox)
-                    .build()
-        }
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(ID, notification)
+        manager.notify(ID, notificationBuilder.build())
     }
     private fun killNotification(context: Context) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -115,6 +89,47 @@ public object NotificationMaker {
         return builder
     }
 
+    private fun createSingleNotification(context: Context): NotificationCompat.Builder {
+        val n = notifications.first()
+        val onClickIntent = createChatActivityIntent(context, n)
+        val title = if (n.getName().length() > 18)
+            n.getName(compact = true)
+        else
+            n.getName()
+
+        val bigTextStyle = NotificationCompat
+                .BigTextStyle()
+                .bigText(n.text)
+
+        return notificationBase(context, n.senderPhotoUrl)
+                .setContentTitle(title)
+                .setContentText(n.text)
+                .setContentIntent(onClickIntent)
+                .setStyle(bigTextStyle)
+    }
+
+    private fun createMultiNotification(context: Context): NotificationCompat.Builder {
+        val firstDialog = notifications.last()
+        val moreDialogs = notifications.reverse() drop 1 take 3
+        val notShownCount = notifications.count() - moreDialogs.count() - 1
+        val onClickIntent = createDialogListActivityIntent(context)
+
+        val inboxStyle = NotificationCompat.InboxStyle()
+        moreDialogs forEach { n ->
+            inboxStyle addLine "${n.getName(compact = true)}: ${n.text}"
+        }
+        if (notShownCount > 0)
+            inboxStyle setSummaryText TextFormat.andMoreDialogs(context, notShownCount)
+        inboxStyle setBigContentTitle "${firstDialog.getName(compact = true)}: ${firstDialog.text}"
+
+        return notificationBase(context, firstDialog.senderPhotoUrl)
+                .setContentTitle("${firstDialog.getName()}")
+                .setContentText(firstDialog.text)
+                .setContentIntent(onClickIntent)
+                .setStyle(inboxStyle)
+    }
+
+
     private fun addOrReplace(info: NotificationInfo) {
         val forReplace = notifications filter { it canBeReplacedBy info }
         notifications removeAll forReplace
@@ -132,9 +147,11 @@ public object NotificationMaker {
             if (bitmaps.isNotEmpty())
                 loadedBitmap = bitmaps.first()
 
-            val file = DiskCacheUtils.findInCache(url, dc)
-            if (file != null)
-                loadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath())
+            if (url != "") {
+                val file = DiskCacheUtils.findInCache(url, dc)
+                if (file != null)
+                    loadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath())
+            }
             if (loadedBitmap == null)
                 loadedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub_user)
             if (loadedBitmap != null) {
