@@ -48,7 +48,7 @@ class MessageCache {
         if (orderedMessages.count() > 1)
             Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}: ${orderedMessages.first().sentId}..${orderedMessages.last().sentId}")
 
-        // Prevent situation, when send message still wasn't shown, but DialogRefresher already load it from server
+        // Prevent situation, when sent message still wasn't shown, but DialogRefresher already load it from server
         if (messages.isNotEmpty()
                 && orderedMessages all { it.isOut }
                 && (processingMessages.isNotEmpty()
