@@ -157,11 +157,11 @@ class MessageListModule(val activity: ChatActivity) {
         }
     }
     private fun createMessageListener() = object : MessageCacheListener {
-        override fun onAddNewMessages(count: Int) {
+        override fun onAddNewMessages(messages: Collection<Message>) {
             val adapter = getAdapter()!!
             val atBottom = isAtBottom()
             val haveUnreadMessages = adapterHaveUnreadIncomeMessages()
-            adapter.onAddNewMessages(count)
+            adapter.onAddNewMessages(messages)
             if (atBottom) {
                 if (haveUnreadMessages)
                     scrollDown()
@@ -171,8 +171,8 @@ class MessageListModule(val activity: ChatActivity) {
             if (adapter.messages.isNotEmpty() && activityIsResumed && !DialogRefresher.isRunning())
                 DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
         }
-        override fun onAddOldMessages(count: Int) {
-            getAdapter()?.onAddOldMessages(count)
+        override fun onAddOldMessages(messages: Collection<Message>) {
+            getAdapter()?.onAddOldMessages(messages)
         }
         override fun onReplaceMessage(old: Message, new: Message) {
             val atBottom = isAtBottom()

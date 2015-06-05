@@ -8,7 +8,6 @@ import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageForSending
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
-import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.InternetOld.VkApi.RunFun
 import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkFun
 import me.alexeyterekhov.vkfilter.InternetOld.VkApi.VkRequestBundle
@@ -215,7 +214,7 @@ object ResponseHandler {
     private fun refreshDialog(request: VkRequestBundle, result: JSONObject) {
         if (result.isNull("response")) {
             DialogRefresherOld.onDataUpdate()
-            DialogRefresher.messageCacheListener.onAddNewMessages(0)
+            // DialogRefresher.messageCacheListener.onAddNewMessages()
         } else {
             val p = request.vkParams
 
@@ -240,7 +239,7 @@ object ResponseHandler {
                             messages = messages map { it.toNewFormat() },
                             allHistoryLoaded = false)
                 } else {
-                    DialogRefresher.messageCacheListener.onAddNewMessages(0)
+                    //DialogRefresher.messageCacheListener.onAddNewMessages(0)
                 }
             }
         }

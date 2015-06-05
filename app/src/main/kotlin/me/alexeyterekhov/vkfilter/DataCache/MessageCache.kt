@@ -23,6 +23,8 @@ class MessageCache {
     val listeners = LinkedList<MessageCacheListener>()
     var historyLoaded = false
         private set
+    var lastMessageIdFromServer = 0L
+        private set
 
     fun getMessages(): Collection<Message> {
         val out = LinkedList(sentMessages)
@@ -31,13 +33,22 @@ class MessageCache {
     }
     fun getEditMessage() = editMessage
     fun putMessages(messages: Collection<Message>, allHistoryLoaded: Boolean = false) {
-        Log.d("debug", "CACHE PUT MESSAGES ${messages.count()}")
         historyLoaded = allHistoryLoaded || historyLoaded
         val orderedMessages = if (messages.isNotEmpty() && messages.first().sentId > messages.last().sentId)
             messages.reverse()
         else
             messages
+        if (orderedMessages.isNotEmpty())
+            lastMessageIdFromServer = Math.max(lastMessageIdFromServer, orderedMessages.last().sentId)
 
+        if (orderedMessages.isEmpty())
+            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}")
+        if (orderedMessages.count() == 1)
+            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}: ${orderedMessages.first().sentId}")
+        if (orderedMessages.count() > 1)
+            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}: ${orderedMessages.first().sentId}..${orderedMessages.last().sentId}")
+
+        // Prevent situation, when send message still wasn't shown, but DialogRefresher already load it from server
         if (messages.isNotEmpty()
                 && orderedMessages all { it.isOut }
                 && (processingMessages.isNotEmpty()
@@ -56,9 +67,19 @@ class MessageCache {
 
                 val older = orderedMessages filter { it.sentId < curL }
                 val newer = orderedMessages filter { it.sentId > curR }
-                val replacement = orderedMessages filter { it.sentId in curL..curR }
+                val inner = orderedMessages filter { it.sentId in curL..curR }
 
-                if (replacement.isNotEmpty()) replaceSentMessages(replacement)
+                if (inner.isNotEmpty()) {
+                    // Split inner messages on new and messages for replacement
+                    val innerNewMessages = inner takeWhile {
+                        val id = it.sentId
+                        sentMessages none { it.sentId == id }
+                    }
+                    val replacement = inner drop innerNewMessages.count()
+
+                    if (innerNewMessages.isNotEmpty()) putNewerSentMessages(innerNewMessages)
+                    if (replacement.isNotEmpty()) replaceSentMessages(replacement)
+                }
                 if (newer.isNotEmpty()) putNewerSentMessages(newer)
                 if (older.isNotEmpty()) putOlderSentMessages(older)
             }
@@ -76,7 +97,7 @@ class MessageCache {
                 val message = messagesWithoutState remove guid
                 message.sentState = Message.STATE_PROCESSING
                 processingMessages add message
-                listeners forEachSync { it.onAddNewMessages(1) }
+                listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
             } else {
                 Log.d("debug", "FOOO, ACTION 1 should be removed")
             }
@@ -92,7 +113,7 @@ class MessageCache {
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
                     sentMessages add message
-                    listeners forEachSync { it.onAddNewMessages(1) }
+                    listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
                 },
                 doIfFirstActionCalled = {
                     Log.d("debug", "ACTION 2 AFTER ACTION 1!")
@@ -130,12 +151,16 @@ class MessageCache {
     }
 
     private fun putNewerSentMessages(messages: Collection<Message>) {
-        sentMessages addAll messages
-        listeners forEachSync { it.onAddNewMessages(messages.count()) }
+        messages forEach {
+            val messageId = it.sentId
+            val index = 1 + (sentMessages indexOfLast { it.sentId < messageId })
+            sentMessages.add(index, it)
+        }
+        listeners forEachSync { it.onAddNewMessages(messages) }
     }
     private fun putOlderSentMessages(messages: Collection<Message>) {
         sentMessages.addAll(0, messages)
-        listeners forEachSync { it.onAddOldMessages(messages.count()) }
+        listeners forEachSync { it.onAddOldMessages(messages) }
     }
     private fun replaceSentMessages(messages: Collection<Message>) {
         for (m in messages) {

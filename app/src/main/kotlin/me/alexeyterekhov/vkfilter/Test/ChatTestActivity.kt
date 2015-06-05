@@ -38,7 +38,8 @@ public class ChatTestActivity: ChatActivity() {
             Pair("Чтение одного сообщения", { testReadOneMessage() }),
             Pair("Чтение, прокрутка", { testReadAndScroll() }),
             Pair("Чтение, изменение", { testReadAndUpdate() }),
-            Pair("Быстрое чтение", { testFastRead() })
+            Pair("Быстрое чтение", { testFastRead() }),
+            Pair("Подгрузка после разрыва", { testUpdateAfterDisconnect() })
     )
     var currentTest = 0
 
@@ -516,6 +517,61 @@ public class ChatTestActivity: ChatActivity() {
         Handler().postDelayed({
             getCache().onReadMessages(out = false, lastId = time)
         }, 50)
+    }
+
+    private fun testUpdateAfterDisconnect() {
+        clearList()
+        // Loading messages from server
+        run {
+            val m1 = generateMessage(out = false)
+            val m2 = generateMessage(out = true)
+            m1.text = "Подгруженные сообщения"
+            m2.text = "Подгруженные сообщения"
+            m1.sentId = 1
+            m2.sentId = 4
+            Handler().postDelayed({ getCache().putMessages(arrayListOf(m1, m2)) }, 500)
+        }
+        // Here we haven't network
+        // Send messages
+        run {
+            Handler().postDelayed({
+                getCache().getEditMessage().text = "Моё сообщение 1     "
+                getCache().onWillSendMessage(100)
+            }, 1500)
+            Handler().postDelayed({
+                getCache().getEditMessage().text = "Моё сообщение 2     "
+                getCache().onWillSendMessage(101)
+            }, 2000)
+        }
+        // Here we have network again
+        // Messages sent
+        run {
+            Handler().postDelayed({
+                getCache().onDidSendMessage(100, 10)
+                getCache().onDidSendMessage(101, 11)
+            }, 3000)
+        }
+        // Here dialog refresher loads messages older than sent messages
+        run {
+            Handler().postDelayed({
+                val m1 = generateMessage(out = false)
+                val m2 = generateMessage(out = false)
+                val m3 = generateMessage(out = false)
+                m1.text = "Входящее 1"
+                m2.text = "Входящее 2"
+                m3.text = "Входящее 3"
+                m1.sentId = 6
+                m2.sentId = 7
+                m3.sentId = 9
+                val my1 = generateMessage(out = true)
+                val my2 = generateMessage(out = true)
+                my1.text = "Моё сообщение 1"
+                my2.text = "Моё сообщение 2"
+                my1.sentId = 10
+                my2.sentId = 11
+                getCache().putMessages(arrayListOf(m1, m2, m3, my1, my2))
+            }, 4000)
+        }
     }
 
     // Util methods

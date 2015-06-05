@@ -46,36 +46,30 @@ public class ChatAdapter(
     val animationStartTime = HashMap<Message, Long>()
     var lastAnimationStartTime = 0L
 
-    override fun onAddNewMessages(count: Int) {
-        Log.d("debug", "ADAPTER NEW $count")
-        val addedMessages = MessageCaches.getCache(dialogId, isChat)
-                .getMessages()
-                .reverse()
-                .take(count)
-                .reverse()
-        addedMessages forEach {
-            messages add it
-            notifyItemInserted(messages.count() - 1)
+    override fun onAddNewMessages(messages: Collection<Message>) {
+        Log.d("debug", "ADAPTER NEW ${messages.count()}")
+        messages forEach {
+            val messageId = it.sentId
+            val index = 1 + (this.messages indexOfLast { it.sentId < messageId })
+            this.messages.add(index, it)
+            notifyItemInserted(index)
         }
         readIncomeMessages()
         updateAnimationTime()
     }
 
-    override fun onAddOldMessages(count: Int) {
-        Log.d("debug", "ADAPTER OLD $count")
-        val addedMessages = MessageCaches.getCache(dialogId, isChat)
-                .getMessages()
-                .take(count)
-        addedMessages.reverse() forEach {
-            messages.add(0, it)
+    override fun onAddOldMessages(messages: Collection<Message>) {
+        Log.d("debug", "ADAPTER OLD ${messages.count()}")
+        messages.reverse() forEach {
+            this.messages.add(0, it)
             notifyItemInserted(0)
         }
     }
 
     override fun onReplaceMessage(old: Message, new: Message) {
         Log.d("debug", "ADAPTER REPLACE")
-        val index = this.messages.indexOf(old)
-        this.messages.set(index, new)
+        val index = messages indexOfFirst { it.sentId == old.sentId }
+        messages.set(index, new)
         notifyItemChanged(index)
         updateAnimationTime()
     }
