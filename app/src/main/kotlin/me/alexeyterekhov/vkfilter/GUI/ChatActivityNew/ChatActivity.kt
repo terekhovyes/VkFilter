@@ -3,6 +3,10 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivityNew
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import com.rockerhieu.emojicon.EmojiconGridFragment
+import com.rockerhieu.emojicon.EmojiconsFragment
+import com.rockerhieu.emojicon.emoji.Emojicon
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
@@ -10,23 +14,31 @@ import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 
 
-open public class ChatActivity: VkActivity() {
+open public class ChatActivity:
+        VkActivity(),
+        EmojiconsFragment.OnEmojiconBackspaceClickedListener,
+        EmojiconGridFragment.OnEmojiconClickedListener
+{
     val launchParameters = IntentParametersModule(this)
     val listModule = MessageListModule(this)
     val editPanelModule = EditPanelModule(this)
     val requestModule = RequestModule(this)
     val actionBarModule = ActionBarModule(this)
+    val emojiconModule = EmojiconModule(this)
+    val swipePanelModule = SwipePanelModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super<VkActivity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_new)
         listModule.onCreate()
         editPanelModule.onCreate()
         actionBarModule.onCreate()
         requestModule.loadDialogPartners()
+        emojiconModule.onCreate(savedInstanceState)
+        swipePanelModule.onCreate(savedInstanceState)
     }
     override fun onResume() {
-        super.onResume()
+        super<VkActivity>.onResume()
         listModule.onResume()
         actionBarModule.onResume()
 
@@ -36,12 +48,17 @@ open public class ChatActivity: VkActivity() {
             NotificationMaker.clearDialogNotifications(launchParameters.dialogId(), AppContext.instance)
     }
     override fun onPause() {
-        super.onPause()
+        super<VkActivity>.onPause()
         listModule.onPause()
         actionBarModule.onPause()
     }
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super<VkActivity>.onSaveInstanceState(outState)
+        emojiconModule.onSaveState(outState)
+        swipePanelModule.onSaveState(outState)
+    }
     override fun onDestroy() {
-        super.onDestroy()
+        super<VkActivity>.onDestroy()
         listModule.onDestroy()
         editPanelModule.onDestroy()
     }
@@ -61,56 +78,10 @@ open public class ChatActivity: VkActivity() {
                 onBackPressed()
                 return true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> return super<VkActivity>.onOptionsItemSelected(item)
         }
     }
+
+    override fun onEmojiconBackspaceClicked(v: View?) = emojiconModule.onEmojiconBackspaceClicked(v)
+    override fun onEmojiconClicked(emoji: Emojicon?) = emojiconModule.onEmojiconClicked(emoji)
 }
-
-
-//        :EmojiconGridFragment.OnEmojiconClickedListener,
-//        :EmojiconsFragment.OnEmojiconBackspaceClickedListener
-//
-//    override fun onEmojiconClicked(emoji: Emojicon?) {
-//        val text = findViewById(R.id.messageText) as EditText
-//        allowHideEmoji = false
-//        EmojiconsFragment.input(text, emoji)
-//        allowHideEmoji = true
-//    }
-//
-//    override fun onEmojiconBackspaceClicked(p0: View?) {
-//        val text = findViewById(R.id.messageText) as EditText
-//        allowHideEmoji = false
-//        EmojiconsFragment.backspace(text)
-//        allowHideEmoji = true
-//    }
-//
-//    private fun showEmoji() {
-//        val container = findViewById(R.id.emoji_container)
-//        val animation = AlphaAnimation(0f, 1f)
-//        animation setDuration 200L
-//        container setVisibility View.VISIBLE
-//        container startAnimation animation
-//    }
-//
-//    private fun hideEmoji() {
-//        val container = findViewById(R.id.emoji_container)
-//        if (container.getVisibility() == View.VISIBLE) {
-//            allowHideEmoji = false
-//            val animation = AlphaAnimation(1f, 0f)
-//            animation setDuration 200L
-//            animation setAnimationListener object : Animation.AnimationListener {
-//                override fun onAnimationStart(p0: Animation?) {
-//                }
-//
-//                override fun onAnimationEnd(p0: Animation?) {
-//                    container setVisibility View.INVISIBLE
-//                    allowHideEmoji = true
-//                }
-//
-//                override fun onAnimationRepeat(p0: Animation?) {
-//                }
-//            }
-//            container startAnimation animation
-//        }
-//    }
-//}

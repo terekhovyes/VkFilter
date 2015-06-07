@@ -5,20 +5,34 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
 import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
 import me.alexeyterekhov.vkfilter.R
 
 class EditPanelModule(val activity: ChatActivity) {
+    private var bindAction: (() -> Unit)? = null
+
     val textListener = createTextListener()
 
     fun onCreate() {
         fillMessageInput()
         initSendButton()
+        initAttachmentButtons()
     }
 
     fun onDestroy() {
         val text = activity.findViewById(R.id.messageText) as EditText
         text.removeTextChangedListener(textListener)
     }
+
+    fun bindSendButton(iconRes: Int, action: () -> Unit) {
+        bindAction = action
+        activity.findViewById(R.id.sendButton) as ImageView setImageResource iconRes
+    }
+    fun unbindSendButton() {
+        bindAction = null
+        activity.findViewById(R.id.sendButton) as ImageView setImageResource R.drawable.button_send
+    }
+    fun getEditText() = activity.findViewById(R.id.messageText) as KeyboardlessEmojiEditText
 
     private fun fillMessageInput() {
         val text = activity.findViewById(R.id.messageText) as EditText
@@ -32,11 +46,21 @@ class EditPanelModule(val activity: ChatActivity) {
     private fun initSendButton() {
         val sendButton = activity.findViewById(R.id.sendButton) as ImageView
         sendButton setOnClickListener {
-            val editMessage = getMessageCache().getEditMessage()
-            if (editMessage.text != "") {
-                activity.requestModule.sendMessage(editMessage)
-                fillMessageInput()
+            if (bindAction == null) {
+                val editMessage = getMessageCache().getEditMessage()
+                if (editMessage.text != "") {
+                    activity.requestModule.sendMessage(editMessage)
+                    fillMessageInput()
+                }
+            } else {
+                bindAction!!()
             }
+        }
+    }
+
+    private fun initAttachmentButtons() {
+        activity.findViewById(R.id.smileButton) setOnClickListener {
+            activity.emojiconModule.openEmojiconPanel()
         }
     }
 
