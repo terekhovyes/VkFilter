@@ -32,90 +32,73 @@
         android:layout_height="match_parent"
         android:layout_above="@id/emoji_container">
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
             android:background="@color/my_white">
 
-            <LinearLayout
+            <me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
+                android:id="@+id/messageText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="45dp">
+                android:layout_marginLeft="@dimen/chat_spacer_big"
+                android:layout_marginTop="@dimen/chat_spacer"
+                android:layout_marginBottom="@dimen/chat_spacer"
+                android:layout_marginRight="45dp"
+                android:minLines="2"
+                android:maxLines="4"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/my_text"
+                app:emojiconSize="@dimen/my_emoji"
+                android:textColor="@color/my_black"
+                android:background="@null"
+                android:inputType="textMultiLine|textCapSentences"
+                android:hint="@string/a_chat_message_hint"/>
 
-                    <me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
-                        android:id="@+id/messageText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/chat_spacer_big"
-                        android:layout_marginTop="@dimen/chat_spacer"
-                        android:layout_marginBottom="@dimen/chat_spacer"
-                        android:minLines="2"
-                        android:maxLines="4"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/my_text"
-                        app:emojiconSize="@dimen/my_emoji"
-                        android:textColor="@color/my_black"
-                        android:background="@null"
-                        android:inputType="textMultiLine|textCapSentences"
-                        android:hint="@string/a_chat_message_hint"/>
+            <me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
+                android:id="@+id/swipeOpener"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-                    <me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
-                        android:id="@+id/swipeOpener"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <FrameLayout
-                        android:id="@+id/barBackground"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="invisible"
-                        android:background="@color/my_white"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/smileButton"
-                            android:layout_width="50dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/button_smiles"
-                            android:visibility="invisible"/>
-
-                        <ImageView
-                            android:id="@+id/photoButton"
-                            android:layout_width="50dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/button_photo"
-                            android:visibility="invisible"/>
-
-                    </LinearLayout>
-
-                </FrameLayout>
+            <LinearLayout
+                android:id="@+id/attachmentsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/my_gray_lighter"
+                android:visibility="invisible"
+                android:clickable="true">
 
                 <ImageView
-                    android:id="@+id/sendButton"
-                    android:layout_width="42dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="-45dp"
-                    android:padding="2dp"
+                    android:id="@+id/smileButton"
+                    android:layout_width="56dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/button_send"/>
+                    android:src="@drawable/button_smiles"
+                    android:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/photoButton"
+                    android:layout_width="56dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/button_photo"
+                    android:visibility="visible"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/sendButton"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:layout_gravity="right|center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/button_send"/>
+
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messageList"
