@@ -11,10 +11,10 @@ import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 
 class ForwardMessageHolder(val view: View) {
-    val senderPhoto = view.findViewById(R.id.senderPhoto) as ImageView
-    val senderName = view.findViewById(R.id.senderName) as TextView
-    val date = view.findViewById(R.id.date) as TextView
     val messageText = view.findViewById(R.id.messageText) as TextView
+    val dateText = view.findViewById(R.id.date) as TextView
+    val senderName = view.findViewById(R.id.senderName) as TextView
+    val senderPhoto = view.findViewById(R.id.senderPhoto) as ImageView
     val attachmentsLayout = view.findViewById(R.id.attachmentsLayout) as LinearLayout
 
     // Base info
@@ -28,7 +28,7 @@ class ForwardMessageHolder(val view: View) {
         senderName setText ""
     }
     fun setDate(msc: Long) {
-        date setText DateFormat.forwardMessageDate(msc)
+        dateText setText DateFormat.forwardMessageDate(msc)
     }
     fun setMessageText(text: String) {
         if (text == "")

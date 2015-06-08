@@ -126,6 +126,5 @@
     <orderEntry type="module" module-name="circularimageview" exported="" />
     <orderEntry type="module" module-name="DragSortRecycler" exported="" />
     <orderEntry type="module" module-name="library" exported="" />
-    <orderEntry type="module" module-name="BackgroundTask" exported="" />
   </component>
 </module>

@@ -43,7 +43,6 @@ dependencies {
     compile 'com.github.ozodrukh:CircularReveal:1.0.4@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.rockerhieu.emojicon:library:1.0'
-    compile project('libprojs:BackgroundTask')
     compile project('libprojs:DragSortRecycler')
     compile project('libprojs:CircularImageView:circularimageview')
     compile project('libprojs:PhotoView:library')

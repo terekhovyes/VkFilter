@@ -14,8 +14,8 @@ import me.alexeyterekhov.vkfilter.DataClasses.Attachments.DocAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.VideoAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.ChatActivity
-import me.alexeyterekhov.vkfilter.GUI.ChatActivityNew.MessageList.ChatAdapter
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.ChatAdapter
 import me.alexeyterekhov.vkfilter.R
 import java.util.Collections
 import java.util.LinkedList

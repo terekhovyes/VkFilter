@@ -47,10 +47,6 @@
 
         <activity android:name=".GUI.ChatActivity.ChatActivity"
             android:label="@string/a_chat_title"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-        <activity android:name=".GUI.ChatActivityNew.ChatActivity"
-            android:label="@string/a_chat_title"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".Test.ChatTestActivity"

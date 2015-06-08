@@ -8,11 +8,11 @@ import java.util.HashMap
 import java.util.Vector
 
 public object Chef {
-    // Spoiled dishes
-    val NOT_COOK_ANYMORE = 1
+    // What to do with the dish on exception
+    val NOT_COOK_INGREDIENT_ANYMORE = 1
     val COOK_AGAIN_LATER = 2
     val COOK_AGAIN_IMMEDIATELY = 3
-    // Cooking attempts
+    // Cooking attempts count
     val UNLIMITED_ATTEMPTS = 0
 
     fun createRecipe<Ingredient, Dish>() = RecipeCreator(Recipe<Ingredient, Dish>())
@@ -47,7 +47,7 @@ public object Chef {
 
 class Recipe<Ingredient, Dish> {
     // Options
-    var ifCookingFail = Chef.NOT_COOK_ANYMORE
+    var ifCookingFail = Chef.NOT_COOK_INGREDIENT_ANYMORE
     var waitAfterFail = 0L
     var maxCookAttempts = Chef.UNLIMITED_ATTEMPTS
     // Actions
@@ -155,7 +155,7 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
             if (recipe.waitAfterFail > 0)
                 try { Thread.sleep(recipe.waitAfterFail) } catch (e: InterruptedException) {}
             // If chef should cook it again
-            if (recipe.ifCookingFail != Chef.NOT_COOK_ANYMORE) {
+            if (recipe.ifCookingFail != Chef.NOT_COOK_INGREDIENT_ANYMORE) {
                 // Write our spoiled attempt
                 if (recipe.maxCookAttempts != Chef.UNLIMITED_ATTEMPTS) {
                     if (!attemptCount.containsKey(ingredient))

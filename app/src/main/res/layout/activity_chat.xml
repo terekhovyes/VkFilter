@@ -2,80 +2,118 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-            android:id="@+id/messageBar"
+    <FrameLayout
+        android:id="@+id/emoji_container"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/my_white"
+        android:visibility="gone">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/emoji_fragment"
+            class="com.rockerhieu.emojicon.EmojiconsFragment"/>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/toolbar_shadow"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/emoji_container">
+
+        <FrameLayout
+            android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:background="@color/my_white_lighter">
+            android:background="@color/my_white">
 
-        <com.rockerhieu.emojicon.EmojiconEditText
+            <me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
                 android:id="@+id/messageText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="55dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="@dimen/chat_spacer_big"
+                android:layout_marginTop="@dimen/chat_spacer"
+                android:layout_marginBottom="@dimen/chat_spacer"
+                android:layout_marginRight="45dp"
                 android:minLines="2"
                 android:maxLines="4"
                 android:gravity="center_vertical"
-                android:textSize="16sp"
-                app:emojiconSize="20sp"
+                android:textSize="@dimen/my_text"
+                app:emojiconSize="@dimen/my_emoji"
                 android:textColor="@color/my_black"
                 android:background="@null"
                 android:inputType="textMultiLine|textCapSentences"
                 android:hint="@string/a_chat_message_hint"/>
 
-        <ImageView
-                android:id="@+id/sendButton"
-                android:layout_width="55dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="-55dp"
-                android:layout_marginBottom="3dp"
-                android:padding="5dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/send_button"
-                android:scaleType="centerInside"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/messageBar"
-        android:layout_alignParentTop="true">
-
-        <ListView
-            android:id="@+id/messageList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/my_white"
-            android:stackFromBottom="true"
-            android:divider="@null"
-            android:dividerHeight="0dp"/>
-
-        <FrameLayout
-            android:id="@+id/emoji_container"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_gravity="bottom"
-            android:background="@color/my_white"
-            android:visibility="invisible">
-
-            <fragment
-                android:id="@+id/emoji_fragment"
-                class="com.rockerhieu.emojicon.EmojiconsFragment"
+            <me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
+                android:id="@+id/swipeOpener"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <LinearLayout
+                android:id="@+id/attachmentsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/my_gray_lighter"
+                android:visibility="invisible"
+                android:clickable="true">
+
+                <ImageView
+                    android:id="@+id/smileButton"
+                    android:layout_width="56dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/button_smiles"
+                    android:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/photoButton"
+                    android:layout_width="56dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/button_photo"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/sendButton"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:layout_gravity="right|center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/button_send"/>
+
         </FrameLayout>
 
-    </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/messageList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bar"
+            android:background="@color/my_white"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_above="@id/bar"
+            android:background="@drawable/toolbar_shadow_inverted"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
+
