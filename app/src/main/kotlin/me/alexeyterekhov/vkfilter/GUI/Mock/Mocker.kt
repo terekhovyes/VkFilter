@@ -13,6 +13,7 @@ import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
 import java.util.ArrayList
 import java.util.HashMap
+import java.util.LinkedList
 import java.util.Vector
 
 
@@ -76,58 +77,70 @@ public object Mocker {
         return out
     }
 
-//    fun mockMessagePack(): MessagePack {
-//        val pack = MessagePack()
-//
-//        val texts = arrayListOf(
-//                "Ну что, готов завтра выступать? ${People.DATA[11].getEmoji()}",
-//                "Быстро неделя пролетела, уже четверг",
-//                "Хорошо, в конце недели спишемся ${People.DATA[3].getEmoji()}",
-//                "Концерт в пятницу в 8",
-//                "Ну.. ещё есть время потренироваться)",
-//                "Как раз за ударкой сижу, уже более-менее выходит",
-//                "Ты уже всю партию выучил? Мне только соляк в конце остался",
-//                "Всё про выступление думаю"
-//        )
-//        val cur = System.currentTimeMillis()
-//        val dates = arrayListOf(
-//                cur - 1000 * 60 * 5,
-//                cur - 1000 * 60 * 6,
-//                cur - 1000 * 60 * 60 * 75,
-//                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 60,
-//                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 60,
-//                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 120,
-//                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 240,
-//                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 600
-//        )
-//        val income = arrayListOf(
-//                true,
-//                true,
-//                true,
-//                false,
-//                false,
-//                true,
-//                false,
-//                false
-//        )
-//
-//        val messages = ArrayList<MessageOld>()
-//        for (i in texts.size() - 1 downTo 0) {
-//            val m = MessageOld("")
-//            with (m) {
-//                id = i.toLong()
-//                text = texts[i]
-//                isOut = !income[i]
-//                dateMSC = dates[i]
-//                isRead = true
-//            }
-//            messages add m
-//        }
-//
-//        pack.messages addAll messages
-//
-//        return pack
-//    }
+    fun mockMessages(): Collection<Message> {
+        val messages = LinkedList<Message>()
+
+        val texts = arrayListOf(
+                "Конечно!",
+                "Ну что, готов завтра выступать? ${People.DATA[11].getEmoji()}",
+                "Быстро неделя пролетела, уже четверг",
+                "Хорошо, в конце недели спишемся ${People.DATA[3].getEmoji()}",
+                "Концерт в пятницу в 8",
+                "Ну.. ещё есть время потренироваться)",
+                "Как раз за ударкой сижу, уже более-менее выходит",
+                "Ты уже всю партию выучил? Мне только соляк в конце остался",
+                "Всё про выступление думаю"
+        )
+        val cur = System.currentTimeMillis()
+        val dates = arrayListOf(
+                0,
+                cur - 1000 * 60 * 5,
+                cur - 1000 * 60 * 6,
+                cur - 1000 * 60 * 60 * 75,
+                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 60,
+                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 60,
+                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 120,
+                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 240,
+                cur - 1000 * 60 * 60 * 75 - 1000 * 60 * 241
+        )
+        val income = arrayListOf(
+                false,
+                true,
+                true,
+                true,
+                false,
+                false,
+                true,
+                false,
+                false
+        )
+        val states = arrayListOf(
+                Message.STATE_PROCESSING,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT,
+                Message.STATE_SENT
+        )
+
+        for (i in texts.size() - 1 downTo 0) {
+            val m = Message("")
+            with (m) {
+                sentId = i.toLong()
+                text = texts[i]
+                isOut = !income[i]
+                sentTimeMillis = dates[i]
+                isRead = true
+                sentState = states[i]
+            }
+            messages add m
+        }
+
+        return messages
+    }
 
     private fun generateDialogs(): ArrayList<Dialog> {
         val out = ArrayList<Dialog>()
@@ -182,23 +195,24 @@ public object Mocker {
                 isOnline = online[i]
             }
             UserCache.putUser(partner)
-//            val message = MessageOld( if (income[i]) partner.id else "me" )
-//            with (message) {
-//                text = messages[i]
-//                isRead = read[i]
-//                isOut = !income[i]
-//                dateMSC = date[i]
-//                if (imageAttachments[i] != null)
-//                    attachments.images add imageAttachments[i]!!
-//            }
+            val message = Message( if (income[i]) partner.id else "me" )
+            with (message) {
+                text = messages[i]
+                isRead = read[i]
+                isOut = !income[i]
+                sentTimeMillis = date[i]
+                sentState = Message.STATE_SENT
+                if (imageAttachments[i] != null)
+                    attachments.images add imageAttachments[i]!!
+            }
 
-//            val dialog = Dialog()
-//            with (dialog) {
-//                id = i.toLong()
-//                addPartner(partner)
-//                lastMessage = message.toNewFormat()
-//            }
-            //out add dialog
+            val dialog = Dialog()
+            with (dialog) {
+                id = i.toLong()
+                addPartner(partner)
+                lastMessage = message
+            }
+            out add dialog
         }
 
         return out

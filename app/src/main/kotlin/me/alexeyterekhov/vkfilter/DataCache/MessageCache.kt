@@ -4,6 +4,7 @@ import android.os.Handler
 import android.util.Log
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import java.util.Collections
 import java.util.HashMap
 import java.util.LinkedList
@@ -27,12 +28,18 @@ class MessageCache {
         private set
 
     fun getMessages(): Collection<Message> {
-        val out = LinkedList(sentMessages)
-        out addAll processingMessages
-        return out
+        if (!Mocker.MOCK_MODE) {
+            val out = LinkedList(sentMessages)
+            out addAll processingMessages
+            return out
+        } else
+            return Mocker.mockMessages()
     }
     fun getEditMessage() = editMessage
     fun putMessages(messages: Collection<Message>, allHistoryLoaded: Boolean = false) {
+        if (Mocker.MOCK_MODE)
+            return
+
         historyLoaded = allHistoryLoaded || historyLoaded
         val orderedMessages = if (messages.isNotEmpty() && messages.first().sentId > messages.last().sentId)
             messages.reverse()

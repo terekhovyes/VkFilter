@@ -12,6 +12,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.AttachmentsViewGenerator
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.ChatAdapter
+import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
@@ -41,7 +42,7 @@ class MessageListModule(val activity: ChatActivity) {
         updateAttachmentGenerator()
         val adapter = getAdapter()!!
         initAdapterData()
-        if (adapter.messages.isNotEmpty())
+        if (adapter.messages.isNotEmpty() && !Mocker.MOCK_MODE)
             DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
     }
 
