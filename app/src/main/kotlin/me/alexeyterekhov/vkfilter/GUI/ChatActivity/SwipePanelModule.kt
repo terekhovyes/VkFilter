@@ -47,14 +47,14 @@ class SwipePanelModule(val activity: ChatActivity) {
     fun isPanelShown() = isOpened
     fun hidePanel() {
         val panel = activity.findViewById(R.id.attachmentsLayout)
-        val messageText = activity.findViewById(R.id.messageText)
+        val bar = activity.findViewById(R.id.bar)
         isOpened = false
 
         val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                 panel,
                 0,
-                messageText.getHeight() / 2,
-                messageText.getWidth() * 1.05f,
+                bar.getHeight() / 2,
+                bar.getWidth() * 1.05f,
                 0f
         )
         animator setDuration 200
@@ -75,13 +75,13 @@ class SwipePanelModule(val activity: ChatActivity) {
             panel setVisibility View.VISIBLE
             isOpened = true
         } else {
-            val messageText = activity.findViewById(R.id.messageText)
+            val bar = activity.findViewById(R.id.bar)
             val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                     panel,
                     0,
-                    messageText.getHeight() / 2,
+                    bar.getHeight() / 2,
                     0f,
-                    messageText.getWidth() * 1.05f
+                    bar.getWidth() * 1.05f
             )
             animator setDuration 300
             Handler().postDelayed({ isOpened = true }, 300)
@@ -92,7 +92,7 @@ class SwipePanelModule(val activity: ChatActivity) {
 
     fun bindForClosingSwipePanel(animate: Boolean = false) {
         activity.editPanelModule.bindSendButton(
-                iconRes = R.drawable.button_close,
+                iconRes = R.drawable.button_close_white,
                 action = closeSwipePanelAction,
                 animate = animate
         )

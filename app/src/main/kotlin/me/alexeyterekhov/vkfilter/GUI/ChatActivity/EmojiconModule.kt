@@ -50,7 +50,7 @@ class EmojiconModule(val activity: ChatActivity) :
                 bindForClosingSmiles(animate = true)
             }, DELAY_BEFORE_OPEN)
         } else {
-            bindForClosingSmiles(animate = false)
+            bindForClosingSmiles(animate = true)
         }
     }
     fun bindForClosingSmiles(animate: Boolean = false) {

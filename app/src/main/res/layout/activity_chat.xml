@@ -66,7 +66,7 @@
                 android:id="@+id/attachmentsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/my_gray_lighter"
+                android:background="@color/my_green"
                 android:visibility="invisible"
                 android:clickable="true">
 
@@ -75,7 +75,7 @@
                     android:layout_width="56dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/button_smiles"
+                    android:src="@drawable/button_smiles_white"
                     android:visibility="visible"/>
 
                 <ImageView
@@ -83,7 +83,7 @@
                     android:layout_width="56dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/button_photo"
+                    android:src="@drawable/button_photo_white"
                     android:visibility="visible"/>
 
             </LinearLayout>

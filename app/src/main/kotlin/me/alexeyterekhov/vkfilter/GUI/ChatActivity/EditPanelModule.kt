@@ -66,20 +66,19 @@ class EditPanelModule(val activity: ChatActivity) {
         }
     }
 
-    private fun saveEditMessage() {
-        val editMessage = getMessageCache().getEditMessage()
-        val textInput = activity.findViewById(R.id.messageText) as EditText
-        editMessage.text = textInput.getText().toString()
-    }
-
     private fun getMessageCache() = MessageCaches.getCache(
             activity.launchParameters.dialogId(),
             activity.launchParameters.isChat()
     )
 
     private fun createTextListener() = object : TextWatcher {
+        var textInput: EditText? = null
+
         override fun afterTextChanged(s: Editable?) {
-            saveEditMessage()
+            if (textInput == null)
+                textInput = activity.findViewById(R.id.messageText) as EditText
+            val editMessage = getMessageCache().getEditMessage()
+            editMessage.text = textInput!!.getText().toString()
             if (activity.swipePanelModule.isPanelShown())
                 (activity.findViewById(R.id.sendButton) as ImageView).performClick()
         }
