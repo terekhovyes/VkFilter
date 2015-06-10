@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="my_green_darker">#007b6d</color>
+    <color name="my_primary">@color/my_green</color>
+    <color name="my_primary_dark">@color/my_green_darker</color>
+
+    <color name="my_white_new">#f0ffffff</color>
+    <color name="my_white_tr_new">#c0ffffff</color>
+    <color name="my_black_new">#a000</color>
+    <color name="my_black_tr_new">#6000</color>
+    <color name="my_gray_new">#ccc</color>
+
+    <!-- Colors -->
+    <color name="my_green_darker">#00897B</color>
     <color name="my_green">#009688</color>
     <color name="my_green_lighter">#d7ede9</color>
 

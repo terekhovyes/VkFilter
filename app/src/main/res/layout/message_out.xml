@@ -70,7 +70,7 @@
                             android:textColorLink="@color/my_links_color"
                             android:linksClickable="true"
                             android:autoLink="web|email"
-                            android:text="Привет!"/>
+                            android:background="@null"/>
 
                         <LinearLayout
                             android:id="@+id/attachmentsLayout"

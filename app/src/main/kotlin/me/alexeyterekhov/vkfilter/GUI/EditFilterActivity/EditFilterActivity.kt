@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.GestureDetector
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -54,6 +55,7 @@ public class EditFilterActivity: VkActivity() {
     }
     fun onCreateOrRestart() {
         setContentView(R.layout.activity_edit_filter)
+        setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         val intent = getIntent()
         val wasSaved = (DataSaver removeObject KEY_SAVED) != null

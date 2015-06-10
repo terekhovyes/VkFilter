@@ -3,9 +3,12 @@ package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.design.widget.FloatingActionButton
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -14,7 +17,6 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import com.activeandroid.ActiveAndroid
 import com.emtronics.dragsortrecycler.DragSortRecycler
-import com.getbase.floatingactionbutton.FloatingActionButton
 import com.jensdriller.libs.undobar.UndoBar
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
@@ -46,6 +48,7 @@ public class ManageFiltersActivity: VkActivity() {
     }
     fun onCreateOrRestart() {
         setContentView(R.layout.activity_manage_filters)
+        setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val wasSaved = DataSaver.removeObject(KEY_SAVED) != null
@@ -133,7 +136,7 @@ public class ManageFiltersActivity: VkActivity() {
                     startActivity(Intent(AppContext.instance, javaClass<EditFilterActivity>()))
                 }
             }
-            setIcon(
+            setImageResource(
                     if (selectionMode)
                         R.drawable.icon_delete
                     else
@@ -196,7 +199,7 @@ public class ManageFiltersActivity: VkActivity() {
     }
     private fun changeMode() {
         selectionMode = !selectionMode
-        (findViewById(R.id.manageFilterButton) as FloatingActionButton).setIcon(
+        (findViewById(R.id.manageFilterButton) as FloatingActionButton).setImageResource(
                 if (selectionMode)
                     R.drawable.icon_delete
                 else
@@ -214,7 +217,7 @@ public class ManageFiltersActivity: VkActivity() {
         animation.setRepeatMode(Animation.REVERSE)
         animation.setRepeatCount(1)
         animation.setDuration(100)
-        animation.setInterpolator(AccelerateDecelerateInterpolator())
+        animation.setInterpolator(FastOutSlowInInterpolator())
         button.startAnimation(animation)
     }
     private fun addFiltersToAdapter(c: Collection<VkFilter>) {

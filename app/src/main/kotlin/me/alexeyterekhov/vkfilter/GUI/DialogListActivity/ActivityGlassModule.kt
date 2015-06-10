@@ -5,11 +5,15 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Handler
+import android.support.design.widget.FloatingActionButton
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.animation.*
-import com.getbase.floatingactionbutton.FloatingActionButton
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.ScaleAnimation
 import io.codetail.animation.SupportAnimator
 import io.codetail.animation.ViewAnimationUtils
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
@@ -46,7 +50,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             if (DataSaver removeObject VISIBLE_KEY != null) {
                 with (findMainBtn()) {
                     setVisibility(View.VISIBLE)
-                    setIcon(R.drawable.icon_close)
+                    setImageResource(R.drawable.icon_close)
                 }
                 findResetBtn() setVisibility View.VISIBLE
                 findManageBtn() setVisibility View.VISIBLE
@@ -184,7 +188,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     btn.getLeft() + btn.getWidth() / 2,
                     btn.getTop() + btn.getHeight() / 2,
                     0f,
-                    Math.max(getWidth(), getHeight()).toFloat()
+                    Math.sqrt((getWidth() * getWidth() + getHeight() * getHeight()).toDouble()).toFloat()
             )
             animator setDuration revealDuration.toInt()
             setVisibility(View.VISIBLE)
@@ -218,7 +222,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             setVisibility(View.VISIBLE)
             animator.start()
         }
-        btn.setIcon(R.drawable.icon_close)
+        btn.setImageResource(R.drawable.icon_close)
         val to = 1.3f
         val animation = ScaleAnimation(
                 1.0f, to,
@@ -229,7 +233,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         animation.setRepeatMode(Animation.REVERSE)
         animation.setRepeatCount(1)
         animation.setDuration(revealDuration / 3)
-        animation.setInterpolator(AccelerateDecelerateInterpolator())
+        animation.setInterpolator(FastOutSlowInInterpolator())
         btn.startAnimation(animation)
         handler.postDelayed({ blocked = false }, (revealDuration * 2.5).toLong())
     }
@@ -247,7 +251,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
                     this,
                     btn.getLeft() + btn.getWidth() / 2,
                     btn.getTop() + btn.getHeight() / 2,
-                    Math.max(getWidth(), getHeight()).toFloat(),
+                    Math.sqrt((getWidth() * getWidth() + getHeight() * getHeight()).toDouble()).toFloat(),
                     0f
             )
             animator addListener object : SupportAnimator.AnimatorListener {
@@ -300,7 +304,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             }
             animator.start()
         }
-        btn.setIcon(R.drawable.icon_people)
+        btn.setImageResource(R.drawable.icon_people)
         handler.postDelayed({ blocked = false }, (revealDuration * 1.5).toLong())
     }
 }

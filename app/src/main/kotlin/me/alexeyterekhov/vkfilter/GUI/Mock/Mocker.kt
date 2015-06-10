@@ -18,7 +18,7 @@ import java.util.Vector
 
 
 public object Mocker {
-    val MOCK_MODE = true
+    val MOCK_MODE = false
 
     fun mockDialogSnapshot(): DialogListSnapshot {
         val dialogs = generateDialogs()

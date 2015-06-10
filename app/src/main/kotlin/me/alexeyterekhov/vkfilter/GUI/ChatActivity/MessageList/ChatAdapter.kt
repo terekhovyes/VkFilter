@@ -188,7 +188,7 @@ public class ChatAdapter(
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
         val res = when (viewType) {
             TYPE_IN -> R.layout.message_in
-            TYPE_OUT -> R.layout.message_out_new
+            TYPE_OUT -> R.layout.message_out
             else -> throw Exception("WRONG ITEM TYPE")
         }
         val view = inflater.inflate(res, parent, false)

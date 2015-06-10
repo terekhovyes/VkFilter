@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import android.support.v4.view.animation.PathInterpolatorCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.animation.Animation
@@ -95,7 +95,7 @@ class EditPanelModule(val activity: ChatActivity) {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        downScale setInterpolator PathInterpolatorCompat.create(0.4f, 0f, 0.2f, 1f)
+        downScale setInterpolator FastOutSlowInInterpolator()
         downScale setDuration 100
 
         val upScale = ScaleAnimation(
@@ -104,7 +104,7 @@ class EditPanelModule(val activity: ChatActivity) {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        upScale setInterpolator PathInterpolatorCompat.create(0.4f, 0f, 0.2f, 1f)
+        upScale setInterpolator FastOutSlowInInterpolator()
         upScale setDuration 100
 
         downScale setAnimationListener object : Animation.AnimationListener {

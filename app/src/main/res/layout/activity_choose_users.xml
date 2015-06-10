@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:psts="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_below="@id/toolbar"
+        android:background="?attr/colorPrimary"
+        app:pstsIndicatorColor="?android:attr/textColorPrimary"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_below="@id/tabs"/>
 
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            android:background="@color/my_green"
-            psts:pstsIndicatorColor="@color/my_white_greeny"/>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/saveFilterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/floating_button_margin_right"
-        android:layout_marginBottom="@dimen/floating_button_margin_bottom"
-        android:layout_gravity="bottom|right"
-        psts:fab_colorNormal="@color/my_green"
-        psts:fab_colorPressed="@color/my_green_darker"
-        psts:fab_icon="@drawable/ok_button"/>
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ok_button"
+        app:fabSize="normal"
+        app:borderWidth="0dp"/>
 
-</FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_shadow"
+        android:layout_below="@id/tabs"
+        android:background="@drawable/toolbar_shadow"/>
+
+</RelativeLayout>

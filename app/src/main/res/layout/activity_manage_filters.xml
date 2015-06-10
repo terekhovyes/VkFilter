@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/filterList"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        xmlns:but="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/manageFilterButton"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/floating_button_margin_right"
-        android:layout_marginTop="126dp"
-        android:layout_gravity="right"
-        but:fab_colorNormal="@color/my_green"
-        but:fab_colorPressed="@color/my_green_darker"
-        />
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
 
-</FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/filterList"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@id/toolbar"/>
+
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/manageFilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="126dp"
+            android:layout_gravity="right"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_shadow"
+            android:background="@drawable/toolbar_shadow"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

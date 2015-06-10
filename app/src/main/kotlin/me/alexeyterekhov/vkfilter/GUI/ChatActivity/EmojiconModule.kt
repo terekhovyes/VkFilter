@@ -4,7 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.view.animation.PathInterpolatorCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.util.TypedValue
 import android.view.View
 import com.rockerhieu.emojicon.EmojiconGridFragment
@@ -72,7 +72,7 @@ class EmojiconModule(val activity: ChatActivity) :
             params.height = curHeight.toInt()
             panel.setLayoutParams(params)
         }
-        animator setInterpolator PathInterpolatorCompat.create(0.4f, 0f, 0.2f, 1f)
+        animator setInterpolator FastOutSlowInInterpolator()
         animator setDuration 150
         animator addListener object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
@@ -98,7 +98,7 @@ class EmojiconModule(val activity: ChatActivity) :
                 params.height = curHeight.toInt()
                 panel.setLayoutParams(params)
             }
-            animator setInterpolator PathInterpolatorCompat.create(0.4f, 0f, 0.2f, 1f)
+            animator setInterpolator FastOutSlowInInterpolator()
             animator setDuration 150
             animator addListener object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}

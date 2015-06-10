@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,7 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/my_green"/>
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,7 +23,6 @@
             android:layout_height="match_parent">
 
             <FrameLayout
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/contentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -53,7 +54,7 @@
                             android:id="@+id/filterGlass"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="#cc6abaab"/>
+                            android:src="#9000"/>
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/filterList"
@@ -64,42 +65,41 @@
 
                 </io.codetail.widget.RevealFrameLayout>
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/filterReset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
-                    android:layout_marginRight="97dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="104dp"
+                    android:layout_marginBottom="32dp"
+                    android:src="@drawable/icon_reset_filters"
+                    app:fabSize="mini"
+                    app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
-                    fab:fab_icon="@drawable/icon_reset_filters"
-                    fab:fab_size="mini"
-                    fab:fab_colorNormal="@color/my_green"
-                    fab:fab_colorPressed="@color/my_green_darker" />
+                    app:borderWidth="0dp"/>
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/manageFiltersBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
-                    android:layout_marginRight="161dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="168dp"
+                    android:layout_marginBottom="32dp"
+                    android:src="@drawable/icon_preferences"
+                    app:fabSize="mini"
+                    app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
-                    fab:fab_icon="@drawable/icon_preferences"
-                    fab:fab_size="mini"
-                    fab:fab_colorNormal="@color/my_green"
-                    fab:fab_colorPressed="@color/my_green_darker" />
+                    app:borderWidth="0dp"/>
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/showFilterGlass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
-                    android:layout_marginRight="@dimen/floating_button_margin_right"
-                    android:layout_marginBottom="@dimen/floating_button_margin_bottom"
-                    fab:fab_colorNormal="@color/my_green"
-                    fab:fab_colorPressed="@color/my_green_darker"
-                    fab:fab_icon="@drawable/icon_people"/>
+                    android:layout_margin="24dp"
+                    android:src="@drawable/icon_people"
+                    app:fabSize="normal"
+                    app:borderWidth="0dp"/>
 
             </FrameLayout>
 
@@ -111,7 +111,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="@dimen/toolbar_shadow"
             android:background="@drawable/toolbar_shadow"/>
 
     </FrameLayout>

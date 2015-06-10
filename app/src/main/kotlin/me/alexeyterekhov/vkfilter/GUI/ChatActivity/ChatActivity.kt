@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import com.rockerhieu.emojicon.EmojiconGridFragment
@@ -30,6 +31,8 @@ open public class ChatActivity:
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
         listModule.onCreate()
         editPanelModule.onCreate()
         actionBarModule.onCreate()

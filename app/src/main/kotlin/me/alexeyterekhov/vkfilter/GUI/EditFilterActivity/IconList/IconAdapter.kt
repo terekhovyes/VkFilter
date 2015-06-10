@@ -11,8 +11,8 @@ import me.alexeyterekhov.vkfilter.Util.AppContext
 class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     private var selectedIcon: Int = 0
 
-    private val normalColor = AppContext.instance.getResources().getColor(R.color.my_green)
-    private val selectedColor = AppContext.instance.getResources().getColor(R.color.my_blue)
+    private val normalColor = AppContext.instance.getResources().getColor(R.color.my_gray_new)
+    private val selectedColor = AppContext.instance.getResources().getColor(R.color.my_green)
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): IconHolder? {
         val inflater = LayoutInflater.from(AppContext.instance)

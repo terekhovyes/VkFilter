@@ -19,7 +19,7 @@
             android:layout_height="25dp"
             android:textSize="18sp"
             android:gravity="right"
-            android:textColor="#FFF"
+            android:textColor="@color/my_white_new"
             android:text="Крутое название"/>
 
         <android.support.v7.widget.RecyclerView
@@ -34,11 +34,11 @@
         android:id="@+id/filterStateSwitch"
         android:layout_width="90dp"
         android:layout_height="45dp"
-        android:layout_marginLeft="-93dp"
+        android:layout_marginLeft="-92dp"
         android:layout_gravity="center_vertical"
-        app:backgroundColor="#99bfe0da"
+        app:backgroundColor="#3fff"
         app:roundColorLeft="@color/my_red"
-        app:roundColorMid="#bfe0da"
+        app:roundColorMid="@color/my_gray_new"
         app:roundColorRight="@color/my_green"/>
 
 </LinearLayout>

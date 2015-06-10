@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon_small"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MyMaterialTheme"
+        android:theme="@style/ExperimentalTheme"
         android:hardwareAccelerated="true"
         android:name=".Util.MyApp"
         tools:replace="android:icon,android:theme">
@@ -38,12 +38,11 @@
         </activity>
 
         <activity android:name=".GUI.DialogListActivity.DialogListActivity"
-            android:theme="@style/Theme.MyMaterialTheme.NoActionBar"
             android:label="@string/a_dialog_title"
             android:launchMode="singleTask"/>
         
         <activity android:name=".GUI.SettingsActivity.SettingsActivity"
-            android:theme="@style/Theme.MySettingsTheme"/>
+            android:theme="@style/SettingsTheme"/>
 
         <activity android:name=".GUI.ChatActivity.ChatActivity"
             android:label="@string/a_chat_title"
@@ -54,7 +53,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar.FullScreen"/>
+            android:theme="@style/MyFullscreenTheme"/>
 
         <activity android:name=".GUI.ManageFiltersActivity.ManageFiltersActivity"
             android:label="@string/a_manage_title"/>
