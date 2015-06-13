@@ -3,7 +3,6 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -47,7 +46,6 @@ public class ChatAdapter(
     var lastAnimationStartTime = 0L
 
     override fun onAddNewMessages(messages: Collection<Message>) {
-        Log.d("debug", "ADAPTER NEW ${messages.count()}")
         messages forEach {
             if (it.sentState == Message.STATE_SENT) {
                 val messageId = it.sentId
@@ -64,7 +62,6 @@ public class ChatAdapter(
     }
 
     override fun onAddOldMessages(messages: Collection<Message>) {
-        Log.d("debug", "ADAPTER OLD ${messages.count()}")
         messages.reverse() forEach {
             this.messages.add(0, it)
             notifyItemInserted(0)
@@ -72,7 +69,6 @@ public class ChatAdapter(
     }
 
     override fun onReplaceMessage(old: Message, new: Message) {
-        Log.d("debug", "ADAPTER REPLACE")
         val index = messages indexOfFirst { it.sentId == old.sentId }
         messages.set(index, new)
         notifyItemChanged(index)
@@ -80,7 +76,6 @@ public class ChatAdapter(
     }
 
     override fun onUpdateMessages(messages: Collection<Message>) {
-        Log.d("debug", "ADAPTER UPDATE ${messages.count()}")
         val indexes = messages map { this.messages.indexOf(it) }
         indexes forEach { notifyItemChanged(it) }
         readIncomeMessages()
@@ -89,7 +84,6 @@ public class ChatAdapter(
 
     override fun onReadMessages(messages: Collection<Message>) {
         val work = Runnable {
-            Log.d("debug", "ADAPTER READ ${messages.count()}")
             messagesForReading addAll messages
             notifyDataSetChanged()
             readIncomeMessages()

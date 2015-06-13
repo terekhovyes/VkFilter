@@ -265,15 +265,4 @@ public object JSONParser {
         else
             "${begin}_${accessKey}"
     }
-
-
-
-    /*// Util
-
-    private fun emptyUser() = User()
-
-    // Converters
-
-    // Parsers
-*/
 }

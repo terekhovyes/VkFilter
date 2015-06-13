@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
 import android.os.Handler
-import android.util.Log
 import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
@@ -48,13 +47,6 @@ class MessageCache {
         if (orderedMessages.isNotEmpty())
             lastMessageIdFromServer = Math.max(lastMessageIdFromServer, orderedMessages.last().sentId)
 
-        if (orderedMessages.isEmpty())
-            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}")
-        if (orderedMessages.count() == 1)
-            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}: ${orderedMessages.first().sentId}")
-        if (orderedMessages.count() > 1)
-            Log.d("debug", "CACHE PUT MESSAGES ${orderedMessages.count()}: ${orderedMessages.first().sentId}..${orderedMessages.last().sentId}")
-
         // Prevent situation, when sent message still wasn't shown, but DialogRefresher already load it from server
         if (messages.isNotEmpty()
                 && orderedMessages all { it.isOut }
@@ -100,13 +92,10 @@ class MessageCache {
         messagesWithoutState.put(guid, sentMessage)
         concurrentActions.firstAction(guid, {
             if (messagesWithoutState contains guid) {
-                Log.d("debug", "YAY! ACTION 1")
                 val message = messagesWithoutState remove guid
                 message.sentState = Message.STATE_PROCESSING
                 processingMessages add message
                 listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
-            } else {
-                Log.d("debug", "FOOO, ACTION 1 should be removed")
             }
         })
     }
@@ -114,7 +103,6 @@ class MessageCache {
         concurrentActions.secondAction(
                 guid,
                 doIfFirstActionWaiting = {
-                    Log.d("debug", "CANCEL ACTION 1! ACTION 2!")
                     val message = messagesWithoutState remove guid
                     message.sentState = Message.STATE_SENT
                     message.sentId = sentId
@@ -123,7 +111,6 @@ class MessageCache {
                     listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
                 },
                 doIfFirstActionCalled = {
-                    Log.d("debug", "ACTION 2 AFTER ACTION 1!")
                     val index = processingMessages indexOfFirst { it.sentId == guid }
                     val message = processingMessages remove index
                     message.sentState = Message.STATE_SENT
@@ -137,7 +124,6 @@ class MessageCache {
         )
     }
     fun onReadMessages(out: Boolean, lastId: Long) {
-        Log.d("debug", "CACHE READ ${if (out) "OUT" else "IN"} MESSAGES TO ID ${lastId}")
         val readMessages = sentMessages
                 .reverse()
                 .filter { it.isOut == out }

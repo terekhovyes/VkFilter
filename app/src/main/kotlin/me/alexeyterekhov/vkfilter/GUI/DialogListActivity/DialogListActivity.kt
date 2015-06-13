@@ -105,14 +105,6 @@ public open class DialogListActivity:
                             val key = if (dialog.isChat()) "chat_id" else "user_id"
                             intent.putExtra(key, dialogId)
                             intent.putExtra("title", dialog.title)
-                            /*if (DataSaver contains ChatActivity.KEY_SAVED) {
-                                val chatAdapter = (DataSaver removeObject ChatActivity.KEY_ADAPTER)
-                                        as MessageListAdapter?
-                                if (chatAdapter != null) {
-                                    chatAdapter.firstLoad = true
-                                    DataSaver.putObject(ChatActivity.KEY_ADAPTER, chatAdapter)
-                                }
-                            }*/
                             startActivity(intent)
                             overridePendingTransition(R.anim.activity_from_right, R.anim.activity_to_left)
                         }

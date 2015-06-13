@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ExperimentalTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/my_primary</item>
         <item name="colorPrimaryDark">@color/my_primary_dark</item>
         <item name="colorAccent">@color/my_primary</item>
@@ -13,12 +13,12 @@
         <item name="actionModeBackground">@color/my_primary</item>
     </style>
 
-    <style name="SettingsTheme" parent="ExperimentalTheme">
+    <style name="MySettingsTheme" parent="MyAppTheme">
         <item name="android:textColor">@color/my_black_new</item>
         <item name="android:textColorSecondary">@color/my_black_tr_new</item>
     </style>
 
-    <style name="MyFullscreenTheme" parent="ExperimentalTheme">
+    <style name="MyFullscreenTheme" parent="MyAppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
