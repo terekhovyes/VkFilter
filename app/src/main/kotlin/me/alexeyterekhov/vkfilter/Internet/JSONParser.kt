@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.Internet
 
 import android.util.Log
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
+import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User

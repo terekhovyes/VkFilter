@@ -9,4 +9,5 @@
     <string name="a_chat_copy">Копировать текст сообщения</string>
     <string name="a_chat_paste">Вставить текст</string>
     <string name="a_chat_sending">Отправка</string>
+    <string name="a_chat_choose_photo">Выбор изображения</string>
 </resources>

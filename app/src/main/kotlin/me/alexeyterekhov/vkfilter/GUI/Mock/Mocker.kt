@@ -2,9 +2,9 @@ package me.alexeyterekhov.vkfilter.GUI.Mock
 
 import com.rockerhieu.emojicon.emoji.People
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.ChatInfo
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
+import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Database.VkFilter

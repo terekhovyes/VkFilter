@@ -1,6 +1,5 @@
-package me.alexeyterekhov.vkfilter.DataCache.Helpers
+package me.alexeyterekhov.vkfilter.DataClasses
 
-import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 import java.util.Vector
 
