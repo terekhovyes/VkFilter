@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import android.os.Handler
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import org.json.JSONObject
 

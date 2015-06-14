@@ -17,7 +17,7 @@ import android.view.animation.ScaleAnimation
 import io.codetail.animation.SupportAnimator
 import io.codetail.animation.ViewAnimationUtils
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter

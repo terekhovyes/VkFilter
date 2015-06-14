@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.DataCache.Helpers
+package me.alexeyterekhov.vkfilter.DataCache.MessageCache
 
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 

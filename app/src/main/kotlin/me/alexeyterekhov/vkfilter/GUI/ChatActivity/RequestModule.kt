@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDependAdapter
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDependAdapter
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.RequestControl

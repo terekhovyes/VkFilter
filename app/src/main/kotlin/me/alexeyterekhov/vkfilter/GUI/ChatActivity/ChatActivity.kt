@@ -27,6 +27,7 @@ open public class ChatActivity:
     val actionBarModule = ActionBarModule(this)
     val emojiconModule = EmojiconModule(this)
     val swipePanelModule = SwipePanelModule(this)
+    val uploadModule = UploadModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -83,6 +84,11 @@ open public class ChatActivity:
             }
             else -> return super<VkActivity>.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super<VkActivity>.onActivityResult(requestCode, resultCode, data)
+        uploadModule.onActivityResult(requestCode, resultCode, data!!)
     }
 
     override fun onEmojiconBackspaceClicked(v: View?) = emojiconModule.onEmojiconBackspaceClicked(v)

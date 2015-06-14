@@ -4,7 +4,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
 
 
-public class Message(val senderId: String) {
+class Message(val senderId: String) {
     companion object {
         val STATE_SENT = 0
         val STATE_PROCESSING = 1

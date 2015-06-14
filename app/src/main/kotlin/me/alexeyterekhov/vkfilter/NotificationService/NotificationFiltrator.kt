@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.NotificationService
 
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier

@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestReadMessages

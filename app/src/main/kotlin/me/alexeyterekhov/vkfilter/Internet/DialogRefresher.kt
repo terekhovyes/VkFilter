@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.Internet
 
 import android.os.Handler
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogRefresh
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation

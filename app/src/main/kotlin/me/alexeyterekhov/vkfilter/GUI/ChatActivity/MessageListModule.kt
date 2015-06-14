@@ -5,9 +5,9 @@ import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.AttachmentsViewGenerator

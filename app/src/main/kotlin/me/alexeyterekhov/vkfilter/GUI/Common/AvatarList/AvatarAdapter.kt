@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.Internet.RequestControl

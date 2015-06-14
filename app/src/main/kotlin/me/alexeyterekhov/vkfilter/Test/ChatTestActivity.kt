@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.AudioAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.DocAttachment
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment

@@ -1,5 +1,6 @@
-package me.alexeyterekhov.vkfilter.DataCache.Helpers
+package me.alexeyterekhov.vkfilter.DataCache.Common
 
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 
 public abstract class DataDependAdapter():

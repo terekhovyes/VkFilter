@@ -7,7 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.widget.EditText
 import android.widget.ImageView
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
 import me.alexeyterekhov.vkfilter.R
 

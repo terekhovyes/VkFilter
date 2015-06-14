@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.Internet.Requests
 
-import me.alexeyterekhov.vkfilter.DataCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.Internet.JSONParser

@@ -10,9 +10,3 @@ class User {
     var lastOnlineTime: Long = 0
     var onlineStatusChanged: Boolean = false
 }
-
-enum class Sex {
-    UNKNOWN,
-    MAN,
-    WOMAN
-}

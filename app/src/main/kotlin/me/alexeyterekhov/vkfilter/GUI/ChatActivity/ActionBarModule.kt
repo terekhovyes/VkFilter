@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 

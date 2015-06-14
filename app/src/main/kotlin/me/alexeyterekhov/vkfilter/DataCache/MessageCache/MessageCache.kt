@@ -1,7 +1,8 @@
-package me.alexeyterekhov.vkfilter.DataCache
+package me.alexeyterekhov.vkfilter.DataCache.MessageCache
 
 import android.os.Handler
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.MessageCacheListener
+import me.alexeyterekhov.vkfilter.DataCache.Common.forEachSync
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import java.util.Collections
@@ -9,11 +10,6 @@ import java.util.HashMap
 import java.util.LinkedList
 
 class MessageCache {
-    fun <T> LinkedList<T>.forEachSync(action: (T) -> Unit) {
-        val copy = LinkedList(this)
-        copy forEach { action(it) }
-    }
-
     private val concurrentActions = ConcurrentActions(delayMillis = 250, waitMillis = 300)
     private val messagesWithoutState = HashMap<Long, Message>()
 

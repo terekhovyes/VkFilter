@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
 import java.util.HashMap
 import java.util.Vector

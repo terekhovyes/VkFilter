@@ -16,8 +16,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.vk.sdk.VKSdk
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
-import me.alexeyterekhov.vkfilter.DataCache.Helpers.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.GUI.BrandUI
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity

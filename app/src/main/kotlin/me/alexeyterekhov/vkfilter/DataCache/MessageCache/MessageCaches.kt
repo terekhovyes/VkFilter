@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.DataCache
+package me.alexeyterekhov.vkfilter.DataCache.MessageCache
 
 import java.util.HashMap
 
