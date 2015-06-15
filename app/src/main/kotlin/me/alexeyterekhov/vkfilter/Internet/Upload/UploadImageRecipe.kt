@@ -40,6 +40,7 @@ object UploadImageRecipe {
                 setRequestProperty("Connection", "Keep-Alive")
                 setRequestProperty("Cache-Control", "no-cache")
                 setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
+                setChunkedStreamingMode(1024 * 256)
             }
 
             // Create control stream
@@ -49,11 +50,12 @@ object UploadImageRecipe {
                 private val notifier = Runnable { upload.onProgress(currentPercent) }
 
                 override fun transferred(byteCount: Long) {
-                    val percent = byteCount / totalByteCount
+                    val percent = Math.min(
+                            100,
+                            (byteCount / totalByteCount.toDouble() * 100).toInt()
+                    )
                     if (percent > currentPercent) {
-                        currentPercent = percent.toInt()
-                        if (currentPercent > 100)
-                            currentPercent = 100
+                        currentPercent = percent
                         handler.post(notifier)
                     }
                 }

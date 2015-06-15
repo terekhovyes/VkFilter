@@ -7,7 +7,9 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.widget.EditText
 import android.widget.ImageView
+import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
 import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
 import me.alexeyterekhov.vkfilter.R
 
@@ -56,7 +58,12 @@ class EditPanelModule(val activity: ChatActivity) {
         sendButton setOnClickListener {
             if (bindAction == null) {
                 val editMessage = getMessageCache().getEditMessage()
-                if (editMessage.text != "") {
+                if (editMessage.text != ""
+                        || AttachedCache.get(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
+                        .images
+                        .uploads
+                        .any { it.state == ImageUpload.STATE_UPLOADED }
+                ) {
                     activity.requestModule.sendMessage(editMessage)
                     fillMessageInput()
                 }

@@ -41,8 +41,9 @@ class SwipePanelModule(val activity: ChatActivity) {
             val pickPhotoIntent = Intent()
             pickPhotoIntent setType "image/*"
             pickPhotoIntent setAction Intent.ACTION_GET_CONTENT
-            activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.a_chat_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
             hidePanel()
+            activity.editPanelModule.unbindSendButton(animate = true)
+            activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.a_chat_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
         }
     }
     fun onSaveState(bundle: Bundle?) {

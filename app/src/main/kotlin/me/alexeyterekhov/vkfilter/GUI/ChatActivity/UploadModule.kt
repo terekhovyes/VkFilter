@@ -10,8 +10,8 @@ class UploadModule(val activity: ChatActivity) {
         val CODE_CHOOSE_IMAGES = 100
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        if (requestCode == CODE_CHOOSE_IMAGES) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CODE_CHOOSE_IMAGES && data != null) {
             if (resultCode == Activity.RESULT_OK) {
                 val filePath = FileUtils.getPath(activity, data.getData())
                 AttachedCache

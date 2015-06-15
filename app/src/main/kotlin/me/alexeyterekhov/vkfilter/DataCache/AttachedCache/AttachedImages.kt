@@ -34,17 +34,26 @@ class AttachedImages(val dialogId: String, val isChat: Boolean) {
         keepUploading()
     }
 
+    fun removeUploaded() {
+        val uploaded = uploads filter { it.state == ImageUpload.STATE_UPLOADED }
+        uploaded forEach { up ->
+            uploads remove up
+            listeners forEachSync { it.onRemoved(up) }
+        }
+    }
+
     fun getByPath(path: String) = uploads firstOrNull { it.filePath == path }
 
     private fun keepUploading() {
         if (uploads none { it.state == ImageUpload.STATE_IN_PROCESS })
-            (uploads firstOrNull { it.state == ImageUpload.STATE_WAIT })?.startUploading()
+            uploads.firstOrNull { it.state == ImageUpload.STATE_WAIT }
+                    ?.startUploading()
     }
 
     interface AttachedImageListener {
-        fun onAdd(image: ImageUpload)
-        fun onRemoved(image: ImageUpload)
-        fun onProgress(image: ImageUpload, percent: Int)
-        fun onFinish(image: ImageUpload)
+        fun onAdd(image: ImageUpload) {}
+        fun onRemoved(image: ImageUpload) {}
+        fun onProgress(image: ImageUpload, percent: Int) {}
+        fun onFinish(image: ImageUpload) {}
     }
 }

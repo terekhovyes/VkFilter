@@ -18,6 +18,7 @@ class RequestMessageSend(
         messages.sentId = guid
 
         params["attachment"] = AttachedCache.get(dialogId, isChat).generateAttachmentsParam()
+        AttachedCache.get(dialogId, isChat).images.removeUploaded()
     }
 
     override fun handleResponse(json: JSONObject) {

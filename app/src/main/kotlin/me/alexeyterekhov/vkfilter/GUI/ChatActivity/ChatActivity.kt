@@ -28,6 +28,7 @@ open public class ChatActivity:
     val emojiconModule = EmojiconModule(this)
     val swipePanelModule = SwipePanelModule(this)
     val uploadModule = UploadModule(this)
+    val attachmentsModule = AttachmentsBarModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ open public class ChatActivity:
         requestModule.loadDialogPartners()
         emojiconModule.onCreate(savedInstanceState)
         swipePanelModule.onCreate(savedInstanceState)
+        attachmentsModule.onCreate()
     }
     override fun onResume() {
         super<VkActivity>.onResume()
@@ -65,6 +67,7 @@ open public class ChatActivity:
         super<VkActivity>.onDestroy()
         listModule.onDestroy()
         editPanelModule.onDestroy()
+        attachmentsModule.onDestroy()
     }
     override fun onBackPressed() {
         if (launchParameters.isLaunchedFromNotification()) {
@@ -88,7 +91,7 @@ open public class ChatActivity:
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super<VkActivity>.onActivityResult(requestCode, resultCode, data)
-        uploadModule.onActivityResult(requestCode, resultCode, data!!)
+        uploadModule.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onEmojiconBackspaceClicked(v: View?) = emojiconModule.onEmojiconBackspaceClicked(v)
