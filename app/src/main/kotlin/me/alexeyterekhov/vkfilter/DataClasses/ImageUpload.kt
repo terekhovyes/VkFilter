@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.DataClasses
 
 import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
+import me.alexeyterekhov.vkfilter.DataClasses.Attachments.ImageAttachment
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessagePhotoServer
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSavePhoto
@@ -31,6 +32,7 @@ class ImageUpload(
     private var pid = ""
     private var aid = ""
     private var ownerId = ""
+    var attachment: ImageAttachment? = null
 
     var savedPhotoParam = ""
     var savedServerParam = 0

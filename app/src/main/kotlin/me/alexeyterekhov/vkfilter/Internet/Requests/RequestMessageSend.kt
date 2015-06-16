@@ -6,19 +6,24 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import org.json.JSONObject
 
 class RequestMessageSend(
-        val messages: Message,
+        val message: Message,
         val dialogId: String,
         val isChat: Boolean
 ) : Request("messages.send") {
     init {
-        params["message"] = messages.text
+        params["message"] = message.text
         params[if (isChat) "chat_id" else "user_id"] = dialogId
         val guid = System.currentTimeMillis()
         params["guid"] = System.currentTimeMillis()
-        messages.sentId = guid
+        message.sentId = guid
 
+        // Add attachments
         params["attachment"] = AttachedCache.get(dialogId, isChat).generateAttachmentsParam()
+        val images = AttachedCache.get(dialogId, isChat).images.getUploaded()
         AttachedCache.get(dialogId, isChat).images.removeUploaded()
+
+        // Put attachment objects into message
+        message.attachments.images addAll (images map { it.attachment })
     }
 
     override fun handleResponse(json: JSONObject) {

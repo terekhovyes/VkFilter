@@ -155,7 +155,7 @@ public object JSONParser {
         }
     }
 
-    private fun parseImageAttachment(json: JSONObject): ImageAttachment {
+    fun parseImageAttachment(json: JSONObject): ImageAttachment {
         val smallSize = 700
         val width = json.optInt("width", 1)
         val height = json.optInt("height", 1)

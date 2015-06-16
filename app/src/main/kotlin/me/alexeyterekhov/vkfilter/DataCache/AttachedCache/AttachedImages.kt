@@ -34,8 +34,9 @@ class AttachedImages(val dialogId: String, val isChat: Boolean) {
         keepUploading()
     }
 
+    fun getUploaded() = uploads filter { it.state == ImageUpload.STATE_UPLOADED }
     fun removeUploaded() {
-        val uploaded = uploads filter { it.state == ImageUpload.STATE_UPLOADED }
+        val uploaded = getUploaded()
         uploaded forEach { up ->
             uploads remove up
             listeners forEachSync { it.onRemoved(up) }
