@@ -40,7 +40,7 @@ object UploadImageRecipe {
                 setRequestProperty("Connection", "Keep-Alive")
                 setRequestProperty("Cache-Control", "no-cache")
                 setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
-                setChunkedStreamingMode(1024 * 256)
+                setChunkedStreamingMode(1024 * 1024)
             }
 
             // Create control stream
@@ -74,7 +74,7 @@ object UploadImageRecipe {
                 writeBytes(endOfStr)
                 try {
                     controlStream.startCounting()
-                    write(file)
+                    controlStream.write(file)
                     controlStream.stopCounting()
                     writeBytes(endOfStr)
                     writeBytes(twoHyphens + boundary + twoHyphens + endOfStr)

@@ -162,10 +162,12 @@ public class ImageProgressBar: ImageView {
 
     private fun drawProgress(canvas: Canvas) {
         canvas.drawArc(
-                PADDING_PIXELS.toFloat(),
-                PADDING_PIXELS.toFloat(),
-                getWidth() - PADDING_PIXELS.toFloat(),
-                getHeight() - PADDING_PIXELS.toFloat(),
+                RectF(
+                    PADDING_PIXELS.toFloat(),
+                    PADDING_PIXELS.toFloat(),
+                    getWidth() - PADDING_PIXELS.toFloat(),
+                    getHeight() - PADDING_PIXELS.toFloat()
+                ),
                 315f,
                 computeSweepAngle(),
                 true,
