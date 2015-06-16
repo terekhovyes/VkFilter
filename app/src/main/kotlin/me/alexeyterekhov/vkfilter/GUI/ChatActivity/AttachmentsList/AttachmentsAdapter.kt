@@ -28,28 +28,20 @@ public class AttachmentsAdapter(
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         val item = data[position]
 
-        holder.image.setImageBitmap(loadScaledImage(item.filePath, 500))
-
-        when (item.state) {
-            ImageUpload.STATE_WAIT -> {
-                with (holder.progressBar) {
-                    setVisibility(View.VISIBLE)
-                    setMax(0)
-                    setProgress(0)
+        with (holder.imageProgressBar) {
+            setImageBitmap(loadScaledImage(item.filePath, 500))
+            setMaxProgress(100)
+            setCurrentProgress(when (item.state) {
+                ImageUpload.STATE_WAIT -> 0
+                ImageUpload.STATE_IN_PROCESS -> item.loadedPercent
+                ImageUpload.STATE_UPLOADED -> 100
+                else -> 0
+            })
+            setOnCloseListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    AttachedCache.get(dialogId, isChat).images.removeImage(item.filePath)
                 }
-            }
-            ImageUpload.STATE_IN_PROCESS -> {
-                with (holder.progressBar) {
-                    setVisibility(View.VISIBLE)
-                    setMax(100)
-                    setProgress(item.loadedPercent)
-                }
-            }
-            ImageUpload.STATE_UPLOADED -> holder.progressBar.setVisibility(View.INVISIBLE)
-        }
-
-        holder.image setOnClickListener {
-            AttachedCache.get(dialogId, isChat).images.removeImage(item.filePath)
+            })
         }
     }
 
@@ -79,7 +71,7 @@ public class AttachmentsAdapter(
             ) {
                 val view = man.findViewByPosition(index)
                 val holder = recycler.getChildViewHolder(view) as ImageHolder
-                holder.progressBar.setProgress(percent)
+                holder.imageProgressBar.setCurrentProgress(percent)
             }
         }
     }
@@ -93,7 +85,7 @@ public class AttachmentsAdapter(
             ) {
                 val view = man.findViewByPosition(index)
                 val holder = recycler.getChildViewHolder(view) as ImageHolder
-                holder.progressBar.setVisibility(View.INVISIBLE)
+                holder.imageProgressBar.setCurrentProgress(100)
             }
         }
     }

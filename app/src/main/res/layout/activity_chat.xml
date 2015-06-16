@@ -120,15 +120,15 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_above="@id/bar"
-            android:background="@color/my_white"
+            android:layout_marginTop="@dimen/chat_spacer"
+            android:layout_marginBottom="@dimen/chat_spacer"
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messageList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/attachmentsBar"
-            android:background="@color/my_white"/>
+            android:layout_above="@id/attachmentsBar"/>
 
         <View
             android:layout_width="match_parent"

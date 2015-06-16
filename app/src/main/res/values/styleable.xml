@@ -8,4 +8,9 @@
         <attr name="roundColorRight" format="color"/>
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="ImageProgressBar">
+        <attr name="progressColor" format="color"/>
+        <attr name="buttonColor" format="color"/>
+    </declare-styleable>
 </resources>
