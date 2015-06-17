@@ -19,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:layout_margin="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/a_login_app_title"
                 android:textSize="36sp"
                 android:textColor="@color/my_green"/>
@@ -28,8 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
+                android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/app_icon_big_land"/>
+                android:src="@drawable/app_picture_land"/>
 
         <Button
             android:id="@+id/secondLoginButton"
@@ -41,7 +43,7 @@
             android:background="@android:color/transparent"
             android:textAllCaps="false"
             android:text="@string/a_login_weblogin_button"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/my_green"/>
 
         <Button
@@ -54,7 +56,7 @@
             android:textAllCaps="false"
             android:background="@drawable/login_button"
             android:text="@string/a_login_login_button"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/my_white_greeny"/>
 
         <TextView
@@ -66,7 +68,7 @@
                 android:textSize="14sp"
                 android:text="@string/a_login_warning"
                 android:gravity="center"
-                android:textColor="@color/my_black"/>
+                android:textColor="@color/my_black_tr_new"/>
 
     </RelativeLayout>
 
