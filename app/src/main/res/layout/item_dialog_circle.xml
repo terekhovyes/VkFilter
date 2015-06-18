@@ -29,7 +29,7 @@
                 android:id="@+id/singleDialogIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/stub_user"
+                android:src="@drawable/icon_user_stub"
                 app:border="false"
                 app:shadow="true"
                 android:visibility="gone"/>
@@ -44,7 +44,7 @@
                     android:id="@+id/doubleDialogIcon1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -54,7 +54,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -72,7 +72,7 @@
                     android:layout_height="35dp"
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -82,7 +82,7 @@
                     android:layout_height="35dp"
                     android:layout_marginRight="2dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -93,7 +93,7 @@
                     android:layout_marginRight="2dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -111,7 +111,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -121,7 +121,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -131,7 +131,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 
@@ -141,7 +141,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/stub_user"
+                    android:src="@drawable/icon_user_stub"
                     app:border="false"
                     app:shadow="true"/>
 

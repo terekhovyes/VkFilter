@@ -68,7 +68,7 @@ public class AvatarListAdapter(val layoutRes: Int):
                             h.singleImage
                     )
                 else
-                    h.singleImage setImageResource R.drawable.stub_user
+                    h.singleImage setImageResource R.drawable.icon_user_stub
             }
             VkIdentifier.TYPE_CHAT -> {
                 if (ChatInfoCache contains vkId.id.toString()) {
@@ -80,7 +80,7 @@ public class AvatarListAdapter(val layoutRes: Int):
                         when (chat.chatPartners.size()) {
                             0 -> {
                                 setLayoutVisibility(h, 1)
-                                h.singleImage setImageResource R.drawable.stub_user
+                                h.singleImage setImageResource R.drawable.icon_user_stub
                             }
                             1 -> {
                                 setLayoutVisibility(h, 1)
@@ -108,7 +108,7 @@ public class AvatarListAdapter(val layoutRes: Int):
                     }
                 } else {
                     setLayoutVisibility(h, 1)
-                    h.singleImage setImageResource R.drawable.stub_user
+                    h.singleImage setImageResource R.drawable.icon_user_stub
                 }
             }
         }

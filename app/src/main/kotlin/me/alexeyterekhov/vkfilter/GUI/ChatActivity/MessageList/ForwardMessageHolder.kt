@@ -24,7 +24,7 @@ class ForwardMessageHolder(val view: View) {
         senderName setText TextFormat.userTitle(user)
     }
     fun fillUserNotLoaded() {
-        senderPhoto setImageResource R.drawable.stub_user
+        senderPhoto setImageResource R.drawable.icon_user_stub
         senderName setText ""
     }
     fun setDate(msc: Long) {

@@ -59,10 +59,10 @@ public class CurrentListAdapter(
                     if (user.photoUrl != "")
                         imageLoader.displayImage(user.photoUrl, singlePic)
                     else
-                        singlePic setImageResource R.drawable.stub_user
+                        singlePic setImageResource R.drawable.icon_user_stub
                     name setText TextFormat.userTitle(user, false)
                 } else {
-                    singlePic setImageResource R.drawable.stub_user
+                    singlePic setImageResource R.drawable.icon_user_stub
                     name setText ""
                 }
 
@@ -120,7 +120,7 @@ public class CurrentListAdapter(
                     }
                     name setText chat.title
                 } else {
-                    singlePic setImageResource R.drawable.stub_user
+                    singlePic setImageResource R.drawable.icon_user_stub
                     name setText ""
                 }
                 checkBox setChecked (selectedChats contains chatId)

@@ -275,7 +275,7 @@ public open class DialogListActivity:
                 }
             }
         } else {
-            photo setImageResource R.drawable.stub_user
+            photo setImageResource R.drawable.icon_user_stub
             name setText ""
             lastSeen setText ""
             lastSeenTime setText ""
