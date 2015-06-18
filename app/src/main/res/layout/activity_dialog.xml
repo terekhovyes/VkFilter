@@ -72,7 +72,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginRight="104dp"
                     android:layout_marginBottom="32dp"
-                    android:src="@drawable/icon_reset_filters"
+                    android:src="@drawable/button_reset_filters"
                     app:fabSize="mini"
                     app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
@@ -85,7 +85,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginRight="168dp"
                     android:layout_marginBottom="32dp"
-                    android:src="@drawable/icon_preferences"
+                    android:src="@drawable/button_settings"
                     app:fabSize="mini"
                     app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="24dp"
-                    android:src="@drawable/icon_people"
+                    android:src="@drawable/button_filters"
                     app:fabSize="normal"
                     app:borderWidth="0dp"/>
 

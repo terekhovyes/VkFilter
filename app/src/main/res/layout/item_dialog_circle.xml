@@ -235,7 +235,7 @@
                         android:padding="@dimen/chat_spacer"
                         android:visibility="gone"
                         android:background="@drawable/black_circle_background"
-                        android:src="@drawable/icon_image"/>
+                        android:src="@drawable/attachment_image"/>
 
                     <com.rockerhieu.emojicon.EmojiconTextView
                         android:id="@+id/dialogLastMessage"

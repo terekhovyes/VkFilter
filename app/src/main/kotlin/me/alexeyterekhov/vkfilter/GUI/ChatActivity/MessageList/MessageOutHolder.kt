@@ -49,13 +49,13 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
     fun setColorsByMessageState(state: Int) {
         when (state) {
             Message.STATE_PROCESSING -> {
-                messageBase setBackgroundResource R.drawable.light_blue_round_background
-                messageTriangle setBackgroundResource R.drawable.triangle_right_light_blue
+                messageBase setBackgroundResource R.drawable.message_sending_background
+                messageTriangle setBackgroundResource R.drawable.message_sending_triangle
                 messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_black)
             }
             Message.STATE_SENT -> {
-                messageBase setBackgroundResource R.drawable.blue_round_background
-                messageTriangle setBackgroundResource R.drawable.triangle_right_blue
+                messageBase setBackgroundResource R.drawable.message_out_background
+                messageTriangle setBackgroundResource R.drawable.message_out_triangle
                 messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_white_greeny)
             }
         }

@@ -39,11 +39,11 @@ class DialogHolder(val dialogView: View): RecyclerView.ViewHolder(dialogView) {
     fun setAttachmentIcon(m: Message) {
         val a = m.attachments
         val icons = hashMapOf(
-            a.audios to R.drawable.icon_sound,
-            a.images to R.drawable.icon_image,
-            a.videos to R.drawable.icon_video,
-            a.documents to R.drawable.icon_doc,
-            a.messages to R.drawable.icon_message
+            a.audios to R.drawable.attachment_audio,
+            a.images to R.drawable.attachment_image,
+            a.videos to R.drawable.attachment_video,
+            a.documents to R.drawable.attachment_document,
+            a.messages to R.drawable.attachment_message
         )
         when {
             icons.keySet() all { it.isEmpty() } -> {
@@ -51,7 +51,7 @@ class DialogHolder(val dialogView: View): RecyclerView.ViewHolder(dialogView) {
             }
             icons.keySet() count { it.isNotEmpty() } > 1 -> {
                 attachmentIcon setVisibility View.VISIBLE
-                attachmentIcon setImageResource R.drawable.icon_plus_gray
+                attachmentIcon setImageResource R.drawable.attachment_common
             }
             else -> {
                 attachmentIcon setVisibility View.VISIBLE

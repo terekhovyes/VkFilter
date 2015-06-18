@@ -50,7 +50,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             if (DataSaver removeObject VISIBLE_KEY != null) {
                 with (findMainBtn()) {
                     setVisibility(View.VISIBLE)
-                    setImageResource(R.drawable.icon_close)
+                    setImageResource(R.drawable.button_close_noback)
                 }
                 findResetBtn() setVisibility View.VISIBLE
                 findManageBtn() setVisibility View.VISIBLE
@@ -222,7 +222,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             setVisibility(View.VISIBLE)
             animator.start()
         }
-        btn.setImageResource(R.drawable.icon_close)
+        btn.setImageResource(R.drawable.button_close_noback)
         val to = 1.3f
         val animation = ScaleAnimation(
                 1.0f, to,
@@ -304,7 +304,7 @@ class ActivityGlassModule(val activity: DialogListActivity) {
             }
             animator.start()
         }
-        btn.setImageResource(R.drawable.icon_people)
+        btn.setImageResource(R.drawable.button_filters)
         handler.postDelayed({ blocked = false }, (revealDuration * 1.5).toLong())
     }
 }

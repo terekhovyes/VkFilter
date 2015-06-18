@@ -138,9 +138,9 @@ public class ManageFiltersActivity: VkActivity() {
             }
             setImageResource(
                     if (selectionMode)
-                        R.drawable.icon_delete
+                        R.drawable.button_delete
                     else
-                        R.drawable.icon_plus
+                        R.drawable.button_add
             )
             val list = (this@ManageFiltersActivity).findViewById(R.id.filterList) as RecyclerView
             adapter.setOnParallaxScroll(object : ParallaxRecyclerAdapter.OnParallaxScroll {
@@ -201,9 +201,9 @@ public class ManageFiltersActivity: VkActivity() {
         selectionMode = !selectionMode
         (findViewById(R.id.manageFilterButton) as FloatingActionButton).setImageResource(
                 if (selectionMode)
-                    R.drawable.icon_delete
+                    R.drawable.button_delete
                 else
-                    R.drawable.icon_plus
+                    R.drawable.button_add
         )
 
         val button = findViewById(R.id.manageFilterButton) as FloatingActionButton
