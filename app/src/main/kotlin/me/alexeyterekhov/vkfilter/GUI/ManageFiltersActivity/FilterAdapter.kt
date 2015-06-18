@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
+import me.alexeyterekhov.vkfilter.Database.FilterIcons
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import me.alexeyterekhov.vkfilter.R
@@ -32,7 +33,7 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
                 val item = getData().get(position)
                 with (holder as FilterItemHolder) {
-                    icon setImageResource item.getIconTransparentBackgroundResource()
+                    icon setImageResource FilterIcons.resourceById(item.getIcon())
                     name setText item.filterName
                     name setVisibility if (item.filterName == "") View.GONE else View.VISIBLE
                     selection setVisibility if (selected contains posToId(position)) View.VISIBLE else View.INVISIBLE

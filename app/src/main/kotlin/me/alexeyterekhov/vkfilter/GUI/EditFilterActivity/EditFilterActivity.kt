@@ -83,7 +83,7 @@ public class EditFilterActivity: VkActivity() {
                         (DataSaver removeObject KEY_ICON_ADAPTER) as IconAdapter
                     else {
                         val a = IconAdapter()
-                        a setSelectedIconResource filter.getIconResource()
+                        a setSelectedIconId filter.getIcon()
                         a
                     }
             )
@@ -208,7 +208,7 @@ public class EditFilterActivity: VkActivity() {
     private fun fillFilter(f: VkFilter) {
         val enteredName = (findViewById(R.id.filterName) as EditText).getText().toString()
         with (f) {
-            setIconResource(getIconAdapter().getSelectedIconResource())
+            setIcon(getIconAdapter().getSelectedIconId())
             filterName = enteredName
             state = selectedState
         }

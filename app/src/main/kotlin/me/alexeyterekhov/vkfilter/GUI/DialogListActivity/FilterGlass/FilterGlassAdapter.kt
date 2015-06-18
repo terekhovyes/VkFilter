@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.activeandroid.ActiveAndroid
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.Database.FilterIcons
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapterMini
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
@@ -58,7 +59,7 @@ class FilterGlassAdapter(
 
         val item = filters.get(position - 1)
         with (holder as FilterHolder) {
-            switch setIconRes item.getIconTransparentBackgroundResource()
+            switch setIconRes FilterIcons.resourceById(item.getIcon())
             switch.setStateWithoutListener(FilterStates.filterToSwitch(item.state), false)
             switch setListener object : TripleSwitchView.OnSwitchChangeStateListener {
                 override fun onChangeState(newState: Int) {
