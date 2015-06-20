@@ -40,5 +40,5 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     override fun getItemCount() = FilterIcons.count()
 
     fun getSelectedIconId() = selectedIcon + 1
-    fun setSelectedIconId(id: Int) { selectedIcon = id }
+    fun setSelectedIconId(id: Int) { selectedIcon = id - 1 }
 }

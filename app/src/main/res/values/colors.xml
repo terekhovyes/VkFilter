@@ -2,6 +2,7 @@
 <resources>
     <color name="my_primary">@color/my_green</color>
     <color name="my_primary_dark">@color/my_green_darker</color>
+    <color name="my_accent">@color/my_green</color>
 
     <color name="my_white_new">#f0ffffff</color>
     <color name="my_white_tr_new">#c0ffffff</color>

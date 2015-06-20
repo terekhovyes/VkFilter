@@ -39,25 +39,25 @@ public object Mocker {
         val states = arrayListOf(allow, allow, block, idle)
         val identifiers = arrayListOf(
                 arrayListOf(
-                        userId(1),
-                        userId(2),
-                        userId(3),
+                        userId(1001),
+                        userId(1002),
+                        userId(1003),
                         chatId(101)
                 ),
-                arrayListOf(userId(4)),
-                arrayListOf(userId(2)),
-                arrayListOf(userId(5))
+                arrayListOf(userId(1004)),
+                arrayListOf(userId(1002)),
+                arrayListOf(userId(1005))
         )
 
         val photos = hashMapOf(
-                1 to "http://api.randomuser.me/portraits/men/48.jpg",
-                2 to "http://api.randomuser.me/portraits/men/44.jpg",
-                3 to "http://api.randomuser.me/portraits/women/27.jpg",
-                4 to "http://api.randomuser.me/portraits/women/49.jpg",
-                5 to "http://www.kulturologia.ru/files/u9749/GrainofSand3.jpg"
+                1001 to "http://api.randomuser.me/portraits/men/48.jpg",
+                1002 to "http://api.randomuser.me/portraits/men/44.jpg",
+                1003 to "http://api.randomuser.me/portraits/women/27.jpg",
+                1004 to "http://api.randomuser.me/portraits/women/49.jpg",
+                1005 to "http://www.kulturologia.ru/files/u9749/GrainofSand3.jpg"
         )
         val chatUsers = hashMapOf(
-                101 to arrayListOf(1, 3, 4)
+                101 to arrayListOf(1001, 1003, 1004)
         )
         cacheUsers(photos)
         cacheChatInfo(chatUsers)
