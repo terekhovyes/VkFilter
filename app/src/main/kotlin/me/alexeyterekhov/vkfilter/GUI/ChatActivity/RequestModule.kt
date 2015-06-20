@@ -13,6 +13,17 @@ class RequestModule(val activity: ChatActivity) {
     companion object {
         val LOAD_PORTION = 40
         val LOAD_THRESHOLD = 20
+
+        fun sendMessage(message: Message, id: String, isChat: Boolean) {
+            val request = RequestMessageSend(
+                    message,
+                    id,
+                    isChat
+            )
+            val guid = request.getSendingGuid()
+            RequestControl addBackgroundOrdered request
+            MessageCaches.getCache(id, isChat).onWillSendMessage(guid)
+        }
     }
 
     var messageLoading = false
@@ -52,14 +63,11 @@ class RequestModule(val activity: ChatActivity) {
     }
 
     fun sendMessage(editMessage: Message) {
-        val request = RequestMessageSend(
+        Companion.sendMessage(
                 editMessage,
                 activity.launchParameters.dialogId(),
                 activity.launchParameters.isChat()
         )
-        val guid = request.getSendingGuid()
-        RequestControl addBackgroundOrdered request
-        getMessageCache().onWillSendMessage(guid)
     }
 
     private fun getMessageCache() = MessageCaches.getCache(

@@ -8,6 +8,7 @@ import android.view.animation.ScaleAnimation
 import android.widget.EditText
 import android.widget.ImageView
 import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
+import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedImages
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
 import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
@@ -15,17 +16,31 @@ import me.alexeyterekhov.vkfilter.R
 
 class EditPanelModule(val activity: ChatActivity) {
     private var bindAction: (() -> Unit)? = null
-
+    private var autoSending = false
     val textListener = createTextListener()
+    val uploadListener = createImageUploadListener()
 
     fun onCreate() {
         fillMessageInput()
         initSendButton()
+        with (getAttachedCache().images) {
+            listeners add uploadListener
+            if (sendMessageAfterUploading) {
+                sendMessageAfterUploading = false
+                autoSending = true
+                (activity.findViewById(R.id.sendButton) as ImageView) setImageResource R.drawable.button_loading
+            }
+        }
     }
 
     fun onDestroy() {
         val text = activity.findViewById(R.id.messageText) as EditText
         text.removeTextChangedListener(textListener)
+        with (getAttachedCache().images) {
+            listeners remove uploadListener
+            if (autoSending)
+                sendMessageAfterUploading = true
+        }
     }
 
     fun bindSendButton(iconRes: Int, action: () -> Unit, animate: Boolean = false) {
@@ -37,10 +52,11 @@ class EditPanelModule(val activity: ChatActivity) {
     }
     fun unbindSendButton(animate: Boolean = false) {
         bindAction = null
+        val icon = if (autoSending) R.drawable.button_loading else R.drawable.button_send
         if (animate)
-            animateSendButtonIconChange(R.drawable.button_send)
+            animateSendButtonIconChange(icon)
         else
-            activity.findViewById(R.id.sendButton) as ImageView setImageResource R.drawable.button_send
+            activity.findViewById(R.id.sendButton) as ImageView setImageResource icon
     }
     fun getEditText() = activity.findViewById(R.id.messageText) as KeyboardlessEmojiEditText
 
@@ -56,24 +72,42 @@ class EditPanelModule(val activity: ChatActivity) {
     private fun initSendButton() {
         val sendButton = activity.findViewById(R.id.sendButton) as ImageView
         sendButton setOnClickListener {
-            if (bindAction == null) {
-                val editMessage = getMessageCache().getEditMessage()
-                if (editMessage.text != ""
-                        || AttachedCache.get(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
-                        .images
-                        .uploads
-                        .any { it.state == ImageUpload.STATE_UPLOADED }
-                ) {
-                    activity.requestModule.sendMessage(editMessage)
-                    fillMessageInput()
+            when {
+                bindAction != null -> bindAction!!()
+                mTextIsNotEmpty() && !mHasAttachments() -> sendMessage()
+                mHasAttachments() && mHasUploadedImages() -> sendMessage()
+                mHasAttachments() && !mHasUploadedImages() -> {
+                    if (autoSending)
+                        disableAutoSending()
+                    else
+                        enableAutoSending()
                 }
-            } else {
-                bindAction!!()
             }
         }
     }
 
+    private fun enableAutoSending() {
+        autoSending = true
+        animateSendButtonIconChange(R.drawable.button_loading)
+    }
+
+    private fun disableAutoSending() {
+        autoSending = false
+        animateSendButtonIconChange(R.drawable.button_send)
+    }
+
+    private fun sendMessage() {
+        activity.requestModule.sendMessage(getMessageCache().getEditMessage())
+        fillMessageInput()
+        if (autoSending)
+            disableAutoSending()
+    }
+
     private fun getMessageCache() = MessageCaches.getCache(
+            activity.launchParameters.dialogId(),
+            activity.launchParameters.isChat()
+    )
+    private fun getAttachedCache() = AttachedCache.get(
             activity.launchParameters.dialogId(),
             activity.launchParameters.isChat()
     )
@@ -91,6 +125,13 @@ class EditPanelModule(val activity: ChatActivity) {
         }
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    }
+
+    private fun createImageUploadListener() = object : AttachedImages.AttachedImageListener {
+        override fun onFinish(image: ImageUpload) {
+            if (autoSending && mHasUploadedImages())
+                sendMessage()
+        }
     }
 
     private fun animateSendButtonIconChange(changeImgToRes: Int) {
@@ -123,5 +164,20 @@ class EditPanelModule(val activity: ChatActivity) {
             override fun onAnimationRepeat(animation: Animation?) {}
         }
         button startAnimation downScale
+    }
+
+    private fun mTextIsNotEmpty() = getMessageCache().getEditMessage().text.isNotBlank()
+    private fun mHasAttachments(): Boolean {
+        val hasImages = getAttachedCache()
+                .images
+                .uploads
+                .isNotEmpty()
+        return hasImages
+    }
+    private fun mHasUploadedImages(): Boolean {
+        return getAttachedCache()
+                .images
+                .uploads
+                .all { it.state == ImageUpload.STATE_UPLOADED }
     }
 }

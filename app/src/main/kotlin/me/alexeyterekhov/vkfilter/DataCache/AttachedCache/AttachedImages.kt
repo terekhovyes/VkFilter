@@ -1,12 +1,15 @@
 package me.alexeyterekhov.vkfilter.DataCache.AttachedCache
 
 import me.alexeyterekhov.vkfilter.DataCache.Common.forEachSync
+import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.RequestModule
 import java.util.LinkedList
 
 class AttachedImages(val dialogId: String, val isChat: Boolean) {
     val uploads = LinkedList<ImageUpload>()
     val listeners = LinkedList<AttachedImageListener>()
+    var sendMessageAfterUploading = false
 
     fun putImage(imagePath: String) {
         val a = ImageUpload(imagePath, dialogId, isChat)
@@ -46,9 +49,15 @@ class AttachedImages(val dialogId: String, val isChat: Boolean) {
     fun getByPath(path: String) = uploads firstOrNull { it.filePath == path }
 
     private fun keepUploading() {
-        if (uploads none { it.state == ImageUpload.STATE_IN_PROCESS })
+        if (uploads none { it.state == ImageUpload.STATE_IN_PROCESS }) {
             uploads.firstOrNull { it.state == ImageUpload.STATE_WAIT }
                     ?.startUploading()
+        }
+        if (sendMessageAfterUploading && uploads all { it.state == ImageUpload.STATE_UPLOADED }) {
+            sendMessageAfterUploading = false
+            val editMessage = MessageCaches.getCache(dialogId, isChat).getEditMessage()
+            RequestModule.sendMessage(editMessage, dialogId, isChat)
+        }
     }
 
     interface AttachedImageListener {
