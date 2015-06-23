@@ -47,6 +47,7 @@ open public class ChatActivity:
         super<VkActivity>.onResume()
         listModule.onResume()
         actionBarModule.onResume()
+        swipePanelModule.onResume()
 
         if (launchParameters.isChat())
             NotificationMaker.clearChatNotifications(launchParameters.dialogId(), AppContext.instance)

@@ -4,17 +4,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import io.codetail.animation.SupportAnimator
 import me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.FileUtils
 
 class SwipePanelModule(val activity: ChatActivity) {
     private var isOpened = false
     val KEY_PANEL_OPENED = "swipe_panel_opened"
+
+    private var demonstratePanel = false
+    private val OPENINGS_COUNT = 5
 
     val closeSwipePanelAction: (() -> Unit) = {
         if (activity.emojiconModule.isEmojiconPanelShown())
@@ -25,6 +31,10 @@ class SwipePanelModule(val activity: ChatActivity) {
     }
 
     fun onCreate(saved: Bundle?) {
+        if (saved == null) {
+            demonstratePanel = true
+        }
+
         if (saved != null && saved containsKey KEY_PANEL_OPENED) {
             bindForClosingSwipePanel(animate = false)
             showPanel(animate = false)
@@ -34,6 +44,10 @@ class SwipePanelModule(val activity: ChatActivity) {
                 if (!isPanelShown()) {
                     showPanel(animate = true)
                     Handler().postDelayed({ bindForClosingSwipePanel(animate = true) }, 100)
+                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
+                    val cur = Settings.getAttachmentsOpenings(sharedPref)
+                    if (cur < OPENINGS_COUNT)
+                        Settings.setAttachmentsOpenings(sharedPref, cur + 1)
                 }
             }
         }
@@ -55,6 +69,14 @@ class SwipePanelModule(val activity: ChatActivity) {
                     .contentColorRes(R.color.my_black)
                     .backgroundColorRes(R.color.my_white)
                     .show();
+        }
+    }
+    fun onResume() {
+        if (demonstratePanel) {
+            demonstratePanel = false
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
+            if (Settings.getAttachmentsOpenings(sharedPref) < OPENINGS_COUNT)
+                Handler().postDelayed({ demonstratePanel() }, 500)
         }
     }
     fun onSaveState(bundle: Bundle?) {
@@ -108,6 +130,46 @@ class SwipePanelModule(val activity: ChatActivity) {
             panel setVisibility View.VISIBLE
             animator.start()
         }
+    }
+    fun demonstratePanel() {
+        val panel = activity.findViewById(R.id.attachmentsLayout)
+        val smileButton = panel findViewById R.id.smileButton
+        val bar = activity.findViewById(R.id.bar)
+
+        val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
+                panel,
+                0,
+                bar.getHeight() / 2,
+                0f,
+                (smileButton.getLeft() + smileButton.getWidth()).toFloat()
+        )
+        animator setDuration 250
+        panel setVisibility View.VISIBLE
+        animator.addListener(object : SupportAnimator.AnimatorListener {
+            override fun onAnimationEnd() {
+                val secondAnimator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
+                        panel,
+                        0,
+                        bar.getHeight() / 2,
+                        (smileButton.getLeft() + smileButton.getWidth()).toFloat(),
+                        0f
+                )
+                secondAnimator setDuration 250
+                secondAnimator addListener object : SupportAnimator.AnimatorListener {
+                    override fun onAnimationEnd() {
+                        panel setVisibility View.INVISIBLE
+                    }
+                    override fun onAnimationRepeat() {}
+                    override fun onAnimationCancel() {}
+                    override fun onAnimationStart() {}
+                }
+                secondAnimator.start()
+            }
+            override fun onAnimationRepeat() {}
+            override fun onAnimationCancel() {}
+            override fun onAnimationStart() {}
+        })
+        animator.start()
     }
 
     fun bindForClosingSwipePanel(animate: Boolean = false) {
