@@ -26,6 +26,8 @@ public class RecyclerItemClickAdapter(
 
     override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {}
 
+    override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+
     private val gestureDetector = GestureDetector(
             context,
             object : GestureDetector.SimpleOnGestureListener() {

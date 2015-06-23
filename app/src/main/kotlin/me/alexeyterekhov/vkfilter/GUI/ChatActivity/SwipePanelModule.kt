@@ -1,12 +1,16 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
 import android.view.View
+import com.afollestad.materialdialogs.MaterialDialog
 import io.codetail.animation.SupportAnimator
 import me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.FileUtils
 
 class SwipePanelModule(val activity: ChatActivity) {
     private var isOpened = false
@@ -38,12 +42,19 @@ class SwipePanelModule(val activity: ChatActivity) {
             hidePanel()
         }
         activity.findViewById(R.id.photoButton) setOnClickListener {
-            val pickPhotoIntent = Intent()
-            pickPhotoIntent setType "image/*"
-            pickPhotoIntent setAction Intent.ACTION_GET_CONTENT
-            hidePanel()
-            activity.editPanelModule.unbindSendButton(animate = true)
-            activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.a_chat_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
+            MaterialDialog.Builder(activity)
+                    .title(R.string.a_chat_add_photo)
+                    .items(R.array.a_chat_photo_dialog)
+                    .itemsCallback(MaterialDialog.ListCallback { dialog, view, which, text ->
+                        when (which) {
+                            0 -> callCamera()
+                            1 -> callGallery()
+                        }
+                    })
+                    .titleColorRes(R.color.my_primary)
+                    .contentColorRes(R.color.my_black)
+                    .backgroundColorRes(R.color.my_white)
+                    .show();
         }
     }
     fun onSaveState(bundle: Bundle?) {
@@ -105,5 +116,26 @@ class SwipePanelModule(val activity: ChatActivity) {
                 action = closeSwipePanelAction,
                 animate = animate
         )
+    }
+
+    private fun callGallery() {
+        val pickPhotoIntent = Intent()
+        pickPhotoIntent setType "image/*"
+        pickPhotoIntent setAction Intent.ACTION_GET_CONTENT
+        pickPhotoIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+        activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.a_chat_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
+    }
+
+    private fun callCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // Check is intent safe for invoking
+        if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
+            val file = FileUtils.createFileForPhoto()
+            if (file != null) {
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+                activity.uploadModule.cameraFile = file
+                activity.startActivityForResult(cameraIntent, UploadModule.CODE_CAMERA)
+            }
+        }
     }
 }

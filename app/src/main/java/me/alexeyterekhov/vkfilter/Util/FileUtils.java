@@ -9,7 +9,30 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class FileUtils {
+    public static File createFileForPhoto() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "photo_" + timeStamp;
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        File file;
+        try {
+            file = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (Exception e) {
+            return null;
+        }
+        return file;
+    }
+
+
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
