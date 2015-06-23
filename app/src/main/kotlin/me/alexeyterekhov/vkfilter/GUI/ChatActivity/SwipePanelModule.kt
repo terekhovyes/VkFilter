@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
@@ -12,7 +11,6 @@ import io.codetail.animation.SupportAnimator
 import me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.FileUtils
 
 class SwipePanelModule(val activity: ChatActivity) {
@@ -44,10 +42,9 @@ class SwipePanelModule(val activity: ChatActivity) {
                 if (!isPanelShown()) {
                     showPanel(animate = true)
                     Handler().postDelayed({ bindForClosingSwipePanel(animate = true) }, 100)
-                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
-                    val cur = Settings.getAttachmentsOpenings(sharedPref)
+                    val cur = Settings.getAttachmentsOpenings()
                     if (cur < OPENINGS_COUNT)
-                        Settings.setAttachmentsOpenings(sharedPref, cur + 1)
+                        Settings.setAttachmentsOpenings(cur + 1)
                 }
             }
         }
@@ -74,8 +71,7 @@ class SwipePanelModule(val activity: ChatActivity) {
     fun onResume() {
         if (demonstratePanel) {
             demonstratePanel = false
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
-            if (Settings.getAttachmentsOpenings(sharedPref) < OPENINGS_COUNT)
+            if (Settings.getAttachmentsOpenings() < OPENINGS_COUNT)
                 Handler().postDelayed({ demonstratePanel() }, 500)
         }
     }
