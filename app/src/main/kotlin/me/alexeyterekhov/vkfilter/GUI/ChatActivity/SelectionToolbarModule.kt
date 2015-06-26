@@ -64,6 +64,9 @@ class SelectionToolbarModule(val activity: ChatActivity) {
                 adapter.deselectAllMessages()
             }
         }
+        toolbar findViewById R.id.buttonHide setOnClickListener {
+            adapter.deselectAllMessages()
+        }
     }
 
     private fun findToolbar() = activity.findViewById(R.id.selectionToolbar)

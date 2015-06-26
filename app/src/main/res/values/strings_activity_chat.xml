@@ -18,6 +18,9 @@
     <string name="a_chat_no_messages">Выделите и скопируйте сообщения, чтобы прикрепить</string>
     <string name="a_chat_has_messages">Сообщения уже прикреплены</string>
 
+    <string name="a_chat_copy_button">копировать</string>
+    <string name="a_chat_forward_button">переслать</string>
+
     <string-array name="a_chat_photo_dialog">
         <item>Камера</item>
         <item>Галерея</item>
