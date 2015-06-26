@@ -17,6 +17,7 @@ import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
+import me.alexeyterekhov.vkfilter.Util.DataSaver
 
 class MessageListModule(val activity: ChatActivity) {
     val messageListener = createMessageListener()
@@ -46,6 +47,22 @@ class MessageListModule(val activity: ChatActivity) {
             DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
     }
 
+    fun onRestoreState() {
+        val ids = DataSaver.removeObject("selected_messages") as Collection<Long>?
+        if (ids != null) {
+            with (getAdapter()!!) {
+                selectedMessageIds.clear()
+                selectedMessageIds.addAll(ids)
+                notifyDataSetChanged()
+                onSelectionChangeAction?.invoke()
+            }
+        }
+    }
+
+    fun onSaveState() {
+        DataSaver.putObject("selected_messages", getAdapter()!!.getSelectedMessageIds())
+    }
+
     fun onPause() {
         activityIsResumed = false
         DialogRefresher.stop()
@@ -56,8 +73,8 @@ class MessageListModule(val activity: ChatActivity) {
         UserCache.listeners remove userListener
     }
 
-    private fun getList() = (activity findViewById R.id.messageList) as RecyclerView
-    private fun getAdapter() = getList().getAdapter() as ChatAdapter?
+    fun getList() = (activity findViewById R.id.messageList) as RecyclerView
+    fun getAdapter() = getList().getAdapter() as ChatAdapter?
     private fun getCache() = MessageCaches.getCache(
             activity.launchParameters.dialogId(),
             activity.launchParameters.isChat()

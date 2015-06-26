@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import io.codetail.animation.SupportAnimator
+import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
 import me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.ClipboardUtil
 import me.alexeyterekhov.vkfilter.Util.FileUtils
 
 class SwipePanelModule(val activity: ChatActivity) {
@@ -37,6 +40,9 @@ class SwipePanelModule(val activity: ChatActivity) {
             bindForClosingSwipePanel(animate = false)
             showPanel(animate = false)
         }
+
+        ClipboardUtil.validateMessages()
+
         activity.findViewById(R.id.swipeOpener) as SwipeOpener setListener object : SwipeOpener.OpenerListener {
             override fun onOpen() {
                 if (!isPanelShown()) {
@@ -66,6 +72,30 @@ class SwipePanelModule(val activity: ChatActivity) {
                     .contentColorRes(R.color.my_black)
                     .backgroundColorRes(R.color.my_white)
                     .show();
+        }
+        with (activity.findViewById(R.id.messageButton)) {
+            setOnClickListener({
+                if (ClipboardUtil.getMessages() != null) {
+                    val messages = ClipboardUtil.getMessages()!!
+                    val cache = AttachedCache
+                            .get(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
+                            .messages
+
+                    if (cache.get().count() == 0) {
+                        cache add messages
+                        hidePanel()
+                        activity.editPanelModule.unbindSendButton(animate = true)
+                    } else {
+                        Toast
+                            .makeText(activity, R.string.a_chat_has_messages, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    Toast
+                            .makeText(activity, R.string.a_chat_no_messages, Toast.LENGTH_SHORT)
+                            .show()
+                }
+            })
         }
     }
     fun onResume() {
@@ -100,9 +130,15 @@ class SwipePanelModule(val activity: ChatActivity) {
             override fun onAnimationEnd() {
                 panel.setVisibility(View.INVISIBLE)
             }
-            override fun onAnimationStart() {}
-            override fun onAnimationCancel() {}
-            override fun onAnimationRepeat() {}
+
+            override fun onAnimationStart() {
+            }
+
+            override fun onAnimationCancel() {
+            }
+
+            override fun onAnimationRepeat() {
+            }
         }
         animator.start()
     }

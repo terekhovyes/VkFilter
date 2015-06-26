@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 
@@ -40,5 +41,11 @@ class ForwardMessageHolder(val view: View) {
     // Fill attachments and forward messages
     fun addAttachment(view: View) {
         attachmentsLayout.addView(view)
+    }
+
+    fun setDarkColors() {
+        senderName setTextColor AppContext.instance.getResources().getColor(R.color.my_black_transparent)
+        dateText setTextColor AppContext.instance.getResources().getColor(R.color.my_black_transparent)
+        messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_black)
     }
 }

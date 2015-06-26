@@ -17,13 +17,25 @@ class RequestMessageSend(
         params["guid"] = System.currentTimeMillis()
         message.sentId = guid
 
-        // Add attachments
-        params["attachment"] = AttachedCache.get(dialogId, isChat).generateAttachmentsParam()
-        val images = AttachedCache.get(dialogId, isChat).images.getUploaded()
-        AttachedCache.get(dialogId, isChat).images.removeUploaded()
-
-        // Put attachment objects into message
-        message.attachments.images addAll (images map { it.attachment })
+        // Attachments and forward messages
+        val attached = AttachedCache.get(dialogId, isChat)
+        val attachmentValue = attached.generateAttachmentsParam()
+        val messagesValue = attached.generateForwardMessagesParam()
+        if (attachmentValue.isNotBlank()) {
+            params["attachment"] = attachmentValue
+            val images = attached.images.getUploaded()
+            attached.images.removeUploaded()
+            message.attachments.images addAll (images map { it.attachment })
+        }
+        if (messagesValue.isNotBlank()) {
+            params["forward_messages"] = messagesValue
+            val attachedMessages = attached.messages.get().first()
+            attached.messages.clear()
+            val dialog = MessageCaches.getCache(attachedMessages.dialogId, attachedMessages.isChat).getMessages()
+            attachedMessages.messageIds forEach { id ->
+                message.attachments.messages add dialog.firstOrNull { it.sentId == id }
+            }
+        }
     }
 
     override fun handleResponse(json: JSONObject) {

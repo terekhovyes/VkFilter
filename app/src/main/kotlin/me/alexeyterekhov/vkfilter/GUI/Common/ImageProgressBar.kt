@@ -134,6 +134,8 @@ public class ImageProgressBar: ImageView {
 
     private fun decreaseAndCropBitmap(src: Bitmap, size: Float): Bitmap {
         val coefficient = Math.min(src.getWidth(), src.getHeight()) / size
+        if (coefficient < 1)
+            return src
         val decreasedBitmap = Bitmap.createScaledBitmap(
                 src,
                 (src.getWidth() / coefficient).toInt(),
@@ -244,19 +246,25 @@ public class ImageProgressBar: ImageView {
 
     private fun getBitmap(): Bitmap? {
         val drawable = getDrawable()
-        if (drawable == null)
-            return null
-        if (drawable is BitmapDrawable)
-            return decreaseAndCropBitmap(drawable.getBitmap(), getWidth().toFloat())
 
-        val bitmap = Bitmap.createBitmap(
-                drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(),
-                Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        drawable.draw(canvas)
-        return decreaseAndCropBitmap(bitmap, getWidth().toFloat())
+        return when {
+            drawable == null -> null
+            drawable is BitmapDrawable -> decreaseAndCropBitmap(drawable.getBitmap(), getWidth().toFloat())
+            drawable.getIntrinsicWidth() == -1 -> {
+                val bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888)
+                drawable.draw(Canvas(bitmap))
+                bitmap
+            }
+            else -> {
+                val bitmap = Bitmap.createBitmap(
+                        drawable.getIntrinsicWidth(),
+                        drawable.getIntrinsicHeight(),
+                        Bitmap.Config.ARGB_8888
+                )
+                drawable.draw(Canvas(bitmap))
+                decreaseAndCropBitmap(bitmap, getWidth().toFloat())
+            }
+        }
     }
 
     private fun isInCloseZone(x: Float, y: Float) = x > getWidth() * 2 / 3 && y < getHeight() / 3

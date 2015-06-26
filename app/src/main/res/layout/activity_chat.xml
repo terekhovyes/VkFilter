@@ -8,10 +8,79 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"/>
+
+    <RelativeLayout
+        android:id="@+id/selectionToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/my_orange"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/buttonHide"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:src="@drawable/button_ok"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/buttonCopyMessages"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/button_forward"/>
+
+        <ImageView
+            android:id="@+id/buttonCopyText"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:padding="10dp"
+            android:layout_toLeftOf="@id/buttonCopyMessages"
+            android:src="@drawable/button_copy"/>
+
+        <TextView
+            android:id="@+id/textSelectedCount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/buttonHide"
+            android:layout_toLeftOf="@id/buttonCopyText"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/my_white_tr_new"
+            android:text="Выбрано: 29"/>
+
+        <TextView
+            android:id="@+id/labelCopyText"
+            android:layout_width="64dp"
+            android:layout_height="12dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignLeft="@id/buttonCopyText"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="@color/my_white_transparent"
+            android:text="копировать"/>
+
+        <TextView
+            android:layout_width="64dp"
+            android:layout_height="12dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignLeft="@id/buttonCopyMessages"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="@color/my_white_transparent"
+            android:text="переслать"/>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/emoji_container"
@@ -97,6 +166,14 @@
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/button_photo_white"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/messageButton"
+                        android:layout_width="56dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/button_message_white"
                         android:visibility="visible"/>
 
                 </LinearLayout>

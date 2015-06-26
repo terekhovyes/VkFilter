@@ -6,13 +6,13 @@ import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.RequestModule
 import java.util.LinkedList
 
-class AttachedImages(val dialogId: String, val isChat: Boolean) {
+class AttachedImages(val attached: Attached) {
     val uploads = LinkedList<ImageUpload>()
     val listeners = LinkedList<AttachedImageListener>()
     var sendMessageAfterUploading = false
 
     fun putImage(imagePath: String) {
-        val a = ImageUpload(imagePath, dialogId, isChat)
+        val a = ImageUpload(imagePath, attached.dialogId, attached.isChat)
         uploads add a
         listeners forEachSync { it.onAdd(a) }
         keepUploading()
@@ -55,8 +55,8 @@ class AttachedImages(val dialogId: String, val isChat: Boolean) {
         }
         if (sendMessageAfterUploading && uploads all { it.state == ImageUpload.STATE_UPLOADED }) {
             sendMessageAfterUploading = false
-            val editMessage = MessageCaches.getCache(dialogId, isChat).getEditMessage()
-            RequestModule.sendMessage(editMessage, dialogId, isChat)
+            val editMessage = MessageCaches.getCache(attached.dialogId, attached.isChat).getEditMessage()
+            RequestModule.sendMessage(editMessage, attached.dialogId, attached.isChat)
         }
     }
 

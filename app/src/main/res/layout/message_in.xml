@@ -21,6 +21,14 @@
                 android:layout_height="match_parent"
                 android:src="@color/my_green_lighter"/>
 
+            <ImageView
+                android:id="@+id/selectedBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:src="@color/my_orange"
+                android:visibility="gone"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +63,7 @@
                         android:background="@drawable/message_in_triangle"/>
 
                     <LinearLayout
+                        android:id="@+id/messageContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="30dp"

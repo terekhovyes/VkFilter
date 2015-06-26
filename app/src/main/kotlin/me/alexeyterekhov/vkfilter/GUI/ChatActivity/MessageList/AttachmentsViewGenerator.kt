@@ -26,12 +26,12 @@ class AttachmentsViewGenerator(
         val shownUrls: MutableSet<String>,
         val activity: AppCompatActivity
 ) {
-    fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup): List<View> {
+    fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): List<View> {
         return inflateImages(attachments.images, inflater, root)
             .plus(inflateVideos(attachments.videos, inflater, root))
             .plus(inflateDocs(attachments.documents, inflater, root))
             .plus(inflateAudios(attachments.audios, inflater, root))
-            .plus(inflateForwardMessages(attachments.messages, inflater, root))
+            .plus(inflateForwardMessages(attachments.messages, inflater, root, darkColors))
     }
 
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
@@ -154,10 +154,11 @@ class AttachmentsViewGenerator(
     fun inflateForwardMessages(
             messages: Collection<Message>,
             inflater: LayoutInflater,
-            root: ViewGroup
+            root: ViewGroup,
+            darkColors: Boolean
     ): List<View> {
         return messages map {
-            val holder = messageToView(it, inflater, root)
+            val holder = messageToView(it, inflater, root, darkColors)
             holder.view
         }
     }
@@ -171,9 +172,11 @@ class AttachmentsViewGenerator(
         loader.displayImage(url, view, conf)
     }
 
-    private fun messageToView(m: Message, i: LayoutInflater, root: ViewGroup): ForwardMessageHolder {
+    private fun messageToView(m: Message, i: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): ForwardMessageHolder {
         val view = i.inflate(R.layout.item_fwd_message, root, false)
         val holder = ForwardMessageHolder(view)
+        if (darkColors)
+            holder.setDarkColors()
         with (holder) {
             if (UserCache.contains(m.senderId))
                 fillUserInfo(UserCache.getUser(m.senderId)!!)
@@ -181,7 +184,7 @@ class AttachmentsViewGenerator(
                 fillUserNotLoaded()
             setDate(m.sentTimeMillis)
             setMessageText(m.text)
-            inflate(m.attachments, i, attachmentsLayout) forEach {
+            inflate(m.attachments, i, attachmentsLayout, darkColors) forEach {
                 addAttachment(it)
             }
         }

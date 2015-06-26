@@ -1,10 +1,23 @@
 package me.alexeyterekhov.vkfilter.DataCache.AttachedCache
 
+import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
+import java.util.LinkedList
+
 class Attached(val dialogId: String, val isChat: Boolean) {
-    val images = AttachedImages(dialogId, isChat)
+    val listeners = LinkedList<DataDepend>()
+    val images = AttachedImages(this)
+    val messages = AttachedMessages(this)
 
     fun generateAttachmentsParam(): String {
         val images = images.uploads map { it.generateAttachmentId() }
         return images.joinToString(separator = ",")
+    }
+
+    fun generateForwardMessagesParam(): String {
+        val ids = LinkedList<Long>()
+        messages.get() forEach {
+            ids addAll it.messageIds
+        }
+        return ids.distinct().toSortedList().joinToString(separator = ",")
     }
 }

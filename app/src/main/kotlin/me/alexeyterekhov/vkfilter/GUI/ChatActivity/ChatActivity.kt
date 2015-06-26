@@ -29,6 +29,7 @@ open public class ChatActivity:
     val swipePanelModule = SwipePanelModule(this)
     val uploadModule = UploadModule(this)
     val attachmentsModule = AttachmentsBarModule(this)
+    val selectionToolbarModule = SelectionToolbarModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -42,6 +43,11 @@ open public class ChatActivity:
         emojiconModule.onCreate(savedInstanceState)
         swipePanelModule.onCreate(savedInstanceState)
         attachmentsModule.onCreate()
+        selectionToolbarModule.onCreate()
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super<VkActivity>.onRestoreInstanceState(savedInstanceState)
+        listModule.onRestoreState()
     }
     override fun onResume() {
         super<VkActivity>.onResume()
@@ -63,6 +69,7 @@ open public class ChatActivity:
         super<VkActivity>.onSaveInstanceState(outState)
         emojiconModule.onSaveState(outState)
         swipePanelModule.onSaveState(outState)
+        listModule.onSaveState()
     }
     override fun onDestroy() {
         super<VkActivity>.onDestroy()

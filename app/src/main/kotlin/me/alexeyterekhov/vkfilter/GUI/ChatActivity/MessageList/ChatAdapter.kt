@@ -36,6 +36,9 @@ public class ChatAdapter(
 
     val TIME_FOR_ANIMATION = 400L
 
+    val selectedMessageIds = HashSet<Long>()
+    var onSelectionChangeAction: (() -> Unit)? = null
+
     val inflater = LayoutInflater.from(activity)
     val messages = LinkedList<Message>()
     var attachmentGenerator: AttachmentsViewGenerator by Delegates.notNull()
@@ -44,6 +47,26 @@ public class ChatAdapter(
     val messagesForReading = HashSet<Message>()
     val animationStartTime = HashMap<Message, Long>()
     var lastAnimationStartTime = 0L
+
+    fun messagePosById(id: Long) = messages indexOfLast { it.sentId == id }
+    fun messageById(id: Long) = messages last { it.sentId == id }
+    fun selectMessage(id: Long) {
+        selectedMessageIds add id
+        notifyItemChanged(messagePosById(id))
+        onSelectionChangeAction?.invoke()
+    }
+    fun deselectMessage(id: Long) {
+        selectedMessageIds remove id
+        notifyItemChanged(messagePosById(id))
+        onSelectionChangeAction?.invoke()
+    }
+    fun deselectAllMessages() {
+        val ids = HashSet(selectedMessageIds)
+        selectedMessageIds.clear()
+        ids forEach { notifyItemChanged(messagePosById(it)) }
+        onSelectionChangeAction?.invoke()
+    }
+    fun getSelectedMessageIds() = selectedMessageIds.toSortedList()
 
     override fun onAddNewMessages(messages: Collection<Message>) {
         messages forEach {
@@ -134,6 +157,7 @@ public class ChatAdapter(
                     } else {
                         showRedStrip(false)
                     }
+                    setColors(selected = selectedMessageIds contains message.sentId)
                 }
                 attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
                     h addAttachment it
@@ -148,7 +172,6 @@ public class ChatAdapter(
                         messagesForReading remove message
                         readMessage()
                     }
-                    setColorsByMessageState(message.sentState)
                 }
                 when (message.sentState) {
                     Message.STATE_SENT -> {
@@ -161,6 +184,9 @@ public class ChatAdapter(
                             h.showRedStrip(false)
                         }
                         h.showSpaceAndTriangle(isFirstReply || isNewDay)
+                        attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
+                            h addAttachment it
+                        }
                     }
                     Message.STATE_PROCESSING -> {
                         h.setDateText(AppContext.instance.getString(R.string.a_chat_sending))
@@ -171,11 +197,32 @@ public class ChatAdapter(
                         if (showStrip)
                             h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
                         h.showSpaceAndTriangle(isFirstReply)
+                        attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
+                            h addAttachment it
+                        }
                     }
                 }
-                attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
-                    h addAttachment it
-                }
+                if (selectedMessageIds contains message.sentId)
+                    h.setColorsSelected()
+                else
+                    h.setColorsByMessageState(message.sentState)
+            }
+        }
+
+        holder.itemView.setOnLongClickListener {
+            if (selectedMessageIds.isNotEmpty()) {
+                deselectAllMessages()
+            } else {
+                selectMessage(message.sentId)
+            }
+            true
+        }
+        holder.itemView.setOnClickListener {
+            if (selectedMessageIds.isNotEmpty()) {
+                if (message.sentId in selectedMessageIds)
+                    deselectMessage(message.sentId)
+                else
+                    selectMessage(message.sentId)
             }
         }
     }

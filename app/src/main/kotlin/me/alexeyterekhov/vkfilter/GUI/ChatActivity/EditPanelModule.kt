@@ -34,8 +34,7 @@ class EditPanelModule(val activity: ChatActivity) {
     }
 
     fun onDestroy() {
-        val text = activity.findViewById(R.id.messageText) as EditText
-        text.removeTextChangedListener(textListener)
+        getEditText().removeTextChangedListener(textListener)
         with (getAttachedCache().images) {
             listeners remove uploadListener
             if (autoSending)
@@ -61,7 +60,7 @@ class EditPanelModule(val activity: ChatActivity) {
     fun getEditText() = activity.findViewById(R.id.messageText) as KeyboardlessEmojiEditText
 
     private fun fillMessageInput() {
-        val text = activity.findViewById(R.id.messageText) as EditText
+        val text = getEditText()
         text.removeTextChangedListener(textListener)
         val editMessage = getMessageCache().getEditMessage()
         text.setText(editMessage.text)
@@ -117,11 +116,15 @@ class EditPanelModule(val activity: ChatActivity) {
 
         override fun afterTextChanged(s: Editable?) {
             if (textInput == null)
-                textInput = activity.findViewById(R.id.messageText) as EditText
+                textInput = getEditText()
             val editMessage = getMessageCache().getEditMessage()
-            editMessage.text = textInput!!.getText().toString()
-            if (activity.swipePanelModule.isPanelShown())
-                (activity.findViewById(R.id.sendButton) as ImageView).performClick()
+            val before = editMessage.text
+            val after = textInput!!.getText().toString()
+            if (before != after) {
+                editMessage.text = after
+                if (activity.swipePanelModule.isPanelShown())
+                    activity.swipePanelModule.hidePanel()
+            }
         }
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -172,7 +175,11 @@ class EditPanelModule(val activity: ChatActivity) {
                 .images
                 .uploads
                 .isNotEmpty()
-        return hasImages
+        val hasMessages = getAttachedCache()
+                .messages
+                .get()
+                .isNotEmpty()
+        return hasImages || hasMessages
     }
     private fun mHasUploadedImages(): Boolean {
         return getAttachedCache()
