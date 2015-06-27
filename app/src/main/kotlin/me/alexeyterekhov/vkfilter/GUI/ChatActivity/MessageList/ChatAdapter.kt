@@ -4,6 +4,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -126,6 +127,24 @@ public class ChatAdapter(
         val isNewDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
         val isVeryFirstMessage = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
 
+        val longListener = { view: View ->
+            if (selectedMessageIds.isNotEmpty()) {
+                deselectAllMessages()
+            } else {
+                selectMessage(message.sentId)
+                notifyItemRangeChanged(0, messages.count())
+            }
+            true
+        }
+        val shortListener = { view: View ->
+            if (selectedMessageIds.isNotEmpty()) {
+                if (message.sentId in selectedMessageIds)
+                    deselectMessage(message.sentId)
+                else
+                    selectMessage(message.sentId)
+            }
+        }
+
         when (getItemViewType(position)) {
             TYPE_IN -> {
                 val h = holder as MessageInHolder
@@ -162,6 +181,14 @@ public class ChatAdapter(
                 attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
                     h addAttachment it
                 }
+
+                h.itemView setOnLongClickListener longListener
+                if (selectedMessageIds.isNotEmpty()) {
+                    h.setTopSelectorEnabled(true)
+                    h.topSelector setOnLongClickListener longListener
+                    h.topSelector setOnClickListener shortListener
+                } else
+                    h.setTopSelectorEnabled(false)
             }
             TYPE_OUT -> {
                 val h = holder as MessageOutHolder
@@ -187,6 +214,14 @@ public class ChatAdapter(
                         attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
                             h addAttachment it
                         }
+
+                        h.itemView setOnLongClickListener longListener
+                        if (selectedMessageIds.isNotEmpty()) {
+                            h.setSelectorEnabled(true)
+                            h.topSelector setOnLongClickListener longListener
+                            h.topSelector setOnClickListener shortListener
+                        } else
+                            h.setSelectorEnabled(false)
                     }
                     Message.STATE_PROCESSING -> {
                         h.setDateText(AppContext.instance.getString(R.string.a_chat_sending))
@@ -200,29 +235,14 @@ public class ChatAdapter(
                         attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
                             h addAttachment it
                         }
+                        h.itemView setOnLongClickListener null
+                        h.setSelectorEnabled(false)
                     }
                 }
                 if (selectedMessageIds contains message.sentId)
                     h.setColorsSelected()
                 else
                     h.setColorsByMessageState(message.sentState)
-            }
-        }
-
-        holder.itemView.setOnLongClickListener {
-            if (selectedMessageIds.isNotEmpty()) {
-                deselectAllMessages()
-            } else {
-                selectMessage(message.sentId)
-            }
-            true
-        }
-        holder.itemView.setOnClickListener {
-            if (selectedMessageIds.isNotEmpty()) {
-                if (message.sentId in selectedMessageIds)
-                    deselectMessage(message.sentId)
-                else
-                    selectMessage(message.sentId)
             }
         }
     }

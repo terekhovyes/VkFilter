@@ -23,7 +23,8 @@ class MessageInHolder(view: View): RecyclerView.ViewHolder(view) {
     val redStripLayout = view.findViewById(R.id.messageDayLayout) as LinearLayout
     val messageTriangle = view.findViewById(R.id.messageTriangle)
     val unreadBackground = view.findViewById(R.id.messageBack) as ImageView
-    val selectionBackground = view.findViewById(R.id.selectedBack) as ImageView
+    val backSelector = view.findViewById(R.id.backSelector) as ImageView
+    val topSelector = view.findViewById(R.id.topSelector)
     val spaceAboveMessage = view.findViewById(R.id.spaceAbove) as Space
 
     fun setMessageText(t: CharSequence) {
@@ -57,11 +58,11 @@ class MessageInHolder(view: View): RecyclerView.ViewHolder(view) {
             messageBase setBackgroundResource R.drawable.message_sel_background
             messageTriangle setBackgroundResource R.drawable.message_in_sel_triangle
             unreadBackground setVisibility View.INVISIBLE
-            selectionBackground setVisibility View.VISIBLE
+            backSelector setVisibility View.VISIBLE
         } else {
             messageBase setBackgroundResource R.drawable.message_in_background
             messageTriangle setBackgroundResource R.drawable.message_in_triangle
-            selectionBackground setVisibility View.GONE
+            backSelector setVisibility View.GONE
         }
     }
     fun readMessage(timeFromAnimationStart: Long = 0L) {
@@ -94,4 +95,7 @@ class MessageInHolder(view: View): RecyclerView.ViewHolder(view) {
         }
     }
     fun isRead() = unreadBackground.getVisibility() != View.VISIBLE
+    fun setTopSelectorEnabled(value: Boolean) {
+        topSelector setVisibility if (value) View.VISIBLE else View.GONE
+    }
 }

@@ -21,7 +21,8 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
     val messageBase = view.findViewById(R.id.messageContainer)
     val messageTriangle = view.findViewById(R.id.messageTriangle)
     val unreadBackground = view.findViewById(R.id.messageBack) as ImageView
-    val selectionBackground = view.findViewById(R.id.selectedBack) as ImageView
+    val backSelector = view.findViewById(R.id.backSelector) as ImageView
+    val topSelector = view.findViewById(R.id.topSelector)
     val spaceAboveMessage = view.findViewById(R.id.spaceAbove) as Space
 
     fun setMessageText(t: CharSequence) {
@@ -48,7 +49,7 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
         messageTriangle setVisibility if (show) View.VISIBLE else View.INVISIBLE
     }
     fun setColorsByMessageState(state: Int) {
-        selectionBackground setVisibility View.GONE
+        backSelector setVisibility View.GONE
         when (state) {
             Message.STATE_PROCESSING -> {
                 messageBase setBackgroundResource R.drawable.message_sending_background
@@ -67,7 +68,7 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
         messageTriangle setBackgroundResource R.drawable.message_out_sel_triangle
         messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_white_new)
         unreadBackground setVisibility View.INVISIBLE
-        selectionBackground setVisibility View.VISIBLE
+        backSelector setVisibility View.VISIBLE
     }
     fun readMessage() {
         unreadBackground setVisibility View.VISIBLE
@@ -83,4 +84,8 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
     fun isRead() = unreadBackground.getVisibility() != View.VISIBLE
+
+    fun setSelectorEnabled(value: Boolean) {
+        topSelector setVisibility if (value) View.VISIBLE else View.GONE
+    }
 }

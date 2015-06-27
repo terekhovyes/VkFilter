@@ -22,7 +22,7 @@
                 android:src="@color/my_green_lighter"/>
 
             <ImageView
-                android:id="@+id/selectedBack"
+                android:id="@+id/backSelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0.3"
@@ -108,6 +108,12 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/topSelector"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
 
         </FrameLayout>
 
