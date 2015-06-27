@@ -64,7 +64,7 @@ public class ChatAdapter(
     fun deselectAllMessages() {
         val ids = HashSet(selectedMessageIds)
         selectedMessageIds.clear()
-        ids forEach { notifyItemChanged(messagePosById(it)) }
+        notifyItemRangeChanged(0, messages.count())
         onSelectionChangeAction?.invoke()
     }
     fun getSelectedMessageIds() = selectedMessageIds.toSortedList()
@@ -138,9 +138,12 @@ public class ChatAdapter(
         }
         val shortListener = { view: View ->
             if (selectedMessageIds.isNotEmpty()) {
-                if (message.sentId in selectedMessageIds)
-                    deselectMessage(message.sentId)
-                else
+                if (message.sentId in selectedMessageIds) {
+                    if (selectedMessageIds.count() == 1)
+                        deselectAllMessages()
+                    else
+                        deselectMessage(message.sentId)
+                } else
                     selectMessage(message.sentId)
             }
         }
