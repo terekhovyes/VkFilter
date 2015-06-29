@@ -21,6 +21,10 @@
     <string name="a_chat_copy_button">копировать</string>
     <string name="a_chat_forward_button">переслать</string>
 
+    <string name="a_chat_button_smile">смайл</string>
+    <string name="a_chat_button_photo">фото</string>
+    <string name="a_chat_button_message">сообщение</string>
+
     <string-array name="a_chat_photo_dialog">
         <item>Камера</item>
         <item>Галерея</item>
