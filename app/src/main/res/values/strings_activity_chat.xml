@@ -14,7 +14,7 @@
     <string name="a_chat_selected">Выбрано:</string>
     <string name="a_chat_text_empty">Сообщение не содержит текст</string>
     <string name="a_chat_text_copy">Текст скопирован</string>
-    <string name="a_chat_message_copy">Сообщения скопированы</string>
+    <string name="a_chat_message_copy">Скопировано - вставьте через панель вложений</string>
     <string name="a_chat_no_messages">Выделите и скопируйте сообщения, чтобы прикрепить</string>
     <string name="a_chat_has_messages">Сообщения уже прикреплены</string>
 
