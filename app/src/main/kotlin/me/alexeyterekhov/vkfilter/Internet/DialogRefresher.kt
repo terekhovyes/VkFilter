@@ -4,7 +4,7 @@ import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogRefresh
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogUpdates
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
@@ -55,7 +55,7 @@ public object DialogRefresher {
 
     private fun newMessagesRequest() {
         lastExecutionMillis = System.currentTimeMillis()
-        val request = RequestDialogRefresh(dialogId, isChat)
+        val request = RequestDialogUpdates(dialogId, isChat)
         RequestControl.addForeground(request)
     }
 

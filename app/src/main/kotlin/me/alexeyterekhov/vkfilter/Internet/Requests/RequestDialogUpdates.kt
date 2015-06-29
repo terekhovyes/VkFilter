@@ -7,7 +7,7 @@ import me.alexeyterekhov.vkfilter.Internet.JSONParser
 import org.json.JSONObject
 import java.util.LinkedList
 
-class RequestDialogRefresh(val dialogId: String, val isChat: Boolean) : Request("execute.refreshDialog") {
+class RequestDialogUpdates(val dialogId: String, val isChat: Boolean) : Request("execute.dialogUpdates") {
     init {
         params[if (isChat) "chat_id" else "user_id"] = dialogId
         params["last_id"] = MessageCaches.getCache(dialogId, isChat).lastMessageIdFromServer
