@@ -32,6 +32,15 @@ public object ImageLoadConf {
         .resetViewBeforeLoading(false)
         .build()
 
+    val loadFullscreenImage = DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .showImageOnLoading(R.drawable.icon_image_stub_transparent)
+            .showImageOnFail(R.drawable.icon_image_stub_transparent)
+            .displayer(FadeInBitmapDisplayer(300, true, false, false))
+            .resetViewBeforeLoading(false)
+            .build()
+
     val loadImageWithoutAnim = DisplayImageOptions.Builder()
         .cacheInMemory(true)
         .cacheOnDisk(true)
