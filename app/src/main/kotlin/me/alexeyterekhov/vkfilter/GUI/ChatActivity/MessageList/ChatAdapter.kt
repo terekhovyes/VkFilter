@@ -95,6 +95,7 @@ public class ChatAdapter(
     override fun onReplaceMessage(old: Message, new: Message) {
         val index = messages indexOfFirst { it.sentId == old.sentId }
         messages.set(index, new)
+        readIncomeMessages()
         notifyItemChanged(index)
         updateAnimationTime()
     }
@@ -294,7 +295,7 @@ public class ChatAdapter(
     }
     private fun updateAnimationTime() { lastAnimationStartTime = System.currentTimeMillis() }
     private fun readIncomeMessages() {
-         if (messages any { it.isIn && it.isNotRead })
+        if (messages any { it.isIn && it.isNotRead })
             RequestControl addBackground RequestReadMessages(dialogId, isChat)
     }
 }
