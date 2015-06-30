@@ -13,7 +13,7 @@ class RequestVideoUrls(
         val videoIds: Collection<String>
 ) : Request("execute.videoUrls") {
     init {
-        params["video_ids"] = "'${videoIds.joinToString(separator = ",")}'"
+        params["video_ids"] = "${videoIds.joinToString(separator = ",")}"
     }
 
     override fun handleResponse(json: JSONObject) {
