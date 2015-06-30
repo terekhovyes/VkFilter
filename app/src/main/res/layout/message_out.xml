@@ -66,7 +66,7 @@
                         android:gravity="center"
                         android:background="@drawable/message_out_background">
 
-                        <com.rockerhieu.emojicon.EmojiconTextView
+                        <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
                             android:id="@+id/messageText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
