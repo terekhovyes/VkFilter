@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/chat_spacer_mini">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/chat_spacer"
+        android:background="@drawable/black_round_background">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/chat_spacer_mini"
+            android:textColor="@color/my_white"
+            android:textSize="14sp"
+            android:text="www"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/my_text"
+                android:textColor="@color/my_white"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="Офигенное название документа"
+                />
+
+            <TextView
+                android:id="@+id/url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/my_text_micro"
+                android:textColor="@color/my_white_transparent"
+                android:text="www.habrahabr.ru/post112_143"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

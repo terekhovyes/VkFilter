@@ -29,8 +29,10 @@ class AttachmentsViewGenerator(
     fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): List<View> {
         return inflateImages(attachments.images, inflater, root)
             .plus(inflateVideos(attachments.videos, inflater, root))
-            .plus(inflateDocs(attachments.documents, inflater, root))
             .plus(inflateAudios(attachments.audios, inflater, root))
+            .plus(inflateDocs(attachments.documents, inflater, root))
+            .plus(inflateLinks(attachments.links, inflater, root))
+            .plus(inflateWalls(attachments.walls, inflater, root))
             .plus(inflateForwardMessages(attachments.messages, inflater, root, darkColors))
     }
 
@@ -110,6 +112,27 @@ class AttachmentsViewGenerator(
         }
     }
 
+    fun inflateAudios(audios: Collection<AudioAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
+        return audios map {
+            val view = inflater.inflate(R.layout.message_audio, root, false)
+
+            val title = view.findViewById(R.id.title) as TextView
+            title setText it.title
+            val artist = view.findViewById(R.id.artist) as TextView
+            artist setText it.artist
+            val duration = view.findViewById(R.id.duration) as TextView
+            duration setText (DateFormat duration it.durationInSec.toLong())
+
+            val url = it.url
+            view setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                activity startActivity intent
+            }
+
+            view
+        }
+    }
+
     fun inflateDocs(docs: Collection<DocAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         return docs map {
             val view = inflater.inflate(R.layout.message_document, root, false)
@@ -130,23 +153,28 @@ class AttachmentsViewGenerator(
         }
     }
 
-    fun inflateAudios(audios: Collection<AudioAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
-        return audios map {
-            val view = inflater.inflate(R.layout.message_audio, root, false)
-
-            val title = view.findViewById(R.id.title) as TextView
-            title setText it.title
-            val artist = view.findViewById(R.id.artist) as TextView
-            artist setText it.artist
-            val duration = view.findViewById(R.id.duration) as TextView
-            duration setText (DateFormat duration it.durationInSec.toLong())
-
+    fun inflateLinks(links: Collection<LinkAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
+        return links map {
+            val view = inflate.inflate(R.layout.message_link, root, false)
+            val titleView = view.findViewById(R.id.title) as TextView
+            val urlView = view.findViewById(R.id.url) as TextView
             val url = it.url
+
+            titleView setText it.title
+            urlView setText url
+
             view setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 activity startActivity intent
             }
 
+            view
+        }
+    }
+
+    fun inflateWalls(walls: Collection<WallAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
+        return walls map {
+            val view = inflate.inflate(R.layout.message_wall, root, false)
             view
         }
     }

@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.DataClasses.Attachments
 
-class DocAttachment(
+class LinkAttachment(
         val title: String,
-        val sizeInBytes: Int,
         val url: String
 )

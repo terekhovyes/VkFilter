@@ -147,6 +147,15 @@ public object JSONParser {
                         if (video.playerUrl == "")
                             video.requestKey = videoJsonToRequestId(it.getJSONObject("video"))
                     }
+                    "link" -> {
+                        val link = parseLinkAttachment(it.getJSONObject("link"))
+                        if (link.url != "")
+                            attachments.links add link
+                    }
+                    "wall" -> {
+                        val wall = parseWallAttachment(it.getJSONObject("wall"))
+                        attachments.walls add wall
+                    }
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -195,6 +204,16 @@ public object JSONParser {
                 previewImageUrl,
                 playerUrl
         )
+    }
+
+    private fun parseLinkAttachment(json: JSONObject): LinkAttachment {
+        val url = json.optString("url", "")
+        val title = json.optString("title", "")
+        return LinkAttachment(title, url)
+    }
+
+    private fun parseWallAttachment(json: JSONObject): WallAttachment {
+        return WallAttachment()
     }
 
     private fun parseItemChat(item: JSONObject): ChatInfo {
