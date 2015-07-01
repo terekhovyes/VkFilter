@@ -9,5 +9,15 @@
     <string name="a_edit_filter_state">Состояние</string>
     <string name="a_edit_filter_members">Участники</string>
     <string name="a_edit_filter_delete">Удалить фильтр</string>
+    <string name="a_edit_filter_save">Сохранить</string>
     <string name="a_edit_filter_cancel">Отменить изменения</string>
+    <string name="a_edit_filter_choose">Создать круг общения</string>
+
+    <string name="a_edit_filter_label_name">Название</string>
+    <string name="a_edit_filter_label_icon">Иконка</string>
+    <string name="a_edit_filter_label_people">Люди</string>
+    <string name="a_edit_filter_label_onoff">Вкл/Выкл</string>
+    <string name="a_edit_filter_label_actions">Действия</string>
+
+    <string name="a_edit_filter_toast_save">Просто нажмите назад, сохранение автоматическое :)</string>
 </resources>

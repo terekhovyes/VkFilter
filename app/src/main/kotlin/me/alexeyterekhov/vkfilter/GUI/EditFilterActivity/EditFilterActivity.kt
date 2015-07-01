@@ -9,15 +9,16 @@ import android.view.GestureDetector
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
-import android.widget.GridView
 import android.widget.TextView
+import android.widget.Toast
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity.ChooseUsersActivity
-import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarListAdapter
+import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarAdapter
 import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.IconList.IconAdapter
@@ -28,158 +29,130 @@ import me.alexeyterekhov.vkfilter.Util.FilterStates
 import java.util.LinkedList
 import kotlin.properties.Delegates
 
-
-public class EditFilterActivity: VkActivity() {
+public class EditFilterActivity : VkActivity() {
     companion object {
-        // Intent
         val KEY_FILTER_ID = "filter_id"
         // Saver
-        val KEY_SAVED = "EditFilterActivitySaved"
-        val KEY_ICON_ADAPTER = "EditFilterActivityIconAdapter"
-        val KEY_AVATAR_ADAPTER = "EditFilterActivityAvatarAdapter"
-        val KEY_FILTER = "EditFilterActivityCurrentFilter"
-        val KEY_FILTER_IDS = "EditFilterActivityFilterIds"
+        val KEY_SAVED_FILTER = "EditFilter_Filter"
+        val KEY_SAVED_IDS_BACKUP = "EditFilter_IdsBackup"
     }
 
     private var filter: VkFilter by Delegates.notNull()
-    private var oldIdentifiers = LinkedList<VkIdentifier>()
-    private var selectedState = 0
+    private var filterState = 0
+    private var idsBackup = LinkedList<VkIdentifier>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onCreateOrRestart()
-    }
-    override fun onRestart() {
-        super.onRestart()
-        onCreateOrRestart()
-    }
-    fun onCreateOrRestart() {
         setContentView(R.layout.activity_edit_filter)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-        val intent = getIntent()
-        val wasSaved = (DataSaver removeObject KEY_SAVED) != null
 
-        filter = loadOrCreateFilter(intent, wasSaved)
-        selectedState = filter.state
+        restoreData()
 
-        oldIdentifiers.clear()
-        if (wasSaved) {
-            val saved = (DataSaver removeObject KEY_FILTER_ID) as LinkedList<VkIdentifier>
-            oldIdentifiers addAll saved
-        } else
-            oldIdentifiers addAll filter.identifiers()
+        findFilterName() setText filter.filterName
 
-        findViewById(R.id.filterName) as EditText setText filter.filterName
-
-        with (findViewById(R.id.iconList) as RecyclerView) {
-            setLayoutManager(LinearLayoutManager(
-                    AppContext.instance,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-            ))
-            setAdapter(
-                    if (wasSaved)
-                        (DataSaver removeObject KEY_ICON_ADAPTER) as IconAdapter
-                    else {
-                        val a = IconAdapter()
-                        a setSelectedIconId filter.getIcon()
-                        a
-                    }
-            )
+        with (findIconList()) {
+            if (getAdapter() == null) {
+                setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false))
+                val adapter = IconAdapter()
+                adapter setSelectedIconId filter.getIcon()
+                setAdapter(adapter)
+            }
         }
 
-        val stateView = findViewById(R.id.filterStateLabel) as TextView
-        stateView setText FilterStates.filterToString(filter.state)
-        with (findViewById(R.id.filterStateSwitch) as TripleSwitchView) {
+        findStateLabel() setText FilterStates.filterToString(filter.state)
+        with (findStateSwitch()) {
             setListener(object : TripleSwitchView.OnSwitchChangeStateListener {
                 override fun onChangeState(newState: Int) {
-                    stateView setText FilterStates.switchToString(newState)
-                    selectedState = FilterStates.switchToFilter(newState)
+                    findStateLabel() setText FilterStates.switchToString(newState)
+                    filterState = FilterStates.switchToFilter(newState)
                 }
             })
             setStateWithListener(FilterStates.filterToSwitch(filter.state), false)
         }
 
-        // Member list block
-        val openChooseActivity = {
-            val startIntent = Intent(AppContext.instance, javaClass<ChooseUsersActivity>())
-            startIntent.putExtra(
+        val actionOpenChooseActivity = {
+            val intent = Intent(AppContext.instance, javaClass<ChooseUsersActivity>())
+            intent.putExtra(
                     ChooseUsersActivity.KEY_FILTER_ID,
                     filter.getId()
             )
-            startActivity(startIntent)
+            startActivity(intent)
         }
-        val emptyView = findViewById(R.id.membersEmptyView)
-        emptyView setOnClickListener { openChooseActivity() }
-        with (findViewById(R.id.memberList) as GridView) {
-            val adapter = if (wasSaved)
-                              (DataSaver removeObject KEY_AVATAR_ADAPTER) as AvatarListAdapter
-                          else
-                              AvatarListAdapter(R.layout.item_avatar_70dp)
-            filter.invalidateCache()
-            adapter setIds filter.identifiers()
-            setAdapter(adapter)
-            val gestureDetector = GestureDetector(
-                AppContext.instance,
-                object : GestureDetector.SimpleOnGestureListener() {
-                    override fun onSingleTapUp(e: MotionEvent?) = true
-                })
-            setOnTouchListener {
-                view, motionEvent ->
-                if (gestureDetector.onTouchEvent(motionEvent)) {
-                    openChooseActivity()
-                    true
-                } else
-                    false
+        findPeopleEmptyView() setOnClickListener { actionOpenChooseActivity() }
+        with (findPeopleList()) {
+            if (getAdapter() == null) {
+                setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false))
+                val adapter = AvatarAdapter(R.layout.item_avatar_50dp)
+                filter.invalidateCache()
+                adapter setIds filter.identifiers()
+                setAdapter(adapter)
+                val gestureDetector = GestureDetector(
+                        AppContext.instance,
+                        object : GestureDetector.SimpleOnGestureListener() {
+                            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                                actionOpenChooseActivity()
+                                return true
+                            }
+                        }
+                )
+                setOnTouchListener { view, motionEvent ->
+                    gestureDetector.onTouchEvent(motionEvent)
+                }
             }
-            setEmptyView(emptyView)
         }
 
-        val filterJustCreated = !intent.hasExtra(KEY_FILTER_ID) || intent.getLongExtra(KEY_FILTER_ID, -1) == -1L
-        with (findViewById(R.id.cancelButton)) {
-            setVisibility(if (filterJustCreated) View.GONE else View.VISIBLE)
-            setOnClickListener {
-                filter.invalidateCache()
-                filter.identifiers() forEach { it.delete() }
-                oldIdentifiers forEach {
-                    val vk = VkIdentifier()
-                    with (vk) {
-                        id = it.id
-                        type = it.type
-                        ownerFilter = filter
-                        save()
+        val filterJustCreated = getFilterId() == -1L
+        with (findCancelButton()) {
+            setAlpha(if (filterJustCreated) 0.2f else 1f)
+            if (!filterJustCreated) {
+                setOnClickListener {
+                    filter.invalidateCache()
+                    filter.identifiers() forEach { it.delete() }
+                    idsBackup forEach {
+                        val vk = VkIdentifier()
+                        with (vk) {
+                            id = it.id
+                            type = it.type
+                            ownerFilter = filter
+                            save()
+                        }
                     }
+                    idsBackup.clear()
+                    filter.invalidateCache()
+                    super.onBackPressed()
                 }
-                oldIdentifiers.clear()
-                filter.invalidateCache()
-                super.onBackPressed()
             }
         }
-        findViewById(R.id.deleteButton) setOnClickListener {
+        findDeleteButton() setOnClickListener {
             DAOFilters.deleteFilter(filter)
             super.onBackPressed()
         }
+        findSaveButton() setOnClickListener {
+            Toast.makeText(this, R.string.a_edit_filter_toast_save, Toast.LENGTH_SHORT).show()
+        }
     }
+
     override fun onResume() {
         super.onResume()
-        UserCache.listeners add getAvatarAdapter()
+        findPeopleEmptyView() setVisibility if (getPeopleAdapter().getItemCount() == 0)
+            View.VISIBLE
+        else
+            View.GONE
+        UserCache.listeners add getPeopleAdapter()
     }
+
     override fun onPause() {
         super.onPause()
-        UserCache.listeners remove getAvatarAdapter()
+        UserCache.listeners remove getPeopleAdapter()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         fillFilter(filter)
         with (DataSaver) {
-            putObject(KEY_SAVED, true)
-            putObject(KEY_ICON_ADAPTER, getIconAdapter())
-            putObject(KEY_AVATAR_ADAPTER, getAvatarAdapter())
-            putObject(KEY_FILTER, filter)
-            val copy = LinkedList(oldIdentifiers)
-            putObject(KEY_FILTER_ID, copy)
+            putObject(KEY_SAVED_FILTER, filter)
+            putObject(KEY_SAVED_IDS_BACKUP, LinkedList(idsBackup))
         }
     }
 
@@ -199,6 +172,40 @@ public class EditFilterActivity: VkActivity() {
         super.onBackPressed()
     }
 
+    private fun findFilterName() = findViewById(R.id.filterName) as EditText
+    private fun findIconList() = findViewById(R.id.iconList) as RecyclerView
+    private fun findStateLabel() = findViewById(R.id.filterStateLabel) as TextView
+    private fun findStateSwitch() = findViewById(R.id.filterStateSwitch) as TripleSwitchView
+    private fun findPeopleEmptyView() = findViewById(R.id.peopleEmptyView)
+    private fun findPeopleList() = findViewById(R.id.peopleList) as RecyclerView
+    private fun findCancelButton() = findViewById(R.id.cancelButton) as Button
+    private fun findDeleteButton() = findViewById(R.id.deleteButton) as Button
+    private fun findSaveButton() = findViewById(R.id.saveButton) as Button
+    private fun getIconAdapter() = findIconList().getAdapter() as IconAdapter
+    private fun getPeopleAdapter() = findPeopleList().getAdapter() as AvatarAdapter
+
+    private fun restoreData() {
+        filter = restoreOrCreateFilter(DataSaver contains KEY_SAVED_FILTER)
+        filterState = filter.state
+        idsBackup.clear()
+        idsBackup addAll if (DataSaver contains KEY_SAVED_IDS_BACKUP)
+            (DataSaver removeObject KEY_SAVED_IDS_BACKUP) as LinkedList<VkIdentifier>
+        else
+            filter.identifiers()
+    }
+
+    private fun restoreOrCreateFilter(fromSaver: Boolean): VkFilter {
+        return when {
+            fromSaver && DataSaver contains KEY_SAVED_FILTER -> {
+                (DataSaver removeObject KEY_SAVED_FILTER) as VkFilter
+            }
+            getFilterId() != -1L -> DAOFilters loadVkFilterById getFilterId()
+            else -> createVkFilter()
+        }
+    }
+
+    private fun getFilterId() = getIntent().getLongExtra(KEY_FILTER_ID, -1L)
+
     private fun createVkFilter(): VkFilter {
         val filter = VkFilter()
         DAOFilters.saveFilter(filter)
@@ -206,36 +213,13 @@ public class EditFilterActivity: VkActivity() {
     }
 
     private fun fillFilter(f: VkFilter) {
-        val enteredName = (findViewById(R.id.filterName) as EditText).getText().toString()
+        val enteredName = findFilterName().getText().toString()
         with (f) {
             setIcon(getIconAdapter().getSelectedIconId())
             filterName = enteredName
-            state = selectedState
+            state = this@EditFilterActivity.filterState
         }
     }
 
-    private fun saveFilter(f: VkFilter) {
-        DAOFilters.saveFilter(f)
-    }
-
-    private fun loadOrCreateFilter(intent: Intent, useSaver: Boolean): VkFilter {
-        return when {
-            useSaver && DataSaver contains KEY_FILTER -> {
-                (DataSaver removeObject KEY_FILTER) as VkFilter
-            }
-            intent.hasExtra(KEY_FILTER_ID) -> {
-                val id = intent.getLongExtra(KEY_FILTER_ID, -1)
-                if (id != -1L)
-                    DAOFilters loadVkFilterById id
-                else
-                    createVkFilter()
-            }
-            else -> createVkFilter()
-        }
-    }
-
-    private fun getIconAdapter() = (findViewById(R.id.iconList) as RecyclerView)
-            .getAdapter() as IconAdapter
-    private fun getAvatarAdapter() = (findViewById(R.id.memberList) as GridView)
-            .getAdapter() as AvatarListAdapter
+    private fun saveFilter(f: VkFilter) = DAOFilters.saveFilter(f)
 }
