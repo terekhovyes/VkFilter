@@ -6,13 +6,12 @@
     android:layout_height="50dp"
     android:paddingLeft="8dp">
 
-    <me.alexeyterekhov.circularimageview.CircularImageView
+    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
         android:id="@+id/singleDialogIcon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/group_icon_01"
-        app:border="false"
-        app:shadow="false"
+        app:shadowSize="1dp"
         android:visibility="gone"/>
 
     <RelativeLayout
@@ -21,23 +20,21 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doubleDialogIcon1"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doubleDialogIcon2"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
     </RelativeLayout>
 
@@ -47,27 +44,25 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/tripleDialogIcon1"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="1dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/tripleDialogIcon2"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="2dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/tripleDialogIcon3"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -75,8 +70,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
     </RelativeLayout>
 
@@ -86,45 +80,41 @@
         android:layout_height="match_parent"
         android:visibility="visible">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon2"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon3"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon4"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="false"/>
+            app:shadowSize="1dp"/>
 
     </RelativeLayout>
 

@@ -11,9 +11,6 @@ import me.alexeyterekhov.vkfilter.Util.AppContext
 class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     private var selectedIcon: Int = 0
 
-    private val normalBackground = R.drawable.gray_circle_background
-    private val selectedBackground = R.drawable.green_circle_background
-
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): IconHolder? {
         val inflater = LayoutInflater.from(AppContext.instance)
         val view = inflater.inflate(R.layout.item_icon, parent, false)
@@ -23,10 +20,10 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     override fun onBindViewHolder(holder: IconHolder, position: Int) {
         with (holder) {
             icon.setImageResource(FilterIcons.resourceById(position + 1))
-            icon setBackgroundResource if (position == selectedIcon)
-                selectedBackground
+            icon setRoundColorRes if (position == selectedIcon)
+                R.color.my_green
             else
-                normalBackground
+                R.color.my_gray_new
 
             v setOnClickListener {
                 selectedIcon = position

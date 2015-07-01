@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="58dp"
     android:layout_height="50dp"
     android:paddingLeft="8dp">
 
-    <ImageView
+    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
         android:id="@+id/iconImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/group_icon_01"/>
+        android:src="@drawable/group_icon_01"
+        app:shadowSize="1dp"/>
 
 </FrameLayout>

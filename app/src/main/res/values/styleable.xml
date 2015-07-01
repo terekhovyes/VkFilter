@@ -13,4 +13,9 @@
         <attr name="progressColor" format="color"/>
         <attr name="buttonColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="roundBackgroundColor" format="color"/>
+        <attr name="shadowSize" format="dimension"/>
+    </declare-styleable>
 </resources>
