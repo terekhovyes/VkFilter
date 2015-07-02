@@ -135,11 +135,14 @@ public class EditFilterActivity : VkActivity() {
 
     override fun onResume() {
         super.onResume()
-        findPeopleEmptyView() setVisibility if (getPeopleAdapter().getItemCount() == 0)
+        val adapter = getPeopleAdapter()
+        filter.invalidateCache()
+        adapter.setIds(filter.identifiers())
+        findPeopleEmptyView() setVisibility if (adapter.getItemCount() == 0)
             View.VISIBLE
         else
             View.GONE
-        UserCache.listeners add getPeopleAdapter()
+        UserCache.listeners add adapter
     }
 
     override fun onPause() {

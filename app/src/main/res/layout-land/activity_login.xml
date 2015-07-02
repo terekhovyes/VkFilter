@@ -57,7 +57,7 @@
             android:background="@drawable/login_button"
             android:text="@string/a_login_login_button"
             android:textSize="18sp"
-            android:textColor="@color/my_white_greeny"/>
+            android:textColor="@color/my_white_new"/>
 
         <TextView
                 android:layout_width="500dp"

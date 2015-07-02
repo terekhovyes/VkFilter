@@ -80,7 +80,7 @@
                             android:layout_gravity="left"
                             android:textSize="@dimen/my_text"
                             app:emojiconSize="@dimen/my_emoji"
-                            android:textColor="@color/my_white"
+                            android:textColor="@color/my_white_new"
                             android:textColorLink="@color/my_links_color"
                             android:linksClickable="true"
                             android:autoLink="web|email"

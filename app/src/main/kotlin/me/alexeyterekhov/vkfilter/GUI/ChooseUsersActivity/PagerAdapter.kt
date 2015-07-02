@@ -3,6 +3,8 @@ package me.alexeyterekhov.vkfilter.GUI.ChooseUsersActivity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 import java.util.HashSet
 
 
@@ -11,7 +13,7 @@ public class PagerAdapter(
         val selectedUsers: MutableSet<Long>,
         val selectedChats: MutableSet<Long>
 ) : FragmentPagerAdapter(fm) {
-    val TITLES = arrayOf("Текущие", "Друзья", "Диалоги")
+    val TITLES = AppContext.instance.getResources().getStringArray(R.array.a_edit_filter_tabs)
 
     private val immutableUsers = HashSet<Long>(selectedUsers)
     private val immutableChats = HashSet<Long>(selectedChats)

@@ -36,13 +36,15 @@ public class ChooseUsersActivity: VkActivity() {
             }
 
         val tabs = findViewById(R.id.tabs) as PagerSlidingTabStrip
-        tabs.setTextColorResource(R.color.my_white_greeny)
+        tabs.setTextColorResource(R.color.my_white_new)
         with (findViewById(R.id.pager) as ViewPager) {
             setAdapter(PagerAdapter(
                     fm = getSupportFragmentManager(),
                     selectedUsers = selectedUsers,
                     selectedChats = selectedChats
             ))
+            if (ids.isEmpty())
+                setCurrentItem(1)
             tabs.setViewPager(this)
         }
 
