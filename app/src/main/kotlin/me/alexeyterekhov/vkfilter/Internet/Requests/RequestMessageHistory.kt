@@ -1,13 +1,11 @@
 package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
-import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.JSONParser
+import me.alexeyterekhov.vkfilter.Internet.MissingDataAnalyzer
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import org.json.JSONObject
-import java.util.LinkedList
-import java.util.Vector
 
 class RequestMessageHistory(
         val dialogId: String,
@@ -33,8 +31,8 @@ class RequestMessageHistory(
         if (firstMessageIsUseless && messages.isNotEmpty())
             messages remove 0
 
-        loadNotLoadedUsers(messages)
-        loadNotLoadedVideos(messages)
+        loadMissingUsers(messages)
+        loadMissingVideos(messages)
 
         MessageCaches.getCache(dialogId, isChat).putMessages(
                 messages,
@@ -42,62 +40,15 @@ class RequestMessageHistory(
         )
     }
 
-    private fun loadNotLoadedUsers(messages: Vector<Message>) {
-        val notLoadedIds = messages
-                .map { notLoadedUserIds(it) }
-                .foldRight(LinkedList<String>(), {
-                    list, el ->
-                    list addAll el
-                    list
-                })
-
-        if (notLoadedIds.isNotEmpty())
-            RequestControl addBackground RequestUsers(notLoadedIds)
+    private fun loadMissingUsers(messages: Collection<Message>) {
+        val missingIds = MissingDataAnalyzer.missingUsersIds(messages)
+        if (missingIds.isNotEmpty())
+            RequestControl addBackground RequestUsers(missingIds)
     }
 
-    private fun notLoadedUserIds(m: Message): LinkedList<String> {
-        val list = if (m.attachments.messages.isNotEmpty())
-            m.attachments.messages
-                    .map { notLoadedUserIds(it) }
-                    .foldRight(LinkedList<String>(), {
-                        list, el ->
-                        list addAll el
-                        list
-                    })
-        else
-            LinkedList<String>()
-
-        if (!UserCache.contains(m.senderId))
-            list add m.senderId
-        return list
-    }
-
-    private fun loadNotLoadedVideos(messages: Vector<Message>) {
-        val notLoadedIds = messages
-                .map { notLoadedVideoIds(it) }
-                .foldRight(LinkedList<String>(), {
-                    list, el ->
-                    list addAll el
-                    list
-                })
-        if (notLoadedIds.isNotEmpty())
-            RequestControl addBackground RequestVideoUrls(dialogId, isChat, notLoadedIds)
-    }
-
-    private fun notLoadedVideoIds(m: Message): LinkedList<String> {
-        val list = if (m.attachments.messages.isNotEmpty())
-            m.attachments.messages
-                    .map { notLoadedVideoIds(it) }
-                    .foldRight(LinkedList<String>(), {
-                        list, el ->
-                        list addAll el
-                        list
-                    })
-        else
-            LinkedList<String>()
-        m.attachments.videos filter { it.playerUrl == "" } forEach {
-            list add it.requestKey
-        }
-        return list
+    private fun loadMissingVideos(messages: Collection<Message>) {
+        val missingIds = MissingDataAnalyzer.missingVideoIds(messages)
+        if (missingIds.isNotEmpty())
+            RequestControl addBackground RequestVideoUrls(dialogId, isChat, missingIds)
     }
 }
