@@ -87,7 +87,7 @@
         android:textColor="@color/my_green"
         android:text="@string/a_dialog_settings"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/testButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -96,6 +96,6 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textColor="@color/my_green"
-        android:text="Тестирование"/>
+        android:text="Тестирование"/>-->
 
 </RelativeLayout>
