@@ -31,14 +31,13 @@
                 android:gravity="left"
                 android:src="@drawable/icon_drag"/>
 
-            <me.alexeyterekhov.circularimageview.CircularImageView
+            <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                 android:id="@+id/filterIcon"
-                app:shadow="true"
-                app:border="false"
+                app:shadowSize="2dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                app:background_color="@color/my_green"/>
+                app:roundBackgroundColor="@color/my_green"/>
 
         </FrameLayout>
 

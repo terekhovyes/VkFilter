@@ -129,7 +129,6 @@
     <orderEntry type="library" exported="" name="android-parallax-recyclerview-v1.2" level="project" />
     <orderEntry type="library" exported="" name="material-dialogs-0.7.6.0" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.3" level="project" />
-    <orderEntry type="module" module-name="circularimageview" exported="" />
     <orderEntry type="module" module-name="DragSortRecycler" exported="" />
   </component>
 </module>

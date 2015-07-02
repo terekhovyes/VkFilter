@@ -54,7 +54,7 @@
 
     </LinearLayout>
 
-    <me.alexeyterekhov.circularimageview.CircularImageView
+    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
         android:id="@+id/my_photo"
         android:layout_width="96dp"
         android:layout_height="96dp"
@@ -62,8 +62,7 @@
         android:layout_below="@id/top_layout"
         android:layout_centerHorizontal="true"
         android:src="@drawable/icon_user_stub"
-        app:border="false"
-        app:shadow="true"/>
+        app:shadowSize="2dp"/>
 
     <Button
         android:id="@+id/logout_button"

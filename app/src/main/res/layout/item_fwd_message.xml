@@ -17,13 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/senderPhoto"
             android:layout_height="40dp"
             android:layout_width="40dp"
             android:layout_marginRight="@dimen/chat_spacer"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="1dp"/>
         
         <TextView
             android:id="@+id/senderName"

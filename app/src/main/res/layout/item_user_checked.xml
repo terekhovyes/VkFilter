@@ -6,7 +6,7 @@
     android:layout_height="90dp"
     android:background="@color/my_white">
 
-    <me.alexeyterekhov.circularimageview.CircularImageView
+    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
         android:id="@+id/singlePic"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -15,8 +15,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:src="@drawable/icon_user_stub"
-        app:border="false"
-        app:shadow="true"/>
+        app:shadowSize="2dp"/>
 
     <RelativeLayout
         android:id="@+id/doublePicLayout"
@@ -28,23 +27,21 @@
         android:layout_marginRight="5dp"
         android:visibility="gone">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doublePic1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doublePic2"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
     </RelativeLayout>
 
@@ -58,33 +55,30 @@
         android:layout_marginRight="5dp"
         android:visibility="gone">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/triplePic1"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/triplePic2"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/triplePic3"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
     </RelativeLayout>
 
@@ -98,45 +92,41 @@
         android:layout_marginRight="5dp"
         android:visibility="gone">
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic2"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic3"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
-        <me.alexeyterekhov.circularimageview.CircularImageView
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic4"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:border="false"
-            app:shadow="true"/>
+            app:shadowSize="2dp"/>
 
     </RelativeLayout>
 

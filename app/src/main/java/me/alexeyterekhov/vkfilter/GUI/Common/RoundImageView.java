@@ -161,8 +161,6 @@ public class RoundImageView extends ImageView {
 
     private Bitmap cropBitmap(Bitmap src, float size) {
         float coefficient = Math.min(src.getWidth(), src.getHeight()) / size;
-        if (coefficient < 1)
-            return src;
         Bitmap decreasedBitmap = Bitmap.createScaledBitmap(
                 src,
                 (int) (src.getWidth() / coefficient),
@@ -177,7 +175,7 @@ public class RoundImageView extends ImageView {
                     decreasedBitmap.getHeight(),
                     decreasedBitmap.getHeight()
             );
-        } else {
+        } else if (decreasedBitmap.getWidth() < decreasedBitmap.getHeight()){
             return Bitmap.createBitmap(
                     decreasedBitmap,
                     decreasedBitmap.getHeight() / 2 - decreasedBitmap.getWidth() / 2,
@@ -185,6 +183,6 @@ public class RoundImageView extends ImageView {
                     decreasedBitmap.getWidth(),
                     decreasedBitmap.getWidth()
             );
-        }
+        } else return decreasedBitmap;
     }
 }

@@ -48,7 +48,6 @@ dependencies {
     compile 'com.rockerhieu.emojicon:library:1.0'
     compile 'it.sephiroth.android.library.imagezoom:imagezoom:1.0.5'
     compile project('libprojs:DragSortRecycler')
-    compile project('libprojs:CircularImageView:circularimageview')
 }
 buildscript {
     ext.kotlin_version = '0.12.+'

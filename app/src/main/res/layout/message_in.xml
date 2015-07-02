@@ -46,14 +46,13 @@
                     android:orientation="horizontal"
                     android:paddingRight="@dimen/chat_spacer">
 
-                    <me.alexeyterekhov.circularimageview.CircularImageView
+                    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                         android:id="@+id/senderPhoto"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="@dimen/chat_spacer_big"
                         android:src="@drawable/icon_user_stub"
-                        app:border="false"
-                        app:shadow="true"/>
+                        app:shadowSize="1dp"/>
 
                     <ImageView
                         android:id="@+id/messageTriangle"
