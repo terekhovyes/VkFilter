@@ -175,7 +175,7 @@ class SwipePanelModule(val activity: ChatActivity) {
                 0f,
                 (smileButton.getLeft() + smileButton.getWidth()).toFloat()
         )
-        animator setDuration 250
+        animator setDuration 350
         panel setVisibility View.VISIBLE
         animator.addListener(object : SupportAnimator.AnimatorListener {
             override fun onAnimationEnd() {
@@ -186,7 +186,7 @@ class SwipePanelModule(val activity: ChatActivity) {
                         (smileButton.getLeft() + smileButton.getWidth()).toFloat(),
                         0f
                 )
-                secondAnimator setDuration 250
+                secondAnimator setDuration 350
                 secondAnimator addListener object : SupportAnimator.AnimatorListener {
                     override fun onAnimationEnd() {
                         panel setVisibility View.INVISIBLE

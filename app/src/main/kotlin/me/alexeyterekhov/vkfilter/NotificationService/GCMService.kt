@@ -55,7 +55,8 @@ public class GCMService: Service() {
                 override fun onPostExecute(result: Unit?) {
                     super.onPostExecute(result)
                     registeredToken = registeredKey
-                    RequestControl addBackground RequestGCMRegister(registeredToken)
+                    if (registeredToken != "")
+                        RequestControl addBackground RequestGCMRegister(registeredToken)
                 }
             }).execute()
         } else {
