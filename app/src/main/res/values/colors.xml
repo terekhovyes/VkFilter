@@ -16,13 +16,19 @@
     <color name="my_green_lighter">#d7ede9</color>
 
     <color name="my_red">#e5675d</color>
-
     <color name="my_blue">#00BCD4</color>
     <color name="my_blue_lighter">#3300BCD4</color>
     <color name="my_blue_msg">#52a9bd</color>
     <color name="my_links_color">#FFFFE1</color>
 
-    <color name="my_orange">#ffd2976e</color>
+    <color name="my_msg_out_color">#BF52A9BD</color>
+    <color name="my_msg_in_color">#B3009688</color>
+    <color name="my_msg_day_color">#CC91CC62</color>
+    <color name="my_msg_selected_color">#dab3a6</color>
+    <color name="my_msg_selected_dark_color">#c88d7a</color>
+    <color name="my_msg_date">#3F000000</color>
+    <color name="my_msg_sending">#3352A9BD</color>
+    <color name="my_msg_sending_text">#B3FFFFFF</color>
 
     <color name="my_black">#444444</color>
     <color name="my_black_transparent">#8000</color>

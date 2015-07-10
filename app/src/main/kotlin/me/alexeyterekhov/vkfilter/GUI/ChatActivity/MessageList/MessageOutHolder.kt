@@ -54,20 +54,19 @@ class MessageOutHolder(view: View): RecyclerView.ViewHolder(view) {
             Message.STATE_PROCESSING -> {
                 messageBase setBackgroundResource R.drawable.message_sending_background
                 messageTriangle setBackgroundResource R.drawable.message_sending_triangle
-                messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_black)
+                messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_msg_sending_text)
             }
             Message.STATE_SENT -> {
                 messageBase setBackgroundResource R.drawable.message_out_background
                 messageTriangle setBackgroundResource R.drawable.message_out_triangle
-                messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_white_new)
+                messageText setTextColor 0xFFFFFFFF.toInt()
             }
         }
     }
     fun setColorsSelected() {
         messageBase setBackgroundResource R.drawable.message_sel_background
         messageTriangle setBackgroundResource R.drawable.message_out_sel_triangle
-        messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_white_new)
-        unreadBackground setVisibility View.INVISIBLE
+        messageText setTextColor 0xFFFFFFFF.toInt()
         backSelector setVisibility View.VISIBLE
     }
     fun readMessage() {

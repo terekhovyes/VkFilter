@@ -2,6 +2,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/my_blue_msg"/>
+    <solid android:color="@color/my_msg_out_color"/>
     <corners android:radius="@dimen/chat_roundness"/>
 </shape>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/messageDayLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        android:id="@+id/messageDayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <TextView android:id="@+id/messageDay"
               android:layout_width="match_parent"
               android:layout_height="30dp"
               android:layout_marginTop="@dimen/chat_spacer_big"
               android:gravity="center|center_vertical"
-              android:background="@color/my_red"
-              android:textColor="@color/my_white"
+              android:background="@color/my_msg_day_color"
+              android:textColor="#fff"
               android:textSize="@dimen/my_text"
               android:text="Сегодня"/>
 

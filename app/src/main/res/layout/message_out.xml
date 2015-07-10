@@ -26,8 +26,6 @@
                 android:id="@+id/backSelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.3"
-                android:src="@color/my_orange"
                 android:visibility="gone"/>
 
             <LinearLayout
@@ -74,7 +72,7 @@
                             android:layout_gravity="left"
                             android:textSize="@dimen/my_text"
                             app:emojiconSize="@dimen/my_emoji"
-                            android:textColor="@color/my_white_new"
+                            android:textColor="#fff"
                             android:textColorLink="@color/my_links_color"
                             android:linksClickable="true"
                             android:autoLink="web|email"
@@ -96,7 +94,7 @@
                         android:layout_toLeftOf="@id/messageContainer"
                         android:gravity="center"
                         android:textSize="@dimen/my_text_micro"
-                        android:textColor="@color/my_gray"
+                        android:textColor="@color/my_msg_date"
                         android:text="18:05"/>
 
                 </RelativeLayout>

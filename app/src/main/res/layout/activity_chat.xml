@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="@color/my_orange"
+        android:background="@color/my_msg_selected_dark_color"
         android:visibility="gone">
 
         <ImageView

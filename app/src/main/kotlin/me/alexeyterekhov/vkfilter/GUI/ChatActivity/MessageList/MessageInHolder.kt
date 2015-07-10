@@ -57,7 +57,6 @@ class MessageInHolder(view: View): RecyclerView.ViewHolder(view) {
         if (selected) {
             messageBase setBackgroundResource R.drawable.message_sel_background
             messageTriangle setBackgroundResource R.drawable.message_in_sel_triangle
-            unreadBackground setVisibility View.INVISIBLE
             backSelector setVisibility View.VISIBLE
         } else {
             messageBase setBackgroundResource R.drawable.message_in_background

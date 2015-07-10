@@ -14,7 +14,6 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestReadMessages
 import me.alexeyterekhov.vkfilter.R
-import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
 import java.util.Calendar
@@ -228,14 +227,14 @@ public class ChatAdapter(
                             h.setSelectorEnabled(false)
                     }
                     Message.STATE_PROCESSING -> {
-                        h.setDateText(AppContext.instance.getString(R.string.a_chat_sending))
+                        h.setDateText("")
                         h.setUnread(false)
                         val showStrip = position == 0 || (messages[position - 1].sentState != Message.STATE_PROCESSING
                                 && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis()))
                         h.showRedStrip(showStrip)
                         if (showStrip)
                             h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
-                        h.showSpaceAndTriangle(isFirstReply)
+                        h.showSpaceAndTriangle(isFirstReply || showStrip)
                         attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
                             h addAttachment it
                         }
