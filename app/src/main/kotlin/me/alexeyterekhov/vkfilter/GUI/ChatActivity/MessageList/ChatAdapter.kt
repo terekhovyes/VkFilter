@@ -33,6 +33,7 @@ public class ChatAdapter(
 {
     val TYPE_IN = 1
     val TYPE_OUT = 2
+    val TYPE_FOOTER = 3
 
     val TIME_FOR_ANIMATION = 400L
 
@@ -119,133 +120,141 @@ public class ChatAdapter(
             work.run()
     }
 
-    override fun getItemCount() = messages.count()
-    override fun getItemViewType(pos: Int) = if (messages[pos].isOut) TYPE_OUT else TYPE_IN
+    override fun getItemCount() = messages.count() + 1
+    override fun getItemViewType(pos: Int) = when {
+        pos < messages.count() && messages[pos].isOut -> TYPE_OUT
+        pos < messages.count() && messages[pos].isIn -> TYPE_IN
+        else -> TYPE_FOOTER
+    }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = messages[position]
-        val isFirstReply = position == 0 || isFirstReply(position)
-        val isNewDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
-        val isVeryFirstMessage = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
+        if (getItemViewType(position) == TYPE_FOOTER) {
 
-        val longListener = { view: View ->
-            if (selectedMessageIds.isNotEmpty()) {
-                deselectAllMessages()
-            } else {
-                selectMessage(message.sentId)
-                notifyItemRangeChanged(0, messages.count())
-            }
-            true
-        }
-        val shortListener = { view: View ->
-            if (selectedMessageIds.isNotEmpty()) {
-                if (message.sentId in selectedMessageIds) {
-                    if (selectedMessageIds.count() == 1)
-                        deselectAllMessages()
-                    else
-                        deselectMessage(message.sentId)
-                } else
-                    selectMessage(message.sentId)
-            }
-        }
+        } else {
+            val message = messages[position]
+            val isFirstReply = position == 0 || isFirstReply(position)
+            val isNewDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
+            val isVeryFirstMessage = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
 
-        when (getItemViewType(position)) {
-            TYPE_IN -> {
-                val h = holder as MessageInHolder
-                h.clearAttachments()
-                with (h) {
-                    setMessageText(message.text)
-                    setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
-                    when {
-                        messagesForReading contains message -> {
-                            messagesForReading remove message
-                            animationStartTime.put(message, System.currentTimeMillis())
-                            readMessage()
-                            Handler().postDelayed({ animationStartTime remove message }, h.READ_OFFSET + h.READ_DURATION)
-                        }
-                        animationStartTime contains message -> {
-                            val startTime = animationStartTime get message
-                            readMessage(timeFromAnimationStart = System.currentTimeMillis() - startTime)
-                        }
-                        else -> {
-                            setUnread(message.isNotRead)
-                        }
-                    }
-                    showSpaceAndTriangle(isFirstReply || isNewDay)
-                    showPhoto(isChat && (isFirstReply || isNewDay))
-                    if (isChat && (isFirstReply || isNewDay)) loadUserImage(h.senderPhoto, message.senderOrEmpty().photoUrl)
-                    if (isNewDay || isVeryFirstMessage) {
-                        showRedStrip(true)
-                        setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
-                    } else {
-                        showRedStrip(false)
-                    }
-                    setColors(selected = selectedMessageIds contains message.sentId)
-                }
-                attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
-                    h addAttachment it
-                }
-
-                h.itemView setOnLongClickListener longListener
+            val longListener = { view: View ->
                 if (selectedMessageIds.isNotEmpty()) {
-                    h.setTopSelectorEnabled(true)
-                    h.topSelector setOnLongClickListener longListener
-                    h.topSelector setOnClickListener shortListener
-                } else
-                    h.setTopSelectorEnabled(false)
+                    deselectAllMessages()
+                } else {
+                    selectMessage(message.sentId)
+                    notifyItemRangeChanged(0, messages.count())
+                }
+                true
             }
-            TYPE_OUT -> {
-                val h = holder as MessageOutHolder
-                h.clearAttachments()
-                with (h) {
-                    setMessageText(message.text)
-                    if (messagesForReading contains message) {
-                        messagesForReading remove message
-                        readMessage()
-                    }
+            val shortListener = { view: View ->
+                if (selectedMessageIds.isNotEmpty()) {
+                    if (message.sentId in selectedMessageIds) {
+                        if (selectedMessageIds.count() == 1)
+                            deselectAllMessages()
+                        else
+                            deselectMessage(message.sentId)
+                    } else
+                        selectMessage(message.sentId)
                 }
-                when (message.sentState) {
-                    Message.STATE_SENT -> {
-                        h.setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
-                        h.setUnread(!message.isRead)
-                        if (isNewDay || isVeryFirstMessage) {
-                            h.showRedStrip(true)
-                            h.setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
-                        } else {
-                            h.showRedStrip(false)
-                        }
-                        h.showSpaceAndTriangle(isFirstReply || isNewDay)
-                        attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
-                            h addAttachment it
-                        }
+            }
 
-                        h.itemView setOnLongClickListener longListener
-                        if (selectedMessageIds.isNotEmpty()) {
-                            h.setSelectorEnabled(true)
-                            h.topSelector setOnLongClickListener longListener
-                            h.topSelector setOnClickListener shortListener
-                        } else
-                            h.setSelectorEnabled(false)
-                    }
-                    Message.STATE_PROCESSING -> {
-                        h.setDateText("")
-                        h.setUnread(false)
-                        val showStrip = position == 0 || (messages[position - 1].sentState != Message.STATE_PROCESSING
-                                && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis()))
-                        h.showRedStrip(showStrip)
-                        if (showStrip)
-                            h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
-                        h.showSpaceAndTriangle(isFirstReply || showStrip)
-                        attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
-                            h addAttachment it
+            when (getItemViewType(position)) {
+                TYPE_IN -> {
+                    val h = holder as MessageInHolder
+                    h.clearAttachments()
+                    with (h) {
+                        setMessageText(message.text)
+                        setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
+                        when {
+                            messagesForReading contains message -> {
+                                messagesForReading remove message
+                                animationStartTime.put(message, System.currentTimeMillis())
+                                readMessage()
+                                Handler().postDelayed({ animationStartTime remove message }, h.READ_OFFSET + h.READ_DURATION)
+                            }
+                            animationStartTime contains message -> {
+                                val startTime = animationStartTime get message
+                                readMessage(timeFromAnimationStart = System.currentTimeMillis() - startTime)
+                            }
+                            else -> {
+                                setUnread(message.isNotRead)
+                            }
                         }
-                        h.itemView setOnLongClickListener null
-                        h.setSelectorEnabled(false)
+                        showSpaceAndTriangle(isFirstReply || isNewDay)
+                        showPhoto(isChat && (isFirstReply || isNewDay))
+                        if (isChat && (isFirstReply || isNewDay)) loadUserImage(h.senderPhoto, message.senderOrEmpty().photoUrl)
+                        if (isNewDay || isVeryFirstMessage) {
+                            showRedStrip(true)
+                            setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                        } else {
+                            showRedStrip(false)
+                        }
+                        setColors(selected = selectedMessageIds contains message.sentId)
                     }
+                    attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
+                        h addAttachment it
+                    }
+
+                    h.itemView setOnLongClickListener longListener
+                    if (selectedMessageIds.isNotEmpty()) {
+                        h.setTopSelectorEnabled(true)
+                        h.topSelector setOnLongClickListener longListener
+                        h.topSelector setOnClickListener shortListener
+                    } else
+                        h.setTopSelectorEnabled(false)
                 }
-                if (selectedMessageIds contains message.sentId)
-                    h.setColorsSelected()
-                else
-                    h.setColorsByMessageState(message.sentState)
+                TYPE_OUT -> {
+                    val h = holder as MessageOutHolder
+                    h.clearAttachments()
+                    with (h) {
+                        setMessageText(message.text)
+                        if (messagesForReading contains message) {
+                            messagesForReading remove message
+                            readMessage()
+                        }
+                    }
+                    when (message.sentState) {
+                        Message.STATE_SENT -> {
+                            h.setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
+                            h.setUnread(!message.isRead)
+                            if (isNewDay || isVeryFirstMessage) {
+                                h.showRedStrip(true)
+                                h.setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                            } else {
+                                h.showRedStrip(false)
+                            }
+                            h.showSpaceAndTriangle(isFirstReply || isNewDay)
+                            attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
+                                h addAttachment it
+                            }
+
+                            h.itemView setOnLongClickListener longListener
+                            if (selectedMessageIds.isNotEmpty()) {
+                                h.setSelectorEnabled(true)
+                                h.topSelector setOnLongClickListener longListener
+                                h.topSelector setOnClickListener shortListener
+                            } else
+                                h.setSelectorEnabled(false)
+                        }
+                        Message.STATE_PROCESSING -> {
+                            h.setDateText("")
+                            h.setUnread(false)
+                            val showStrip = position == 0 || (messages[position - 1].sentState != Message.STATE_PROCESSING
+                                    && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis()))
+                            h.showRedStrip(showStrip)
+                            if (showStrip)
+                                h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
+                            h.showSpaceAndTriangle(isFirstReply || showStrip)
+                            attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
+                                h addAttachment it
+                            }
+                            h.itemView setOnLongClickListener null
+                            h.setSelectorEnabled(false)
+                        }
+                    }
+                    if (selectedMessageIds contains message.sentId)
+                        h.setColorsSelected()
+                    else
+                        h.setColorsByMessageState(message.sentState)
+                }
             }
         }
     }
@@ -253,12 +262,14 @@ public class ChatAdapter(
         val res = when (viewType) {
             TYPE_IN -> R.layout.message_in
             TYPE_OUT -> R.layout.message_out
+            TYPE_FOOTER -> R.layout.message_footer
             else -> throw Exception("WRONG ITEM TYPE")
         }
         val view = inflater.inflate(res, parent, false)
         return when (viewType) {
             TYPE_IN -> MessageInHolder(view)
             TYPE_OUT -> MessageOutHolder(view)
+            TYPE_FOOTER -> MessageFooterHolder(view)
             else -> throw Exception("WRONG ITEM TYPE")
         }
     }

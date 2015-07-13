@@ -145,15 +145,15 @@ class MessageListModule(val activity: ChatActivity) {
         val layoutMan = getList().getLayoutManager() as LinearLayoutManager
         return if (!completely) {
             adapter.messages.isEmpty()
-                    || layoutMan.findLastVisibleItemPosition() == adapter.messages.count() - 1
+                    || layoutMan.findLastVisibleItemPosition() >= adapter.messages.count() - 1
         } else {
             adapter.messages.isEmpty()
-                    || layoutMan.findLastCompletelyVisibleItemPosition() == adapter.messages.count() - 1
+                    || layoutMan.findLastCompletelyVisibleItemPosition() >= adapter.messages.count() - 1
         }
     }
     private fun adapterHaveUnreadIncomeMessages() = getAdapter()!!.messages any { it.isIn && it.isNotRead }
     private fun scrollDown(smooth: Boolean = false) {
-        val lastPos = getAdapter()!!.messages.count() - 1
+        val lastPos = getAdapter()!!.getItemCount() - 1
         if (smooth)
             getList().smoothScrollToPosition(lastPos)
         else
