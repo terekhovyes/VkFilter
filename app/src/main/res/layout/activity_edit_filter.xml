@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        style="@style/ToolbarStyle"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -17,7 +15,13 @@
             android:layout_below="@id/toolbar">
 
             <View
-                android:layout_width="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/m_black_opacity07"
+                />
+
+            <View
+                android:layout_width="@dimen/shadow_level1"
                 android:layout_height="match_parent"
                 android:background="@drawable/shadow_left"
                 android:layout_marginLeft="98dp"/>
@@ -26,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="100dp"
-                android:background="@color/my_white_lighter"/>
+                android:background="@color/m_white"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -43,49 +47,35 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="@dimen/chat_spacer"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:paddingRight="5dp"
-                            android:gravity="center_vertical|right"
-                            android:text="@string/a_edit_filter_label_name"/>
+                            android:layout_marginTop="@dimen/space"
+                            android:text="@string/edit_filter_label_choose_name"
+                            style="@style/ActivityEditFilter_Label"/>
 
                         <TextView
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:paddingRight="5dp"
-                            android:gravity="center_vertical|right"
-                            android:text="@string/a_edit_filter_label_icon"/>
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:text="@string/edit_filter_label_choose_icon"
+                            style="@style/ActivityEditFilter_Label"/>
 
                         <TextView
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:paddingRight="5dp"
-                            android:gravity="center_vertical|right"
-                            android:text="@string/a_edit_filter_label_people"/>
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:text="@string/edit_filter_label_choose_people"
+                            style="@style/ActivityEditFilter_Label"/>
 
                         <TextView
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:paddingRight="5dp"
-                            android:gravity="center_vertical|right"
-                            android:text="@string/a_edit_filter_label_onoff"/>
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:text="@string/edit_filter_label_choose_state"
+                            style="@style/ActivityEditFilter_Label"/>
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="@dimen/chat_spacer_very_big"
-                            android:paddingRight="5dp"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="@dimen/space_x4"
                             android:layout_gravity="bottom"
-                            android:gravity="center_vertical|right"
-                            android:text="@string/a_edit_filter_label_actions"/>
+                            android:text="@string/edit_filter_label_actions"
+                            style="@style/ActivityEditFilter_Label"/>
 
                     </LinearLayout>
 
@@ -96,117 +86,87 @@
 
                         <EditText
                             android:id="@+id/filterName"
-                            android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="@dimen/chat_spacer"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="@dimen/space"
                             android:maxLines="1"
                             android:gravity="center_vertical"
-                            android:textSize="@dimen/my_text"
-                            android:textColor="@color/my_black_new"
-                            android:inputType="textCapSentences"/>
+                            android:textSize="@dimen/font_normal"
+                            android:textColor="@color/font_dark"
+                            android:inputType="textCapSentences"
+                            style="@style/ActivityEditFilter_Item"/>
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/iconList"
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer"/>
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            style="@style/ActivityEditFilter_Item"/>
 
                         <FrameLayout
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer">
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            style="@style/ActivityEditFilter_Item">
 
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/peopleList"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"/>
 
-                            <TextView
+                            <Button
                                 android:id="@+id/peopleEmptyView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="5dp"
-                                android:gravity="center_vertical"
-                                android:text="@string/a_edit_filter_choose"
-                                android:textSize="14sp"
-                                android:textColor="@color/my_green"
-                                android:visibility="gone"/>
+                                android:layout_height="50dp"
+                                android:text="@string/edit_filter_holder_filter_members_empty"
+                                android:textColor="@color/ui_primary"
+                                android:visibility="gone"
+                                style="?android:attr/borderlessButtonStyle"/>
 
                         </FrameLayout>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="@dimen/chat_spacer_big"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:orientation="horizontal">
+                            android:layout_marginTop="@dimen/space_x2"
+                            android:orientation="horizontal"
+                            style="@style/ActivityEditFilter_Item">
 
                             <me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
                                 android:id="@+id/filterStateSwitch"
-                                android:layout_width="80dp"
-                                android:layout_height="40dp"
                                 android:layout_gravity="center_vertical"
-                                app:backgroundColor="#1000"
-                                app:roundColorLeft="@color/my_red"
-                                app:roundColorMid="@color/my_gray_new"
-                                app:roundColorRight="@color/my_green"/>
+                                style="@style/TripleSwitch.Dark"/>
 
                             <TextView
                                 android:id="@+id/filterStateLabel"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="5dp"
-                                android:text="@string/a_edit_filter_filter_state_allowing"
-                                android:textSize="14sp"
+                                android:layout_marginLeft="@dimen/space"
+                                android:textSize="@dimen/font_mini"
                                 android:gravity="center_vertical"
-                                android:textColor="@color/my_black_tr_new"/>
+                                android:textColor="@color/font_dark_tertiary"
+                                tools:text="@string/edit_filter_label_filter_allowing"/>
 
                         </LinearLayout>
 
                         <Button
                             android:id="@+id/cancelButton"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="@dimen/chat_spacer_very_big"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:padding="8dp"
-                            android:gravity="center_vertical"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            android:textColor="@color/my_green"
-                            android:text="@string/a_edit_filter_cancel"/>
+                            android:layout_marginTop="@dimen/space_x4"
+                            android:text="@string/edit_filter_button_cancel"
+                            style="@style/FlatButton"/>
 
                         <Button
                             android:id="@+id/deleteButton"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:padding="8dp"
-                            android:gravity="center_vertical"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            android:textColor="@color/my_green"
-                            android:text="@string/a_edit_filter_delete"/>
+                            android:text="@string/edit_filter_button_delete"
+                            style="@style/FlatButton"/>
 
                         <Button
                             android:id="@+id/saveButton"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/chat_spacer"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:padding="8dp"
-                            android:gravity="center_vertical"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            android:textColor="@color/my_green"
-                            android:text="@string/a_edit_filter_save"/>
+                            android:text="@string/edit_filter_button_save"
+                            style="@style/FlatButton"/>
 
                     </LinearLayout>
 

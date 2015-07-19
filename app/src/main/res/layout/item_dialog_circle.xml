@@ -2,6 +2,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="90dp">
 
@@ -9,7 +10,7 @@
             android:id="@+id/unreadBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@color/my_green_lighter"
+            android:src="@color/ui_msg_unread"
             android:visibility="invisible"/>
 
     <LinearLayout android:id="@+id/dialogLayout"
@@ -22,15 +23,15 @@
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginLeft="@dimen/space"
+            android:layout_marginRight="@dimen/space">
 
             <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                 android:id="@+id/singleDialogIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/icon_user_stub"
-                app:shadowSize="2dp"
+                app:shadowSize="@dimen/shadow_level1"
                 android:visibility="gone"/>
 
             <RelativeLayout
@@ -44,7 +45,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/doubleDialogIcon2"
@@ -53,7 +54,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
             </RelativeLayout>
 
@@ -70,7 +71,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/tripleDialogIcon2"
@@ -79,7 +80,7 @@
                     android:layout_marginRight="2dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/tripleDialogIcon3"
@@ -89,7 +90,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
             </RelativeLayout>
 
@@ -106,7 +107,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/quadDialogIcon2"
@@ -115,7 +116,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/quadDialogIcon3"
@@ -124,7 +125,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
                 <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                     android:id="@+id/quadDialogIcon4"
@@ -133,7 +134,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/icon_user_stub"
-                    app:shadowSize="2dp"/>
+                    app:shadowSize="@dimen/shadow_level1"/>
 
             </RelativeLayout>
 
@@ -142,55 +143,55 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:orientation="vertical">
+                android:layout_marginLeft="@dimen/space"
+                android:layout_marginRight="@dimen/space"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
 
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dialog_item_top_size"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="25dp">
 
                 <TextView
                         android:id="@+id/dialogDate"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dialog_item_top_size"
-                        android:layout_marginLeft="@dimen/dialog_item_margin"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/space"
                         android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
-                        android:textSize="14sp"
-                        android:textColor="@color/my_gray"
+                        android:textSize="@dimen/font_micro"
+                        android:textColor="@color/font_dark_secondary"
                         android:textStyle="italic"
-                        android:text="14 июл"/>
+                        tools:text="14 июл"/>
 
                 <ImageView
                         android:id="@+id/dialogOnline"
                         android:layout_width="11dp"
                         android:layout_height="11dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dialog_item_margin"
+                        android:layout_marginLeft="@dimen/space"
                         android:layout_toLeftOf="@id/dialogDate"
                         android:src="@drawable/icon_online"/>
 
                 <TextView
                         android:id="@+id/dialogName"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dialog_item_top_size"
+                        android:layout_height="match_parent"
                         android:layout_toLeftOf="@id/dialogOnline"
                         android:gravity="left|center_vertical"
                         android:singleLine="true"
                         android:lines="1"
                         android:ellipsize="end"
-                        android:textSize="16sp"
-                        android:textColor="@color/my_black"
-                        android:text="Федосов"/>
+                        android:textSize="@dimen/font_normal"
+                        android:textColor="@color/font_dark"
+                        tools:text="Федосов"/>
 
             </RelativeLayout>
 
             <FrameLayout
                     android:id="@+id/dialogMessageLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dialog_item_bottom_size"
+                    android:layout_height="40dp"
                     android:orientation="horizontal">
 
                 <ImageView
@@ -208,20 +209,20 @@
 
                     <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                         android:id="@+id/dialogSenderIcon"
-                        android:layout_width="@dimen/dialog_item_bottom_size"
-                        android:layout_height="@dimen/dialog_item_bottom_size"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginRight="2dp"
-                        app:shadowSize="1dp"/>
+                        app:shadowSize="@dimen/shadow_paper"/>
                     
                     <ImageView
                         android:id="@+id/attachmentIcon"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginRight="@dimen/chat_spacer"
+                        android:layout_marginRight="@dimen/space"
                         android:layout_marginLeft="-10dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:padding="@dimen/chat_spacer"
+                        android:padding="@dimen/space"
                         android:visibility="gone"
                         android:background="@drawable/black_circle_background"
                         android:src="@drawable/attachment_image"/>
@@ -232,14 +233,14 @@
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@id/dialogSenderIcon"
                         android:layout_toLeftOf="@id/attachmentIcon"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/space_x2"
                         android:gravity="center_vertical"
                         android:lines="2"
                         android:ellipsize="end"
-                        android:textColor="@color/my_gray"
-                        android:textSize="14sp"
-                        app:emojiconSize="16sp"
-                        android:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
+                        android:textColor="@color/font_dark_secondary"
+                        android:textSize="@dimen/font_mini"
+                        app:emojiconSize="@dimen/font_emoji_mini"
+                        tools:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
 
                 </RelativeLayout>
 

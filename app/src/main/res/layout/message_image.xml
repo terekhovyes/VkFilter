@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:padding="@dimen/chat_spacer_mini"
-        android:scaleType="fitCenter"
-        android:background="#0000"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:scaleType="fitCenter"
+    android:background="#0000"
+    style="@style/ActivityChat_Attachment"
+    tools:src="@drawable/many_people" />

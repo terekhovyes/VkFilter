@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="@color/my_white">
+    android:background="@color/m_white">
 
     <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
         android:id="@+id/singlePic"
@@ -12,10 +13,10 @@
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
         android:src="@drawable/icon_user_stub"
-        app:shadowSize="2dp"/>
+        app:shadowSize="@dimen/shadow_level1"/>
 
     <RelativeLayout
         android:id="@+id/doublePicLayout"
@@ -23,8 +24,8 @@
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
         android:visibility="gone">
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
@@ -32,7 +33,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doublePic2"
@@ -41,7 +42,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
     </RelativeLayout>
 
@@ -51,8 +52,8 @@
         android:layout_height="74dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
         android:visibility="gone">
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
@@ -61,7 +62,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/triplePic2"
@@ -69,7 +70,7 @@
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/triplePic3"
@@ -78,7 +79,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
     </RelativeLayout>
 
@@ -88,8 +89,8 @@
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
         android:visibility="gone">
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
@@ -99,7 +100,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic2"
@@ -108,7 +109,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic3"
@@ -117,7 +118,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadPic4"
@@ -126,7 +127,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_user_stub"
-            app:shadowSize="2dp"/>
+            app:shadowSize="@dimen/shadow_level1"/>
 
     </RelativeLayout>
 
@@ -136,9 +137,9 @@
         android:layout_height="match_parent"
         android:layout_marginRight="40dp"
         android:gravity="center_vertical"
-        android:textSize="18sp"
-        android:textColor="@color/my_black"
-        android:text="Name will be here\nin several lines"/>
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/font_dark"
+        tools:text="Name will be here\nin several lines"/>
 
     <CheckBox
         android:id="@+id/itemCheckBox"

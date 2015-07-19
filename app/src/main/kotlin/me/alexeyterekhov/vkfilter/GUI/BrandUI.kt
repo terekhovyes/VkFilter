@@ -13,7 +13,7 @@ public object BrandUI {
         val androidGlow = context.getResources().getDrawable(glowDrawableId)
         val androidEdge = context.getResources().getDrawable(edgeDrawableId)
 
-        var brandColor = context.getResources().getColor(R.color.my_gray_lighter)
+        var brandColor = context.getResources().getColor(R.color.m_black_opacity30)
         brandColor += -16777216
 
         androidGlow.setColorFilter(brandColor, PorterDuff.Mode.SRC_ATOP)

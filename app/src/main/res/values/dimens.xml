@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_corner_radius">10dp</dimen>
+    <!-- Basic app dimensions -->
+    <dimen name="space">5dp</dimen>
+    <dimen name="space_x2">10dp</dimen>
+    <dimen name="space_x3">15dp</dimen>
+    <dimen name="space_x4">20dp</dimen>
+    <dimen name="space_half">2.5dp</dimen>
 
-    <dimen name="bar_size">45dp</dimen>
-    <dimen name="bar_margin">-45dp</dimen>
+    <dimen name="shadow_paper">1dp</dimen>
+    <dimen name="shadow_level1">2dp</dimen>
+    <dimen name="shadow_level2">4dp</dimen>
+    <dimen name="shadow_level3">6dp</dimen>
+    <dimen name="shadow_level4">8dp</dimen>
 
-    <dimen name="dialog_item_size">80dp</dimen>
-    <dimen name="dialog_item_top_size">25dp</dimen>
-    <dimen name="dialog_item_bottom_size">40dp</dimen>
-    <dimen name="dialog_item_margin">5dp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_mini">14sp</dimen>
+    <dimen name="font_micro">12sp</dimen>
+    <dimen name="font_nano">10sp</dimen>
+    <dimen name="font_emoji_mini">16sp</dimen>
+    <dimen name="font_emoji">20sp</dimen>
 
-    <dimen name="quick_filter_item_size">55dp</dimen>
-    <dimen name="filter_chooser_padding">15dp</dimen>
-    <dimen name="button_icon_padding">9dp</dimen>
+    <dimen name="floating_margin">24dp</dimen>
+    <dimen name="floating_margin_mini">32dp</dimen>
 
-    <dimen name="floating_button_margin_right">16dp</dimen>
-    <dimen name="floating_button_margin_bottom">12dp</dimen>
+    <dimen name="round_radius">2.5dp</dimen>
 
-    <dimen name="toolbar_shadow">8dp</dimen>
+    <!-- Dependents from basic dimensions -->
+    <dimen name="toolbar_shadow">@dimen/shadow_level2</dimen>
+
+    <dimen name="msg_corner_radius">8dp</dimen>
+
 </resources>

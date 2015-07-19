@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="240dp"
     android:layout_height="180dp"
-    android:padding="@dimen/chat_spacer_mini">
+    style="@style/ActivityChat_Attachment">
 
     <ImageView
         android:id="@+id/preview"
@@ -19,11 +20,11 @@
         android:layout_alignBottom="@id/preview"
         android:layout_alignRight="@id/preview"
         android:layout_marginRight="1dp"
-        android:textColor="@color/my_white"
+        android:textColor="@color/font_light"
         android:background="@drawable/black_round_background"
         android:padding="4dp"
-        android:textSize="@dimen/my_text_mini"
-        android:text="0:10"/>
+        android:textSize="@dimen/font_mini"
+        tools:text="0:10"/>
 
     <ImageView
         android:id="@+id/playImage"

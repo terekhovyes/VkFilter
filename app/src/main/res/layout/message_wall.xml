@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/chat_spacer_mini">
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    style="@style/ActivityChat_Attachment.Rectangle">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/chat_spacer"
-        android:background="@drawable/black_round_background">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/chat_spacer"
-            android:layout_marginRight="@dimen/chat_spacer"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/font_light"
+            android:lines="1"
+            android:ellipsize="end"
+            tools:text="Запись на стене"/>
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/my_text"
-                android:textColor="@color/my_white"
-                android:lines="1"
-                android:ellipsize="end"
-                android:text="Запись на стене"
-                />
-
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/my_text_micro"
-                android:textColor="@color/my_white_transparent"
-                android:text="Это вложение пока не поддерживается :("/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_micro"
+            android:textColor="@color/font_light_tertiary"
+            tools:text="Это вложение пока не поддерживается :("/>
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

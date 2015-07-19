@@ -15,7 +15,7 @@ object TextFormat {
 
     fun userOnlineStatus(user: User): String {
         return when {
-            user.isOnline -> AppContext.instance.getString(R.string.a_chat_online)
+            user.isOnline -> AppContext.instance.getString(R.string.chat_label_toolbar_online)
             user.lastOnlineTime == 0L -> ""
             else -> "${lastVisitPhrase(user)} ${lastVisitTime(user)}"
         }
@@ -23,30 +23,16 @@ object TextFormat {
 
     fun lastVisitPhrase(user: User): String {
         return when (user.sex) {
-            Sex.WOMAN -> AppContext.instance.getString(R.string.a_chat_last_visit_woman)
-            Sex.MAN -> AppContext.instance.getString(R.string.a_chat_last_visit_man)
-            else -> AppContext.instance.getString(R.string.a_chat_last_visit_common)
+            Sex.WOMAN -> AppContext.instance.getString(R.string.chat_label_toolbar_visit_woman)
+            Sex.MAN -> AppContext.instance.getString(R.string.chat_label_toolbar_visit_man)
+            else -> AppContext.instance.getString(R.string.chat_label_toolbar_visit)
         }
     }
 
     fun lastVisitTime(user: User) = "${DateFormat.lastOnline(user.lastOnlineTime)}"
 
-    fun newDialogs(context: Context, count: Int): String {
-        return when (count) {
-            1 -> "$count ${context.getString(R.string.new_dialog_1)}"
-            in 2..4 -> "$count ${context.getString(R.string.new_dialog_2_4)}"
-            in 5..20 -> "$count ${context.getString(R.string.new_dialog_5_0)}"
-            else -> when (count % 10) {
-                1 -> "$count ${context.getString(R.string.new_dialog_1)}"
-                in 2..4 -> "$count ${context.getString(R.string.new_dialog_2_4)}"
-                in 5..9, 0 -> "$count ${context.getString(R.string.new_dialog_5_0)}"
-                else -> "${context.getString(R.string.new_dialog)} $count"
-            }
-        }
-    }
-
     fun andMoreDialogs(context: Context, count: Int): String {
-        val str = context.getString(R.string.plus_more)
+        val str = context.getString(R.string.notification_label_and_more)
         return str.replace("#", count.toString())
     }
 
@@ -55,10 +41,10 @@ object TextFormat {
         val mb = kb * 1024
         val gb = mb * 1024
         return when {
-            sizeInBytes < kb -> "$sizeInBytes ${AppContext.instance.getString(R.string.bytes)}"
-            sizeInBytes < mb -> "${sizeInBytes / kb} ${AppContext.instance.getString(R.string.kbytes)}"
-            sizeInBytes < gb -> "${sizeInBytes / mb} ${AppContext.instance.getString(R.string.mbytes)}"
-            else -> "${sizeInBytes / gb} ${AppContext.instance.getString(R.string.gbytes)}"
+            sizeInBytes < kb -> "$sizeInBytes ${AppContext.instance.getString(R.string.size_bytes)}"
+            sizeInBytes < mb -> "${sizeInBytes / kb} ${AppContext.instance.getString(R.string.size_kbytes)}"
+            sizeInBytes < gb -> "${sizeInBytes / mb} ${AppContext.instance.getString(R.string.size_mbytes)}"
+            else -> "${sizeInBytes / gb} ${AppContext.instance.getString(R.string.size_gbytes)}"
         }
     }
 }

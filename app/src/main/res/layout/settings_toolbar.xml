@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    android:background="?attr/colorPrimary"
+    android:background="@color/ui_primary"
     app:navigationIcon="?attr/homeAsUpIndicator"
-    app:title="@string/settings_title"
+    app:title="@string/preferences_label_toolbar_title"
     />

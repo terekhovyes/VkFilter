@@ -21,9 +21,9 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
         with (holder) {
             icon.setImageResource(FilterIcons.resourceById(position + 1))
             icon setRoundColorRes if (position == selectedIcon)
-                R.color.my_green
+                R.color.m_green
             else
-                R.color.my_gray_new
+                R.color.m_gray
 
             v setOnClickListener {
                 selectedIcon = position

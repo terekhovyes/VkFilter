@@ -13,7 +13,7 @@ public class PagerAdapter(
         val selectedUsers: MutableSet<Long>,
         val selectedChats: MutableSet<Long>
 ) : FragmentPagerAdapter(fm) {
-    val TITLES = AppContext.instance.getResources().getStringArray(R.array.a_edit_filter_tabs)
+    val TITLES = AppContext.instance.getResources().getStringArray(R.array.choose_users_labels_tabs)
 
     private val immutableUsers = HashSet<Long>(selectedUsers)
     private val immutableChats = HashSet<Long>(selectedChats)

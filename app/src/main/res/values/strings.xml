@@ -1,4 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">VKFilter</string>
+
+    <!-- Data sizes -->
+    <string name="size_bytes">Б</string>
+    <string name="size_kbytes">Кб</string>
+    <string name="size_mbytes">Мб</string>
+    <string name="size_gbytes">Гб</string>
+
+    <!-- Dates -->
+    <string name="today">сегодня</string>
+    <string name="yesterday">вчера</string>
+    <string name="right_now">только что</string>
+    <string name="ago">назад</string>
+    <string name="seconds">секунд</string>
+    <string name="minutes">минут</string>
+    <string name="at">в</string>
+    <string-array name="minutes1_5">
+        <item>минуту</item>
+        <item>2 минуты</item>
+        <item>3 минуты</item>
+        <item>4 минуты</item>
+        <item>5 минут</item>
+    </string-array>
+    <string-array name="hours1_6">
+        <item>час</item>
+        <item>часа</item>
+        <item>часа</item>
+        <item>часа</item>
+        <item>часов</item>
+        <item>часов</item>
+    </string-array>
+    <string-array name="months">
+        <item>янв</item>
+        <item>фев</item>
+        <item>мар</item>
+        <item>апр</item>
+        <item>мая</item>
+        <item>июн</item>
+        <item>июл</item>
+        <item>авг</item>
+        <item>сен</item>
+        <item>окт</item>
+        <item>ноя</item>
+        <item>дек</item>
+    </string-array>
+
+    <!-- Strings by activity -->
+    <string name="login_label_app_title">VKFilter</string>
+    <string name="login_label_warning">Для работы приложения требуется доступ к вашим личным данным сети ВКонтакте</string>
+    <string name="login_button_login">Войти</string>
+    <string name="login_button_weblogin">Войти через браузер</string>
+
+
+    <string name="chat_label_toolbar_title">Диалог</string>
+    <string name="chat_label_toolbar_visit">Последнее посещение:</string>
+    <string name="chat_label_toolbar_visit_woman">Была в сети:</string>
+    <string name="chat_label_toolbar_visit_man">Был в сети:</string>
+    <string name="chat_label_toolbar_online">Онлайн</string>
+    <string name="chat_label_toolbar_copy_text">текст</string>
+    <string name="chat_label_toolbar_forward_messages">переслать</string>
+    <string name="chat_label_toolbar_selected">Выбрано:</string>
+    <string name="chat_holder_message_input">Текст сообщения</string>
+    <string name="chat_intent_choose_photo">Выбор фото</string>
+    <string name="chat_toast_message_has_no_text">Сообщение не содержит текст</string>
+    <string name="chat_toast_text_has_been_copied">Текст скопирован</string>
+    <string name="chat_toast_message_has_been_copied">Скопировано - вставьте через панель вложений</string>
+    <string name="chat_toast_clipboard_has_no_messages">Выделите и скопируйте сообщения, чтобы прикрепить</string>
+    <string name="chat_toast_messages_already_attached">Сообщения уже прикреплены</string>
+    <string name="chat_label_add_smile">смайл</string>
+    <string name="chat_label_add_photo">фото</string>
+    <string name="chat_label_add_messages">сообщения</string>
+    <string name="chat_photo_dialog_title">Прикрепить фото</string>
+    <string-array name="chat_photo_dialog_items">
+        <item>Камера</item>
+        <item>Галерея</item>
+    </string-array>
+
+
+    <string name="dialog_label_toolbar_title">Сообщения</string>
+    <string name="dialog_label_toolbar_update">Обновление:</string>
+    <string name="dialog_label_toolbar_no_update">Обновление не выполнялось</string>
+    <string name="dialog_button_logout">Выход</string>
+    <string name="dialog_button_preferences">Настройки</string>
+
+
+    <string name="edit_filter_label_toolbar_title">Редактирование фильтра</string>
+    <string name="edit_filter_label_filter_disabled">Выключен</string>
+    <string name="edit_filter_label_filter_allowing">Включен режим фильтрации</string>
+    <string name="edit_filter_label_filter_blocking">Включен режим блокировки</string>
+    <string name="edit_filter_button_delete">Удалить фильтр</string>
+    <string name="edit_filter_button_save">Сохранить</string>
+    <string name="edit_filter_button_cancel">Отменить изменения</string>
+    <string name="edit_filter_holder_filter_members_empty">Создать круг общения</string>
+    <string name="edit_filter_label_choose_name">Название</string>
+    <string name="edit_filter_label_choose_icon">Иконка</string>
+    <string name="edit_filter_label_choose_people">Люди</string>
+    <string name="edit_filter_label_choose_state">Вкл/Выкл</string>
+    <string name="edit_filter_label_actions">Действия</string>
+    <string name="edit_filter_toast_dont_press_save">Просто нажмите назад, сохранение автоматическое :)</string>
+
+
+    <string name="preferences_label_toolbar_title">Настройки</string>
+    <string name="preferences_category_notifications">Уведомления</string>
+    <string name="preferences_label_notifications">Уведомления</string>
+    <string name="preferences_summary_notifications">Оповещать о новых сообщениях</string>
+    <string name="preferences_label_vibration">Вибрация</string>
+    <string name="preferences_summary_vibration">Вибрировать при новых сообщениях</string>
+    <string name="preferences_label_sound">Звук</string>
+    <string name="preferences_summary_sound">Воспроизводить стандартный звук при новых сообщениях</string>
+    <string name="preferences_label_lights">Цветной индикатор</string>
+    <string name="preferences_summary_lights">Альтернативный цвет и учащённое мигание</string>
+
+
+    <string name="manage_filters_label_toolbar_title">Ваши фильтры</string>
+
+
+    <string name="choose_users_label_toolbar_title">Выберите круг общения</string>
+    <string-array name="choose_users_labels_tabs">
+        <item>Текущие</item>
+        <item>Друзья</item>
+        <item>Диалоги</item>
+    </string-array>
+
+
+    <string name="notification_label_and_more">+ ещё #</string>
+    <string name="notification_label_and_others">и другие</string>
 </resources>

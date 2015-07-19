@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="left"
-    android:padding="@dimen/chat_spacer_mini"
-    android:orientation="horizontal">
+    android:padding="@dimen/space_half"
+    android:orientation="horizontal"
+    tools:background="@color/ui_msg_in">
     
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/my_white"
-        android:layout_marginRight="@dimen/chat_spacer"/>
+        android:background="@color/m_white"
+        android:layout_marginRight="@dimen/space"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -21,17 +23,17 @@
             android:id="@+id/senderPhoto"
             android:layout_height="40dp"
             android:layout_width="40dp"
-            android:layout_marginRight="@dimen/chat_spacer"
-            app:shadowSize="1dp"/>
+            android:layout_marginRight="@dimen/space"
+            app:shadowSize="@dimen/shadow_paper"/>
         
         <TextView
             android:id="@+id/senderName"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@id/senderPhoto"
-            android:textColor="@color/my_white_transparent"
-            android:textSize="@dimen/my_text"
-            android:text="Имя фамилия"/>
+            android:textColor="@color/font_light_secondary"
+            android:textSize="@dimen/font_normal"
+            tools:text="Имя фамилия"/>
 
         <TextView
             android:id="@+id/date"
@@ -39,22 +41,22 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@id/senderPhoto"
             android:layout_below="@id/senderName"
-            android:textColor="@color/my_white_transparent"
-            android:textSize="@dimen/my_text_mini"
-            android:text="вчера 16:05"/>
+            android:textColor="@color/font_light_tertiary"
+            android:textSize="@dimen/font_mini"
+            tools:text="вчера 16:05"/>
 
-        <com.rockerhieu.emojicon.EmojiconTextView
+        <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
             android:id="@+id/messageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/senderPhoto"
-            android:textSize="@dimen/my_text"
-            app:emojiconSize="20sp"
-            android:textColor="@color/my_white"
-            android:textColorLink="@color/my_links_color"
+            android:textSize="@dimen/font_normal"
+            app:emojiconSize="@dimen/font_emoji"
+            android:textColor="@color/ui_msg_font"
+            android:textColorLink="@color/font_link"
             android:linksClickable="true"
             android:autoLink="web|email"
-            android:text="привет!"/>
+            tools:text="привет!"/>
 
         <LinearLayout
             android:id="@+id/attachmentsLayout"

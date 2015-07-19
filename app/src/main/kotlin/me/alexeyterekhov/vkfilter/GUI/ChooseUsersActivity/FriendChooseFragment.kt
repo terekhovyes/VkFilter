@@ -62,10 +62,10 @@ public class FriendChooseFragment: Fragment(), DataDepend {
             RequestControl addForeground RequestFriendList(0, LOAD_PORTION)
         }
         refreshLayout.setColorSchemeResources(
-                R.color.my_refresh_1,
-                R.color.my_refresh_2,
-                R.color.my_refresh_3,
-                R.color.my_refresh_4
+                R.color.ui_refresh1,
+                R.color.ui_refresh2,
+                R.color.ui_refresh3,
+                R.color.ui_refresh4
         )
 
         refreshLayout setRefreshing true

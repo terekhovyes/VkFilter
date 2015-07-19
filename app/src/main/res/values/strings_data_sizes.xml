@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="bytes">Б</string>
-    <string name="kbytes">Кб</string>
-    <string name="mbytes">Мб</string>
-    <string name="gbytes">Гб</string>
-</resources>

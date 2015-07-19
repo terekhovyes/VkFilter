@@ -50,7 +50,7 @@ class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<Atta
             messageCount != 0 && position in 0..messageCount - 1 -> {
                 val messagePack = attached!!.messages.get()[position]
                 with (holder.imageProgressBar) {
-                    setImageResource(R.color.my_black)
+                    setImageResource(R.color.m_black)
                     setMaxProgress(100)
                     setCurrentProgress(100)
                     setOnCloseListener(object : View.OnClickListener {

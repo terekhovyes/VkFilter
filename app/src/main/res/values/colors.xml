@@ -1,45 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="my_primary">@color/my_green</color>
-    <color name="my_primary_dark">@color/my_green_darker</color>
-    <color name="my_accent">@color/my_green</color>
+    <!-- Base palette -->
+    <color name="m_green">#009688</color>
+    <color name="m_blue">#52A9BD</color>
+    <color name="m_red">#E5675D</color>
+    <color name="m_olive">#91CC62</color>
+    <color name="m_peachy">#DAB3A6</color>
+    <color name="m_yellow">#FFFFE1</color>
+    <color name="m_black">#444444</color>
+    <color name="m_white">#F0F0F0</color>
+    <color name="m_gray">#CCCCCC</color>
 
-    <color name="my_white_new">#f0ffffff</color>
-    <color name="my_white_tr_new">#c0ffffff</color>
-    <color name="my_black_new">#a000</color>
-    <color name="my_black_tr_new">#6000</color>
-    <color name="my_gray_new">#ccc</color>
+    <color name="m_shadow">#502A2A2A</color>
 
-    <!-- Colors -->
-    <color name="my_green_darker">#00897B</color>
-    <color name="my_green">#009688</color>
-    <color name="my_green_lighter">#d7ede9</color>
+    <!-- Dependents from palette colors -->
+    <color name="m_green_dark">#00897B</color>
+    <color name="m_green_very_light">#D7EDE9</color>
+    <color name="m_green_opacity70">#B3009688</color>
+    <color name="m_blue_opacity75">#BF52A9BD</color>
+    <color name="m_blue_opacity20">#3352A9BD</color>
+    <color name="m_olive_opacity80">#CC91CC62</color>
+    <color name="m_peachy_dark">#C88D7A</color>
+    <color name="m_black_opacity07">#11444444</color>
+    <color name="m_black_opacity30">#4D444444</color>
+    <color name="m_black_opacity60">#99444444</color>
+    <color name="m_black_absolute_opacity60">#99000000</color>
+    <color name="m_white_opacity20">#33F0F0F0</color>
+    <color name="m_white_opacity55">#8CF0F0F0</color>
+    <color name="m_white_opacity80">#CCF0F0F0</color>
+    <color name="m_white_absolute">#FFFFFF</color>
 
-    <color name="my_red">#e5675d</color>
-    <color name="my_blue">#00BCD4</color>
-    <color name="my_blue_lighter">#3300BCD4</color>
-    <color name="my_blue_msg">#52a9bd</color>
-    <color name="my_links_color">#FFFFE1</color>
+    <!-- Next elements only use values above -->
 
-    <color name="my_msg_out_color">#BF52A9BD</color>
-    <color name="my_msg_in_color">#B3009688</color>
-    <color name="my_msg_day_color">#CC91CC62</color>
-    <color name="my_msg_selected_color">#dab3a6</color>
-    <color name="my_msg_selected_dark_color">#c88d7a</color>
-    <color name="my_msg_date">#3F000000</color>
-    <color name="my_msg_sending">#3352A9BD</color>
-    <color name="my_msg_sending_text">#B3FFFFFF</color>
+    <!-- Fonts -->
+    <color name="font_dark">@color/m_black</color>
+    <color name="font_dark_secondary">@color/m_black_opacity60</color>
+    <color name="font_dark_tertiary">@color/m_black_opacity30</color>
+    <color name="font_light">@color/m_white</color>
+    <color name="font_light_secondary">@color/m_white_opacity80</color>
+    <color name="font_light_tertiary">@color/m_white_opacity55</color>
+    <color name="font_link">@color/m_yellow</color>
 
-    <color name="my_black">#444444</color>
-    <color name="my_black_transparent">#8000</color>
-    <color name="my_gray">#999</color>
-    <color name="my_gray_lighter">#DDD</color>
-    <color name="my_white">#f0f0f0</color>
-    <color name="my_white_lighter">#F8F8F8</color>
-    <color name="my_white_transparent">#7FFF</color>
+    <!-- UI element colors -->
+    <color name="ui_primary">@color/m_green</color>
+    <color name="ui_primary_dark">@color/m_green_dark</color>
+    <color name="ui_accent">@color/m_green</color>
 
-    <color name="my_refresh_1">@color/my_green</color>
-    <color name="my_refresh_2">#00A1A0</color>
-    <color name="my_refresh_3">#00AEB9</color>
-    <color name="my_refresh_4">@color/my_blue</color>
+    <color name="ui_msg_out">@color/m_blue_opacity75</color>
+    <color name="ui_msg_in">@color/m_green_opacity70</color>
+    <color name="ui_msg_sending">@color/m_blue_opacity20</color>
+    <color name="ui_msg_day">@color/m_olive_opacity80</color>
+    <color name="ui_msg_selected">@color/m_peachy</color>
+    <color name="ui_msg_selected_toolbar">@color/m_peachy_dark</color>
+    <color name="ui_msg_unread">@color/m_green_very_light</color>
+    <color name="ui_msg_font_sending">@color/m_white_opacity80</color>
+    <color name="ui_msg_font">@color/m_white_absolute</color>
+
+    <color name="ui_refresh1">@color/m_green_opacity70</color>
+    <color name="ui_refresh2">@color/m_olive_opacity80</color>
+    <color name="ui_refresh3">@color/m_blue_opacity75</color>
+    <color name="ui_refresh4">@color/m_peachy</color>
+
+    <color name="ui_filter_glass">@color/m_black_absolute_opacity60</color>
+
+    <color name="ui_triple_back">@color/m_white_opacity20</color>
+    <color name="ui_triple_back_dark">@color/m_black_opacity07</color>
+    <color name="ui_triple_center">@color/m_gray</color>
+    <color name="ui_triple_left">@color/m_red</color>
+    <color name="ui_triple_right">@color/m_green</color>
+
 </resources>

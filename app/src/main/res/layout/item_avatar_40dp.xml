@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="45dp"
     android:layout_height="40dp"
     android:paddingLeft="5dp">
@@ -9,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/group_icon_01"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        app:shadowSize="@dimen/shadow_paper"/>
 
     <RelativeLayout
         android:id="@+id/doubleDialogIconLayout"
@@ -21,7 +23,8 @@
             android:id="@+id/doubleDialogIcon1"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+            app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/doubleDialogIcon2"
@@ -29,7 +32,8 @@
             android:layout_height="23dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+            app:shadowSize="@dimen/shadow_paper"/>
 
     </RelativeLayout>
 
@@ -45,7 +49,8 @@
             android:layout_height="19dp"
             android:layout_marginLeft="1dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/tripleDialogIcon2"
@@ -53,7 +58,8 @@
             android:layout_height="19dp"
             android:layout_marginRight="1dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/tripleDialogIcon3"
@@ -62,7 +68,8 @@
             android:layout_marginRight="1dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
     </RelativeLayout>
 
@@ -78,7 +85,8 @@
             android:layout_alignParentTop="true"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon2"
@@ -86,7 +94,8 @@
             android:layout_alignParentRight="true"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon3"
@@ -94,7 +103,8 @@
             android:layout_alignParentLeft="true"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/quadDialogIcon4"
@@ -102,7 +112,8 @@
             android:layout_alignParentRight="true"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:src="@drawable/icon_user_stub"/>
+            android:src="@drawable/icon_user_stub"
+        app:shadowSize="@dimen/shadow_paper"/>
 
     </RelativeLayout>
 

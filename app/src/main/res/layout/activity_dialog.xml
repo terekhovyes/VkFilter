@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        style="@style/ToolbarStyle"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -53,7 +50,7 @@
                             android:id="@+id/filterGlass"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="#9000"/>
+                            android:src="@color/ui_filter_glass"/>
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/filterList"
@@ -66,39 +63,22 @@
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/filterReset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginRight="104dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginRight="106dp"
                     android:src="@drawable/button_reset_filters"
-                    app:fabSize="mini"
-                    app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
-                    app:borderWidth="0dp"/>
+                    style="@style/ActionButton.Mini"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/manageFiltersBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginRight="168dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginRight="170dp"
                     android:src="@drawable/button_settings"
-                    app:fabSize="mini"
-                    app:backgroundTint="?attr/colorPrimary"
                     android:visibility="invisible"
-                    app:borderWidth="0dp"/>
+                    style="@style/ActionButton.Mini"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/showFilterGlass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="24dp"
                     android:src="@drawable/button_filters"
-                    app:fabSize="normal"
-                    app:borderWidth="0dp"/>
+                    style="@style/ActionButton"/>
 
             </FrameLayout>
 

@@ -60,17 +60,17 @@ class SwipePanelModule(val activity: ChatActivity) {
         }
         activity.findViewById(R.id.photoButton) setOnClickListener {
             MaterialDialog.Builder(activity)
-                    .title(R.string.a_chat_add_photo)
-                    .items(R.array.a_chat_photo_dialog)
+                    .title(R.string.chat_photo_dialog_title)
+                    .items(R.array.chat_photo_dialog_items)
                     .itemsCallback(MaterialDialog.ListCallback { dialog, view, which, text ->
                         when (which) {
                             0 -> callCamera()
                             1 -> callGallery()
                         }
                     })
-                    .titleColorRes(R.color.my_primary)
-                    .contentColorRes(R.color.my_black)
-                    .backgroundColorRes(R.color.my_white)
+                    .titleColorRes(R.color.ui_primary)
+                    .contentColorRes(R.color.m_black)
+                    .backgroundColorRes(R.color.m_white)
                     .show();
         }
         with (activity.findViewById(R.id.messageButton)) {
@@ -87,12 +87,12 @@ class SwipePanelModule(val activity: ChatActivity) {
                         activity.editPanelModule.unbindSendButton(animate = true)
                     } else {
                         Toast
-                            .makeText(activity, R.string.a_chat_has_messages, Toast.LENGTH_SHORT)
+                            .makeText(activity, R.string.chat_toast_messages_already_attached, Toast.LENGTH_SHORT)
                             .show()
                     }
                 } else {
                     Toast
-                            .makeText(activity, R.string.a_chat_no_messages, Toast.LENGTH_SHORT)
+                            .makeText(activity, R.string.chat_toast_clipboard_has_no_messages, Toast.LENGTH_SHORT)
                             .show()
                 }
             })
@@ -217,7 +217,7 @@ class SwipePanelModule(val activity: ChatActivity) {
         pickPhotoIntent setType "image/*"
         pickPhotoIntent setAction Intent.ACTION_GET_CONTENT
         pickPhotoIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-        activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.a_chat_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
+        activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.chat_intent_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
     }
 
     private fun callCamera() {

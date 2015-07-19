@@ -7,17 +7,15 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        style="@style/ToolbarStyle"/>
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:layout_below="@id/toolbar"
-        android:background="?attr/colorPrimary"
-        app:pstsIndicatorColor="?android:attr/textColorPrimary"/>
+        android:background="@color/ui_primary"
+        app:pstsIndicatorColor="@color/font_light"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -27,15 +25,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/saveFilterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:src="@drawable/button_ok"
-        app:fabSize="normal"
-        app:borderWidth="0dp"/>
+        style="@style/ActionButton"/>
 
     <View
         android:layout_width="match_parent"

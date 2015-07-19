@@ -1,26 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/my_primary</item>
-        <item name="colorPrimaryDark">@color/my_primary_dark</item>
-        <item name="colorAccent">@color/my_accent</item>
-        <item name="android:windowBackground">@color/my_white</item>
-        <item name="android:textColorPrimary">@color/my_white_new</item>
-        <item name="android:textColorSecondary">@color/my_white_tr_new</item>
+    <!-- Common styles -->
 
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/my_primary</item>
+    <style name="ToolbarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">@color/ui_primary</item>
     </style>
 
-    <style name="MySettingsTheme" parent="MyAppTheme">
-        <item name="android:textColor">@color/my_black_new</item>
-        <item name="android:textColorSecondary">@color/my_black_tr_new</item>
+    <style name="ToolbarButton">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="MyFullscreenTheme" parent="MyAppTheme">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <style name="ActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/floating_margin</item>
+        <item name="android:layout_marginBottom">@dimen/floating_margin</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="fabSize">normal</item>
+        <item name="borderWidth">0dp</item>
+    </style>
+
+    <style name="ActionButton.Mini">
+        <item name="android:layout_marginRight">@dimen/floating_margin_mini</item>
+        <item name="android:layout_marginBottom">@dimen/floating_margin_mini</item>
+        <item name="fabSize">mini</item>
+        <item name="backgroundTint">@color/ui_primary</item>
+    </style>
+
+    <style name="FlatButton" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textColor">@color/ui_primary</item>
+    </style>
+
+    <style name="TripleSwitch">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="backgroundColor">@color/ui_triple_back</item>
+        <item name="roundColorLeft">@color/ui_triple_left</item>
+        <item name="roundColorMid">@color/ui_triple_center</item>
+        <item name="roundColorRight">@color/ui_triple_right</item>
+    </style>
+
+    <style name="TripleSwitch.Dark">
+        <item name="backgroundColor">@color/ui_triple_back_dark</item>
+    </style>
+
+    <!-- Activity elements styles -->
+
+    <style name="ActivityEditFilter_Label">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/space</item>
+        <item name="android:paddingRight">@dimen/space_x2</item>
+        <item name="android:gravity">center_vertical|right</item>
+        <item name="android:textSize">@dimen/font_mini</item>
+        <item name="android:textColor">@color/font_dark_secondary</item>
+    </style>
+
+    <style name="ActivityEditFilter_Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/space</item>
+        <item name="android:layout_marginRight">@dimen/space_x2</item>
+        <item name="android:layout_marginLeft">@dimen/space_x2</item>
+    </style>
+
+    <style name="ActivityChat_Attachment">
+        <item name="android:layout_margin">@dimen/space_half</item>
+    </style>
+
+    <style name="ActivityChat_Attachment.Rectangle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:padding">@dimen/space</item>
+        <item name="android:background">@drawable/black_round_background</item>
     </style>
 
 </resources>

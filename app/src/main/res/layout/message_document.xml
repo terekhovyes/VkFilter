@@ -1,49 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/chat_spacer_mini">
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    style="@style/ActivityChat_Attachment.Rectangle">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="@dimen/space_half"
+        android:src="@drawable/attachment_document"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/chat_spacer"
-        android:background="@drawable/black_round_background">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="@dimen/chat_spacer_mini"
-            android:src="@drawable/attachment_document"/>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/font_light"
+            android:lines="1"
+            android:ellipsize="end"
+            tools:text="Офигенное название документа"/>
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/my_text"
-                android:textColor="@color/my_white"
-                android:lines="1"
-                android:ellipsize="end"
-                android:text="Офигенное название документа"
-                />
-
-            <TextView
-                android:id="@+id/docSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/my_text_micro"
-                android:textColor="@color/my_white_transparent"
-                android:text="12 мб"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/docSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_mini"
+            android:textColor="@color/font_light_tertiary"
+            tools:text="12 мб"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

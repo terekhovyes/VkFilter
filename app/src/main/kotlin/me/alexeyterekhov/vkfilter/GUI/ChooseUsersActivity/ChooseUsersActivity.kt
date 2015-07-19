@@ -36,7 +36,7 @@ public class ChooseUsersActivity: VkActivity() {
             }
 
         val tabs = findViewById(R.id.tabs) as PagerSlidingTabStrip
-        tabs.setTextColorResource(R.color.my_white_new)
+        tabs.setTextColorResource(R.color.font_light)
         with (findViewById(R.id.pager) as ViewPager) {
             setAdapter(PagerAdapter(
                     fm = getSupportFragmentManager(),

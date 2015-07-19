@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="60dp"
     android:layout_height="60dp"
     android:layout_marginLeft="5dp"
@@ -10,9 +11,9 @@
         android:id="@+id/imageProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:progressColor="@color/my_primary"
-        app:buttonColor="@color/my_white_new"
-        android:src="@color/my_black"/>
+        app:progressColor="@color/ui_primary"
+        app:buttonColor="@color/m_white"
+        android:src="@color/m_black"/>
 
     <TextView
         android:id="@+id/count"
@@ -21,23 +22,23 @@
         android:layout_marginBottom="6dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@color/my_white_new"
-        android:text="32"
+        android:textSize="@dimen/font_mini"
+        android:textColor="@color/font_light"
+        tools:text="32"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/label"
-        android:layout_width="40dp"
+        android:layout_width="48dp"
         android:layout_height="20dp"
         android:layout_marginTop="6dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="10sp"
-        android:textColor="@color/my_white_tr_new"
-        android:text="Имя Фамилия"
+        android:ellipsize="middle"
+        android:textSize="@dimen/font_nano"
+        android:textColor="@color/font_light_secondary"
+        tools:text="Аля Остапчук"
         android:visibility="gone"/>
 
 </FrameLayout>

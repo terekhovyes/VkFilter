@@ -15,7 +15,7 @@ class SelectionToolbarModule(val activity: ChatActivity) {
         val toolbar = findToolbar()
         val ids = getAdapter()!!.getSelectedMessageIds()
         if (ids.isNotEmpty()) {
-            val text = "${activity.getString(R.string.a_chat_selected)} ${ids.count()}"
+            val text = "${activity.getString(R.string.chat_label_toolbar_selected)} ${ids.count()}"
             (toolbar findViewById R.id.textSelectedCount) as TextView setText text
         }
         when {
@@ -39,16 +39,16 @@ class SelectionToolbarModule(val activity: ChatActivity) {
             if (text.length() > 0) {
                 ClipboardUtil.putText(text)
                 Toast
-                        .makeText(activity, R.string.a_chat_text_copy, Toast.LENGTH_SHORT)
+                        .makeText(activity, R.string.chat_toast_text_has_been_copied, Toast.LENGTH_SHORT)
                         .show()
                 adapter.deselectAllMessages()
             } else {
                 Toast
-                        .makeText(activity, R.string.a_chat_text_empty, Toast.LENGTH_SHORT)
+                        .makeText(activity, R.string.chat_toast_message_has_no_text, Toast.LENGTH_SHORT)
                         .show()
             }
         }
-        toolbar findViewById R.id.buttonCopyMessages setOnClickListener {
+        toolbar findViewById R.id.buttonForwardMessages setOnClickListener {
             val ids = adapter.getSelectedMessageIds()
             if (ids.count() > 0) {
                 val pack = AttachedMessagePack(
@@ -59,7 +59,7 @@ class SelectionToolbarModule(val activity: ChatActivity) {
                 )
                 ClipboardUtil.putMessages(pack)
                 Toast
-                        .makeText(activity, R.string.a_chat_message_copy, Toast.LENGTH_SHORT)
+                        .makeText(activity, R.string.chat_toast_message_has_been_copied, Toast.LENGTH_SHORT)
                         .show()
                 adapter.deselectAllMessages()
             }

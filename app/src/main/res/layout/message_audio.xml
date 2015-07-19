@@ -1,66 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/chat_spacer_mini">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ActivityChat_Attachment.Rectangle">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="@dimen/space_half"
+        android:src="@drawable/attachment_audio"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/chat_spacer"
-        android:orientation="horizontal"
-        android:background="@drawable/black_round_background">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="@dimen/chat_spacer_mini"
-            android:src="@drawable/attachment_audio"/>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/font_light"
+            android:lines="1"
+            android:ellipsize="end"
+            tools:text="Cry cry cry cry cry"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/font_mini"
+                android:textColor="@color/font_light_tertiary"
+                tools:text="04:38"/>
+
+            <TextView
+                android:id="@+id/artist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/my_text"
-                android:textColor="@color/my_white"
+                android:layout_toLeftOf="@id/duration"
                 android:lines="1"
                 android:ellipsize="end"
-                android:text="Cry cry cry cry cry"/>
+                android:textSize="@dimen/font_mini"
+                android:textColor="@color/font_light_tertiary"
+                tools:text="Oceana"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:textSize="@dimen/my_text_mini"
-                    android:textColor="@color/my_white_transparent"
-                    android:text="04:38"/>
-
-                <TextView
-                    android:id="@+id/artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/duration"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/my_text_mini"
-                    android:textColor="@color/my_white_transparent"
-                    android:text="Oceana"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
-    
-</FrameLayout>
+
+</LinearLayout>

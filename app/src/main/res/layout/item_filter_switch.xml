@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:padding="5dp">
+    android:padding="@dimen/space"
+    tools:background="@color/ui_filter_glass">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +18,10 @@
             android:id="@+id/filterName"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:textSize="18sp"
+            android:textSize="@dimen/font_normal"
             android:gravity="right"
-            android:textColor="@color/my_white_new"
-            android:text="Крутое название"/>
+            android:textColor="@color/font_light"
+            tools:text="Крутое название"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/memberList"
@@ -32,13 +33,8 @@
 
     <me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
         android:id="@+id/filterStateSwitch"
-        android:layout_width="90dp"
-        android:layout_height="45dp"
         android:layout_marginLeft="-92dp"
         android:layout_gravity="center_vertical"
-        app:backgroundColor="#3fff"
-        app:roundColorLeft="@color/my_red"
-        app:roundColorMid="@color/my_gray_new"
-        app:roundColorRight="@color/my_green"/>
+        style="@style/TripleSwitch"/>
 
 </LinearLayout>

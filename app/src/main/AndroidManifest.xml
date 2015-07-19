@@ -42,32 +42,32 @@
         </activity>
 
         <activity android:name=".GUI.DialogListActivity.DialogListActivity"
-            android:label="@string/a_dialog_title"
+            android:label="@string/dialog_label_toolbar_title"
             android:launchMode="singleTask"/>
         
         <activity android:name=".GUI.SettingsActivity.SettingsActivity"
             android:theme="@style/MySettingsTheme"/>
 
         <activity android:name=".GUI.ChatActivity.ChatActivity"
-            android:label="@string/a_chat_title"
+            android:label="@string/chat_label_toolbar_title"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity android:name=".Test.ChatTestActivity"
-            android:label="@string/a_chat_title"
+            android:label="@string/chat_label_toolbar_title"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
             android:theme="@style/MyFullscreenTheme"/>
 
         <activity android:name=".GUI.ManageFiltersActivity.ManageFiltersActivity"
-            android:label="@string/a_manage_title"/>
+            android:label="@string/manage_filters_label_toolbar_title"/>
 
         <activity android:name=".GUI.EditFilterActivity.EditFilterActivity"
             android:windowSoftInputMode="stateHidden"
-            android:label="@string/a_edit_filter_title"/>
+            android:label="@string/edit_filter_label_toolbar_title"/>
 
         <activity android:name=".GUI.ChooseUsersActivity.ChooseUsersActivity"
-            android:label="@string/a_choose_title"/>
+            android:label="@string/choose_users_label_toolbar_title"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="AA_DB_NAME" android:value="vkfilter2.db" />

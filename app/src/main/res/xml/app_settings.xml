@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/category_notifications"
-        >
+        android:title="@string/preferences_category_notifications">
 
         <CheckBoxPreference
             android:key="pref_notifications"
-            android:title="@string/pref_notifications"
-            android:summary="@string/sum_notifications"
+            android:title="@string/preferences_label_notifications"
+            android:summary="@string/preferences_summary_notifications"
             android:defaultValue="true"/>
 
         <CheckBoxPreference
             android:key="pref_sound"
             android:dependency="pref_notifications"
-            android:title="@string/pref_sound"
-            android:summary="@string/sum_sound"
+            android:title="@string/preferences_label_sound"
+            android:summary="@string/preferences_summary_sound"
             android:defaultValue="false"/>
 
         <CheckBoxPreference
             android:key="pref_vibration"
             android:dependency="pref_notifications"
-            android:title="@string/pref_vibration"
-            android:summary="@string/sum_vibration"
+            android:title="@string/preferences_label_vibration"
+            android:summary="@string/preferences_summary_vibration"
             android:defaultValue="true"/>
 
         <CheckBoxPreference
             android:key="pref_color_lights"
             android:dependency="pref_notifications"
-            android:title="@string/pref_color_lights"
-            android:summary="@string/sum_color_lights"
+            android:title="@string/preferences_label_lights"
+            android:summary="@string/preferences_summary_lights"
             android:defaultValue="false"/>
 
     </PreferenceCategory>

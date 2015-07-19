@@ -66,7 +66,7 @@ public object NotificationMaker {
 
     private fun notificationBase(context: Context, photoUrl: String): NotificationCompat.Builder {
         val builder = NotificationCompat.Builder(context)
-                .setColor(context.getResources().getColor(R.color.my_green))
+                .setColor(context.getResources().getColor(R.color.m_green))
                 .setSmallIcon(R.drawable.icon_notification)
                 .setDeleteIntent(createDismissIntent(context))
         val photo = loadPhoto(context, photoUrl)
@@ -173,7 +173,7 @@ public object NotificationMaker {
             if (n.chatTitle != "")
                 chatIntent.putExtra("title", n.chatTitle)
             else
-                chatIntent.putExtra("title", "${n.getName(true)} ${context.getString(R.string.and_others)}")
+                chatIntent.putExtra("title", "${n.getName(true)} ${context.getString(R.string.notification_label_and_others)}")
         } else {
             chatIntent.putExtra("user_id", n.senderId)
             chatIntent.putExtra("title", n.getName())

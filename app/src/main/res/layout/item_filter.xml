@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp">
 
@@ -8,16 +9,16 @@
         android:id="@+id/selectionBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@color/my_green_lighter"
+        android:src="@color/m_green_very_light"
         android:visibility="invisible"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginTop="@dimen/space_x2"
+        android:layout_marginBottom="@dimen/space_x2"
+        android:layout_marginRight="@dimen/space">
 
         <FrameLayout
             android:id="@+id/iconLayout"
@@ -33,11 +34,11 @@
 
             <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                 android:id="@+id/filterIcon"
-                app:shadowSize="2dp"
+                app:shadowSize="@dimen/shadow_level1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                app:roundBackgroundColor="@color/my_green"/>
+                app:roundBackgroundColor="@color/m_green"/>
 
         </FrameLayout>
 
@@ -51,14 +52,13 @@
                 android:id="@+id/filterName"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_marginTop="-3dp"
                 android:layout_gravity="center_vertical"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textSize="18sp"
-                android:textColor="@color/my_black"
-                android:text="Коллеги с работы"/>
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/font_dark"
+                tools:text="Коллеги с работы"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/avatarList"

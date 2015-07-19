@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -19,7 +20,7 @@
                 android:id="@+id/messageBack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/my_green_lighter"/>
+                android:src="@color/ui_msg_unread"/>
 
             <ImageView
                 android:id="@+id/backSelector"
@@ -30,27 +31,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/chat_spacer_mini"
+                android:layout_marginBottom="@dimen/space_half"
                 android:orientation="vertical">
 
                 <Space
                     android:id="@+id/spaceAbove"
                     android:layout_width="1dp"
-                    android:layout_height="@dimen/chat_spacer_big" />
+                    android:layout_height="@dimen/space_x2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingRight="@dimen/chat_spacer">
+                    android:paddingRight="@dimen/space">
 
                     <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
                         android:id="@+id/senderPhoto"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/chat_spacer_big"
+                        android:layout_marginLeft="@dimen/space_x2"
                         android:src="@drawable/icon_user_stub"
-                        app:shadowSize="1dp"/>
+                        app:shadowSize="@dimen/shadow_paper"/>
 
                     <ImageView
                         android:id="@+id/messageTriangle"
@@ -66,7 +67,7 @@
                         android:minHeight="30dp"
                         android:layout_marginRight="37dp"
                         android:orientation="vertical"
-                        android:padding="@dimen/chat_spacer"
+                        android:padding="@dimen/space"
                         android:gravity="center"
                         android:background="@drawable/message_in_background">
 
@@ -76,13 +77,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-2dp"
                             android:layout_gravity="left"
-                            android:textSize="@dimen/my_text"
-                            app:emojiconSize="@dimen/my_emoji"
-                            android:textColor="#fff"
-                            android:textColorLink="@color/my_links_color"
+                            android:textSize="@dimen/font_normal"
+                            app:emojiconSize="@dimen/font_emoji"
+                            android:textColor="@color/ui_msg_font"
+                            android:textColorLink="@color/font_link"
                             android:linksClickable="true"
                             android:autoLink="web|email"
-                            android:text="Привет!"/>
+                            tools:text="Привет!"/>
 
                         <LinearLayout
                             android:id="@+id/attachmentsLayout"
@@ -98,9 +99,9 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="-32dp"
                         android:gravity="center"
-                        android:textSize="@dimen/my_text_micro"
-                        android:textColor="@color/my_msg_date"
-                        android:text="18:05"/>
+                        android:textSize="@dimen/font_micro"
+                        android:textColor="@color/font_dark_tertiary"
+                        tools:text="18:05"/>
 
                 </LinearLayout>
 

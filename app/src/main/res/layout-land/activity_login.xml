@@ -1,75 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/space_x3"
+            android:layout_marginBottom="@dimen/space"
+            android:text="@string/login_label_app_title"
+            android:textSize="36sp"
+            android:textColor="@color/ui_primary"/>
+
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@color/my_white"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="@dimen/space"
+            android:adjustViewBounds="true"
+            android:src="@drawable/app_picture_land"/>
 
-    <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <Button
+        android:id="@+id/secondLoginButton"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/space"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
+        android:text="@string/login_button_weblogin"
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/ui_primary"/>
 
-        <TextView
-                android:id="@id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/a_login_app_title"
-                android:textSize="36sp"
-                android:textColor="@color/my_green"/>
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/secondLoginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/space"
+        android:textAllCaps="false"
+        android:background="@drawable/login_button"
+        android:text="@string/login_button_login"
+        android:textSize="@dimen/font_large"
+        android:textColor="@color/font_light"/>
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:layout_marginTop="5dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/app_picture_land"/>
-
-        <Button
-            android:id="@+id/secondLoginButton"
-            android:layout_width="400dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
+    <TextView
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/loginButton"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:background="@android:color/transparent"
-            android:textAllCaps="false"
-            android:text="@string/a_login_weblogin_button"
-            android:textSize="16sp"
-            android:textColor="@color/my_green"/>
+            android:layout_marginBottom="@dimen/space"
+            android:textSize="@dimen/font_mini"
+            android:text="@string/login_label_warning"
+            android:gravity="center"
+            android:textColor="@color/font_dark_secondary"/>
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="400dp"
-            android:layout_height="40dp"
-            android:layout_above="@id/secondLoginButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:textAllCaps="false"
-            android:background="@drawable/login_button"
-            android:text="@string/a_login_login_button"
-            android:textSize="18sp"
-            android:textColor="@color/my_white_new"/>
-
-        <TextView
-                android:layout_width="500dp"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/loginButton"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="5dp"
-                android:textSize="14sp"
-                android:text="@string/a_login_warning"
-                android:gravity="center"
-                android:textColor="@color/my_black_tr_new"/>
-
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>

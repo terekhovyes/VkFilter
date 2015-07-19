@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="240dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="@color/my_white"
+    android:background="@color/m_white"
     android:clickable="true">
 
     <LinearLayout
@@ -14,43 +15,43 @@
         android:layout_height="120dp"
         android:padding="8dp"
         android:orientation="vertical"
-        android:background="@color/my_green">
+        android:background="@color/m_green">
         
         <TextView
             android:id="@+id/my_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/my_white_new"
-            android:textSize="18sp"
+            android:textColor="@color/font_light"
+            android:textSize="@dimen/font_normal"
             android:singleLine="true"
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="Длинноеимя Фамилия"/>
+            tools:text="Длинноеимя Фамилия"/>
 
         <TextView
             android:id="@+id/my_last_seen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/my_white_tr_new"
-            android:textSize="14sp"
+            android:textColor="@color/font_light_tertiary"
+            android:textSize="@dimen/font_mini"
             android:singleLine="true"
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="Последнее посещение:"/>
+            tools:text="Последнее посещение:"/>
 
         <TextView
             android:id="@+id/my_last_seen_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/my_white_tr_new"
-            android:textSize="14sp"
+            android:textColor="@color/font_light_tertiary"
+            android:textSize="@dimen/font_mini"
             android:singleLine="true"
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="center"
-            android:text="25 минут назад"/>
+            tools:text="25 минут назад"/>
 
     </LinearLayout>
 
@@ -62,30 +63,22 @@
         android:layout_below="@id/top_layout"
         android:layout_centerHorizontal="true"
         android:src="@drawable/icon_user_stub"
-        app:shadowSize="2dp"/>
+        app:shadowSize="@dimen/shadow_level1"/>
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        style="?android:attr/borderlessButtonStyle"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textColor="@color/my_green"
-        android:text="@string/a_dialog_logout"/>
+        android:layout_marginBottom="@dimen/space_x3"
+        android:text="@string/dialog_button_logout"
+        style="@style/FlatButton"/>
 
     <Button
         android:id="@+id/settings_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_above="@id/logout_button"
-        style="?android:attr/borderlessButtonStyle"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textColor="@color/my_green"
-        android:text="@string/a_dialog_settings"/>
+        android:text="@string/dialog_button_preferences"
+        style="@style/FlatButton"/>
 
     <!--<Button
         android:id="@+id/testButton"

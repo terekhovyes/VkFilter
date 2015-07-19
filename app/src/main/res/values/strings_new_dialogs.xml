@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="new_dialog_1">новый диалог</string>
-    <string name="new_dialog_2_4">новых диалога</string>
-    <string name="new_dialog_5_0">новых диалогов</string>
-    <string name="new_dialog">Новых диалогов:</string>
-    <string name="plus_more">+ ещё #</string>
-    <string name="and_others">и другие</string>
-</resources>

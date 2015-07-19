@@ -129,7 +129,7 @@ public class EditFilterActivity : VkActivity() {
             super.onBackPressed()
         }
         findSaveButton() setOnClickListener {
-            Toast.makeText(this, R.string.a_edit_filter_toast_save, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.edit_filter_toast_dont_press_save, Toast.LENGTH_SHORT).show()
         }
     }
 

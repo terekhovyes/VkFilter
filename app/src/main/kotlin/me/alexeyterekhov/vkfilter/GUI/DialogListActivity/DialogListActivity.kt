@@ -72,8 +72,8 @@ public open class DialogListActivity:
                 this,
                 drawerLayout,
                 toolbar,
-                R.string.a_dialog_title,
-                R.string.a_dialog_title
+                R.string.dialog_label_toolbar_title,
+                R.string.dialog_label_toolbar_title
         ) {
             override fun onDrawerOpened(drawerView: View?) {
                 super.onDrawerOpened(drawerView)
@@ -124,10 +124,10 @@ public open class DialogListActivity:
             setOnRefreshListener(this@DialogListActivity)
             setRecyclerView(findDialogList())
             setColorSchemeResources(
-                    R.color.my_refresh_1,
-                    R.color.my_refresh_2,
-                    R.color.my_refresh_3,
-                    R.color.my_refresh_4
+                    R.color.ui_refresh1,
+                    R.color.ui_refresh2,
+                    R.color.ui_refresh3,
+                    R.color.ui_refresh4
             )
         }
 
@@ -199,9 +199,9 @@ public open class DialogListActivity:
         val lastUpdateTime = DialogListCache.getSnapshot().snapshotTime
         getSupportActionBar().setSubtitle(
                 if (lastUpdateTime == 0L)
-                    getString(R.string.a_dialog_no_update)
+                    getString(R.string.dialog_label_toolbar_no_update)
                 else
-                    getString(R.string.a_dialog_last_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
+                    getString(R.string.dialog_label_toolbar_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
         )
     }
     private fun startRefreshingActionBar() {

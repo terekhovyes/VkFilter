@@ -44,8 +44,8 @@ class ForwardMessageHolder(val view: View) {
     }
 
     fun setDarkColors() {
-        senderName setTextColor AppContext.instance.getResources().getColor(R.color.my_black_transparent)
-        dateText setTextColor AppContext.instance.getResources().getColor(R.color.my_black_transparent)
-        messageText setTextColor AppContext.instance.getResources().getColor(R.color.my_black)
+        senderName setTextColor AppContext.instance.getResources().getColor(R.color.font_dark_secondary)
+        dateText setTextColor AppContext.instance.getResources().getColor(R.color.font_dark_tertiary)
+        messageText setTextColor AppContext.instance.getResources().getColor(R.color.font_dark)
     }
 }

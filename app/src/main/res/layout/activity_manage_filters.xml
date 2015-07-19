@@ -5,9 +5,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        style="@style/ToolbarStyle"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,15 +19,10 @@
             android:layout_below="@id/toolbar"/>
 
         <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/manageFilterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
             android:layout_marginTop="126dp"
             android:layout_gravity="right"
-            app:fabSize="normal"
-            app:borderWidth="0dp"
+            style="@style/ActionButton"
             />
 
         <View
