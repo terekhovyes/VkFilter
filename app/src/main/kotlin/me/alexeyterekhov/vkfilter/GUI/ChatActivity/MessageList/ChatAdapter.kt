@@ -22,12 +22,11 @@ import java.util.HashSet
 import java.util.LinkedList
 import kotlin.properties.Delegates
 
-
-public class ChatAdapter(
+class ChatAdapter(
         val dialogId: String,
         val isChat: Boolean,
         val activity: AppCompatActivity
-):
+) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         MessageCacheListener
 {
@@ -35,7 +34,11 @@ public class ChatAdapter(
     val TYPE_OUT = 2
     val TYPE_FOOTER = 3
 
+    val READ_DURATION = 250L
+    val READ_OFFSET = 1000L
+
     val TIME_FOR_ANIMATION = 400L
+    var lastAnimationStartTime = 0L
 
     val selectedMessageIds = HashSet<Long>()
     var onSelectionChangeAction: (() -> Unit)? = null
@@ -45,97 +48,64 @@ public class ChatAdapter(
     var attachmentGenerator: AttachmentsViewGenerator by Delegates.notNull()
     val shownImages = HashSet<String>()
 
-    val messagesForReading = HashSet<Message>()
-    val animationStartTime = HashMap<Message, Long>()
-    var lastAnimationStartTime = 0L
+    val readAnimationMessages = HashSet<Message>()
+    val readAnimationStartTime = HashMap<Message, Long>()
 
     fun messagePosById(id: Long) = messages indexOfLast { it.sentId == id }
     fun messageById(id: Long) = messages last { it.sentId == id }
     fun selectMessage(id: Long) {
         selectedMessageIds add id
-        notifyItemChanged(messagePosById(id))
+        val position = messagePosById(id)
+        notifyItemChanged(position)
+        notifyItemChanged(position + 1)
         onSelectionChangeAction?.invoke()
     }
     fun deselectMessage(id: Long) {
         selectedMessageIds remove id
-        notifyItemChanged(messagePosById(id))
+        val position = messagePosById(id)
+        notifyItemChanged(position)
+        notifyItemChanged(position + 1)
         onSelectionChangeAction?.invoke()
     }
     fun deselectAllMessages() {
         val ids = HashSet(selectedMessageIds)
         selectedMessageIds.clear()
-        notifyItemRangeChanged(0, messages.count())
+        notifyItemRangeChanged(0, getItemCount())
         onSelectionChangeAction?.invoke()
     }
     fun getSelectedMessageIds() = selectedMessageIds.toSortedList()
 
-    override fun onAddNewMessages(messages: Collection<Message>) {
-        messages forEach {
-            if (it.sentState == Message.STATE_SENT) {
-                val messageId = it.sentId
-                val index = 1 + (this.messages indexOfLast { it.sentState == Message.STATE_SENT && it.sentId < messageId })
-                this.messages.add(index, it)
-                notifyItemInserted(index)
-            } else {
-                this.messages add it
-                notifyItemInserted(this.messages.count() - 1)
-            }
-        }
-        readIncomeMessages()
-        updateAnimationTime()
-    }
-
-    override fun onAddOldMessages(messages: Collection<Message>) {
-        messages.reverse() forEach {
-            this.messages.add(0, it)
-            notifyItemInserted(0)
-        }
-    }
-
-    override fun onReplaceMessage(old: Message, new: Message) {
-        val index = messages indexOfFirst { it.sentId == old.sentId }
-        messages.set(index, new)
-        readIncomeMessages()
-        notifyItemChanged(index)
-        updateAnimationTime()
-    }
-
-    override fun onUpdateMessages(messages: Collection<Message>) {
-        val indexes = messages map { this.messages.indexOf(it) }
-        indexes forEach { notifyItemChanged(it) }
-        readIncomeMessages()
-        updateAnimationTime()
-    }
-
-    override fun onReadMessages(messages: Collection<Message>) {
-        val work = Runnable {
-            messagesForReading addAll messages
-            notifyDataSetChanged()
-            readIncomeMessages()
-        }
-        val time = System.currentTimeMillis()
-        if (time - lastAnimationStartTime < TIME_FOR_ANIMATION)
-            Handler().postDelayed(work, TIME_FOR_ANIMATION + lastAnimationStartTime - time)
-        else
-            work.run()
-    }
-
-    override fun getItemCount() = messages.count() + 1
+    override fun getItemCount() = if (messages.isNotEmpty()) messages.count() + 1 else 0
     override fun getItemViewType(pos: Int) = when {
         pos < messages.count() && messages[pos].isOut -> TYPE_OUT
         pos < messages.count() && messages[pos].isIn -> TYPE_IN
         else -> TYPE_FOOTER
     }
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
+        val res = when (viewType) {
+            TYPE_IN -> R.layout.message_in
+            TYPE_OUT -> R.layout.message_out
+            TYPE_FOOTER -> R.layout.message_footer
+            else -> throw Exception("WRONG ITEM TYPE")
+        }
+        val view = inflater.inflate(res, parent, false)
+        return when (viewType) {
+            TYPE_IN -> HolderMessageIn(view)
+            TYPE_OUT -> HolderMessageOut(view)
+            TYPE_FOOTER -> HolderMessageFooter(view)
+            else -> throw Exception("WRONG ITEM TYPE")
+        }
+    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (getItemViewType(position) == TYPE_FOOTER) {
-
+            val footerHolder = holder as HolderMessageFooter
         } else {
+            val baseHolder = holder as HolderMessageBase
             val message = messages[position]
-            val isFirstReply = position == 0 || isFirstReply(position)
-            val isNewDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
-            val isVeryFirstMessage = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
-
-            val longListener = { view: View ->
+            val messageFirstInChain = position == 0 || isFirstReply(position)
+            val messageFirstInDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
+            val messageFirstInDialog = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
+            val longClickListener = { view: View ->
                 if (selectedMessageIds.isNotEmpty()) {
                     deselectAllMessages()
                 } else {
@@ -144,7 +114,7 @@ public class ChatAdapter(
                 }
                 true
             }
-            val shortListener = { view: View ->
+            val shortClickListener = { view: View ->
                 if (selectedMessageIds.isNotEmpty()) {
                     if (message.sentId in selectedMessageIds) {
                         if (selectedMessageIds.count() == 1)
@@ -156,124 +126,212 @@ public class ChatAdapter(
                 }
             }
 
+            // Listeners
+            val topSelIsClickable = selectedMessageIds.isNotEmpty() && message.sentState != Message.STATE_SENDING
+            baseHolder.setTopSelectorClickable(topSelIsClickable)
+            if (topSelIsClickable) {
+                baseHolder.selectorTop setOnClickListener shortClickListener
+                baseHolder.selectorTop setOnLongClickListener longClickListener
+            }
+            if (message.sentState != Message.STATE_SENDING)
+                baseHolder.selectorBack setOnLongClickListener longClickListener
+
+            // Colors
             when (getItemViewType(position)) {
                 TYPE_IN -> {
-                    val h = holder as MessageInHolder
-                    h.clearAttachments()
-                    with (h) {
-                        setMessageText(message.text)
-                        setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
-                        when {
-                            messagesForReading contains message -> {
-                                messagesForReading remove message
-                                animationStartTime.put(message, System.currentTimeMillis())
-                                readMessage()
-                                Handler().postDelayed({ animationStartTime remove message }, h.READ_OFFSET + h.READ_DURATION)
-                            }
-                            animationStartTime contains message -> {
-                                val startTime = animationStartTime get message
-                                readMessage(timeFromAnimationStart = System.currentTimeMillis() - startTime)
-                            }
-                            else -> {
-                                setUnread(message.isNotRead)
-                            }
-                        }
-                        showSpaceAndTriangle(isFirstReply || isNewDay)
-                        showPhoto(isChat && (isFirstReply || isNewDay))
-                        if (isChat && (isFirstReply || isNewDay)) loadUserImage(h.senderPhoto, message.senderOrEmpty().photoUrl)
-                        if (isNewDay || isVeryFirstMessage) {
-                            showRedStrip(true)
-                            setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
-                        } else {
-                            showRedStrip(false)
-                        }
-                        setColors(selected = selectedMessageIds contains message.sentId)
-                    }
-                    attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
-                        h addAttachment it
-                    }
-
-                    h.itemView setOnLongClickListener longListener
-                    if (selectedMessageIds.isNotEmpty()) {
-                        h.setTopSelectorEnabled(true)
-                        h.topSelector setOnLongClickListener longListener
-                        h.topSelector setOnClickListener shortListener
-                    } else
-                        h.setTopSelectorEnabled(false)
+                    val h = baseHolder as HolderMessageIn
+                    h.setColors(selected = (selectedMessageIds contains message.sentId))
                 }
                 TYPE_OUT -> {
-                    val h = holder as MessageOutHolder
-                    h.clearAttachments()
-                    with (h) {
-                        setMessageText(message.text)
-                        if (messagesForReading contains message) {
-                            messagesForReading remove message
-                            readMessage()
-                        }
-                    }
-                    when (message.sentState) {
-                        Message.STATE_SENT -> {
-                            h.setDateText(DateFormat.time(message.sentTimeMillis / 1000L))
-                            h.setUnread(!message.isRead)
-                            if (isNewDay || isVeryFirstMessage) {
-                                h.showRedStrip(true)
-                                h.setRedStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
-                            } else {
-                                h.showRedStrip(false)
-                            }
-                            h.showSpaceAndTriangle(isFirstReply || isNewDay)
-                            attachmentGenerator.inflate(message.attachments, inflater, h.attachments) forEach {
-                                h addAttachment it
-                            }
-
-                            h.itemView setOnLongClickListener longListener
-                            if (selectedMessageIds.isNotEmpty()) {
-                                h.setSelectorEnabled(true)
-                                h.topSelector setOnLongClickListener longListener
-                                h.topSelector setOnClickListener shortListener
-                            } else
-                                h.setSelectorEnabled(false)
-                        }
-                        Message.STATE_PROCESSING -> {
-                            h.setDateText("")
-                            h.setUnread(false)
-                            val showStrip = position == 0 || (messages[position - 1].sentState != Message.STATE_PROCESSING
-                                    && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis()))
-                            h.showRedStrip(showStrip)
-                            if (showStrip)
-                                h.setRedStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
-                            h.showSpaceAndTriangle(isFirstReply || showStrip)
-                            attachmentGenerator.inflate(message.attachments, inflater, h.attachments, darkColors = true) forEach {
-                                h addAttachment it
-                            }
-                            h.itemView setOnLongClickListener null
-                            h.setSelectorEnabled(false)
-                        }
-                    }
+                    val h = baseHolder as HolderMessageOut
                     if (selectedMessageIds contains message.sentId)
                         h.setColorsSelected()
                     else
-                        h.setColorsByMessageState(message.sentState)
+                        h.setColorsForState(message.sentState)
+                }
+            }
+
+            // Specific attributes
+            when (getItemViewType(position)) {
+                TYPE_IN -> {
+                    val h = baseHolder as HolderMessageIn
+                    val showPhoto = isChat && (messageFirstInChain || messageFirstInDay || messageFirstInDialog)
+                    h.showMessageSender(showPhoto)
+                    if (showPhoto)
+                        loadUserImage(h.messageSenderPhoto, message.senderOrEmpty().photoUrl)
+                }
+                TYPE_OUT -> {
+                }
+            }
+
+            // Base data
+            baseHolder.clearMessageAttachments()
+            attachmentGenerator.inflate(message.attachments, inflater, baseHolder.messageAttachments) forEach {
+                baseHolder addAttachmentToMessage it
+            }
+            baseHolder.setMessageText(message.text)
+            baseHolder.setMessageDate(
+                    if (message.sentState == Message.STATE_SENDING)
+                        ""
+                    else
+                        DateFormat.time(message.sentTimeMillis / 1000L)
+            )
+            baseHolder.showTriangle(messageFirstInChain || messageFirstInDay || messageFirstInDialog)
+            if (message.sentState == Message.STATE_SENDING) {
+                if (position == 0 || messages[position - 1].sentState != Message.STATE_SENDING
+                        && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis())) {
+                    baseHolder.showStrip(true)
+                    baseHolder.setStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                } else
+                    baseHolder.showStrip(false)
+            } else {
+                if (messageFirstInDay || messageFirstInDialog) {
+                    baseHolder.showStrip(true)
+                    baseHolder.setStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                } else
+                    baseHolder.showStrip(false)
+            }
+
+            // Unread spaces colors and visibility
+            val messageUnread = isUnreadColorVisible(message)
+            baseHolder.setUnreadCommon(messageUnread)
+            when {
+                (message.sentState == Message.STATE_SENDING
+                        || !messageFirstInDay && !messageFirstInDialog) && !messageFirstInChain -> {
+                    baseHolder.setUnreadAboveMessage(show = false)
+                }
+                message.sentState == Message.STATE_SENDING && messageFirstInChain -> {
+                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
+                }
+                !messageUnread -> {
+                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
+                }
+                messageFirstInDialog || messageFirstInDay -> {
+                    baseHolder.setUnreadAboveMessage(show = true, unread = true)
+                }
+                messageFirstInChain && position == 0 -> {
+                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
+                }
+                messageFirstInChain -> {
+                    val prevMessageUnread = isUnreadColorVisible(messages[position - 1])
+                    baseHolder.setUnreadAboveMessage(show = true, unread = prevMessageUnread)
+                }
+            }
+            if (messageFirstInDay || messageFirstInDialog) {
+                when {
+                    position == 0 -> {
+                        baseHolder.setUnreadAboveStrip(false)
+                    }
+                    else -> {
+                        val prevMessageUnread = isUnreadColorVisible(messages[position - 1])
+                        baseHolder.setUnreadAboveStrip(prevMessageUnread)
+                    }
+                }
+            }
+
+            // Read animation of this message
+            val duration = READ_DURATION
+            val offset = if (message.isIn) READ_OFFSET else 0L
+            val isSpaceAboveMessage = baseHolder.isUnreadAboveMessageShown()
+            if (readAnimationMessages remove message) {
+                readAnimationStartTime.put(message, System.currentTimeMillis())
+                Handler().postDelayed({ readAnimationStartTime remove message }, duration + offset)
+            }
+            if (readAnimationStartTime contains message) {
+                val startTime = readAnimationStartTime get message
+                val timeFromAnimationStart = System.currentTimeMillis() - startTime
+                baseHolder.animateReadingCommon(duration, offset, timeFromAnimationStart)
+                if (isSpaceAboveMessage)
+                    baseHolder.animateReadingAboveMessage(duration, offset, timeFromAnimationStart)
+            }
+
+            // Read animation of prev message
+            if (messageFirstInDay && position > 0) {
+                val prevMessage = messages[position - 1]
+                val prevDuration = READ_DURATION
+                val prevOffset = if (prevMessage.isIn) READ_OFFSET else 0L
+                if (readAnimationMessages contains prevMessage) {
+                    baseHolder.animateReadingAboveStrip(prevDuration, prevOffset)
+                } else if (readAnimationStartTime contains prevMessage) {
+                    val startTime = readAnimationStartTime get prevMessage
+                    val timeFromAnimationStart = System.currentTimeMillis() - startTime
+                    baseHolder.animateReadingAboveStrip(prevDuration, prevOffset, timeFromAnimationStart)
                 }
             }
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
-        val res = when (viewType) {
-            TYPE_IN -> R.layout.message_in
-            TYPE_OUT -> R.layout.message_out
-            TYPE_FOOTER -> R.layout.message_footer
-            else -> throw Exception("WRONG ITEM TYPE")
+
+    override fun onAddNewMessages(messages: Collection<Message>) {
+        var maxIndex = -1
+        messages forEach {
+            if (it.sentState == Message.STATE_SENT) {
+                val messageId = it.sentId
+                val index = 1 + (this.messages indexOfLast { it.sentState == Message.STATE_SENT && it.sentId < messageId })
+                this.messages.add(index, it)
+                notifyItemInserted(index)
+                if (index > maxIndex)
+                    maxIndex = index
+            } else {
+                this.messages add it
+                val index = this.messages.count() - 1
+                notifyItemInserted(index)
+                if (index > maxIndex)
+                    maxIndex = index
+            }
         }
-        val view = inflater.inflate(res, parent, false)
-        return when (viewType) {
-            TYPE_IN -> MessageInHolder(view)
-            TYPE_OUT -> MessageOutHolder(view)
-            TYPE_FOOTER -> MessageFooterHolder(view)
-            else -> throw Exception("WRONG ITEM TYPE")
-        }
+        if (maxIndex != -1)
+            notifyItemChanged(maxIndex + 1)
+        readIncomeMessages()
+        updateAnimationTime()
     }
 
+    override fun onAddOldMessages(messages: Collection<Message>) {
+        messages.reverse() forEach {
+            this.messages.add(0, it)
+            notifyItemInserted(0)
+        }
+        notifyItemChanged(messages.count())
+    }
+
+    override fun onReplaceMessage(old: Message, new: Message) {
+        val index = messages indexOfFirst { it.sentId == old.sentId }
+        messages.set(index, new)
+        readIncomeMessages()
+        notifyItemChanged(index)
+        notifyItemChanged(index + 1)
+        updateAnimationTime()
+    }
+
+    override fun onUpdateMessages(messages: Collection<Message>) {
+        val updatedIndexes = messages map { this.messages.indexOf(it) }
+        updatedIndexes forEach {
+            notifyItemChanged(it)
+            if (!updatedIndexes.contains(it + 1))
+                notifyItemChanged(it + 1)
+        }
+        readIncomeMessages()
+        updateAnimationTime()
+    }
+
+    override fun onReadMessages(messages: Collection<Message>) {
+        val work = Runnable {
+            readAnimationMessages addAll messages
+            notifyDataSetChanged()
+            readIncomeMessages()
+        }
+        val time = System.currentTimeMillis()
+        if (time - lastAnimationStartTime < TIME_FOR_ANIMATION)
+            Handler().postDelayed(work, TIME_FOR_ANIMATION + lastAnimationStartTime - time)
+        else
+            work.run()
+    }
+
+    private fun isUnreadColorVisible(msg: Message): Boolean {
+        return msg.sentState != Message.STATE_SENDING
+                && (msg.isNotRead
+                || readAnimationMessages contains msg
+                || readAnimationStartTime containsKey msg)
+    }
     private fun isFirstReply(pos: Int): Boolean {
         if (pos == 0)
             return true

@@ -15,7 +15,7 @@
 
     <!-- Dependents from palette colors -->
     <color name="m_green_dark">#00897B</color>
-    <color name="m_green_very_light">#D7EDE9</color>
+    <color name="m_green_very_light">#2A009688</color>
     <color name="m_green_opacity70">#B3009688</color>
     <color name="m_blue_opacity75">#BF52A9BD</color>
     <color name="m_blue_opacity20">#3352A9BD</color>

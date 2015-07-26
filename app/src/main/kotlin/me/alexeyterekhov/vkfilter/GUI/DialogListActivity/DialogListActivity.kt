@@ -33,6 +33,7 @@ import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Test.ChatTestActivity
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.TextFormat
@@ -141,12 +142,12 @@ public open class DialogListActivity:
             startActivity(Intent(this, javaClass<SettingsActivity>()))
         }
 
-        /* findViewById(R.id.testButton) as Button setOnClickListener {
+        findViewById(R.id.testButton) as Button setOnClickListener {
             val intent = Intent(this, javaClass<ChatTestActivity>())
             intent.putExtra("chat_id", "test")
             intent.putExtra("title", "Тестирование")
             startActivity(intent)
-        }*/
+        }
 
         // Subscribe on cache
         if (!DialogListCache.listeners.contains(this))

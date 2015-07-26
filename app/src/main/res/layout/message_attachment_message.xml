@@ -21,28 +21,28 @@
 
         <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
             android:id="@+id/senderPhoto"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
             android:layout_marginRight="@dimen/space"
             app:shadowSize="@dimen/shadow_paper"/>
         
         <TextView
             android:id="@+id/senderName"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_toRightOf="@id/senderPhoto"
             android:textColor="@color/font_light_secondary"
-            android:textSize="@dimen/font_normal"
+            android:textSize="@dimen/font_micro"
             tools:text="Имя фамилия"/>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_toRightOf="@id/senderPhoto"
             android:layout_below="@id/senderName"
             android:textColor="@color/font_light_tertiary"
-            android:textSize="@dimen/font_mini"
+            android:textSize="@dimen/font_micro"
             tools:text="вчера 16:05"/>
 
         <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView

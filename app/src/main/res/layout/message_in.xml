@@ -1,4 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/message_day"/>
+
+    <View
+        android:id="@+id/messageUnreadAboveMessage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_x2"
+        android:background="@color/ui_msg_unread"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/messageBackSelector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/messageUnreadCommon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/ui_msg_unread"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_half"
+                android:layout_marginBottom="@dimen/space_half"
+                android:paddingRight="@dimen/space"
+                android:orientation="horizontal">
+
+                <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+                    android:id="@+id/messageSenderPhoto"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/space_x2"
+                    android:src="@drawable/icon_user_stub"
+                    app:shadowSize="@dimen/shadow_paper"/>
+
+                <ImageView
+                    android:id="@+id/messageTriangle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-20dp"
+                    android:background="@drawable/message_in_triangle"/>
+
+                <LinearLayout
+                    android:id="@+id/messageBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
+                    android:layout_marginRight="37dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space"
+                    android:gravity="center"
+                    android:background="@drawable/message_in_background">
+
+                    <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
+                        android:id="@+id/messageText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
+                        android:layout_gravity="left"
+                        android:textSize="@dimen/font_normal"
+                        app:emojiconSize="@dimen/font_emoji"
+                        android:textColor="@color/ui_msg_font"
+                        android:textColorLink="@color/font_link"
+                        android:linksClickable="true"
+                        android:autoLink="web|email"
+                        tools:text="Привет!"/>
+
+                    <LinearLayout
+                        android:id="@+id/messageAttachments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/messageDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-32dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/font_micro"
+                    android:textColor="@color/font_dark_tertiary"
+                    tools:text="18:05"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/messageTopSelector"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -118,3 +231,4 @@
     </LinearLayout>
 
 </LinearLayout>
+-->

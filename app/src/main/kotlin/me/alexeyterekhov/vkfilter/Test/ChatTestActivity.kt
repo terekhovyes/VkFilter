@@ -24,6 +24,7 @@ import java.util.Random
 public class ChatTestActivity: ChatActivity() {
     val tests = arrayListOf(
             Pair("Очистить", { clearList() }),
+            Pair("Чтение двух сообщений", { testTwoUnreadMessages() }),
             Pair("Вложения", { testAttachments() }),
             Pair("Сочетания вложений", { testCombinations() }),
             Pair("Даты", { testDates() }),
@@ -575,6 +576,22 @@ public class ChatTestActivity: ChatActivity() {
         }
     }
 
+    private fun testTwoUnreadMessages() {
+        clearList()
+        val messageIn = generateMessage(out = false)
+        val messageOut = generateMessage(out = true)
+        messageIn.isRead = false
+        messageOut.isRead = false
+
+        Handler().postDelayed({
+            getCache().putMessages(arrayListOf(messageIn, messageOut))
+        }, 500)
+        Handler().postDelayed({
+            messageIn.isRead = true
+            getCache().onUpdateMessages(Collections.singleton(messageIn))
+        }, 1000)
+    }
+
     // Util methods
 
     private fun generateMessage(out: Boolean, state: Int = Message.STATE_SENT): Message {
@@ -589,7 +606,7 @@ public class ChatTestActivity: ChatActivity() {
     private fun generateAllTypesOfMessages() = arrayListOf(
             generateMessage(false, Message.STATE_SENT),
             generateMessage(true, Message.STATE_SENT),
-            generateMessage(true, Message.STATE_PROCESSING)
+            generateMessage(true, Message.STATE_SENDING)
     )
 
     private fun clearList() {

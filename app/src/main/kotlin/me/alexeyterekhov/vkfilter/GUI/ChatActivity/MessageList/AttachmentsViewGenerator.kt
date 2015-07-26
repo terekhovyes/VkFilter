@@ -39,7 +39,7 @@ class AttachmentsViewGenerator(
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         val loader = ImageLoader.getInstance()
         return images map {
-            val view = inflater.inflate(R.layout.message_image, root, false) as ImageView
+            val view = inflater.inflate(R.layout.message_attachment_image, root, false) as ImageView
 
             // Set correct aspect ratio
             val targetRatio = maxViewWidth / maxViewHeight.toDouble()
@@ -72,7 +72,7 @@ class AttachmentsViewGenerator(
     fun inflateVideos(videos: List<VideoAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         val loader = ImageLoader.getInstance()
         return videos map {
-            val view = inflater.inflate(R.layout.message_video, root, false)
+            val view = inflater.inflate(R.layout.message_attachment_video, root, false)
             val targetRatio = maxViewWidth / maxViewHeight.toDouble()
             val realRatio = 4 / 3.0
             val params = view.getLayoutParams()
@@ -114,7 +114,7 @@ class AttachmentsViewGenerator(
 
     fun inflateAudios(audios: Collection<AudioAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         return audios map {
-            val view = inflater.inflate(R.layout.message_audio, root, false)
+            val view = inflater.inflate(R.layout.message_attachment_audio, root, false)
 
             val title = view.findViewById(R.id.title) as TextView
             title setText it.title
@@ -135,7 +135,7 @@ class AttachmentsViewGenerator(
 
     fun inflateDocs(docs: Collection<DocAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         return docs map {
-            val view = inflater.inflate(R.layout.message_document, root, false)
+            val view = inflater.inflate(R.layout.message_attachment_document, root, false)
 
             val title = view.findViewById(R.id.title) as TextView
             title setText it.title
@@ -155,7 +155,7 @@ class AttachmentsViewGenerator(
 
     fun inflateLinks(links: Collection<LinkAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
         return links map {
-            val view = inflate.inflate(R.layout.message_link, root, false)
+            val view = inflate.inflate(R.layout.message_attachment_link, root, false)
             val titleView = view.findViewById(R.id.title) as TextView
             val urlView = view.findViewById(R.id.url) as TextView
             val url = it.url
@@ -174,7 +174,7 @@ class AttachmentsViewGenerator(
 
     fun inflateWalls(walls: Collection<WallAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
         return walls map {
-            val view = inflate.inflate(R.layout.message_wall, root, false)
+            val view = inflate.inflate(R.layout.message_attachment_wall, root, false)
             view
         }
     }
@@ -200,9 +200,9 @@ class AttachmentsViewGenerator(
         loader.displayImage(url, view, conf)
     }
 
-    private fun messageToView(m: Message, i: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): ForwardMessageHolder {
-        val view = i.inflate(R.layout.item_fwd_message, root, false)
-        val holder = ForwardMessageHolder(view)
+    private fun messageToView(m: Message, i: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): HolderMessageForward {
+        val view = i.inflate(R.layout.message_attachment_message, root, false)
+        val holder = HolderMessageForward(view)
         if (darkColors)
             holder.setDarkColors()
         with (holder) {

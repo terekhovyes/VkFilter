@@ -3,107 +3,98 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <include layout="@layout/message_day"/>
+
+    <View
+        android:id="@+id/messageUnreadAboveMessage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_x2"
+        android:background="@color/ui_msg_unread"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <FrameLayout
+            android:id="@+id/messageBackSelector"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/messageBack"
+                android:id="@+id/messageUnreadCommon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@color/ui_msg_unread"/>
 
-            <ImageView
-                android:id="@+id/backSelector"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_half"
-                android:orientation="vertical">
+                android:paddingLeft="@dimen/space"
+                android:layout_marginTop="@dimen/space_half"
+                android:layout_marginBottom="@dimen/space_half">
 
-                <Space
-                    android:id="@+id/spaceAbove"
-                    android:layout_width="1dp"
-                    android:layout_height="@dimen/space_x2" />
+                <ImageView
+                    android:id="@+id/messageTriangle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="-20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/message_out_triangle"/>
 
-                <RelativeLayout android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/messageBody"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/space">
+                    android:minHeight="30dp"
+                    android:layout_marginLeft="37dp"
+                    android:layout_toLeftOf="@id/messageTriangle"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space"
+                    android:gravity="center"
+                    android:background="@drawable/message_out_background">
 
-                    <ImageView
-                        android:id="@+id/messageTriangle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="-20dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/message_out_triangle"/>
-
-                    <LinearLayout
-                        android:id="@+id/messageContainer"
+                    <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
+                        android:id="@+id/messageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:layout_marginLeft="37dp"
-                        android:layout_toLeftOf="@id/messageTriangle"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space"
-                        android:gravity="center"
-                        android:background="@drawable/message_out_background">
+                        android:layout_marginTop="-2dp"
+                        android:layout_gravity="left"
+                        android:textSize="@dimen/font_normal"
+                        app:emojiconSize="@dimen/font_emoji"
+                        android:textColor="@color/ui_msg_font"
+                        android:textColorLink="@color/font_link"
+                        android:linksClickable="true"
+                        android:autoLink="web|email"
+                        android:background="@null"
+                        tools:text="Всем привет привет привет!"/>
 
-                        <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
-                            android:id="@+id/messageText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-2dp"
-                            android:layout_gravity="left"
-                            android:textSize="@dimen/font_normal"
-                            app:emojiconSize="@dimen/font_emoji"
-                            android:textColor="@color/ui_msg_font"
-                            android:textColorLink="@color/font_link"
-                            android:linksClickable="true"
-                            android:autoLink="web|email"
-                            android:background="@null"/>
-
-                        <LinearLayout
-                            android:id="@+id/attachmentsLayout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/date"
+                    <LinearLayout
+                        android:id="@+id/messageAttachments"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="-32dp"
-                        android:layout_toLeftOf="@id/messageContainer"
-                        android:gravity="center"
-                        android:textSize="@dimen/font_micro"
-                        android:textColor="@color/font_dark_tertiary"
-                        tools:text="18:05"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/messageDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="-32dp"
+                    android:layout_toLeftOf="@id/messageBody"
+                    android:gravity="center"
+                    android:textSize="@dimen/font_micro"
+                    android:textColor="@color/font_dark_tertiary"
+                    tools:text="18:05"/>
+
+            </RelativeLayout>
 
             <FrameLayout
-                android:id="@+id/topSelector"
+                android:id="@+id/messageTopSelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"/>

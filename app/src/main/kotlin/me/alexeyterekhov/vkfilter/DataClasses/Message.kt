@@ -7,7 +7,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.Attachments.Attachments
 class Message(val senderId: String) {
     companion object {
         val STATE_SENT = 0
-        val STATE_PROCESSING = 1
+        val STATE_SENDING = 1
         val STATE_IN_EDIT = 2
     }
 

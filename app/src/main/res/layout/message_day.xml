@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/messageDayLayout"
+    android:id="@+id/messageStripLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView android:id="@+id/messageDay"
-              android:layout_width="match_parent"
-              android:layout_height="30dp"
-              android:layout_marginTop="@dimen/space_x2"
-              android:gravity="center|center_vertical"
-              android:background="@color/ui_msg_day"
-              android:textColor="@color/ui_msg_font"
-              android:textSize="@dimen/font_normal"
-              tools:text="Сегодня"/>
+    <View
+        android:id="@+id/messageUnreadAboveStrip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_x2"
+        android:background="@color/ui_msg_unread"/>
+
+    <TextView
+        android:id="@+id/messageStripText"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center|center_vertical"
+        android:background="@color/ui_msg_day"
+        android:textColor="@color/ui_msg_font"
+        android:textSize="@dimen/font_normal"
+        tools:text="сегодня"/>
 
 </LinearLayout>

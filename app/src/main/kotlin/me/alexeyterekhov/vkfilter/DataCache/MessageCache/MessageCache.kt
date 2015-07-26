@@ -89,7 +89,7 @@ class MessageCache {
         concurrentActions.firstAction(guid, {
             if (messagesWithoutState contains guid) {
                 val message = messagesWithoutState remove guid
-                message.sentState = Message.STATE_PROCESSING
+                message.sentState = Message.STATE_SENDING
                 processingMessages add message
                 listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
             }

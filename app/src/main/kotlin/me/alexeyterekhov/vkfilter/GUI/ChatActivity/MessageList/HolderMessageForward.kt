@@ -11,7 +11,7 @@ import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 
-class ForwardMessageHolder(val view: View) {
+class HolderMessageForward(val view: View) {
     val messageText = view.findViewById(R.id.messageText) as TextView
     val dateText = view.findViewById(R.id.date) as TextView
     val senderName = view.findViewById(R.id.senderName) as TextView

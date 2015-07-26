@@ -115,7 +115,7 @@ public object Mocker {
                 false
         )
         val states = arrayListOf(
-                Message.STATE_PROCESSING,
+                Message.STATE_SENDING,
                 Message.STATE_SENT,
                 Message.STATE_SENT,
                 Message.STATE_SENT,

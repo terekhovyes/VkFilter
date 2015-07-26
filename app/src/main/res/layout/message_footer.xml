@@ -3,4 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/space_x3">
 
+    <View
+        android:id="@+id/footerUnread"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ui_msg_unread"
+        android:visibility="gone"/>
+
 </FrameLayout>
