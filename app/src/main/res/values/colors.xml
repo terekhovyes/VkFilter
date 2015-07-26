@@ -18,7 +18,6 @@
     <color name="m_green_very_light">#2A009688</color>
     <color name="m_green_opacity70">#B3009688</color>
     <color name="m_blue_opacity75">#BF52A9BD</color>
-    <color name="m_blue_opacity20">#3352A9BD</color>
     <color name="m_olive_opacity80">#CC91CC62</color>
     <color name="m_peachy_dark">#C88D7A</color>
     <color name="m_black_opacity07">#11444444</color>
@@ -48,12 +47,11 @@
 
     <color name="ui_msg_out">@color/m_blue_opacity75</color>
     <color name="ui_msg_in">@color/m_green_opacity70</color>
-    <color name="ui_msg_sending">@color/m_blue_opacity20</color>
     <color name="ui_msg_day">@color/m_olive_opacity80</color>
     <color name="ui_msg_selected">@color/m_peachy</color>
     <color name="ui_msg_selected_toolbar">@color/m_peachy_dark</color>
     <color name="ui_msg_unread">@color/m_green_very_light</color>
-    <color name="ui_msg_font_sending">@color/m_white_opacity80</color>
+    <color name="ui_msg_sending_tint">@color/m_white_opacity80</color>
     <color name="ui_msg_font">@color/m_white_absolute</color>
 
     <color name="ui_refresh1">@color/m_green_opacity70</color>

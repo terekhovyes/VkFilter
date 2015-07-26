@@ -93,6 +93,14 @@
 
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/messageSendingTint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/ui_msg_sending_tint"
+                android:visibility="gone"
+                />
+
             <FrameLayout
                 android:id="@+id/messageTopSelector"
                 android:layout_width="match_parent"
