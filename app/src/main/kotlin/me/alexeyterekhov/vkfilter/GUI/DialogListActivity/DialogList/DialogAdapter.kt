@@ -138,32 +138,32 @@ class DialogAdapter(val list: RecyclerView) :
         when (data.getImageCount()) {
             1 -> {
                 h.singleImage.setVisibility(View.VISIBLE)
-                h.doubleLayout.setVisibility(View.GONE)
-                h.tripleLayout.setVisibility(View.GONE)
-                h.quadLayout.setVisibility(View.GONE)
+                h.doubleLayout.setVisibility(View.INVISIBLE)
+                h.tripleLayout.setVisibility(View.INVISIBLE)
+                h.quadLayout.setVisibility(View.INVISIBLE)
                 loadImage(h.singleImage, data.getImageUrl(0))
             }
             2 -> {
-                h.singleImage.setVisibility(View.GONE)
+                h.singleImage.setVisibility(View.INVISIBLE)
                 h.doubleLayout.setVisibility(View.VISIBLE)
-                h.tripleLayout.setVisibility(View.GONE)
-                h.quadLayout.setVisibility(View.GONE)
+                h.tripleLayout.setVisibility(View.INVISIBLE)
+                h.quadLayout.setVisibility(View.INVISIBLE)
                 loadImage(h.doubleImage1, data.getImageUrl(0))
                 loadImage(h.doubleImage2, data.getImageUrl(1))
             }
             3 -> {
-                h.singleImage.setVisibility(View.GONE)
-                h.doubleLayout.setVisibility(View.GONE)
+                h.singleImage.setVisibility(View.INVISIBLE)
+                h.doubleLayout.setVisibility(View.INVISIBLE)
                 h.tripleLayout.setVisibility(View.VISIBLE)
-                h.quadLayout.setVisibility(View.GONE)
+                h.quadLayout.setVisibility(View.INVISIBLE)
                 loadImage(h.tripleImage1, data.getImageUrl(0))
                 loadImage(h.tripleImage2, data.getImageUrl(1))
                 loadImage(h.tripleImage3, data.getImageUrl(2))
             }
             4 -> {
-                h.singleImage.setVisibility(View.GONE)
-                h.doubleLayout.setVisibility(View.GONE)
-                h.tripleLayout.setVisibility(View.GONE)
+                h.singleImage.setVisibility(View.INVISIBLE)
+                h.doubleLayout.setVisibility(View.INVISIBLE)
+                h.tripleLayout.setVisibility(View.INVISIBLE)
                 h.quadLayout.setVisibility(View.VISIBLE)
                 loadImage(h.quadImage1, data.getImageUrl(0))
                 loadImage(h.quadImage2, data.getImageUrl(1))
