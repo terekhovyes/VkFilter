@@ -1,5 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
+import android.os.Handler
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDependAdapter
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
@@ -13,16 +14,30 @@ class RequestModule(val activity: ChatActivity) {
     companion object {
         val LOAD_PORTION = 40
         val LOAD_THRESHOLD = 20
+        val MAX_SYMBOLS_IN_MESSAGE = 3000
 
-        fun sendMessage(message: Message, id: String, isChat: Boolean) {
-            val request = RequestMessageSend(
-                    message,
-                    id,
-                    isChat
-            )
+        fun sendMessage(message: Message, id: String, isChat: Boolean, restOfSending: Boolean = false) {
+            var restText = ""
+            if (message.text.count() > MAX_SYMBOLS_IN_MESSAGE) {
+                restText = message.text.substring(MAX_SYMBOLS_IN_MESSAGE)
+                message.text = message.text.substring(0, MAX_SYMBOLS_IN_MESSAGE)
+            }
+
+            val request = RequestMessageSend(message, id, isChat)
             val guid = request.getSendingGuid()
             RequestControl addBackgroundOrdered request
-            MessageCaches.getCache(id, isChat).onWillSendMessage(guid)
+            if (!restOfSending)
+                MessageCaches.getCache(id, isChat).onWillSendMessage(guid)
+            else
+                MessageCaches.getCache(id, isChat).onWillSendMessage(guid, message)
+
+            if (restText != "") {
+                val restMessage = Message(message.senderId)
+                restMessage.isOut = true
+                restMessage.isRead = false
+                restMessage.text = restText
+                Handler().postDelayed({ sendMessage(restMessage, id, isChat, restOfSending = true) }, 1000)
+            }
         }
     }
 
