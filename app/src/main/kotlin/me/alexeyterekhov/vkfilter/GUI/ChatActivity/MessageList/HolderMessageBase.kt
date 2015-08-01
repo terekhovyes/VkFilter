@@ -77,6 +77,7 @@ open class HolderMessageBase(view: View): RecyclerView.ViewHolder(view) {
     }
     fun isUnreadAboveMessageShown() = unreadAboveMessage.getVisibility() == View.VISIBLE
     fun setUnreadAboveStrip(unread: Boolean) = unreadAboveStrip setVisibility if (unread) View.VISIBLE else View.INVISIBLE
+    fun isUnreadAboveStripShown() = unreadAboveStrip.getVisibility() == View.VISIBLE
     fun setUnreadCommon(unread: Boolean) = unreadCommon setVisibility if (unread) View.VISIBLE else View.INVISIBLE
     fun setTopSelectorClickable(clickable: Boolean) = selectorTop setVisibility if (clickable) View.VISIBLE else View.GONE
     fun animateReadingCommon(duration: Long, offset: Long, timeFromStart: Long = 0L) {

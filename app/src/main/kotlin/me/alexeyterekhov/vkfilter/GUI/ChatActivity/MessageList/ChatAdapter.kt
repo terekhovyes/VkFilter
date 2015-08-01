@@ -102,6 +102,7 @@ class ChatAdapter(
         } else {
             val baseHolder = holder as HolderMessageBase
             val message = messages[position]
+            val messageIsSending = message.sentState == Message.STATE_SENDING
             val messageFirstInChain = position == 0 || isFirstReply(position)
             val messageFirstInDay = position > 0 && !isSameDay(message.sentTimeMillis, messages[position - 1].sentTimeMillis)
             val messageFirstInDialog = position == 0 && MessageCaches.getCache(dialogId, isChat).historyLoaded
@@ -127,13 +128,13 @@ class ChatAdapter(
             }
 
             // Listeners
-            val topSelIsClickable = selectedMessageIds.isNotEmpty() && message.sentState != Message.STATE_SENDING
+            val topSelIsClickable = selectedMessageIds.isNotEmpty() && !messageIsSending
             baseHolder.setTopSelectorClickable(topSelIsClickable)
             if (topSelIsClickable) {
                 baseHolder.selectorTop setOnClickListener shortClickListener
                 baseHolder.selectorTop setOnLongClickListener longClickListener
             }
-            if (message.sentState != Message.STATE_SENDING)
+            if (!messageIsSending)
                 baseHolder.selectorBack setOnLongClickListener longClickListener
 
             // Colors
@@ -171,13 +172,13 @@ class ChatAdapter(
             }
             baseHolder.setMessageText(message.text)
             baseHolder.setMessageDate(
-                    if (message.sentState == Message.STATE_SENDING)
+                    if (messageIsSending)
                         ""
                     else
                         DateFormat.time(message.sentTimeMillis / 1000L)
             )
             baseHolder.showTriangle(messageFirstInChain || messageFirstInDay || messageFirstInDialog)
-            if (message.sentState == Message.STATE_SENDING) {
+            if (messageIsSending) {
                 if (position == 0 || messages[position - 1].sentState != Message.STATE_SENDING
                         && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis())) {
                     baseHolder.showStrip(true)
@@ -192,70 +193,78 @@ class ChatAdapter(
                     baseHolder.showStrip(false)
             }
 
-            // Unread spaces colors and visibility
-            val messageUnread = isUnreadColorVisible(message)
-            baseHolder.setUnreadCommon(messageUnread)
-            when {
-                (message.sentState == Message.STATE_SENDING
-                        || !messageFirstInDay && !messageFirstInDialog) && !messageFirstInChain -> {
-                    baseHolder.setUnreadAboveMessage(show = false)
-                }
-                message.sentState == Message.STATE_SENDING && messageFirstInChain -> {
-                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
-                }
-                !messageUnread -> {
-                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
-                }
-                messageFirstInDialog || messageFirstInDay -> {
-                    baseHolder.setUnreadAboveMessage(show = true, unread = true)
-                }
-                messageFirstInChain && position == 0 -> {
-                    baseHolder.setUnreadAboveMessage(show = true, unread = false)
-                }
-                messageFirstInChain -> {
-                    val prevMessageUnread = isUnreadColorVisible(messages[position - 1])
-                    baseHolder.setUnreadAboveMessage(show = true, unread = prevMessageUnread)
+            // Setting spaces, unread colors
+            val messageFirstInAny = messageFirstInDay || messageFirstInDialog || messageFirstInChain
+            val unreadVisible = isUnreadColorVisible(message)
+            baseHolder.setUnreadCommon(unreadVisible)
+            // above message
+            if (messageIsSending) {
+                baseHolder.setUnreadAboveMessage(show = messageFirstInChain, unread = false)
+            } else {
+                when {
+                    !messageFirstInAny -> baseHolder.setUnreadAboveMessage(show = false)
+                    !unreadVisible -> baseHolder.setUnreadAboveMessage(show = true, unread = false)
+                    messageFirstInDay || messageFirstInDialog -> baseHolder.setUnreadAboveMessage(show = true, unread = true)
+                    messageFirstInChain && position == 0 -> baseHolder.setUnreadAboveMessage(show = true, unread = false)
+                    messageFirstInChain
+                        -> baseHolder.setUnreadAboveMessage(show = true, unread = isUnreadColorVisible(messages[position - 1]))
                 }
             }
+            // above strip
             if (messageFirstInDay || messageFirstInDialog) {
                 when {
-                    position == 0 -> {
-                        baseHolder.setUnreadAboveStrip(false)
-                    }
-                    else -> {
-                        val prevMessageUnread = isUnreadColorVisible(messages[position - 1])
-                        baseHolder.setUnreadAboveStrip(prevMessageUnread)
-                    }
+                    position == 0 -> baseHolder.setUnreadAboveStrip(false)
+                    else -> baseHolder.setUnreadAboveStrip(isUnreadColorVisible(messages[position - 1]))
                 }
             }
 
-            // Read animation of this message
+            // Reading animations
             val duration = READ_DURATION
             val offset = if (message.isIn) READ_OFFSET else 0L
-            val isSpaceAboveMessage = baseHolder.isUnreadAboveMessageShown()
             if (readAnimationMessages remove message) {
                 readAnimationStartTime.put(message, System.currentTimeMillis())
                 Handler().postDelayed({ readAnimationStartTime remove message }, duration + offset)
             }
+            // message base
             if (readAnimationStartTime contains message) {
                 val startTime = readAnimationStartTime get message
-                val timeFromAnimationStart = System.currentTimeMillis() - startTime
-                baseHolder.animateReadingCommon(duration, offset, timeFromAnimationStart)
-                if (isSpaceAboveMessage)
-                    baseHolder.animateReadingAboveMessage(duration, offset, timeFromAnimationStart)
+                baseHolder.animateReadingCommon(duration, offset, System.currentTimeMillis() - startTime)
             }
-
-            // Read animation of prev message
-            if (messageFirstInDay && position > 0) {
+            // above message
+            if (baseHolder.isUnreadAboveMessageShown()) {
+                if (position > 0
+                        && !messageFirstInDay && !messageFirstInDialog && messageFirstInChain
+                        && readAnimationStartTime contains messages[position - 1]
+                ) {
+                    val prevMessage = messages[position - 1]
+                    val prevOffset = if (prevMessage.isIn) READ_OFFSET else 0L
+                    val prevStartTime = readAnimationStartTime get prevMessage
+                    if (readAnimationStartTime contains message) {
+                        val startTime = readAnimationStartTime get message
+                        if (startTime + offset < prevStartTime + prevOffset) {
+                            baseHolder.animateReadingAboveMessage(duration, offset, System.currentTimeMillis() - startTime)
+                        } else {
+                            baseHolder.animateReadingAboveMessage(duration, prevOffset, System.currentTimeMillis() - prevStartTime)
+                        }
+                    } else {
+                        baseHolder.animateReadingAboveMessage(duration, prevOffset, System.currentTimeMillis() - prevStartTime)
+                    }
+                } else {
+                    if (readAnimationStartTime contains message) {
+                        val startTime = readAnimationStartTime get message
+                        baseHolder.animateReadingAboveMessage(duration, offset, System.currentTimeMillis() - startTime)
+                    }
+                }
+            }
+            // above strip
+            if (baseHolder.isUnreadAboveStripShown() && position > 0) {
                 val prevMessage = messages[position - 1]
-                val prevDuration = READ_DURATION
                 val prevOffset = if (prevMessage.isIn) READ_OFFSET else 0L
                 if (readAnimationMessages contains prevMessage) {
-                    baseHolder.animateReadingAboveStrip(prevDuration, prevOffset)
+                    baseHolder.animateReadingAboveStrip(duration, prevOffset)
                 } else if (readAnimationStartTime contains prevMessage) {
                     val startTime = readAnimationStartTime get prevMessage
-                    val timeFromAnimationStart = System.currentTimeMillis() - startTime
-                    baseHolder.animateReadingAboveStrip(prevDuration, prevOffset, timeFromAnimationStart)
+                    baseHolder.animateReadingAboveStrip(duration, prevOffset, System.currentTimeMillis() - startTime)
                 }
             }
         }
@@ -327,10 +336,11 @@ class ChatAdapter(
     }
 
     private fun isUnreadColorVisible(msg: Message): Boolean {
-        return msg.sentState != Message.STATE_SENDING
-                && (msg.isNotRead
+        if (msg.sentState == Message.STATE_SENDING)
+            return false
+        return msg.isNotRead
                 || readAnimationMessages contains msg
-                || readAnimationStartTime containsKey msg)
+                || readAnimationStartTime containsKey msg
     }
     private fun isFirstReply(pos: Int): Boolean {
         if (pos == 0)

@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.Test
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -582,12 +583,15 @@ public class ChatTestActivity: ChatActivity() {
         val messageOut = generateMessage(out = true)
         messageIn.isRead = false
         messageOut.isRead = false
+        messageIn.sentId = 1L
+        messageOut.sentId = 2L
 
         Handler().postDelayed({
             getCache().putMessages(arrayListOf(messageIn, messageOut))
         }, 500)
         Handler().postDelayed({
             messageIn.isRead = true
+            Log.d("test", "update income message")
             getCache().onUpdateMessages(Collections.singleton(messageIn))
         }, 1000)
     }
