@@ -182,7 +182,7 @@ class ChatAdapter(
                 if (position == 0 || messages[position - 1].sentState != Message.STATE_SENDING
                         && !isSameDay(messages[position - 1].sentTimeMillis, System.currentTimeMillis())) {
                     baseHolder.showStrip(true)
-                    baseHolder.setStripText(DateFormat.messageListDayContainer(message.sentTimeMillis))
+                    baseHolder.setStripText(DateFormat.messageListDayContainer(System.currentTimeMillis()))
                 } else
                     baseHolder.showStrip(false)
             } else {
