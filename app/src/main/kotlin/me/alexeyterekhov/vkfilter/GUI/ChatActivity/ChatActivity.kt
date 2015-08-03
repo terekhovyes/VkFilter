@@ -9,7 +9,7 @@ import com.rockerhieu.emojicon.EmojiconGridFragment
 import com.rockerhieu.emojicon.EmojiconsFragment
 import com.rockerhieu.emojicon.emoji.Emojicon
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogsActivity
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -79,7 +79,7 @@ open public class ChatActivity:
     }
     override fun onBackPressed() {
         if (launchParameters.isLaunchedFromNotification()) {
-            startActivity(Intent(AppContext.instance, javaClass<DialogListActivity>()))
+            startActivity(Intent(AppContext.instance, javaClass<DialogsActivity>()))
             overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
             finish()
         } else {

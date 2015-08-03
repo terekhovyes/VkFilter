@@ -9,8 +9,8 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.DialogListSnapshot
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.LinkedList
@@ -209,7 +209,7 @@ public object Mocker {
             val dialog = Dialog()
             with (dialog) {
                 id = i.toLong()
-                addPartner(partner)
+                partners add partner
                 lastMessage = message
             }
             out add dialog
@@ -244,12 +244,12 @@ public object Mocker {
         for (i in 0..chatTitles.size() - 1) {
             val dialog = Dialog()
 
-            dialog.title = chatTitles[i]
+            dialog.chatTitle = chatTitles[i]
             for (j in 0..chatPhotos[i].size() - 1) {
                 val partner = User()
                 partner.id = j.toString()
                 partner.photoUrl = chatPhotos[i][j]
-                dialog.addPartner(partner)
+                dialog.partners add partner
             }
             val message = Message("me")
             with (message) {

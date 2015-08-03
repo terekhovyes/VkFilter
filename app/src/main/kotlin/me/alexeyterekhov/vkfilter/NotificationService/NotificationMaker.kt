@@ -14,7 +14,7 @@ import com.nostra13.universalimageloader.utils.DiskCacheUtils
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.Common.RoundBitmap
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogsActivity
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.TextFormat
@@ -187,10 +187,10 @@ public object NotificationMaker {
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
     private fun createDialogListActivityIntent(context: Context): PendingIntent {
-        val dialogIntent = Intent(context, javaClass<DialogListActivity>())
+        val dialogIntent = Intent(context, javaClass<DialogsActivity>())
 
         val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(javaClass<DialogListActivity>())
+        stackBuilder.addParentStack(javaClass<DialogsActivity>())
         stackBuilder.addNextIntent(dialogIntent)
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }

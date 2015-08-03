@@ -7,7 +7,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
 import org.json.JSONException
@@ -78,18 +78,18 @@ public object JSONParser {
         val dialog = Dialog()
         dialog.lastMessage = parseItemMessage(item)
         dialog.id = item.optLong("chat_id", item.optLong("user_id", 0))
-        dialog.photoUrl = findPhotoMax(item) ?: ""
+        dialog.chatPhotoUrl = findPhotoMax(item) ?: ""
         val title = item.getString("title")
         if (title != " ... ")
-            dialog.title = title
+            dialog.chatTitle = title
 
         // fill conversation partners
         if (item.has("chat_id")) {
             val partners = item.getJSONArray("chat_active")
             for (j in 0..partners.length() - 1)
-                dialog.addPartner(UserCache.getUser(partners.getString(j))!!)
+                dialog.partners add UserCache.getUser(partners.getString(j))!!
         } else
-            dialog.addPartner(UserCache.getUser(item.getString("user_id"))!!)
+            dialog.partners add UserCache.getUser(item.getString("user_id"))!!
 
         return dialog
     }

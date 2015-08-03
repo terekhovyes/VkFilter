@@ -50,34 +50,34 @@ public class DialogListAdapter(
         val dialog = snapshot.dialogs get position
 
         with (h as DialogItemHolder) {
-            if (dialog.isChat() && dialog.photoUrl == "") {
-                when (dialog.getPartnersCount()) {
+            if (dialog.isChat() && dialog.chatPhotoUrl == "") {
+                when (dialog.partners.count()) {
                     2 -> {
                         singlePic setVisibility View.GONE
                         doubleLayout setVisibility View.VISIBLE
                         tripleLayout setVisibility View.GONE
                         quadLayout setVisibility View.GONE
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(0), doublePic1)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(1), doublePic2)
+                        imageLoader.displayImage(dialog.partners[0].photoUrl, doublePic1)
+                        imageLoader.displayImage(dialog.partners[1].photoUrl, doublePic2)
                     }
                     3 -> {
                         singlePic setVisibility View.GONE
                         doubleLayout setVisibility View.GONE
                         tripleLayout setVisibility View.VISIBLE
                         quadLayout setVisibility View.GONE
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(0), triplePic1)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(1), triplePic2)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(2), triplePic3)
+                        imageLoader.displayImage(dialog.partners[0].photoUrl, triplePic1)
+                        imageLoader.displayImage(dialog.partners[1].photoUrl, triplePic2)
+                        imageLoader.displayImage(dialog.partners[2].photoUrl, triplePic3)
                     }
                     else -> {
                         singlePic setVisibility View.GONE
                         doubleLayout setVisibility View.GONE
                         tripleLayout setVisibility View.GONE
                         quadLayout setVisibility View.VISIBLE
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(0), quadPic1)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(1), quadPic2)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(2), quadPic3)
-                        imageLoader.displayImage(dialog.getPartnerPhotoUrl(3), quadPic4)
+                        imageLoader.displayImage(dialog.partners[0].photoUrl, quadPic1)
+                        imageLoader.displayImage(dialog.partners[1].photoUrl, quadPic2)
+                        imageLoader.displayImage(dialog.partners[2].photoUrl, quadPic3)
+                        imageLoader.displayImage(dialog.partners[3].photoUrl, quadPic4)
                     }
                 }
             } else {
@@ -85,13 +85,13 @@ public class DialogListAdapter(
                 doubleLayout setVisibility View.GONE
                 tripleLayout setVisibility View.GONE
                 quadLayout setVisibility View.GONE
-                if (dialog.photoUrl == "")
-                    imageLoader.displayImage(dialog.getPartnerPhotoUrl(0), singlePic)
+                if (dialog.chatPhotoUrl == "")
+                    imageLoader.displayImage(dialog.partners[0].photoUrl, singlePic)
                 else
-                    imageLoader.displayImage(dialog.photoUrl, singlePic)
+                    imageLoader.displayImage(dialog.chatPhotoUrl, singlePic)
             }
 
-            name setText dialog.title
+            name setText dialog.getTitle()
             val message = dialog.lastMessage
             if (message != null) {
                 imageLoader.displayImage(message.senderOrEmpty().photoUrl, senderIcon)

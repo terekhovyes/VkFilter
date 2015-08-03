@@ -1,8 +1,8 @@
 package me.alexeyterekhov.vkfilter.DataCache
 
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.Dialog
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data.DialogListSnapshot
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import java.util.Vector
 

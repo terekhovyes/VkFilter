@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.DialogListActivity
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogsActivity
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.R
 
@@ -56,7 +56,7 @@ public class LoginActivity: AppCompatActivity() {
     }
 
     private fun startDialogActivity() {
-        startActivity(Intent(this, javaClass<DialogListActivity>()))
+        startActivity(Intent(this, javaClass<DialogsActivity>()))
         finish()
     }
 

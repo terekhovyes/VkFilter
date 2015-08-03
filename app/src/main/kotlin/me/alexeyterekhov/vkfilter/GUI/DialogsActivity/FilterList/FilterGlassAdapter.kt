@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass
+package me.alexeyterekhov.vkfilter.GUI.DialogsActivity.FilterList
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".GUI.DialogListActivity.DialogListActivity"
+        <activity android:name=".GUI.DialogsActivity.DialogsActivity"
             android:label="@string/dialog_label_toolbar_title"
             android:launchMode="singleTask"/>
         

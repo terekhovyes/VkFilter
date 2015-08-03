@@ -1,4 +1,4 @@
-package me.alexeyterekhov.vkfilter.GUI.DialogListActivity.Data
+package me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data
 
 import java.util.Vector
 

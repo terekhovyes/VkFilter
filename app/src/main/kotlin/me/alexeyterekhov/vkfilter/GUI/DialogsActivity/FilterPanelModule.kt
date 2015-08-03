@@ -1,9 +1,10 @@
-package me.alexeyterekhov.vkfilter.GUI.DialogListActivity
+package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -22,7 +23,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
-import me.alexeyterekhov.vkfilter.GUI.DialogListActivity.FilterGlass.FilterGlassAdapter
+import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.FilterList.FilterGlassAdapter
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
@@ -30,14 +31,12 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestChats
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import me.alexeyterekhov.vkfilter.Util.DataSaver
 import java.util.LinkedList
 
-
-class ActivityGlassModule(val activity: DialogListActivity) {
+class FilterPanelModule(val activity: DialogsActivity) {
     companion object {
-        val SAVED_KEY = "GlassModuleSaved"
-        val VISIBLE_KEY = "GlassModuleVisible"
+        val SAVED_KEY = "FilterModuleSaved"
+        val VISIBLE_KEY = "FilterModuleVisible"
     }
 
     private val handler = Handler()
@@ -45,18 +44,19 @@ class ActivityGlassModule(val activity: DialogListActivity) {
 
     private var manageButtonPressed = false
 
-    fun onCreate() {
-        if (DataSaver removeObject SAVED_KEY != null) {
-            if (DataSaver removeObject VISIBLE_KEY != null) {
-                with (findMainBtn()) {
-                    setVisibility(View.VISIBLE)
-                    setImageResource(R.drawable.button_close_noback)
+    fun onCreate(savedState: Bundle?) {
+        if (savedState != null) {
+            if (savedState containsKey SAVED_KEY)
+                if (savedState containsKey VISIBLE_KEY) {
+                    with (findMainBtn()) {
+                        setVisibility(View.VISIBLE)
+                        setImageResource(R.drawable.button_close_noback)
+                    }
+                    findResetBtn() setVisibility View.VISIBLE
+                    findManageBtn() setVisibility View.VISIBLE
+                    findLayout() setVisibility View.VISIBLE
+                    subscribe()
                 }
-                findResetBtn() setVisibility View.VISIBLE
-                findManageBtn() setVisibility View.VISIBLE
-                findLayout() setVisibility View.VISIBLE
-                subscribe()
-            }
         }
 
         findMainBtn() setOnClickListener {
@@ -87,12 +87,12 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         with (findList()) {
             if (getAdapter() == null) setAdapter(
                     FilterGlassAdapter(
-                        this,
-                        object : DataDepend {
-                            override fun onDataUpdate() {
-                                activity.getDialogAdapter()!!.filterDataAgain()
+                            this,
+                            object : DataDepend {
+                                override fun onDataUpdate() {
+                                    activity.dialogListModule.getAdapter()!!.checkForFilters()
+                                }
                             }
-                        }
                     )
             )
             if (getLayoutManager() == null) setLayoutManager(LinearLayoutManager(
@@ -109,15 +109,17 @@ class ActivityGlassModule(val activity: DialogListActivity) {
     fun onDestroy() {
         unsubscribe()
     }
-    fun saveState() {
+    fun saveState(): Bundle {
+        val bundle = Bundle()
         if (findLayout().getVisibility() == View.VISIBLE) {
             if (manageButtonPressed)
                 manageButtonPressed = false
             else {
-                DataSaver.putObject(SAVED_KEY, true)
-                DataSaver.putObject(VISIBLE_KEY, true)
+                bundle.putBoolean(SAVED_KEY, true)
+                bundle.putBoolean(VISIBLE_KEY, true)
             }
         }
+        return bundle
     }
 
     private fun subscribe() {
@@ -138,9 +140,9 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         val userIds = filters
                 .map {
                     it.identifiers()
-                        .filter { it.type == VkIdentifier.TYPE_USER }
-                        .map { it.id.toString() }
-                        .filter { !(UserCache contains it) }}
+                            .filter { it.type == VkIdentifier.TYPE_USER }
+                            .map { it.id.toString() }
+                            .filter { !(UserCache contains it) }}
                 .fold(LinkedList<String>(), {
                     res, ids ->
                     res addAll ids
@@ -151,9 +153,9 @@ class ActivityGlassModule(val activity: DialogListActivity) {
         val chatIds = filters
                 .map {
                     it.identifiers()
-                        .filter { it.type == VkIdentifier.TYPE_CHAT }
-                        .map { it.id.toString() }
-                        .filter { !(ChatInfoCache contains it) }}
+                            .filter { it.type == VkIdentifier.TYPE_CHAT }
+                            .map { it.id.toString() }
+                            .filter { !(ChatInfoCache contains it) }}
                 .fold(LinkedList<String>(), {
                     res, ids ->
                     res addAll ids
