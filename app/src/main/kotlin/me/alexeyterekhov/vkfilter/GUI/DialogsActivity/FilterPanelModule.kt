@@ -84,6 +84,11 @@ class FilterPanelModule(val activity: DialogsActivity) {
 
         val filtersFromDatabase = DAOFilters.loadVkFilters()
 
+        if (filtersFromDatabase.isEmpty())
+            findMainBtn().setVisibility(View.INVISIBLE)
+        else
+            findMainBtn().setVisibility(View.VISIBLE)
+
         with (findList()) {
             if (getAdapter() == null) setAdapter(
                     FilterGlassAdapter(
