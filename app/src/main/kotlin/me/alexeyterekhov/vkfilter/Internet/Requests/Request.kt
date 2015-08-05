@@ -9,5 +9,6 @@ public abstract class Request(serverFun: String) {
 
     fun getParameters() = params
     fun getServerFunName() = serverFunName
+    open fun allowExecuteRequest() = true
     abstract fun handleResponse(json: JSONObject)
 }

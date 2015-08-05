@@ -11,31 +11,31 @@ import me.alexeyterekhov.vkfilter.R
 open class HolderMessageBase(view: View): RecyclerView.ViewHolder(view) {
     companion object {
         fun animateDisappearing(view: View, duration: Long, offset: Long, timeFromStart: Long) {
-            if (timeFromStart > offset + duration)
-                view setVisibility View.INVISIBLE
-            else {
-                val animation = when {
-                    timeFromStart > duration -> {
-                        val a = AlphaAnimation(1f, 0f)
-                        a.setStartOffset(offset - timeFromStart)
-                        a.setDuration(duration)
-                        a
-                    }
-                    else -> {
-                        val startOpacity = Math.max(0f, 1f - (timeFromStart - offset) / duration.toFloat())
-                        val a = AlphaAnimation(startOpacity, 0f)
-                        a.setDuration((duration * startOpacity).toLong())
-                        a
-                    }
+            val animationListener = object : Animation.AnimationListener {
+                override fun onAnimationEnd(animation: Animation?) {
+                    view setVisibility View.INVISIBLE
                 }
-                animation setAnimationListener object : Animation.AnimationListener {
-                    override fun onAnimationEnd(animation: Animation?) {
-                        view setVisibility View.INVISIBLE
-                    }
-                    override fun onAnimationStart(animation: Animation?) {}
-                    override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+            }
+
+            when {
+                timeFromStart >= offset + duration -> view setVisibility View.INVISIBLE
+                timeFromStart > offset -> {
+                    val startOpacity = Math.max(0f, 1f - (timeFromStart - offset) / duration.toFloat())
+                    val animation = AlphaAnimation(startOpacity, 0f)
+                    val restPartOfAnimation = startOpacity
+                    animation setDuration (duration * restPartOfAnimation).toLong()
+                    animation setAnimationListener animationListener
+                    view startAnimation animation
                 }
-                view startAnimation animation
+                else -> {
+                    val animation = AlphaAnimation(1f, 0f)
+                    animation setStartOffset offset - timeFromStart
+                    animation setDuration duration
+                    animation setAnimationListener animationListener
+                    view startAnimation animation
+                }
             }
         }
     }

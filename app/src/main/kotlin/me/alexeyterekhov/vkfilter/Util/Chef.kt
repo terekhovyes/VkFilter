@@ -9,9 +9,9 @@ import java.util.Vector
 
 public object Chef {
     // What to do with the dish on exception
-    val NOT_COOK_INGREDIENT_ANYMORE = 1
-    val COOK_AGAIN_LATER = 2
-    val COOK_AGAIN_IMMEDIATELY = 3
+    val NOT_COOK_ANYMORE = 1
+    val COOK_AGAIN_AFTER_OTHERS = 2
+    val COOK_AGAIN_RIGHT_NOW = 3
     // Cooking attempts count
     val UNLIMITED_ATTEMPTS = 0
 
@@ -47,7 +47,7 @@ public object Chef {
 
 class Recipe<Ingredient, Dish> {
     // Options
-    var ifCookingFail = Chef.NOT_COOK_INGREDIENT_ANYMORE
+    var ifCookingFail = Chef.NOT_COOK_ANYMORE
     var waitAfterFail = 0L
     var maxCookAttempts = Chef.UNLIMITED_ATTEMPTS
     // Actions
@@ -155,7 +155,7 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
             if (recipe.waitAfterFail > 0)
                 try { Thread.sleep(recipe.waitAfterFail) } catch (e: InterruptedException) {}
             // If chef should cook it again
-            if (recipe.ifCookingFail != Chef.NOT_COOK_INGREDIENT_ANYMORE) {
+            if (recipe.ifCookingFail != Chef.NOT_COOK_ANYMORE) {
                 // Write our spoiled attempt
                 if (recipe.maxCookAttempts != Chef.UNLIMITED_ATTEMPTS) {
                     if (!attemptCount.containsKey(ingredient))
@@ -166,8 +166,8 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
                 if (recipe.maxCookAttempts == Chef.UNLIMITED_ATTEMPTS
                         || recipe.maxCookAttempts > attemptCount[ingredient]) {
                     when (recipe.ifCookingFail) {
-                        Chef.COOK_AGAIN_LATER -> ingredients add ingredient
-                        Chef.COOK_AGAIN_IMMEDIATELY -> ingredients.add(0, ingredient)
+                        Chef.COOK_AGAIN_AFTER_OTHERS -> ingredients add ingredient
+                        Chef.COOK_AGAIN_RIGHT_NOW -> ingredients.add(0, ingredient)
                     }
                 }
             }

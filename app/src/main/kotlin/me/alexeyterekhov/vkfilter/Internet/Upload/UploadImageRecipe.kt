@@ -20,7 +20,7 @@ object UploadImageRecipe {
             .cookThisWay(cookImage())
             .serveThisWay(serveImage())
             .cleanUpThisWay(cleanUpImage())
-            .ifCookingFail(Chef.COOK_AGAIN_IMMEDIATELY)
+            .ifCookingFail(Chef.COOK_AGAIN_RIGHT_NOW)
             .maxCookAttempts(Chef.UNLIMITED_ATTEMPTS)
             .waitAfterCookingFail(500)
             .create()
