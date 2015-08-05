@@ -60,8 +60,6 @@ public object JSONParser {
                 else -> Sex.UNKNOWN
             }
             isOnline = item has "online" && (item getInt "online") == 1
-            onlineStatusChanged = (UserCache.contains(id)
-                    && UserCache.getUser(id)!!.isOnline != isOnline)
             if (item.has("last_seen") && !item.isNull("last_seen")) {
                 val l = item get "last_seen"
                 when (l) {

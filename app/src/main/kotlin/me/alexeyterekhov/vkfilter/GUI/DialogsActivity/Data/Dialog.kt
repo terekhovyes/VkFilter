@@ -58,6 +58,15 @@ class Dialog {
                 && other.isRead == lastMessage!!.isRead)
     }
     private fun samePartners(other: Dialog): Boolean {
-        return other.partners.count() == partners.count()
+        if (other.partners.count() != partners.count())
+            return false
+        partners forEach { user ->
+            val userWithEqualId = other.partners firstOrNull { it.id == user.id }
+            if (userWithEqualId == null
+                    || userWithEqualId.isOnline != user.isOnline
+                    || userWithEqualId.photoUrl != user.photoUrl)
+                return false
+        }
+        return true
     }
 }
