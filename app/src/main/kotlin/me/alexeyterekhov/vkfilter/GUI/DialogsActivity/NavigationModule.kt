@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
 import android.content.Intent
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.widget.SwitchCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,7 +14,11 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.GUI.EditFilterActivity.EditFilterActivity
 import me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity.ManageFiltersActivity
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.SettingsActivity
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOffline
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOnline
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.TextFormat
@@ -46,11 +51,19 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
             VKSdk.logout()
             toLoginActivityAction()
         }
+        activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat setOnCheckedChangeListener { view, isChecked ->
+            Settings.setGhostModeEnabled(isChecked)
+            if (isChecked)
+                RequestControl addForeground RequestSetOffline()
+            else
+                RequestControl addForeground RequestSetOnline()
+        }
     }
 
     fun onResume() {
         DialogListCache.listeners add cacheListener
         updateMyData()
+        updateControls()
     }
 
     fun onPause() {
@@ -78,6 +91,12 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
                 else -> "${TextFormat.lastVisitPhrase(me)} ${TextFormat.lastVisitTime(me)}"
             }
         }
+    }
+
+    private fun updateControls() {
+        // Ghost mode switch
+        val ghostSwitch = activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat
+        ghostSwitch.setChecked(Settings.getGhostModeEnabled())
     }
 
     private fun createCacheListener() = object : DataDepend {

@@ -11,6 +11,7 @@ public object Settings {
     private val KEY_SOUND = "pref_sound"
     private val KEY_COLOR_LIGHT = "pref_color_lights"
     private val KEY_DEMONSTRATE_ATTACHMENTS = "pref_attachments_demo"
+    private val KEY_GHOST_MODE = "pref_ghost_mode"
 
     private fun defaultPreferences() = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
 
@@ -26,6 +27,15 @@ public object Settings {
         s
             .edit()
             .putInt(KEY_DEMONSTRATE_ATTACHMENTS, count)
+            .commit()
+    }
+
+    // Ghost mode
+    fun getGhostModeEnabled(s: SharedPreferences = defaultPreferences()) = s.getBoolean(KEY_GHOST_MODE, true)
+    fun setGhostModeEnabled(enabled: Boolean, s: SharedPreferences = defaultPreferences()) {
+        s
+            .edit()
+            .putBoolean(KEY_GHOST_MODE, enabled)
             .commit()
     }
 }

@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import com.vk.sdk.VKSdk
 import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOnline
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
 
@@ -24,6 +26,8 @@ public open class VkActivity: AppCompatActivity() {
         GCMStation.onAuthorizedActivityOpen()
         VKUIHelper.onResume(this)
         RequestControl.resume()
+        if (!Settings.getGhostModeEnabled())
+            RequestControl addForeground RequestSetOnline()
     }
 
     override fun onPause() {

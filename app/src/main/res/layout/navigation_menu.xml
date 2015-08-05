@@ -90,7 +90,7 @@
                     android:src="@drawable/navigation_ghost_button"
                     style="@style/Navigation_MenuIcon"/>
 
-                <Switch
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/navigationGhostSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
