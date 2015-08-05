@@ -2,8 +2,9 @@ package me.alexeyterekhov.vkfilter.GUI.ManageFiltersActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
+import android.os.Handler
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -17,7 +18,6 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import com.activeandroid.ActiveAndroid
 import com.emtronics.dragsortrecycler.DragSortRecycler
-import com.jensdriller.libs.undobar.UndoBar
 import com.poliveira.parallaxrecycleradapter.ParallaxRecyclerAdapter
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
@@ -118,19 +118,19 @@ public class ManageFiltersActivity: VkActivity() {
         with (findViewById(R.id.manageFilterButton) as FloatingActionButton) {
             setOnClickListener {
                 if (selectionMode) {
-                    val deleted = adapter.removeSelected()
-                    UndoBar.Builder(this@ManageFiltersActivity)
-                        .setMessage("Удалено фильтров: ${deleted.size()}")
-                        .setListener(object : UndoBar.Listener {
-                            override fun onHide() {
-                                deleteFilters(deleted)
-                            }
-                            override fun onUndo(p0: Parcelable?) {
-                                addFiltersToAdapter(deleted)
-                            }
-                        })
-                        .setStyle(UndoBar.Style.LOLLIPOP)
-                        .show()
+                    val handler = Handler()
+                    val temporaryRemoved = adapter.removeSelected()
+                    val deleteAction = Runnable { deleteFilters(temporaryRemoved) }
+                    handler.postDelayed(deleteAction, 3500)
+                    val title = getString(R.string.manage_filters_deleted) + " ${temporaryRemoved.size()}"
+                    Snackbar
+                            .make(this, title, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.manage_filters_cancel, { view ->
+                                handler.removeCallbacks(deleteAction)
+                                addFiltersToAdapter(temporaryRemoved)
+                            })
+                            .show()
+
                     changeMode()
                 } else {
                     startActivity(Intent(AppContext.instance, javaClass<EditFilterActivity>()))

@@ -117,6 +117,8 @@
 
 
     <string name="manage_filters_label_toolbar_title">Ваши фильтры</string>
+    <string name="manage_filters_deleted">Удалено фильтров:</string>
+    <string name="manage_filters_cancel">Отменить</string>
 
 
     <string name="choose_users_label_toolbar_title">Выберите круг общения</string>
