@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="290dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="start"
+    android:background="@color/m_white"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/m_green">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/navigationUserPhoto"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon_user_stub"
+            app:shadowSize="@dimen/shadow_level1"
+            style="@style/Navigation_CommonElement"/>
+
+        <Space style="@style/Navigation_VerticalSpace"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/navigationUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/font_light"
+                android:maxLines="1"
+                android:ellipsize="end"
+                style="@style/Navigation_CommonElement"
+                tools:text="Алексей Терехов"/>
+
+            <TextView
+                android:id="@+id/navigationUserOnlineStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_mini"
+                android:textColor="@color/font_light_tertiary"
+                android:maxLines="1"
+                android:ellipsize="end"
+                style="@style/Navigation_CommonElement"
+                tools:text="Был в сети 12 июля в 12:01"/>
+
+        </LinearLayout>
+
+        <Space style="@style/Navigation_VerticalSpace"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_paper"
+        android:background="@drawable/toolbar_shadow"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Space style="@style/Navigation_VerticalSpace"/>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                style="@style/Navigation_MenuItem">
+
+                <ImageView
+                    android:id="@+id/navigationGhostIcon"
+                    android:src="@drawable/button_play"
+                    style="@style/Navigation_MenuIcon"/>
+
+                <Switch
+                    android:id="@+id/navigationGhostSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    style="@style/Navigation_CommonElement"/>
+
+                <TextView
+                    android:layout_toLeftOf="@id/navigationGhostSwitch"
+                    android:layout_centerVertical="true"
+                    android:text="@string/dialog_button_ghostmode"
+                    style="@style/Navigation_MenuLabel"/>
+
+            </RelativeLayout>
+
+            <Space style="@style/Navigation_VerticalSpace"/>
+
+            <View style="@style/Navigation_Divider"/>
+
+            <TextView
+                android:text="@string/dialog_label_navigation"
+                style="@style/Navigation_MenuSubtitle"/>
+
+            <FrameLayout
+                style="@style/Navigation_MenuItem">
+
+                <Button
+                    android:id="@+id/navigationFiltersButton"
+                    style="@style/Navigation_MenuButton"/>
+
+                <ImageView
+                    android:src="@drawable/button_play"
+                    style="@style/Navigation_MenuIcon"/>
+
+                <TextView
+                    android:text="@string/dialog_button_filters"
+                    style="@style/Navigation_MenuLabel"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/Navigation_MenuItem">
+
+                <Button
+                    android:id="@+id/navigationPreferencesButton"
+                    style="@style/Navigation_MenuButton"/>
+
+                <ImageView
+                    android:src="@drawable/button_play"
+                    style="@style/Navigation_MenuIcon"/>
+
+                <TextView
+                    android:text="@string/dialog_button_preferences"
+                    style="@style/Navigation_MenuLabel"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/Navigation_MenuItem">
+
+                <Button
+                    android:id="@+id/navigationLogoutButton"
+                    style="@style/Navigation_MenuButton"/>
+
+                <ImageView
+                    android:src="@drawable/button_play"
+                    style="@style/Navigation_MenuIcon"/>
+
+                <TextView
+                    android:text="@string/dialog_button_logout"
+                    style="@style/Navigation_MenuLabel"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

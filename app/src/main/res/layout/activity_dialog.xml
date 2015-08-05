@@ -1,98 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/ToolbarStyle"/>
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawerLayout"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"/>
+
+        <FrameLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/contentLayout"
+            <me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
-                    android:id="@+id/refreshLayout"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dialogList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout>
+
+            <io.codetail.widget.RevealFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/glassLayout"
+                    android:visibility="invisible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/dialogList"
+                    <ImageView
+                        android:id="@+id/filterGlass"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        />
+                        android:src="@color/ui_filter_glass"/>
 
-                </me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout>
-
-                <io.codetail.widget.RevealFrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <FrameLayout
-                        android:id="@+id/glassLayout"
-                        android:visibility="invisible"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/filterList"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"/>
 
-                        <ImageView
-                            android:id="@+id/filterGlass"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@color/ui_filter_glass"/>
+                </FrameLayout>
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/filterList"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+            </io.codetail.widget.RevealFrameLayout>
 
-                    </FrameLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/filterReset"
+                android:layout_marginRight="106dp"
+                android:src="@drawable/button_reset_filters"
+                android:visibility="invisible"
+                style="@style/ActionButton.Mini"/>
 
-                </io.codetail.widget.RevealFrameLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/manageFiltersBtn"
+                android:layout_marginRight="170dp"
+                android:src="@drawable/button_settings"
+                android:visibility="invisible"
+                style="@style/ActionButton.Mini"/>
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/filterReset"
-                    android:layout_marginRight="106dp"
-                    android:src="@drawable/button_reset_filters"
-                    android:visibility="invisible"
-                    style="@style/ActionButton.Mini"/>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/showFilterGlass"
+                android:src="@drawable/button_filters"
+                style="@style/ActionButton"/>
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/manageFiltersBtn"
-                    android:layout_marginRight="170dp"
-                    android:src="@drawable/button_settings"
-                    android:visibility="invisible"
-                    style="@style/ActionButton.Mini"/>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/showFilterGlass"
-                    android:src="@drawable/button_filters"
-                    style="@style/ActionButton"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_shadow"
+                android:background="@drawable/toolbar_shadow"/>
 
             </FrameLayout>
 
-            <include
-                android:clickable="true"
-                layout="@layout/side_menu"/>
+    </LinearLayout>
 
-        </android.support.v4.widget.DrawerLayout>
+    <include
+        android:clickable="true"
+        layout="@layout/navigation_menu"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_shadow"
-            android:background="@drawable/toolbar_shadow"/>
-
-    </FrameLayout>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

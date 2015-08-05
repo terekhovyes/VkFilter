@@ -86,4 +86,63 @@
         <item name="android:background">@drawable/black_round_background</item>
     </style>
 
+    <style name="Navigation_CommonElement">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
+    <style name="Navigation_VerticalSpace">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">8dp</item>
+    </style>
+
+    <style name="Navigation_MenuItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Navigation_MenuButton" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="Navigation_MenuIcon" parent="Navigation_CommonElement">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="Navigation_MenuLabel" parent="Navigation_ItemFont">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">64dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Navigation_ItemFont">
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:textSize">@dimen/font_mini</item>
+    </style>
+
+    <style name="Navigation_Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/m_black_opacity30</item>
+    </style>
+
+    <style name="Navigation_MenuSubtitle" parent="Navigation_MenuItem">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:textColor">@color/font_dark_secondary</item>
+        <item name="android:textSize">@dimen/font_mini</item>
+    </style>
+
 </resources>
