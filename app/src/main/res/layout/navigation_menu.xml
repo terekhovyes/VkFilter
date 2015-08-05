@@ -87,7 +87,7 @@
 
                 <ImageView
                     android:id="@+id/navigationGhostIcon"
-                    android:src="@drawable/button_play"
+                    android:src="@drawable/navigation_ghost_button"
                     style="@style/Navigation_MenuIcon"/>
 
                 <Switch
@@ -122,7 +122,7 @@
                     style="@style/Navigation_MenuButton"/>
 
                 <ImageView
-                    android:src="@drawable/button_play"
+                    android:src="@drawable/navigation_filters_button"
                     style="@style/Navigation_MenuIcon"/>
 
                 <TextView
@@ -139,7 +139,7 @@
                     style="@style/Navigation_MenuButton"/>
 
                 <ImageView
-                    android:src="@drawable/button_play"
+                    android:src="@drawable/navigation_preferences_button"
                     style="@style/Navigation_MenuIcon"/>
 
                 <TextView
@@ -156,7 +156,7 @@
                     style="@style/Navigation_MenuButton"/>
 
                 <ImageView
-                    android:src="@drawable/button_play"
+                    android:src="@drawable/navigation_logout_button"
                     style="@style/Navigation_MenuIcon"/>
 
                 <TextView
