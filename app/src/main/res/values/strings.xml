@@ -107,13 +107,13 @@
     <string name="preferences_label_toolbar_title">Настройки</string>
     <string name="preferences_category_notifications">Уведомления</string>
     <string name="preferences_label_notifications">Уведомления</string>
-    <string name="preferences_summary_notifications">Оповещать о новых сообщениях</string>
+    <string name="preferences_summary_notifications">Уведомлять о новых сообщениях</string>
     <string name="preferences_label_vibration">Вибрация</string>
-    <string name="preferences_summary_vibration">Вибрировать при новых сообщениях</string>
+    <string name="preferences_summary_vibration">Вибрация входящих сообщений</string>
     <string name="preferences_label_sound">Звук</string>
-    <string name="preferences_summary_sound">Воспроизводить стандартный звук при новых сообщениях</string>
+    <string name="preferences_summary_sound">Звук входящих сообщений</string>
     <string name="preferences_label_lights">Цветной индикатор</string>
-    <string name="preferences_summary_lights">Альтернативный цвет и учащённое мигание</string>
+    <string name="preferences_summary_lights">Зелёный цвет вместо стандартного</string>
 
 
     <string name="manage_filters_label_toolbar_title">Ваши фильтры</string>

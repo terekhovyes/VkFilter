@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.preference.PreferenceManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
@@ -80,8 +81,10 @@ public object NotificationMaker {
             arr.set(3, 300)
             builder.setVibrate(arr)
         }
-        if (allowSound(context))
-            builder.setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+        if (allowSound(context)) {
+            val soundUri = Uri.parse("android.resource://${context.getPackageName()}/${R.raw.message_sound}")
+            builder.setSound(soundUri)
+        }
         if (colorLight(context))
             builder.setLights(0xFF00FF91.toInt(), 1000, 5000)
         else
