@@ -1,15 +1,14 @@
-package me.alexeyterekhov.vkfilter.NotificationService
+package me.alexeyterekhov.vkfilter.NotificationService.DataHandling
 
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
-import java.util.LinkedList
+import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 
 
-public object NotificationFiltrator {
+object NotificationFiltrator {
     private var filters: List<VkFilter>? = null
-    val filterListeners = LinkedList<DataDepend>()
 
     init {
         DAOFilters.changeListeners add object : DataDepend {
@@ -40,8 +39,6 @@ public object NotificationFiltrator {
 
     private fun loadFilters() {
         filters = DAOFilters.loadVkFilters()
-        for (l in filterListeners)
-            l.onDataUpdate()
     }
 
     private fun contains(f: VkFilter, n: NotificationInfo): Boolean {

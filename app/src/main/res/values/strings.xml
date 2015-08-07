@@ -84,6 +84,7 @@
     <string name="dialog_button_logout">Выход</string>
     <string name="dialog_button_preferences">Настройки</string>
     <string name="dialog_button_ghostmode">Режим невидимости</string>
+    <string name="dialog_button_clevernotifications">Умные уведомления</string>
     <string name="dialog_button_filters">Ваши фильтры</string>
     <string name="dialog_label_navigation">Навигация</string>
 

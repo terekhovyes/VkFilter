@@ -6,7 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
-import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.IntentHandler
 import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.R
 
@@ -38,11 +38,13 @@ class RefreshModule(val activity: DialogsActivity) {
 
     fun onResume() {
         refreshDialogs(withIndicator = true)
-        GCMStation addRawIntentListener GCMListener
+        IntentHandler.addIntentListener(GCMListener)
+        IntentHandler.allowLoadingNotifications(false)
     }
 
     fun onPause() {
-        GCMStation removeRawIntentListener GCMListener
+        IntentHandler.allowLoadingNotifications(true)
+        IntentHandler.addIntentListener(GCMListener)
     }
 
     fun onDestroy() {

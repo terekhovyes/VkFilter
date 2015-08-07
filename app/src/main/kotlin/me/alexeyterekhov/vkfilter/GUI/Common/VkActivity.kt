@@ -10,7 +10,7 @@ import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOnline
 import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
-import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.CloudMessaging.CloudMessagingLauncher
 
 public open class VkActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ public open class VkActivity: AppCompatActivity() {
         VkSdkInitializer.init()
         if (!VKSdk.wakeUpSession(this))
             toLoginActivity()
-        GCMStation.onAuthorizedActivityOpen()
+        CloudMessagingLauncher.onAuthorizedActivityOpened()
         VKUIHelper.onResume(this)
         RequestControl.resume()
         if (!Settings.getGhostModeEnabled())
@@ -46,7 +46,7 @@ public open class VkActivity: AppCompatActivity() {
     }
 
     protected fun toLoginActivity() {
-        GCMStation.onLogout()
+        CloudMessagingLauncher.onLogout()
         val intent = Intent(this, javaClass<LoginActivity>())
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

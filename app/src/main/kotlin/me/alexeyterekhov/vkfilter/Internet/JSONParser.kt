@@ -32,12 +32,12 @@ public object JSONParser {
     fun parseNotification(response: JSONObject): NotificationInfo {
         var info = NotificationInfo()
         with (info) {
-            messageId = response getString "message_id"
-            date = response getLong "date"
-            text = response optString "text"
+            messageSentId = response getString "message_id"
+            messageSentTime = response getLong "date"
+            messageText = response optString "text"
             senderId = response optString "user_id"
-            firstName = response optString "first_name"
-            lastName = response optString "last_name"
+            senderFirstName = response optString "first_name"
+            senderLastName = response optString "last_name"
             senderPhotoUrl = response optString "user_photo"
             chatId = response optString "chat_id"
             chatTitle = response optString "title"

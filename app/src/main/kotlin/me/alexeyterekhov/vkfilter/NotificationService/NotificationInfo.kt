@@ -2,12 +2,12 @@ package me.alexeyterekhov.vkfilter.NotificationService
 
 
 class NotificationInfo {
-    var messageId = ""
-    var text = ""
-    var date = 0L
+    var messageSentId = ""
+    var messageText = ""
+    var messageSentTime = 0L
     var senderId = ""
-    var firstName = ""
-    var lastName = ""
+    var senderFirstName = ""
+    var senderLastName = ""
     var senderPhotoUrl = ""
     var chatId = ""
     var chatTitle = ""
@@ -15,16 +15,16 @@ class NotificationInfo {
 
     fun getName(compact: Boolean = false): String {
         return when {
-            !compact && chatTitle == "" -> "$firstName $lastName"
-            compact && chatTitle == "" -> "${firstName.first()}. $lastName"
-            else -> "${firstName.first()}. $lastName ($chatTitle)"
+            !compact && chatTitle == "" -> "$senderFirstName $senderLastName"
+            compact && chatTitle == "" -> "${senderFirstName.first()}. $senderLastName"
+            else -> "${senderFirstName.first()}. $senderLastName ($chatTitle)"
         }
     }
 
     fun canBeReplacedBy(other: NotificationInfo) =
             (sameDialog(other)
             || sameChat(other))
-            && other.date >= date
+            && other.messageSentTime >= messageSentTime
     private fun sameDialog(other: NotificationInfo) =
             other.senderId == senderId
             && other.chatId == ""

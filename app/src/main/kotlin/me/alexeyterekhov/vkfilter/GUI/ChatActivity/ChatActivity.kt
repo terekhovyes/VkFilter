@@ -10,7 +10,7 @@ import com.rockerhieu.emojicon.EmojiconsFragment
 import com.rockerhieu.emojicon.emoji.Emojicon
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogsActivity
-import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
+import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.NotificationCollector
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 
@@ -54,11 +54,7 @@ open public class ChatActivity:
         listModule.onResume()
         actionBarModule.onResume()
         swipePanelModule.onResume()
-
-        if (launchParameters.isChat())
-            NotificationMaker.clearChatNotifications(launchParameters.dialogId(), AppContext.instance)
-        else
-            NotificationMaker.clearDialogNotifications(launchParameters.dialogId(), AppContext.instance)
+        NotificationCollector.removeNotification(AppContext.instance, launchParameters.dialogId(), launchParameters.isChat())
     }
     override fun onPause() {
         super<VkActivity>.onPause()

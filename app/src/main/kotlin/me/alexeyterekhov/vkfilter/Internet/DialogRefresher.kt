@@ -5,7 +5,7 @@ import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogUpdates
-import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.NotificationHandler
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
 
@@ -30,14 +30,14 @@ public object DialogRefresher {
         this.isChat = isChat
         isRunning = true
         MessageCaches.getCache(dialogId, isChat).listeners add messageCacheListener
-        GCMStation addNotificationListener notificationListener
+        NotificationHandler.addNotificationListener(notificationListener)
         loopBody()
     }
 
     fun stop() {
         isRunning = false
         MessageCaches.getCache(dialogId, isChat).listeners remove messageCacheListener
-        GCMStation removeNotificationListener notificationListener
+        NotificationHandler.removeNotificationListener(notificationListener)
     }
 
     fun isRunning() = isRunning

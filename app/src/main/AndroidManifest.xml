@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="me.alexeyterekhov.vkfilter">
 
+    <!-- Permissions and features -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="me.alexeyterekhov.vkfilter.permission.C2D_MESSAGE"/>
@@ -10,7 +11,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-feature android:name="android.hardware.camera2" android:required="false"/>
 
     <application
@@ -22,11 +22,10 @@
         android:name=".Util.MyApp"
         tools:replace="android:icon,android:theme">
 
-        <service android:name=".NotificationService.GCMService"/>
-
+        <!-- Services and broadcasts -->
+        <service android:name=".NotificationService.CloudMessaging.CloudMessagingService"/>
         <receiver android:name=".NotificationService.NotificationDismissBroadcast"/>
-
-        <receiver android:name=".NotificationService.StaticBroadcast"
+        <receiver android:name=".NotificationService.CloudMessaging.CloudMessagingBroadcastLauncher"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
@@ -34,6 +33,7 @@
             </intent-filter>
         </receiver>
 
+        <!-- Activities -->
         <activity android:name=".GUI.LoginActivity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -44,20 +44,10 @@
         <activity android:name=".GUI.DialogsActivity.DialogsActivity"
             android:label="@string/dialog_label_toolbar_title"
             android:launchMode="singleTask"/>
-        
-        <activity android:name=".GUI.SettingsActivity.SettingsActivity"
-            android:theme="@style/MySettingsTheme"/>
 
         <activity android:name=".GUI.ChatActivity.ChatActivity"
             android:label="@string/chat_label_toolbar_title"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-        <activity android:name=".Test.ChatTestActivity"
-            android:label="@string/chat_label_toolbar_title"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-        <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
-            android:theme="@style/MyFullscreenTheme"/>
 
         <activity android:name=".GUI.ManageFiltersActivity.ManageFiltersActivity"
             android:label="@string/manage_filters_label_toolbar_title"/>
@@ -69,6 +59,17 @@
         <activity android:name=".GUI.ChooseUsersActivity.ChooseUsersActivity"
             android:label="@string/choose_users_label_toolbar_title"/>
 
+        <activity android:name=".GUI.SettingsActivity.SettingsActivity"
+            android:theme="@style/MySettingsTheme"/>
+
+        <activity android:name=".GUI.PhotoViewerActivity.PhotoViewerActivity"
+            android:theme="@style/MyFullscreenTheme"/>
+
+        <activity android:name=".Test.ChatTestActivity"
+            android:label="@string/chat_label_toolbar_title"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <!-- Additional data -->
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <meta-data android:name="AA_DB_NAME" android:value="vkfilter2.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="1" />

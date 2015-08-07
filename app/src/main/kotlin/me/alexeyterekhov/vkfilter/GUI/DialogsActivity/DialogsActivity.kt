@@ -2,7 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
 import android.os.Bundle
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
-import me.alexeyterekhov.vkfilter.NotificationService.NotificationMaker
+import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.NotificationCollector
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 
@@ -34,7 +34,7 @@ open class DialogsActivity: VkActivity() {
         toolbarModule.onResume()
         refreshModule.onResume()
         navigationModule.onResume()
-        NotificationMaker.clearAllNotifications(AppContext.instance)
+        NotificationCollector.removeAllNotifications(AppContext.instance)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

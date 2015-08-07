@@ -19,7 +19,7 @@ import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.SettingsActivity
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOffline
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestSetOnline
-import me.alexeyterekhov.vkfilter.NotificationService.GCMStation
+import me.alexeyterekhov.vkfilter.NotificationService.CloudMessaging.CloudMessagingLauncher
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 
@@ -47,16 +47,21 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
             activity.startActivity(Intent(activity, javaClass<SettingsActivity>()))
         }
         activity.findViewById(R.id.navigationLogoutButton) setOnClickListener {
-            GCMStation.onLogout()
+            CloudMessagingLauncher.onLogout()
             VKSdk.logout()
             toLoginActivityAction()
         }
-        activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat setOnCheckedChangeListener { view, isChecked ->
+        activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat setOnCheckedChangeListener {
+            view, isChecked ->
             Settings.setGhostModeEnabled(isChecked)
             if (isChecked)
                 RequestControl addForeground RequestSetOffline()
             else
                 RequestControl addForeground RequestSetOnline()
+        }
+        activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat setOnCheckedChangeListener {
+            view, isChecked ->
+            Settings.setCleverNotificationsEnabled(isChecked)
         }
     }
 
@@ -97,6 +102,10 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
         // Ghost mode switch
         val ghostSwitch = activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat
         ghostSwitch.setChecked(Settings.getGhostModeEnabled())
+
+        // Clever notifications switch
+        val cleverNotificationsSwitch = activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat
+        cleverNotificationsSwitch.setChecked(Settings.getCleverNotificationsEnabled())
     }
 
     private fun createCacheListener() = object : DataDepend {

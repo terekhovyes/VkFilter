@@ -106,6 +106,31 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:orientation="horizontal"
+                style="@style/Navigation_MenuItem">
+
+                <ImageView
+                    android:id="@+id/navigationCleverNotificationsIcon"
+                    android:src="@drawable/navigation_ghost_button"
+                    style="@style/Navigation_MenuIcon"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/navigationCleverNotificationsSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    style="@style/Navigation_CommonElement"/>
+
+                <TextView
+                    android:layout_toLeftOf="@id/navigationCleverNotificationsSwitch"
+                    android:layout_centerVertical="true"
+                    android:text="@string/dialog_button_clevernotifications"
+                    style="@style/Navigation_MenuLabel"/>
+
+            </RelativeLayout>
+
             <Space style="@style/Navigation_VerticalSpace"/>
 
             <View style="@style/Navigation_Divider"/>
