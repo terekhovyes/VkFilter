@@ -25,6 +25,7 @@
         <!-- Services and broadcasts -->
         <service android:name=".NotificationService.CloudMessaging.CloudMessagingService"/>
         <receiver android:name=".NotificationService.NotificationDismissBroadcast"/>
+        <receiver android:name=".NotificationService.SleepWorker$SleepWorkerBroadcast"/>
         <receiver android:name=".NotificationService.CloudMessaging.CloudMessagingBroadcastLauncher"
             android:enabled="true">
             <intent-filter>

@@ -11,7 +11,7 @@ public class CloudMessagingBroadcastLauncher : BroadcastReceiver() {
 
     override fun onReceive(c: Context, i: Intent) {
         Log.d(TAG, "Receive intent")
-        if (CloudMessagingLauncher.isRunning()) {
+        if (!CloudMessagingLauncher.isRunning()) {
             IntentHandler.onReceiveNewIntent(c, i)
             CloudMessagingLauncher.launch()
         }

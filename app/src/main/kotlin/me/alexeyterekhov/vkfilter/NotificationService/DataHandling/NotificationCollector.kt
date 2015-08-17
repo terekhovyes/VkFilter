@@ -1,22 +1,21 @@
 package me.alexeyterekhov.vkfilter.NotificationService.DataHandling
 
 import android.content.Context
-import android.os.Handler
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestCheckMessages
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
+import me.alexeyterekhov.vkfilter.NotificationService.SleepWorker
 import java.util.LinkedList
 
 object NotificationCollector {
     private val CHECK_DELAY = 60000L
     private val notifications = LinkedList<NotificationInfo>()
-    private val handler = Handler()
     private var checkScheduled = false
 
     fun addNotification(context: Context, notification: NotificationInfo) {
         if (isCleverMode())
-            CleverDelayer(context, notification, handler)
+            CleverDelayer(context, notification)
         else
             addStupidNotification(context, notification)
     }
@@ -49,7 +48,7 @@ object NotificationCollector {
     fun scheduleMessageCheck(context: Context) {
         if (isCleverMode() && notifications.isNotEmpty() && !checkScheduled) {
             checkScheduled = true
-            handler.postDelayed({
+            SleepWorker.addWork(Runnable {
                 val messageIds = notifications map { it.messageSentId.toLong() }
                 RequestControl addBackground RequestCheckMessages(messageIds, {
                     readIds ->

@@ -44,7 +44,7 @@ class RefreshModule(val activity: DialogsActivity) {
 
     fun onPause() {
         IntentHandler.allowLoadingNotifications(true)
-        IntentHandler.addIntentListener(GCMListener)
+        IntentHandler.removeIntentListener(GCMListener)
     }
 
     fun onDestroy() {

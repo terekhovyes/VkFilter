@@ -17,7 +17,8 @@ object IntentHandler {
 
     fun onReceiveNewIntent(context: Context, intent: Intent) {
         this.context = context
-        if (intent.getStringExtra("collapse_key") == "msg") {
+        val collapseKey = intent.getStringExtra("collapse_key")
+        if (collapseKey == "msg" || collapseKey == "vkmsg") {
             intentListeners forEach { it.onGetIntent(intent) }
             if (allowLoadingNotifications) {
                 val messageId = intent getStringExtra "msg_id"
