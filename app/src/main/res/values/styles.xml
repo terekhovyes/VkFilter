@@ -123,9 +123,9 @@
 
     <style name="Navigation_MenuLabel" parent="Navigation_ItemFont">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">64dp</item>
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="Navigation_ItemFont">

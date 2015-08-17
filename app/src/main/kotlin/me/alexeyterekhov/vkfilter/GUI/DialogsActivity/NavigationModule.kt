@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
 import android.content.Intent
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SwitchCompat
 import android.view.View
 import android.widget.ImageView
@@ -62,6 +63,20 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
         activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat setOnCheckedChangeListener {
             view, isChecked ->
             Settings.setCleverNotificationsEnabled(isChecked)
+        }
+
+        // Info
+        activity.findViewById(R.id.navigationGhostLabel) setOnClickListener {
+            AlertDialog.Builder(activity)
+                    .setTitle(R.string.dialog_ghost_alert_title)
+                    .setMessage(R.string.dialog_ghost_alert_message)
+                    .show()
+        }
+        activity.findViewById(R.id.navigationCleverNotificationsLabel) setOnClickListener {
+            AlertDialog.Builder(activity)
+                    .setTitle(R.string.dialog_clever_notifications_alert_title)
+                    .setMessage(R.string.dialog_clever_notifications_alert_message)
+                    .show()
         }
     }
 

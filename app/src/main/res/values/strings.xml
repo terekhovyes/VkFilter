@@ -87,6 +87,14 @@
     <string name="dialog_button_clevernotifications">Умные уведомления</string>
     <string name="dialog_button_filters">Ваши фильтры</string>
     <string name="dialog_label_navigation">Навигация</string>
+    <string name="dialog_ghost_alert_title">Режим невидимости</string>
+    <string name="dialog_ghost_alert_message">Делает вас "оффлайн", пока вы пользуетесь приложением</string>
+    <string name="dialog_clever_notifications_alert_title">Умные уведомления</string>
+    <string name="dialog_clever_notifications_alert_message">
+        Функция позволяет вам комфортно работать сразу на нескольких устройствах:\n
+        1. Даёт вам немного времени, чтобы прочитать новое сообщение с другого устройства, прежде чем показать уведомление\n
+        2. Периодически проверяет и скрывает уведомления о сообщениях, которые вы уже прочитали
+    </string>
 
 
     <string name="edit_filter_label_toolbar_title">Редактирование фильтра</string>

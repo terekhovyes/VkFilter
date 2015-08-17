@@ -99,6 +99,7 @@
                     style="@style/Navigation_CommonElement"/>
 
                 <TextView
+                    android:id="@+id/navigationGhostLabel"
                     android:layout_toLeftOf="@id/navigationGhostSwitch"
                     android:layout_centerVertical="true"
                     android:text="@string/dialog_button_ghostmode"
@@ -124,6 +125,7 @@
                     style="@style/Navigation_CommonElement"/>
 
                 <TextView
+                    android:id="@+id/navigationCleverNotificationsLabel"
                     android:layout_toLeftOf="@id/navigationCleverNotificationsSwitch"
                     android:layout_centerVertical="true"
                     android:text="@string/dialog_button_clevernotifications"
