@@ -112,7 +112,7 @@
 
                 <ImageView
                     android:id="@+id/navigationCleverNotificationsIcon"
-                    android:src="@drawable/navigation_ghost_button"
+                    android:src="@drawable/navigation_clever_notifications"
                     style="@style/Navigation_MenuIcon"/>
 
                 <android.support.v7.widget.SwitchCompat

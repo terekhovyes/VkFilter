@@ -56,10 +56,12 @@ public object RequestRecipes {
                 override fun onError(err: VKError?) {
                     if (!canceled) {
                         super<VKRequest.VKRequestListener>.onError(err)
-                        if (err != null && err.apiError != null)
-                            Log.d(LOG_TAG, "Vk error: ${err.apiError.toString()}")
-                        else
-                            Log.d(LOG_TAG, "Vk error")
+                        val message = when {
+                            err != null && err.apiError != null -> "Vk api error: ${err.apiError.toString()}"
+                            err != null && err.errorMessage != null -> "Vk error: ${err.errorMessage}"
+                            else -> "Vk error"
+                        }
+                        Log.d(LOG_TAG, message)
                         gotError = true
                     }
                 }
