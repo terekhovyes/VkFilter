@@ -36,27 +36,5 @@ class CleverDelayer(
             )
             SleepWorker.addWork(showNotification, CHECK_REQUEST_TIME)
         }, DESKTOP_READING_TIME)
-
-//        handler.postDelayed({
-//            val startTime = System.currentTimeMillis()
-//            val showNotification = Runnable {
-//                NotificationCollector.addStupidNotification(context, notification)
-//            }
-//            RequestControl addBackground RequestCheckMessages(
-//                    listOf(notification.messageSentId.toLong()),
-//                    {
-//                        readIds ->
-//                        if (System.currentTimeMillis() - startTime < CHECK_REQUEST_TIME) {
-//                            handler.removeCallbacks(showNotification)
-//                            if (readIds.isEmpty())
-//                                showNotification.run()
-//                        } else {
-//                            if (readIds.isNotEmpty())
-//                                NotificationCollector.removeNotification(context, notification)
-//                        }
-//                    }
-//            )
-//            handler.postDelayed(showNotification, CHECK_REQUEST_TIME)
-//        }, DESKTOP_READING_TIME)
     }
 }
