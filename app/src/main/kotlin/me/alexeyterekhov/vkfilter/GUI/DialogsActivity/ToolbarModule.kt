@@ -1,7 +1,10 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
+import android.content.res.Configuration
 import android.os.Handler
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.R
@@ -15,10 +18,21 @@ class ToolbarModule(val activity: DialogsActivity) {
     private val handler = Handler()
     private val updateSubtitleAction = createUpdateSubtitleAction()
     private val cacheListener = createCacheListener()
+    private var drawerToggle: ActionBarDrawerToggle? = null
 
     fun onCreate() {
         val toolbar = activity.findViewById(R.id.toolbar) as Toolbar
+        val drawer = activity.navigationModule.findDrawer()
         activity.setSupportActionBar(toolbar)
+
+        drawerToggle = ActionBarDrawerToggle(
+                activity,
+                drawer,
+                toolbar,
+                R.string.dialog_navigation_description,
+                R.string.dialog_navigation_description)
+
+        drawer.setDrawerListener(drawerToggle)
         with (activity.getSupportActionBar()) {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
@@ -35,6 +49,16 @@ class ToolbarModule(val activity: DialogsActivity) {
         DialogListCache.listeners remove cacheListener
         stopRefreshingSubtitle()
     }
+
+    fun onPostCreate() {
+        drawerToggle?.syncState()
+    }
+
+    fun onConfigurationChanged(conf: Configuration?) {
+        drawerToggle?.onConfigurationChanged(conf)
+    }
+
+    fun onOptionsItemSelected(item: MenuItem?) = drawerToggle?.onOptionsItemSelected(item) ?: false
 
     private fun updateSubtitle() {
         val lastUpdateTime = DialogListCache.getSnapshot().snapshotTime

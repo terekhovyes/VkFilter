@@ -96,6 +96,7 @@
         1. Даёт вам немного времени, чтобы прочитать новое сообщение с другого устройства, прежде чем показать уведомление\n
         2. Периодически проверяет и скрывает уведомления о сообщениях, которые вы уже прочитали
     </string>
+    <string name="dialog_navigation_description">Меню</string>
 
     <string name="photo_save_button">Сохранить</string>
     <string name="photo_toast_loading_started">Сохранение...</string>

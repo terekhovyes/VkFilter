@@ -1,6 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogsActivity
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.MenuItem
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.NotificationCollector
 import me.alexeyterekhov.vkfilter.R
@@ -29,6 +31,11 @@ open class DialogsActivity: VkActivity() {
         navigationModule.onCreate()
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        toolbarModule.onPostCreate()
+    }
+
     override fun onResume() {
         super.onResume()
         toolbarModule.onResume()
@@ -54,6 +61,18 @@ open class DialogsActivity: VkActivity() {
         dialogListModule.onDestroy()
         refreshModule.onDestroy()
         filterPanelModule.onDestroy()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        toolbarModule.onConfigurationChanged(newConfig)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return if (toolbarModule.onOptionsItemSelected(item))
+            true
+        else
+            super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
