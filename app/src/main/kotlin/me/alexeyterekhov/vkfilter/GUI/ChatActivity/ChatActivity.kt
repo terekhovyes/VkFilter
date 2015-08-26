@@ -44,6 +44,7 @@ open public class ChatActivity:
         swipePanelModule.onCreate(savedInstanceState)
         attachmentsModule.onCreate()
         selectionToolbarModule.onCreate()
+        uploadModule.onCreate()
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super<VkActivity>.onRestoreInstanceState(savedInstanceState)
@@ -66,6 +67,7 @@ open public class ChatActivity:
         emojiconModule.onSaveState(outState)
         swipePanelModule.onSaveState(outState)
         listModule.onSaveState()
+        uploadModule.onSaveState()
     }
     override fun onDestroy() {
         super<VkActivity>.onDestroy()

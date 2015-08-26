@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 import android.app.Activity
 import android.content.Intent
 import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
+import me.alexeyterekhov.vkfilter.Util.DataSaver
 import me.alexeyterekhov.vkfilter.Util.FileUtils
 import java.io.File
 
@@ -13,6 +14,15 @@ class UploadModule(val activity: ChatActivity) {
     }
 
     var cameraFile: File? = null
+
+    fun onSaveState() {
+        DataSaver.putObject("file", cameraFile)
+    }
+
+    fun onCreate() {
+        if (DataSaver.contains("file"))
+            cameraFile = DataSaver.removeObject("file") as File
+    }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when {
