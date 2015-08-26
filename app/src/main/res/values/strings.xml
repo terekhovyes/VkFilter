@@ -97,6 +97,10 @@
         2. Периодически проверяет и скрывает уведомления о сообщениях, которые вы уже прочитали
     </string>
 
+    <string name="photo_save_button">Сохранить</string>
+    <string name="photo_toast_loading_started">Сохранение...</string>
+    <string name="photo_toast_saved">Изображение сохранено :)</string>
+    <string name="photo_toast_failed">Что-то пошло не так, не удалось сохранить :(</string>
 
     <string name="edit_filter_label_toolbar_title">Редактирование фильтра</string>
     <string name="edit_filter_label_filter_disabled">Выключен</string>
