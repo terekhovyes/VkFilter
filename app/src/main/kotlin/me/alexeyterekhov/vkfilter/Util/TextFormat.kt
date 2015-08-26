@@ -1,6 +1,7 @@
 package me.alexeyterekhov.vkfilter.Util
 
 import android.content.Context
+import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.DataClasses.Sex
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.R
@@ -15,17 +16,27 @@ object TextFormat {
 
     fun userOnlineStatus(user: User): String {
         return when {
-            user.isOnline -> AppContext.instance.getString(R.string.chat_label_toolbar_online)
+            user.isOnline -> {
+                var status = getStr(R.string.chat_label_toolbar_online)
+                if (user.deviceType == Device.MOBILE)
+                    status += " ${getStr(R.string.chat_label_toolbar_mobile)}"
+                status
+            }
             user.lastOnlineTime == 0L -> ""
-            else -> "${lastVisitPhrase(user)} ${lastVisitTime(user)}"
+            else -> {
+                var status = "${lastVisitPhrase(user)} ${lastVisitTime(user)}"
+                if (user.deviceType == Device.MOBILE)
+                    status += " ${getStr(R.string.chat_label_toolbar_mobile)}"
+                status
+            }
         }
     }
 
     fun lastVisitPhrase(user: User): String {
         return when (user.sex) {
-            Sex.WOMAN -> AppContext.instance.getString(R.string.chat_label_toolbar_visit_woman)
-            Sex.MAN -> AppContext.instance.getString(R.string.chat_label_toolbar_visit_man)
-            else -> AppContext.instance.getString(R.string.chat_label_toolbar_visit)
+            Sex.WOMAN -> getStr(R.string.chat_label_toolbar_visit_woman)
+            Sex.MAN -> getStr(R.string.chat_label_toolbar_visit_man)
+            else -> getStr(R.string.chat_label_toolbar_visit)
         }
     }
 
@@ -41,10 +52,12 @@ object TextFormat {
         val mb = kb * 1024
         val gb = mb * 1024
         return when {
-            sizeInBytes < kb -> "$sizeInBytes ${AppContext.instance.getString(R.string.size_bytes)}"
-            sizeInBytes < mb -> "${sizeInBytes / kb} ${AppContext.instance.getString(R.string.size_kbytes)}"
-            sizeInBytes < gb -> "${sizeInBytes / mb} ${AppContext.instance.getString(R.string.size_mbytes)}"
-            else -> "${sizeInBytes / gb} ${AppContext.instance.getString(R.string.size_gbytes)}"
+            sizeInBytes < kb -> "$sizeInBytes ${getStr(R.string.size_bytes)}"
+            sizeInBytes < mb -> "${sizeInBytes / kb} ${getStr(R.string.size_kbytes)}"
+            sizeInBytes < gb -> "${sizeInBytes / mb} ${getStr(R.string.size_mbytes)}"
+            else -> "${sizeInBytes / gb} ${getStr(R.string.size_gbytes)}"
         }
     }
+
+    private fun getStr(res: Int) = AppContext.instance.getString(res)
 }

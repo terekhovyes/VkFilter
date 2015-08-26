@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
+import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.R
@@ -55,6 +56,10 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
         // Dialog content
         if (!dialog.isChat()) {
             h.onlineIcon setVisibility if (dialog.isOnline()) View.VISIBLE else View.GONE
+            h.onlineIcon setImageResource when (dialog.deviceType()) {
+                Device.MOBILE -> R.drawable.icon_online_mobile
+                Device.DESKTOP -> R.drawable.icon_online
+            }
             h.messageImage setVisibility if (lastMessage.isOut) View.VISIBLE else View.GONE
             if (lastMessage.isOut)
                 loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)

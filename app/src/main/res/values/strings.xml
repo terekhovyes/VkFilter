@@ -57,6 +57,7 @@
     <string name="chat_label_toolbar_visit">Последнее посещение:</string>
     <string name="chat_label_toolbar_visit_woman">Была в сети:</string>
     <string name="chat_label_toolbar_visit_man">Был в сети:</string>
+    <string name="chat_label_toolbar_mobile">с мобильного</string>
     <string name="chat_label_toolbar_online">Онлайн</string>
     <string name="chat_label_toolbar_copy_text">текст</string>
     <string name="chat_label_toolbar_forward_messages">переслать</string>

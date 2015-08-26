@@ -2,11 +2,8 @@ package me.alexeyterekhov.vkfilter.Internet
 
 import android.util.Log
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
+import me.alexeyterekhov.vkfilter.DataClasses.*
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
-import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
-import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.DataClasses.Sex
-import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
@@ -48,28 +45,40 @@ public object JSONParser {
 
     private fun parseItemUser(item: JSONObject): User {
         val user = User()
-        with (user) {
-            id = item.getString("id")
-            firstName = item.getString("first_name")
-            lastName = item.getString("last_name")
-            photoUrl = if (item.isNull("photo_max")) "" else item.getString("photo_max")
-            sex = when {
-                item.isNull("sex"), item.getInt("sex") == 0 -> Sex.UNKNOWN
-                item.getInt("sex") == 1 -> Sex.WOMAN
-                item.getInt("sex") == 2 -> Sex.MAN
-                else -> Sex.UNKNOWN
-            }
-            isOnline = item has "online" && (item getInt "online") == 1
-            if (item.has("last_seen") && !item.isNull("last_seen")) {
-                val l = item get "last_seen"
-                when (l) {
-                    is Int -> lastOnlineTime = l.toLong()
-                    is Long -> lastOnlineTime = l
-                    else -> lastOnlineTime = l as JSONObject getLong "time"
-                }
-            }
+
+        user.id = item.getString("id")
+        user.firstName = item.getString("first_name")
+        user.lastName = item.getString("last_name")
+        user.photoUrl = item.optString("photo_max", "")
+        user.isOnline = item.optInt("online", 0) == 1
+        user.sex = when (item.optInt("sex", 0)) {
+            1 -> Sex.WOMAN
+            2 -> Sex.MAN
+            else -> Sex.UNKNOWN
         }
+        user.lastOnlineTime = when {
+            !item.has("last_seen") || item.isNull("last_seen") -> 0L
+            item.get("last_seen") is Int -> item.getInt("last_seen").toLong()
+            item.get("last_seen") is Long -> item.getLong("last_seen")
+            else -> item.getJSONObject("last_seen").optLong("time", 0L)
+        }
+        user.deviceType = when {
+            item.has("last_seen")
+                    && !item.isNull("last_seen")
+                    && item.get("last_seen") is JSONObject
+                    -> parseDeviceType(item.getJSONObject("last_seen"))
+            else -> Device.DESKTOP
+        }
+
         return user
+    }
+
+    private fun parseDeviceType(lastSeen: JSONObject): Device {
+        return when (lastSeen.optInt("platform", 7)) {
+            in 1..5 -> Device.MOBILE
+            in 6..7 -> Device.DESKTOP
+            else -> Device.DESKTOP
+        }
     }
 
     private fun parseItemDialog(item: JSONObject): Dialog {

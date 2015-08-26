@@ -1,5 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data
 
+import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Util.TextFormat
@@ -39,12 +40,14 @@ class Dialog {
 
     fun isChat() = partners.count() > 1
     fun isOnline() = partners.count() == 1 && partners.first()!!.isOnline
+    fun deviceType() = if (partners.isEmpty()) Device.DESKTOP else partners.first().deviceType
     fun isSameDialog(other: Dialog) = other.isChat() == isChat() && other.id == id
     fun isNotSameDialog(other: Dialog) = !isSameDialog(other)
     fun isSameDialogAndContent(other: Dialog): Boolean {
         return isSameDialog(other)
                 && other.chatPhotoUrl == chatPhotoUrl
                 && other.chatTitle == chatTitle
+                && other.deviceType() == deviceType()
                 && sameMessage(other.lastMessage)
                 && samePartners(other)
     }
