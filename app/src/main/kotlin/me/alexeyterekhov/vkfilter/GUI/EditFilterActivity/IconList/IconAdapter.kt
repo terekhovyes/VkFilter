@@ -20,12 +20,12 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     override fun onBindViewHolder(holder: IconHolder, position: Int) {
         with (holder) {
             icon.setImageResource(FilterIcons.resourceById(position + 1))
-            icon setRoundColorRes if (position == selectedIcon)
+            icon.setRoundColorRes(if (position == selectedIcon)
                 R.color.m_green
             else
-                R.color.m_gray
+                R.color.m_gray)
 
-            v setOnClickListener {
+            v.setOnClickListener {
                 selectedIcon = position
                 notifyDataSetChanged()
             }
@@ -35,5 +35,5 @@ class IconAdapter(): RecyclerView.Adapter<IconHolder>() {
     override fun getItemCount() = FilterIcons.count()
 
     fun getSelectedIconId() = selectedIcon + 1
-    fun setSelectedIconId(id: Int) { selectedIcon = id - 1 }
+    infix fun setSelectedIconId(id: Int) { selectedIcon = id - 1 }
 }

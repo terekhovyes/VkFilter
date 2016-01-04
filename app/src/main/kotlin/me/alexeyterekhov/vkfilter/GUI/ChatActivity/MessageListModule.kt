@@ -4,7 +4,7 @@ import android.graphics.Point
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
+import android.support.v7.widget.SimpleItemAnimator
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
@@ -32,8 +32,8 @@ class MessageListModule(val activity: ChatActivity) {
             setUpEndlessListener()
             setUpOnLayoutChangeScroller()
         }
-        getCache().listeners add messageListener
-        UserCache.listeners add userListener
+        getCache().listeners.add(messageListener)
+        UserCache.listeners.add(userListener)
         if (getAdapter()!!.messages.isEmpty())
             activity.requestModule.loadLastMessages()
     }
@@ -69,32 +69,32 @@ class MessageListModule(val activity: ChatActivity) {
     }
 
     fun onDestroy() {
-        getCache().listeners remove messageListener
-        UserCache.listeners remove userListener
+        getCache().listeners.remove(messageListener)
+        UserCache.listeners.remove(userListener)
     }
 
-    fun getList() = (activity findViewById R.id.messageList) as RecyclerView
-    fun getAdapter() = getList().getAdapter() as ChatAdapter?
+    fun getList() = (activity.findViewById(R.id.messageList)) as RecyclerView
+    fun getAdapter() = getList().adapter as ChatAdapter?
     private fun getCache() = MessageCaches.getCache(
             activity.launchParameters.dialogId(),
             activity.launchParameters.isChat()
     )
     private fun initList() {
         val list = getList()
-        list.setAdapter(ChatAdapter(
+        list.adapter = ChatAdapter(
                 dialogId = activity.launchParameters.dialogId(),
                 isChat = activity.launchParameters.isChat(),
                 activity = activity
-        ))
-        list setLayoutManager LinearLayoutManager(AppContext.instance, LinearLayoutManager.VERTICAL, false)
-        list.getItemAnimator().setSupportsChangeAnimations(true)
+        )
+        list.layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.VERTICAL, false)
+        (list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = true
         updateAttachmentGenerator()
     }
     private fun initAdapterData() {
         val adapter = getAdapter()
         if (adapter != null) {
             adapter.messages.clear()
-            adapter.messages addAll getCache().getMessages()
+            adapter.messages.addAll(getCache().getMessages())
             adapter.notifyDataSetChanged()
         }
     }
@@ -102,7 +102,7 @@ class MessageListModule(val activity: ChatActivity) {
         val adapter = getAdapter()
         if (adapter != null) {
             val size = Point()
-            activity.getWindowManager().getDefaultDisplay().getSize(size)
+            activity.windowManager.defaultDisplay.getSize(size)
             adapter.attachmentGenerator = AttachmentsViewGenerator(
                     activity = activity,
                     maxViewHeight = (size.y * 0.7).toInt(),
@@ -122,27 +122,24 @@ class MessageListModule(val activity: ChatActivity) {
                         if (adapter.messages.isEmpty())
                             activity.requestModule.loadLastMessages()
                         else
-                            activity.requestModule.loadMessagesOlderThan(adapter.messages.first()!!.sentId.toString())
+                            activity.requestModule.loadMessagesOlderThan(adapter.messages.first().sentId.toString())
                 }
         )
         getList().setOnScrollListener(endless)
     }
     private fun setUpOnLayoutChangeScroller() {
         val list = getList()
-        list.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int,
-                                        oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                if (oldBottom != 0) {
-                    val dif = oldBottom - bottom
-                    if (dif > 0)
-                        list.scrollBy(0, dif)
-                }
+        list.addOnLayoutChangeListener({ v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (oldBottom != 0) {
+                val dif = oldBottom - bottom
+                if (dif > 0)
+                    list.scrollBy(0, dif)
             }
         })
     }
     private fun isAtBottom(completely: Boolean = false): Boolean {
         val adapter = getAdapter()!!
-        val layoutMan = getList().getLayoutManager() as LinearLayoutManager
+        val layoutMan = getList().layoutManager as LinearLayoutManager
         return if (!completely) {
             adapter.messages.isEmpty()
                     || layoutMan.findLastVisibleItemPosition() >= adapter.messages.count() - 1
@@ -151,9 +148,9 @@ class MessageListModule(val activity: ChatActivity) {
                     || layoutMan.findLastCompletelyVisibleItemPosition() >= adapter.messages.count() - 1
         }
     }
-    private fun adapterHaveUnreadIncomeMessages() = getAdapter()!!.messages any { it.isIn && it.isNotRead }
+    private fun adapterHaveUnreadIncomeMessages() = getAdapter()!!.messages.any { it.isIn && it.isNotRead }
     private fun scrollDown(smooth: Boolean = false) {
-        val lastPos = getAdapter()!!.getItemCount() - 1
+        val lastPos = getAdapter()!!.itemCount - 1
         if (smooth)
             getList().smoothScrollToPosition(lastPos)
         else
@@ -163,13 +160,13 @@ class MessageListModule(val activity: ChatActivity) {
         val adapter = getAdapter()
         if (adapter != null) {
             if (adapter.messages.isNotEmpty()) {
-                if (adapter.messages none { it.isIn && it.isNotRead })
+                if (adapter.messages.none { it.isIn && it.isNotRead })
                     scrollDown()
                 else {
                     var unreadPos = adapter.messages.indexOfFirst { it.isIn && it.isNotRead }
-                    val height = getList().getHeight()
+                    val height = getList().height
                     val offset = Math.max(50, (height * 0.1).toInt())
-                    (getList().getLayoutManager() as LinearLayoutManager).scrollToPositionWithOffset(unreadPos, offset)
+                    (getList().layoutManager as LinearLayoutManager).scrollToPositionWithOffset(unreadPos, offset)
                 }
             }
         }

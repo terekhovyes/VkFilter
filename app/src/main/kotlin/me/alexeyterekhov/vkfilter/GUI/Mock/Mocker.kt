@@ -11,10 +11,7 @@ import me.alexeyterekhov.vkfilter.Database.VkFilter
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.DialogListSnapshot
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.LinkedList
-import java.util.Vector
+import java.util.*
 
 
 public object Mocker {
@@ -23,7 +20,7 @@ public object Mocker {
     fun mockDialogSnapshot(): DialogListSnapshot {
         val dialogs = generateDialogs()
         val chats = generateChats()
-        val dialogList = dialogs plus chats sortDescendingBy { it.lastMessage!!.sentTimeMillis }
+        val dialogList = dialogs.plus(chats).sortedByDescending { it.lastMessage!!.sentTimeMillis }
         return DialogListSnapshot(System.currentTimeMillis(), Vector(dialogList))
     }
 
@@ -62,16 +59,16 @@ public object Mocker {
         cacheUsers(photos)
         cacheChatInfo(chatUsers)
 
-        for (i in 0..filterNames.size() - 1) {
+        for (i in 0..filterNames.size - 1) {
             val filter = VkFilter()
             with (filter) {
                 filterName = filterNames[i]
                 iconId = icons[i]
                 state = states[i]
                 cached = true
-                cachedIds addAll identifiers[i]
+                cachedIds.addAll(identifiers[i])
             }
-            out add filter
+            out.add(filter)
         }
 
         return out
@@ -82,9 +79,9 @@ public object Mocker {
 
         val texts = arrayListOf(
                 "Конечно!",
-                "Ну что, готов завтра выступать? ${People.DATA[11].getEmoji()}",
+                "Ну что, готов завтра выступать? ${People.DATA[11].emoji}",
                 "Быстро неделя пролетела, уже четверг",
-                "Хорошо, в конце недели спишемся ${People.DATA[3].getEmoji()}",
+                "Хорошо, в конце недели спишемся ${People.DATA[3].emoji}",
                 "Концерт в пятницу в 8",
                 "Ну.. ещё есть время потренироваться)",
                 "Как раз за ударкой сижу, уже более-менее выходит",
@@ -126,7 +123,7 @@ public object Mocker {
                 Message.STATE_SENT
         )
 
-        for (i in texts.size() - 1 downTo 0) {
+        for (i in texts.size - 1 downTo 0) {
             val m = Message("")
             with (m) {
                 sentId = i.toLong()
@@ -136,7 +133,7 @@ public object Mocker {
                 isRead = true
                 sentState = states[i]
             }
-            messages add m
+            messages.add(m)
         }
 
         return messages
@@ -153,9 +150,9 @@ public object Mocker {
                 "http://api.randomuser.me/portraits/women/49.jpg"
         )
         val messages = arrayListOf(
-                "Ну что, готов завтра выступать? ${People.DATA[11].getEmoji()}",
+                "Ну что, готов завтра выступать? ${People.DATA[11].emoji}",
                 "Только не говори, что не сегодня!",
-                "Получилось?! ${People.DATA[54].getEmoji()}"
+                "Получилось?! ${People.DATA[54].emoji}"
         )
         val income = arrayListOf(
                 true,
@@ -185,7 +182,7 @@ public object Mocker {
         )
 
         UserCache.putUser(generateMe())
-        for (i in 0..firstNames.size() - 1) {
+        for (i in 0..firstNames.size - 1) {
             val partner = User()
             with (partner) {
                 id = "$i"
@@ -203,16 +200,16 @@ public object Mocker {
                 sentTimeMillis = date[i]
                 sentState = Message.STATE_SENT
                 if (imageAttachments[i] != null)
-                    attachments.images add imageAttachments[i]!!
+                    attachments.images.add(imageAttachments[i]!!)
             }
 
             val dialog = Dialog()
             with (dialog) {
                 id = i.toLong()
-                partners add partner
+                partners.add(partner)
                 lastMessage = message
             }
-            out add dialog
+            out.add(dialog)
         }
 
         return out
@@ -241,15 +238,15 @@ public object Mocker {
         )
 
         UserCache.putUser(generateMe())
-        for (i in 0..chatTitles.size() - 1) {
+        for (i in 0..chatTitles.size - 1) {
             val dialog = Dialog()
 
             dialog.chatTitle = chatTitles[i]
-            for (j in 0..chatPhotos[i].size() - 1) {
+            for (j in 0..chatPhotos[i].size - 1) {
                 val partner = User()
                 partner.id = j.toString()
                 partner.photoUrl = chatPhotos[i][j]
-                dialog.partners add partner
+                dialog.partners.add(partner)
             }
             val message = Message("me")
             with (message) {
@@ -263,7 +260,7 @@ public object Mocker {
                 id = i.toLong() + 100
                 lastMessage = message
             }
-            out add dialog
+            out.add(dialog)
         }
 
         return out
@@ -295,9 +292,9 @@ public object Mocker {
     }
 
     private fun cacheUsers(idToPhoto: HashMap<Int, String>) {
-        idToPhoto forEach {
-            val id = it.getKey()
-            val photo = it.getValue()
+        idToPhoto.forEach {
+            val id = it.key
+            val photo = it.value
             val user = User()
             with (user) {
                 user.id = id.toString()
@@ -308,13 +305,13 @@ public object Mocker {
     }
 
     private fun cacheChatInfo(idToUsers: HashMap<Int, ArrayList<Int>>) {
-        idToUsers forEach {
-            val chatId = it.getKey()
-            val userIds = it.getValue()
+        idToUsers.forEach {
+            val chatId = it.key
+            val userIds = it.value
             val chatInfo = ChatInfo()
             with (chatInfo) {
                 id = chatId.toLong()
-                chatPartners addAll (userIds map { UserCache.getUser(it.toString()) })
+                chatPartners.addAll(userIds.map { UserCache.getUser(it.toString()) })
             }
             ChatInfoCache.putChat(chatInfo.id.toString(), chatInfo)
         }

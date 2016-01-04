@@ -26,10 +26,10 @@ class RequestMessageHistory(
     override fun handleResponse(json: JSONObject) {
         val firstMessageIsUseless = olderThanId != ""
 
-        val jsonMessageList = json getJSONObject "response" getJSONArray "items"
+        val jsonMessageList = json.getJSONObject("response").getJSONArray("items")
         val messages = JSONParser parseMessages jsonMessageList
         if (firstMessageIsUseless && messages.isNotEmpty())
-            messages remove 0
+            messages.removeAt(0)
 
         loadMissingUsers(messages)
         loadMissingVideos(messages)

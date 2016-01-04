@@ -34,9 +34,9 @@ object UploadImageRecipe {
             // Setup connection
             val connection = URL(upload.uploadUrl).openConnection() as HttpURLConnection
             with (connection) {
-                setUseCaches(false)
-                setDoOutput(true)
-                setRequestMethod("POST")
+                useCaches = false
+                doOutput = true
+                requestMethod = "POST"
                 setRequestProperty("Connection", "Keep-Alive")
                 setRequestProperty("Cache-Control", "no-cache")
                 setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
@@ -45,7 +45,7 @@ object UploadImageRecipe {
 
             // Create control stream
             val transferListener = object : ControlOutputStream.TransferListener {
-                private val totalByteCount = file.size()
+                private val totalByteCount = file.size
                 private var currentPercent = 0
                 private val notifier = Runnable { upload.onProgress(currentPercent) }
 
@@ -61,7 +61,7 @@ object UploadImageRecipe {
                 }
             }
             val controlStream = ControlOutputStream(
-                    outputStream = connection.getOutputStream(),
+                    outputStream = connection.outputStream,
                     listener = transferListener
             )
 
@@ -70,7 +70,7 @@ object UploadImageRecipe {
             with (DataOutputStream(controlStream)) {
                 writeBytes(twoHyphens + boundary + endOfStr)
                 val fileName = getNameFromPath(upload.filePath)
-                writeBytes("Content-Disposition: form-data; name=\"$uploadName\";filename=\"$fileName\"" + endOfStr);
+                writeBytes("Content-Disposition: form-data; name=\"$uploadName\";filename=\"$fileName\"$endOfStr");
                 writeBytes(endOfStr)
                 try {
                     controlStream.startCounting()
@@ -91,12 +91,12 @@ object UploadImageRecipe {
                 ""
             } else {
                 // Get response
-                val responseStream = BufferedInputStream(connection.getInputStream())
+                val responseStream = BufferedInputStream(connection.inputStream)
                 val responseReader = BufferedReader(InputStreamReader(responseStream))
                 var line: String? = responseReader.readLine()
                 val builder = StringBuilder()
                 while (line != null) {
-                    builder append line append "\n"
+                    builder.append(line).append("\n")
                     line = responseReader.readLine()
                 }
                 responseReader.close()
@@ -129,7 +129,7 @@ object UploadImageRecipe {
                 && path.lastIndexOf(".") > path.lastIndexOf("/")
         ) {
             val name = path.substring(path.lastIndexOf("/") + 1)
-            if (name.length() < 3)
+            if (name.length < 3)
                 stubName
             else
                 name

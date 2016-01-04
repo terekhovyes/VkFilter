@@ -26,7 +26,7 @@ public class ImageProgressBar: ImageView {
     private var closeListener: View.OnClickListener? = null
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        val a = context.getTheme().obtainStyledAttributes(
+        val a = context.theme.obtainStyledAttributes(
                 attrs,
                 R.styleable.ImageProgressBar, 0, 0)
         try {
@@ -80,32 +80,32 @@ public class ImageProgressBar: ImageView {
     }
 
     private fun setup() {
-        paintProgress.setColor(colorProgress)
-        paintProgress.setAlpha(0xff)
-        paintProgress.setStyle(Paint.Style.FILL)
-        paintProgress.setAntiAlias(true)
+        paintProgress.color = colorProgress
+        paintProgress.alpha = 0xff
+        paintProgress.style = Paint.Style.FILL
+        paintProgress.isAntiAlias = true
 
-        paintImage.setColor(0xf0f0f0.toInt())
-        paintImage.setAlpha(0xff)
-        paintImage.setStyle(Paint.Style.FILL)
-        paintImage.setAntiAlias(true)
+        paintImage.color = 0xf0f0f0.toInt()
+        paintImage.alpha = 0xff
+        paintImage.style = Paint.Style.FILL
+        paintImage.isAntiAlias = true
 
-        paintCross.setColor(colorButton)
-        paintCross.setAlpha(0xff)
-        paintCross.setStyle(Paint.Style.FILL)
-        paintCross.setAntiAlias(true)
+        paintCross.color = colorButton
+        paintCross.alpha = 0xff
+        paintCross.style = Paint.Style.FILL
+        paintCross.isAntiAlias = true
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.getAction()) {
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                return if (isInCloseZone(event.getX(), event.getY()))
+                return if (isInCloseZone(event.x, event.y))
                     true
                 else
                     super.onTouchEvent(event)
             }
             MotionEvent.ACTION_UP -> {
-                return if (isInCloseZone(event.getX(), event.getY())) {
+                return if (isInCloseZone(event.x, event.y)) {
                     closeListener?.onClick(this)
                     true
                 } else
@@ -117,8 +117,8 @@ public class ImageProgressBar: ImageView {
 
     override fun onMeasure(w: Int, h: Int) {
         super.onMeasure(w, h)
-        val width = View.resolveSizeAndState(getSuggestedMinimumWidth(), w, 1)
-        val height = View.resolveSizeAndState(getSuggestedMinimumWidth(), h, 1)
+        val width = View.resolveSizeAndState(suggestedMinimumWidth, w, 1)
+        val height = View.resolveSizeAndState(suggestedMinimumWidth, h, 1)
 
         if (width > height)
             setMeasuredDimension(height, height)
@@ -133,30 +133,30 @@ public class ImageProgressBar: ImageView {
     }
 
     private fun decreaseAndCropBitmap(src: Bitmap, size: Float): Bitmap {
-        val coefficient = Math.min(src.getWidth(), src.getHeight()) / size
+        val coefficient = Math.min(src.width, src.height) / size
         if (coefficient < 1)
             return src
         val decreasedBitmap = Bitmap.createScaledBitmap(
                 src,
-                (src.getWidth() / coefficient).toInt(),
-                (src.getHeight() / coefficient).toInt(),
+                (src.width / coefficient).toInt(),
+                (src.height / coefficient).toInt(),
                 false
         )
-        val croppedBitmap = if (decreasedBitmap.getWidth() > decreasedBitmap.getHeight()) {
+        val croppedBitmap = if (decreasedBitmap.width > decreasedBitmap.height) {
             Bitmap.createBitmap(
                     decreasedBitmap,
-                    decreasedBitmap.getWidth() / 2 - decreasedBitmap.getHeight() / 2,
+                    decreasedBitmap.width / 2 - decreasedBitmap.height / 2,
                     0,
-                    decreasedBitmap.getHeight(),
-                    decreasedBitmap.getHeight()
+                    decreasedBitmap.height,
+                    decreasedBitmap.height
             )
         } else {
             Bitmap.createBitmap(
                     decreasedBitmap,
                     0,
-                    decreasedBitmap.getHeight() / 2 - decreasedBitmap.getWidth() / 2,
-                    decreasedBitmap.getWidth(),
-                    decreasedBitmap.getWidth()
+                    decreasedBitmap.height / 2 - decreasedBitmap.width / 2,
+                    decreasedBitmap.width,
+                    decreasedBitmap.width
             )
         }
         return croppedBitmap
@@ -167,8 +167,8 @@ public class ImageProgressBar: ImageView {
                 RectF(
                     PADDING_PIXELS.toFloat(),
                     PADDING_PIXELS.toFloat(),
-                    getWidth() - PADDING_PIXELS.toFloat(),
-                    getHeight() - PADDING_PIXELS.toFloat()
+                    width - PADDING_PIXELS.toFloat(),
+                    height - PADDING_PIXELS.toFloat()
                 ),
                 315f,
                 computeSweepAngle(),
@@ -228,9 +228,9 @@ public class ImageProgressBar: ImageView {
         canvas.restore()
     }
 
-    private fun computeCenterX() = getWidth() / 2f
-    private fun computeCenterY() = getHeight() / 2f
-    private fun computeProgressRadius() = (Math.min(getWidth(), getHeight())) / 2f - PADDING_PIXELS
+    private fun computeCenterX() = width / 2f
+    private fun computeCenterY() = height / 2f
+    private fun computeProgressRadius() = (Math.min(width, height)) / 2f - PADDING_PIXELS
     private fun computeImageRadius() = (
             computeProgressRadius()
                     * (100 - PROGRESS_SIZE_PERCENTS)
@@ -241,31 +241,31 @@ public class ImageProgressBar: ImageView {
             ((Math.sqrt(2.0) * computeProgressRadius() - computeImageRadius())
                     / (Math.sqrt(2.0) + 1)).toFloat()
             )
-    private fun computeButtonCenterX() = getWidth() - PADDING_PIXELS - computeButtonRadius()
+    private fun computeButtonCenterX() = width - PADDING_PIXELS - computeButtonRadius()
     private fun computeButtonCenterY() = PADDING_PIXELS + computeButtonRadius()
 
     private fun getBitmap(): Bitmap? {
-        val drawable = getDrawable()
+        val drawable = drawable
 
         return when {
             drawable == null -> null
-            drawable is BitmapDrawable -> decreaseAndCropBitmap(drawable.getBitmap(), getWidth().toFloat())
-            drawable.getIntrinsicWidth() == -1 -> {
-                val bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888)
+            drawable is BitmapDrawable -> decreaseAndCropBitmap(drawable.bitmap, width.toFloat())
+            drawable.intrinsicWidth == -1 -> {
+                val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                 drawable.draw(Canvas(bitmap))
                 bitmap
             }
             else -> {
                 val bitmap = Bitmap.createBitmap(
-                        drawable.getIntrinsicWidth(),
-                        drawable.getIntrinsicHeight(),
+                        drawable.intrinsicWidth,
+                        drawable.intrinsicHeight,
                         Bitmap.Config.ARGB_8888
                 )
                 drawable.draw(Canvas(bitmap))
-                decreaseAndCropBitmap(bitmap, getWidth().toFloat())
+                decreaseAndCropBitmap(bitmap, width.toFloat())
             }
         }
     }
 
-    private fun isInCloseZone(x: Float, y: Float) = x > getWidth() * 2 / 3 && y < getHeight() / 3
+    private fun isInCloseZone(x: Float, y: Float) = x > width * 2 / 3 && y < height / 3
 }

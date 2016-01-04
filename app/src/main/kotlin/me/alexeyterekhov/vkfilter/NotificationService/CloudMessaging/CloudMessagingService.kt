@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.util.Log
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.vk.sdk.VKSdk
-import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestGCMRegister
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestGCMUnregister
@@ -16,12 +15,11 @@ import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.NotificationService.DataHandling.IntentHandler
 import me.alexeyterekhov.vkfilter.Util.Chef
 import me.alexeyterekhov.vkfilter.Util.GooglePlay
-import kotlin.properties.Delegates
 
 
 public class CloudMessagingService : Service() {
     private val TAG = "CloudMessagingService"
-    private val broadcastReceiver: BroadcastReceiver by Delegates.lazy { createBroadcastReceiver() }
+    private val broadcastReceiver: BroadcastReceiver by lazy { createBroadcastReceiver() }
     private var cloudMessagingToken = ""
 
     // Override methods
@@ -29,9 +27,8 @@ public class CloudMessagingService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "I'm created ^^")
-        VKUIHelper.setApplicationContext(getApplicationContext())
         VkSdkInitializer.init()
-        if (VKSdk.wakeUpSession(getApplicationContext()) && VKSdk.isLoggedIn()) {
+        if (VKSdk.wakeUpSession(applicationContext) && VKSdk.isLoggedIn()) {
             subscribeForNotifications()
             registerBroadcast()
         }
@@ -70,15 +67,15 @@ public class CloudMessagingService : Service() {
     // Register and unregister broadcast receiver
     private fun registerBroadcast() {
         val intentFilter = IntentFilter()
-        intentFilter addAction "com.google.android.c2dm.intent.RECEIVE"
-        intentFilter addCategory "vkfilter.gcm"
+        intentFilter.addAction("com.google.android.c2dm.intent.RECEIVE")
+        intentFilter.addCategory("vkfilter.gcm")
         registerReceiver(broadcastReceiver, intentFilter)
     }
     private fun unregisterBroadcast() = unregisterReceiver(broadcastReceiver)
 
     // Handle intents
     private fun onReceiveIntent(intent: Intent) {
-        IntentHandler.onReceiveNewIntent(getApplicationContext(), intent)
+        IntentHandler.onReceiveNewIntent(applicationContext, intent)
     }
     private fun createBroadcastReceiver() = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) = onReceiveIntent(intent)

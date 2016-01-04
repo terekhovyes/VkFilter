@@ -1,7 +1,7 @@
 package me.alexeyterekhov.vkfilter.Internet.Requests
 
 import org.json.JSONObject
-import java.util.LinkedList
+import java.util.*
 
 class RequestCheckMessages(val messageIds: List<Long>, val resultHandler: (List<Long>) -> Unit)
 : Request("execute.checkMessages") {
@@ -13,7 +13,7 @@ class RequestCheckMessages(val messageIds: List<Long>, val resultHandler: (List<
         val readIds = json.getJSONArray("response")
         val collection = LinkedList<Long>()
         for (i in 0..readIds.length() - 1)
-            collection add readIds.getLong(i)
+            collection.add(readIds.getLong(i))
         resultHandler(collection)
     }
 }

@@ -43,13 +43,13 @@ public class FriendChooseFragment: Fragment(), DataDepend {
         val view = inflater.inflate(R.layout.fragment_user_choose, container, false)
 
         val recycler = view.findViewById(R.id.recyclerList) as RecyclerView
-        recycler.setLayoutManager(LinearLayoutManager(AppContext.instance))
-        recycler.setAdapter(adapter)
+        recycler.layoutManager = LinearLayoutManager(AppContext.instance)
+        recycler.adapter = adapter
 
         val endless = object: EndlessScrollListener(recycler, LOAD_THRESHOLD) {
             override fun onReachThreshold(currentItemCount: Int) {
                 RequestControl addForeground RequestFriendList(
-                        offset = FriendsListCache.list.size(),
+                        offset = FriendsListCache.list.size,
                         count = LOAD_PORTION
                 )
             }
@@ -68,33 +68,33 @@ public class FriendChooseFragment: Fragment(), DataDepend {
                 R.color.ui_refresh4
         )
 
-        refreshLayout setRefreshing true
+        refreshLayout.isRefreshing = true
         RequestControl addForeground RequestFriendList(0, LOAD_PORTION)
 
         return view
     }
 
     override fun onCreate(saved: Bundle?) {
-        super<Fragment>.onCreate(saved)
+        super.onCreate(saved)
         if ((DataSaver removeObject KEY_SAVED) != null) {
             adapter = (DataSaver removeObject KEY_ADAPTER) as FriendListAdapter
         }
-        FriendsListCache.listeners add this
+        FriendsListCache.listeners.add(this)
         adapter.checkFriendCache()
     }
     override fun onDestroy() {
-        FriendsListCache.listeners remove this
-        super<Fragment>.onDestroy()
+        FriendsListCache.listeners.remove(this)
+        super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super<Fragment>.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
         DataSaver.putObject(KEY_SAVED, true)
         DataSaver.putObject(KEY_ADAPTER, adapter)
     }
 
     override fun onDataUpdate() {
-        getView().findViewById(R.id.refreshLayout) as CustomSwipeRefreshLayout setRefreshing false
+        (view.findViewById(R.id.refreshLayout) as CustomSwipeRefreshLayout).isRefreshing = false
         adapter.checkFriendCache()
     }
 }

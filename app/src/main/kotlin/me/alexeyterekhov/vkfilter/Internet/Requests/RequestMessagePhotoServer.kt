@@ -7,7 +7,7 @@ class RequestMessagePhotoServer(
         val imageUpload: ImageUpload
 ) : Request("photos.getMessagesUploadServer") {
     override fun handleResponse(json: JSONObject) {
-        val uploadUrl = json getJSONObject "response" getString "upload_url"
+        val uploadUrl = json.getJSONObject("response").getString("upload_url")
         imageUpload.onGetUploadUrl(uploadUrl)
     }
 }

@@ -10,7 +10,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.TextFormat
-import java.util.Vector
+import java.util.*
 
 
 public class FriendListAdapter(
@@ -28,12 +28,12 @@ public class FriendListAdapter(
         if (FriendsListCache.lastUpdate() != update) {
             update = FriendsListCache.lastUpdate()
             friends.clear()
-            friends addAll FriendsListCache.list
+            friends.addAll(FriendsListCache.list)
             notifyDataSetChanged()
         }
     }
 
-    override fun getItemCount() = friends.size() + 1
+    override fun getItemCount() = friends.size + 1
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(AppContext.instance)
         return when (viewType) {
@@ -47,32 +47,32 @@ public class FriendListAdapter(
             }
         }
     }
-    override fun getItemViewType(p: Int) = if (p == friends.size()) TYPE_FOOTER else TYPE_ITEM
+    override fun getItemViewType(p: Int) = if (p == friends.size) TYPE_FOOTER else TYPE_ITEM
     override fun onBindViewHolder(h: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) != TYPE_ITEM)
             return
 
-        val user = friends.get(position)
+        val user = friends[position]
 
         with (h as UserItemHolder) {
-            singlePic setVisibility View.VISIBLE
-            doubleLayout setVisibility View.GONE
-            tripleLayout setVisibility View.GONE
-            quadLayout setVisibility View.GONE
+            singlePic.visibility = View.VISIBLE
+            doubleLayout.visibility = View.GONE
+            tripleLayout.visibility = View.GONE
+            quadLayout.visibility = View.GONE
             imageLoader.displayImage(user.photoUrl, singlePic)
 
-            name setText TextFormat.userTitle(user, false)
+            name.text = TextFormat.userTitle(user, false)
 
             val id = user.id.toLong()
             with (checkBox) {
                 setOnCheckedChangeListener(null)
-                setChecked(selected contains id)
+                isChecked = selected.contains(id)
                 setOnCheckedChangeListener {
                     view, checked ->
                     if (checked) {
-                        selected add id
+                        selected.add(id)
                     } else {
-                        selected remove id
+                        selected.remove(id)
                     }
                     onSelectionChange()
                 }

@@ -14,10 +14,10 @@ class RequestFriendList(val offset: Int, val count: Int) : Request("friends.get"
     }
 
     override fun handleResponse(json: JSONObject) {
-        val jsonUserList = json getJSONObject "response" getJSONArray "items"
+        val jsonUserList = json.getJSONObject("response").getJSONArray("items")
 
         val friends = JSONParser parseUsers jsonUserList
-        friends forEach { UserCache putUser it }
+        friends.forEach { UserCache putUser it }
         if (offset == 0)
             FriendsListCache reloadList friends
         else

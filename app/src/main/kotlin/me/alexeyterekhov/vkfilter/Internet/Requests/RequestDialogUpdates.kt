@@ -7,7 +7,7 @@ import me.alexeyterekhov.vkfilter.Internet.JSONParser
 import me.alexeyterekhov.vkfilter.Internet.MissingDataAnalyzer
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import org.json.JSONObject
-import java.util.LinkedList
+import java.util.*
 
 class RequestDialogUpdates(val dialogId: String, val isChat: Boolean) : Request("execute.dialogUpdates") {
     init {
@@ -26,13 +26,13 @@ class RequestDialogUpdates(val dialogId: String, val isChat: Boolean) : Request(
         else {
             val response = json.getJSONObject("response")
 
-            if (response has "read") {
+            if (response.has("read")) {
                 val lastReadId = response.getLong("read")
                 MessageCaches.getCache(dialogId, isChat).onReadMessages(out = true, lastId = lastReadId)
             }
 
-            if (response has "new_messages") {
-                val jsonMessages = response getJSONArray "new_messages"
+            if (response.has("new_messages")) {
+                val jsonMessages = response.getJSONArray("new_messages")
                 val messages = JSONParser parseMessages jsonMessages
 
                 if (messages.isEmpty())

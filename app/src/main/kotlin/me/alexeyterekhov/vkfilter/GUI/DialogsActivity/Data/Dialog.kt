@@ -4,7 +4,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.Util.TextFormat
-import java.util.LinkedList
+import java.util.*
 
 class Dialog {
     var id = 0L
@@ -17,9 +17,9 @@ class Dialog {
         if (chatTitle != "")
             return chatTitle
         if (partners.count() == 1)
-            return TextFormat.userTitle(partners.first()!!, compact = false)
+            return TextFormat.userTitle(partners.first(), compact = false)
         var title = partners
-            .take(if (partners.count() > 4) 4 else partners.size())
+            .take(if (partners.count() > 4) 4 else partners.size)
             .map { TextFormat.userTitle(it, compact = true) }
             .joinToString(separator = ", ")
         if (partners.count() > 4)
@@ -39,11 +39,11 @@ class Dialog {
     }
 
     fun isChat() = partners.count() > 1
-    fun isOnline() = partners.count() == 1 && partners.first()!!.isOnline
+    fun isOnline() = partners.count() == 1 && partners.first().isOnline
     fun deviceType() = if (partners.isEmpty()) Device.DESKTOP else partners.first().deviceType
-    fun isSameDialog(other: Dialog) = other.isChat() == isChat() && other.id == id
-    fun isNotSameDialog(other: Dialog) = !isSameDialog(other)
-    fun isSameDialogAndContent(other: Dialog): Boolean {
+    infix fun isSameDialog(other: Dialog) = other.isChat() == isChat() && other.id == id
+    infix fun isNotSameDialog(other: Dialog) = !isSameDialog(other)
+    infix fun isSameDialogAndContent(other: Dialog): Boolean {
         return isSameDialog(other)
                 && other.chatPhotoUrl == chatPhotoUrl
                 && other.chatTitle == chatTitle
@@ -63,8 +63,8 @@ class Dialog {
     private fun samePartners(other: Dialog): Boolean {
         if (other.partners.count() != partners.count())
             return false
-        partners forEach { user ->
-            val userWithEqualId = other.partners firstOrNull { it.id == user.id }
+        partners.forEach { user ->
+            val userWithEqualId = other.partners.firstOrNull { it.id == user.id }
             if (userWithEqualId == null
                     || userWithEqualId.isOnline != user.isOnline
                     || userWithEqualId.photoUrl != user.photoUrl)

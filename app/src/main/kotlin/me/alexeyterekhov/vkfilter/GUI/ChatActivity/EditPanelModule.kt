@@ -24,11 +24,11 @@ class EditPanelModule(val activity: ChatActivity) {
         fillMessageInput()
         initSendButton()
         with (getAttachedCache().images) {
-            listeners add uploadListener
+            listeners.add(uploadListener)
             if (sendMessageAfterUploading) {
                 sendMessageAfterUploading = false
                 autoSending = true
-                (activity.findViewById(R.id.sendButton) as ImageView) setImageResource R.drawable.button_loading
+                (activity.findViewById(R.id.sendButton) as ImageView).setImageResource(R.drawable.button_loading)
             }
         }
     }
@@ -36,7 +36,7 @@ class EditPanelModule(val activity: ChatActivity) {
     fun onDestroy() {
         getEditText().removeTextChangedListener(textListener)
         with (getAttachedCache().images) {
-            listeners remove uploadListener
+            listeners.remove(uploadListener)
             if (autoSending)
                 sendMessageAfterUploading = true
         }
@@ -47,7 +47,7 @@ class EditPanelModule(val activity: ChatActivity) {
         if (animate)
             animateSendButtonIconChange(iconRes)
         else
-            activity.findViewById(R.id.sendButton) as ImageView setImageResource iconRes
+            (activity.findViewById(R.id.sendButton) as ImageView).setImageResource(iconRes)
     }
     fun unbindSendButton(animate: Boolean = false) {
         bindAction = null
@@ -55,7 +55,7 @@ class EditPanelModule(val activity: ChatActivity) {
         if (animate)
             animateSendButtonIconChange(icon)
         else
-            activity.findViewById(R.id.sendButton) as ImageView setImageResource icon
+            (activity.findViewById(R.id.sendButton) as ImageView).setImageResource(icon)
     }
     fun getEditText() = activity.findViewById(R.id.messageText) as KeyboardlessEmojiEditText
 
@@ -70,7 +70,7 @@ class EditPanelModule(val activity: ChatActivity) {
 
     private fun initSendButton() {
         val sendButton = activity.findViewById(R.id.sendButton) as ImageView
-        sendButton setOnClickListener {
+        sendButton.setOnClickListener {
             when {
                 bindAction != null -> bindAction!!()
                 mTextIsNotEmpty() && !mHasAttachments() -> sendMessage()
@@ -146,8 +146,8 @@ class EditPanelModule(val activity: ChatActivity) {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        downScale setInterpolator FastOutSlowInInterpolator()
-        downScale setDuration 100
+        downScale.setInterpolator(FastOutSlowInInterpolator())
+        downScale.setDuration(100)
 
         val upScale = ScaleAnimation(
                 0f, 1.0f,
@@ -155,18 +155,18 @@ class EditPanelModule(val activity: ChatActivity) {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        upScale setInterpolator FastOutSlowInInterpolator()
-        upScale setDuration 100
+        upScale.setInterpolator(FastOutSlowInInterpolator())
+        upScale.setDuration(100)
 
-        downScale setAnimationListener object : Animation.AnimationListener {
+        downScale.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationEnd(animation: Animation?) {
-                button setImageResource changeImgToRes
-                button startAnimation upScale
+                button.setImageResource(changeImgToRes)
+                button.startAnimation(upScale)
             }
             override fun onAnimationStart(animation: Animation?) {}
             override fun onAnimationRepeat(animation: Animation?) {}
-        }
-        button startAnimation downScale
+        })
+        button.startAnimation(downScale)
     }
 
     private fun mTextIsNotEmpty() = getMessageCache().getEditMessage().text.isNotBlank()

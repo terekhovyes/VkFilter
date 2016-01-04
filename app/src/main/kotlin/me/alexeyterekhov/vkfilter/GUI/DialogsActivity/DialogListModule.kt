@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
 import android.view.View
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
@@ -28,37 +29,37 @@ class DialogListModule(val activity: DialogsActivity) {
     fun onCreate() {
         val list = findList()
 
-        if (list.getAdapter() == null) {
-            list setAdapter DialogAdapter(list)
-            list setLayoutManager LinearLayoutManager(AppContext.instance)
-            list setItemAnimator DefaultItemAnimator()
-            list.getItemAnimator() setSupportsChangeAnimations true
+        if (list.adapter == null) {
+            list.adapter = DialogAdapter(list)
+            list.layoutManager = LinearLayoutManager(AppContext.instance)
+            list.itemAnimator = DefaultItemAnimator()
+            (list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = true
         }
-        list addOnItemTouchListener clickListener
+        list.addOnItemTouchListener(clickListener)
         scrollListener = createEndlessScroll(list)
-        list addOnScrollListener scrollListener
+        list.addOnScrollListener(scrollListener)
 
-        DialogListCache.listeners add cacheListener
-        (list.getAdapter() as DialogAdapter).checkForNewDialogs()
+        DialogListCache.listeners.add(cacheListener)
+        (list.adapter as DialogAdapter).checkForNewDialogs()
     }
 
     fun onDestroy() {
-        DialogListCache.listeners remove cacheListener
+        DialogListCache.listeners.remove(cacheListener)
         val list = findList()
-        list removeOnItemTouchListener clickListener
-        list removeOnScrollListener scrollListener
+        list.removeOnItemTouchListener(clickListener)
+        list.removeOnScrollListener(scrollListener)
     }
 
     fun findList() = activity.findViewById(R.id.dialogList) as RecyclerView
-    fun getAdapter() = findList().getAdapter() as DialogAdapter?
+    fun getAdapter() = findList().adapter as DialogAdapter?
 
     private fun createClickListener() = RecyclerItemClickAdapter(AppContext.instance,
             object : RecyclerItemClickAdapter.OnItemClickListener {
                 override fun onItemClick(v: View, pos: Int) {
-                    val adapter = findList().getAdapter() as DialogAdapter
+                    val adapter = findList().adapter as DialogAdapter
                     val clickedDialog = adapter.getDialog(pos)
 
-                    val intent = Intent(activity, javaClass<ChatActivity>())
+                    val intent = Intent(activity, ChatActivity::class.java)
                     val key = if (clickedDialog.isChat()) "chat_id" else "user_id"
                     intent.putExtra(key, clickedDialog.id.toString())
                     intent.putExtra("title", clickedDialog.getTitle())
@@ -76,7 +77,7 @@ class DialogListModule(val activity: DialogsActivity) {
     )
     private fun createCacheListener() = object : DataDepend {
         override fun onDataUpdate() {
-            val adapter = findList().getAdapter() as DialogAdapter
+            val adapter = findList().adapter as DialogAdapter
             adapter.checkForNewDialogs()
         }
     }

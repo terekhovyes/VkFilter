@@ -13,14 +13,14 @@ class TightTextView : EmojiconTextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         if (View.MeasureSpec.getMode(widthMeasureSpec) != View.MeasureSpec.EXACTLY) {
-            val layout = getLayout()
-            val lines = layout.getLineCount()
+            val layout = layout
+            val lines = layout.lineCount
             if (lines > 1) {
                 var maxWidth = 0f
                 for (i in 0..lines - 1)
                     maxWidth = Math.max(maxWidth, layout.getLineWidth(i))
                 val realWidth = Math.round(maxWidth)
-                if (realWidth < getMeasuredWidth())
+                if (realWidth < measuredWidth)
                     super.onMeasure(View.MeasureSpec.makeMeasureSpec(realWidth, View.MeasureSpec.AT_MOST), heightMeasureSpec)
             }
         }

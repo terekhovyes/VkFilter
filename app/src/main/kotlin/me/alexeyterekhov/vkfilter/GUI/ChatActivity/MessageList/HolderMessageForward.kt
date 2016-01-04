@@ -22,20 +22,20 @@ class HolderMessageForward(val view: View) {
     fun fillUserInfo(user: User) {
         val loader = ImageLoader.getInstance()
         loader.displayImage(user.photoUrl, senderPhoto)
-        senderName setText TextFormat.userTitle(user)
+        senderName.setText(TextFormat.userTitle(user))
     }
     fun fillUserNotLoaded() {
-        senderPhoto setImageResource R.drawable.icon_user_stub
-        senderName setText ""
+        senderPhoto.setImageResource(R.drawable.icon_user_stub)
+        senderName.setText("")
     }
     fun setDate(msc: Long) {
-        dateText setText DateFormat.forwardMessageDate(msc)
+        dateText.setText(DateFormat.forwardMessageDate(msc))
     }
     fun setMessageText(text: String) {
         if (text == "")
-            messageText setVisibility View.GONE
+            messageText.setVisibility(View.GONE)
         else
-            messageText setText text
+            messageText.setText(text)
     }
 
     // Fill attachments and forward messages
@@ -44,8 +44,8 @@ class HolderMessageForward(val view: View) {
     }
 
     fun setDarkColors() {
-        senderName setTextColor AppContext.instance.getResources().getColor(R.color.font_dark_secondary)
-        dateText setTextColor AppContext.instance.getResources().getColor(R.color.font_dark_tertiary)
-        messageText setTextColor AppContext.instance.getResources().getColor(R.color.font_dark)
+        senderName.setTextColor(AppContext.instance.getResources().getColor(R.color.font_dark_secondary))
+        dateText.setTextColor(AppContext.instance.getResources().getColor(R.color.font_dark_tertiary))
+        messageText.setTextColor(AppContext.instance.getResources().getColor(R.color.font_dark))
     }
 }

@@ -12,10 +12,10 @@ public object FilterIcons {
             5 to R.drawable.group_icon_05
     )
 
-    fun count() = filterIcons.size()
+    fun count() = filterIcons.size
     fun resourceById(id: Int): Int {
-        return if (filterIcons containsKey id)
-            filterIcons[id]
+        return if (filterIcons.containsKey(id))
+            filterIcons[id]!!
         else
             R.drawable.group_icon_01
     }

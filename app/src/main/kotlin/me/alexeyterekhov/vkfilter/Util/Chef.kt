@@ -3,9 +3,7 @@ package me.alexeyterekhov.vkfilter.Util
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
-import java.util.Collections
-import java.util.HashMap
-import java.util.Vector
+import java.util.*
 
 public object Chef {
     // What to do with the dish on exception
@@ -15,16 +13,16 @@ public object Chef {
     // Cooking attempts count
     val UNLIMITED_ATTEMPTS = 0
 
-    fun createRecipe<Ingredient, Dish>() = RecipeCreator(Recipe<Ingredient, Dish>())
+    fun <Ingredient, Dish> createRecipe() = RecipeCreator(Recipe<Ingredient, Dish>())
 
-    fun cook<Ingredient, Dish>(recipe: Recipe<Ingredient, Dish>, ingredient: Ingredient) {
+    fun <Ingredient, Dish> cook(recipe: Recipe<Ingredient, Dish>, ingredient: Ingredient) {
         cook(recipe, Collections.singleton(ingredient))
     }
-    fun cook<Ingredient, Dish>(recipe: Recipe<Ingredient, Dish>, ingredients: Collection<Ingredient>) {
+    fun <Ingredient, Dish> cook(recipe: Recipe<Ingredient, Dish>, ingredients: Collection<Ingredient>) {
         recipe.cooking addIngredients ingredients
     }
 
-    fun express<Dish>(cooking: () -> Dish, serving: (Dish) -> Unit) {
+    fun <Dish> express(cooking: () -> Dish, serving: (Dish) -> Unit) {
         val recipe = Chef.createRecipe<Any, Dish>()
                 .cookThisWay { cooking() }
                 .serveThisWay { any, dish -> serving(dish) }
@@ -110,8 +108,8 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
         allowCooking = true
         startCooking()
     }
-    fun addIngredients(i: Collection<Ingredient>) {
-        ingredients addAll i
+    infix fun addIngredients(i: Collection<Ingredient>) {
+        ingredients.addAll(i)
         startCooking()
     }
 
@@ -132,22 +130,22 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
     }
 
     private val backgroundRunnable = Runnable {
-        val ingredient = ingredients remove 0
+        val ingredient = ingredients.removeAt(0)
         try {
             // Try cook, may throw exceptions
             val dish = recipe.cookAction!!(ingredient)
             // Cooked well! Remove info about attempts count
-            if (attemptCount containsKey ingredient)
-                attemptCount remove ingredient
+            if (attemptCount.containsKey(ingredient))
+                attemptCount.remove(ingredient)
             // Serve our great dish
-            guiHandler post {
+            guiHandler.post {
                 if (recipe.serveAction != null)
                     recipe.serveAction!!(ingredient, dish)
                 cookNext()
             }
         } catch (e: Exception) {
             // Oops, dish was spoiled :(
-            guiHandler post {
+            guiHandler.post {
                 if (recipe.cleanUpAction != null)
                     recipe.cleanUpAction!!(ingredient, e)
             }
@@ -160,18 +158,18 @@ class Cooking<Ingredient, Dish>(val recipe: Recipe<Ingredient, Dish>) {
                 if (recipe.maxCookAttempts != Chef.UNLIMITED_ATTEMPTS) {
                     if (!attemptCount.containsKey(ingredient))
                         attemptCount[ingredient] = 0
-                    attemptCount[ingredient] += 1
+                    attemptCount[ingredient] = attemptCount[ingredient]!! + 1
                 }
                 // Cook again, if attempts didn't reach maximum value
                 if (recipe.maxCookAttempts == Chef.UNLIMITED_ATTEMPTS
-                        || recipe.maxCookAttempts > attemptCount[ingredient]) {
+                        || recipe.maxCookAttempts > attemptCount[ingredient]!!) {
                     when (recipe.ifCookingFail) {
-                        Chef.COOK_AGAIN_AFTER_OTHERS -> ingredients add ingredient
+                        Chef.COOK_AGAIN_AFTER_OTHERS -> ingredients.add(ingredient)
                         Chef.COOK_AGAIN_RIGHT_NOW -> ingredients.add(0, ingredient)
                     }
                 }
             }
-            guiHandler post { cookNext() }
+            guiHandler.post { cookNext() }
         }
     }
 }

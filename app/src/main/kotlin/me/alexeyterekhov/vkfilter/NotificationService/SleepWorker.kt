@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.LinkedList
+import java.util.*
 
 object SleepWorker {
     private val works = SleepCollection()
@@ -53,7 +53,7 @@ object SleepWorker {
     private fun setupAlarm() {
         val work = works.getFirst()
         if (work != null) {
-            val alarmIntent = Intent(context, javaClass<SleepWorkerBroadcast>())
+            val alarmIntent = Intent(context, SleepWorkerBroadcast::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
             val alarmManager = context!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -88,7 +88,7 @@ object SleepWorker {
         fun cancel(runnable: Runnable): Int {
             val index = elements.indexOfFirst { it.work == runnable }
             if (index != -1)
-                elements.remove(index)
+                elements.removeAt(index)
             return index
         }
         fun removeFirst() = if (elements.isNotEmpty()) elements.removeFirst() else null

@@ -4,14 +4,14 @@ import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.DialogListSnapshot
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
-import java.util.Vector
+import java.util.*
 
 object DialogListCache {
     public val listeners: Vector<DataDepend> = Vector()
 
     private var snapshot = emptySnapshot()
 
-    fun updateSnapshot(snap: DialogListSnapshot) {
+    infix fun updateSnapshot(snap: DialogListSnapshot) {
         snapshot = snap
         for (l in listeners) l.onDataUpdate()
     }

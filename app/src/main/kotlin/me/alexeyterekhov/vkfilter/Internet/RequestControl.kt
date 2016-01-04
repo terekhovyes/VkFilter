@@ -9,9 +9,9 @@ import org.json.JSONObject
 public object RequestControl {
     private val LOG_TAG = "RequestControl"
 
-    fun addForeground(request: Request) = addRequest(request, RequestRecipes.foregroundRecipe)
-    fun addBackground(request: Request) = addRequest(request, RequestRecipes.backgroundRecipe)
-    fun addBackgroundOrdered(request: Request) = addRequest(request, RequestRecipes.backgroundOrderedRecipe)
+    infix fun addForeground(request: Request) = addRequest(request, RequestRecipes.foregroundRecipe)
+    infix fun addBackground(request: Request) = addRequest(request, RequestRecipes.backgroundRecipe)
+    infix fun addBackgroundOrdered(request: Request) = addRequest(request, RequestRecipes.backgroundOrderedRecipe)
     fun pause() = Chef.denyCooking(RequestRecipes.foregroundRecipe)
     fun resume() {
         checkSdkInitialized()

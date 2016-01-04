@@ -1,9 +1,8 @@
 package me.alexeyterekhov.vkfilter.Internet
 
-import android.app.AlertDialog
-import com.vk.sdk.*
-import com.vk.sdk.api.VKError
-import com.vk.sdk.dialogs.VKCaptchaDialog
+import com.vk.sdk.VKScope
+import com.vk.sdk.VKSdk
+import me.alexeyterekhov.vkfilter.Util.AppContext
 
 object VkSdkInitializer {
     val vkScopes = arrayOf(
@@ -14,15 +13,6 @@ object VkSdkInitializer {
             VKScope.NOHTTPS
     )
 
-    fun isNull() = VKSdk.instance() == null
-    fun init() = VKSdk.initialize(createSdkListener(), "4464413")
-
-    private fun createSdkListener() = object: VKSdkListener() {
-        override fun onCaptchaError(e: VKError) = VKCaptchaDialog(e).show()
-        override fun onTokenExpired(t: VKAccessToken) = VKSdk.authorize(vkScopes, true, false)
-        override fun onAccessDenied(e: VKError) {
-            if (e.errorCode != VKError.VK_CANCELED)
-                AlertDialog.Builder(VKUIHelper.getTopActivity()).setMessage(e.toString()).show()
-        }
-    }
+    fun isNull() = false
+    fun init() = VKSdk.initialize(AppContext.instance)
 }

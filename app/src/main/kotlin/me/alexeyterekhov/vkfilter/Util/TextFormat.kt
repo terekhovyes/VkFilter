@@ -47,7 +47,7 @@ object TextFormat {
         return str.replace("#", count.toString())
     }
 
-    fun size(sizeInBytes: Int): String {
+    infix fun size(sizeInBytes: Int): String {
         val kb = 1024
         val mb = kb * 1024
         val gb = mb * 1024

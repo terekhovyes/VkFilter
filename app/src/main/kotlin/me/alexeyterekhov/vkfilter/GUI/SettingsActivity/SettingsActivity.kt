@@ -16,7 +16,7 @@ class SettingsActivity: PreferenceActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        val root = findViewById(android.R.id.list).getParent().getParent().getParent() as LinearLayout
+        val root = findViewById(android.R.id.list).parent.parent.parent as LinearLayout
         val toolbar = LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false) as Toolbar
         root.addView(toolbar, 0)
         toolbar.setNavigationOnClickListener {

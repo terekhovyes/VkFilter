@@ -27,7 +27,7 @@ import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DataSaver
 import org.lucasr.twowayview.ItemClickSupport
-import java.util.Vector
+import java.util.*
 
 
 public class ManageFiltersActivity: VkActivity() {
@@ -49,7 +49,7 @@ public class ManageFiltersActivity: VkActivity() {
     fun onCreateOrRestart() {
         setContentView(R.layout.activity_manage_filters)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val wasSaved = DataSaver.removeObject(KEY_SAVED) != null
         if (wasSaved) {
@@ -64,8 +64,8 @@ public class ManageFiltersActivity: VkActivity() {
             setViewHandleId(R.id.iconLayout)
             setOnItemMovedListener({from, to ->
                 if (from != 0 && to != 0) {
-                    with (adapter.getData()) {
-                        val removed = remove(from - 1)
+                    with (adapter.data) {
+                        val removed = removeAt(from - 1)
                         add(to - 1, removed)
                     }
                     adapter.notifyDataSetChanged()
@@ -73,43 +73,39 @@ public class ManageFiltersActivity: VkActivity() {
                 }
             })
         }
-        val onItemClick = object : ItemClickSupport.OnItemClickListener {
-            override fun onItemClick(rv: RecyclerView?, view: View?, pos: Int, id: Long) {
-                if (pos > 0) {
-                    if (selectionMode) {
-                        adapter selectOrDeselect pos
-                        if (adapter.nothingSelected())
-                            changeMode()
-                    } else {
-                        val filter = adapter.getData().get(pos - 1)
-                        val intent = Intent(AppContext.instance, javaClass<EditFilterActivity>())
-                        intent.putExtra(EditFilterActivity.KEY_FILTER_ID, filter.getId())
-                        startActivity(intent)
-                    }
+        val onItemClick = ItemClickSupport.OnItemClickListener { rv, view, pos, id ->
+            if (pos > 0) {
+                if (selectionMode) {
+                    adapter selectOrDeselect pos
+                    if (adapter.nothingSelected())
+                        changeMode()
+                } else {
+                    val filter = adapter.data[pos - 1]
+                    val intent = Intent(AppContext.instance, EditFilterActivity::class.java)
+                    intent.putExtra(EditFilterActivity.KEY_FILTER_ID, filter.id)
+                    startActivity(intent)
                 }
             }
         }
-        val onItemLongClick = object : ItemClickSupport.OnItemLongClickListener {
-            override fun onItemLongClick(rv: RecyclerView?, view: View?, pos: Int, id: Long): Boolean {
-                changeMode()
-                if (selectionMode) {
-                    adapter select pos
-                } else {
-                    adapter.deselectAll()
-                }
-                return true
+        val onItemLongClick = ItemClickSupport.OnItemLongClickListener { rv, view, pos, id ->
+            changeMode()
+            if (selectionMode) {
+                adapter select pos
+            } else {
+                adapter.deselectAll()
             }
+            true
         }
         with (findViewById(R.id.filterList) as RecyclerView) {
             setAdapter(adapter)
-            setLayoutManager(LinearLayoutManager(AppContext.instance))
-            setItemAnimator(animator())
+            layoutManager = LinearLayoutManager(AppContext.instance)
+            itemAnimator = animator()
             addItemDecoration(dragSort)
             addOnItemTouchListener(dragSort)
-            setOnScrollListener(dragSort.getScrollListener())
+            setOnScrollListener(dragSort.scrollListener)
             val clickAdapter = ItemClickSupport.addTo(this)
-            clickAdapter setOnItemClickListener onItemClick
-            clickAdapter setOnItemLongClickListener onItemLongClick
+            clickAdapter.setOnItemClickListener(onItemClick)
+            clickAdapter.setOnItemLongClickListener(onItemLongClick)
 
             val inflater = LayoutInflater.from(this@ManageFiltersActivity)
             val view = inflater.inflate(R.layout.activity_manage_filter_header, this, false)
@@ -122,7 +118,7 @@ public class ManageFiltersActivity: VkActivity() {
                     val temporaryRemoved = adapter.removeSelected()
                     val deleteAction = Runnable { deleteFilters(temporaryRemoved) }
                     handler.postDelayed(deleteAction, 3500)
-                    val title = getString(R.string.manage_filters_deleted) + " ${temporaryRemoved.size()}"
+                    val title = getString(R.string.manage_filters_deleted) + " ${temporaryRemoved.size}"
                     Snackbar
                             .make(this, title, Snackbar.LENGTH_LONG)
                             .setAction(R.string.manage_filters_cancel, { view ->
@@ -133,7 +129,7 @@ public class ManageFiltersActivity: VkActivity() {
 
                     changeMode()
                 } else {
-                    startActivity(Intent(AppContext.instance, javaClass<EditFilterActivity>()))
+                    startActivity(Intent(AppContext.instance, EditFilterActivity::class.java))
                 }
             }
             setImageResource(
@@ -145,22 +141,22 @@ public class ManageFiltersActivity: VkActivity() {
             val list = (this@ManageFiltersActivity).findViewById(R.id.filterList) as RecyclerView
             adapter.setOnParallaxScroll(object : ParallaxRecyclerAdapter.OnParallaxScroll {
                 val EDGE = 0.6f
-                var top = getY()
+                var top = y
                 val interpolator = AccelerateDecelerateInterpolator()
 
                 private fun scrollPos(percent: Float): Float {
-                    return top * (1f - percent) - getHeight() / 2 * percent
+                    return top * (1f - percent) - height / 2 * percent
                 }
                 private fun translatePos(percent: Float): Float {
                     val from = scrollPos(EDGE)
-                    val to = list.getHeight() - getHeight() - getHeight() / 16 * 5
+                    val to = list.height - height - height / 16 * 5
                     val translatePercent = interpolator.getInterpolation((percent - EDGE) / (1f - EDGE))
                     return from + (to - from) * translatePercent
                 }
                 override fun onParallaxScroll(percent: Float, p1: Float, p2: View?) {
                     if (top == 0f)
-                        top = getY()
-                    setY(if (percent < EDGE) scrollPos(percent) else translatePos(percent))
+                        top = y
+                    y = if (percent < EDGE) scrollPos(percent) else translatePos(percent)
                 }
             })
         }
@@ -182,7 +178,7 @@ public class ManageFiltersActivity: VkActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.getItemId()) {
+        when (item!!.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 return true
@@ -193,8 +189,8 @@ public class ManageFiltersActivity: VkActivity() {
 
     private fun refreshList() {
         val adapter = getAdapter()
-        adapter.getData().clear()
-        adapter.getData() addAll DAOFilters.loadVkFilters()
+        adapter.data.clear()
+        adapter.data.addAll(DAOFilters.loadVkFilters())
         adapter.notifyDataSetChanged()
     }
     private fun changeMode() {
@@ -214,28 +210,28 @@ public class ManageFiltersActivity: VkActivity() {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        animation.setRepeatMode(Animation.REVERSE)
-        animation.setRepeatCount(1)
-        animation.setDuration(100)
-        animation.setInterpolator(FastOutSlowInInterpolator())
+        animation.repeatMode = Animation.REVERSE
+        animation.repeatCount = 1
+        animation.duration = 100
+        animation.interpolator = FastOutSlowInInterpolator()
         button.startAnimation(animation)
     }
     private fun addFiltersToAdapter(c: Collection<VkFilter>) {
         val adapter = getAdapter()
-        if (adapter.getData().isEmpty()) {
-            adapter.getData() addAll c
+        if (adapter.data.isEmpty()) {
+            adapter.data.addAll(c)
             adapter.notifyDataSetChanged()
         } else {
             for (f in c) {
                 var pos = 0
-                for (i in 0..adapter.getData().size() - 1) {
-                    if ((adapter.getData() get i).listOrder > f.listOrder) {
+                for (i in 0..adapter.data.size - 1) {
+                    if ((adapter.data[i]).listOrder > f.listOrder) {
                         pos = i
                         break
                     }
                 }
-                adapter.getData().add(pos, f)
-                adapter notifyItemInserted pos
+                adapter.data.add(pos, f)
+                adapter.notifyItemInserted(pos)
             }
         }
     }
@@ -250,8 +246,8 @@ public class ManageFiltersActivity: VkActivity() {
         val adapter = getAdapter()
         ActiveAndroid.beginTransaction()
         try {
-            for (i in 0..adapter.getData().size() - 1) {
-                val f = adapter.getData() get i
+            for (i in 0..adapter.data.size - 1) {
+                val f = adapter.data[i]
                 f.listOrder = i
                 DAOFilters.saveFilter(f)
             }
@@ -260,11 +256,11 @@ public class ManageFiltersActivity: VkActivity() {
             ActiveAndroid.endTransaction()
         }
     }
-    private fun getAdapter() = (findViewById(R.id.filterList) as RecyclerView).getAdapter() as FilterAdapter
+    private fun getAdapter() = (findViewById(R.id.filterList) as RecyclerView).adapter as FilterAdapter
     private fun animator() = object : DefaultItemAnimator() {
         init {
-            setSupportsChangeAnimations(true)
-            setChangeDuration(150)
+            supportsChangeAnimations = true
+            changeDuration = 150
         }
     }
 }

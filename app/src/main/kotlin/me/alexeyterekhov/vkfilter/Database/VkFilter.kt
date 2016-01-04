@@ -3,7 +3,7 @@ package me.alexeyterekhov.vkfilter.Database
 import com.activeandroid.Model
 import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
-import java.util.Vector
+import java.util.*
 
 @Table(name = "VKFilters")
 public class VkFilter(): Model() {
@@ -37,7 +37,7 @@ public class VkFilter(): Model() {
             cachedIds
         else {
             cachedIds.clear()
-            cachedIds addAll getMany(javaClass<VkIdentifier>(), "Owner")
+            cachedIds.addAll(getMany(VkIdentifier::class.java, "Owner"))
             cached = true
             cachedIds
         }

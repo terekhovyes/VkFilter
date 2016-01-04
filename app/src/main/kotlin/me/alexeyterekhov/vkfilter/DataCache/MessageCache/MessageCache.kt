@@ -5,9 +5,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Common.forEachSync
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
-import java.util.Collections
-import java.util.HashMap
-import java.util.LinkedList
+import java.util.*
 
 class MessageCache {
     private val concurrentActions = ConcurrentActions(delayMillis = 250, waitMillis = 300)
@@ -25,7 +23,7 @@ class MessageCache {
     fun getMessages(): Collection<Message> {
         if (!Mocker.MOCK_MODE) {
             val out = LinkedList(sentMessages)
-            out addAll processingMessages
+            out.addAll(processingMessages)
             return out
         } else
             return Mocker.mockMessages()
@@ -37,7 +35,7 @@ class MessageCache {
 
         historyLoaded = allHistoryLoaded || historyLoaded
         val orderedMessages = if (messages.isNotEmpty() && messages.first().sentId > messages.last().sentId)
-            messages.reverse()
+            messages.reversed()
         else
             messages
         if (orderedMessages.isNotEmpty())
@@ -45,10 +43,10 @@ class MessageCache {
 
         // Prevent situation, when sent message still wasn't shown, but DialogRefresher already load it from server
         if (messages.isNotEmpty()
-                && orderedMessages all { it.isOut }
+                && orderedMessages.all { it.isOut }
                 && (processingMessages.isNotEmpty()
                     || !messagesWithoutState.isEmpty())
-                && orderedMessages.size() <= (processingMessages.count() + messagesWithoutState.count())
+                && orderedMessages.size <= (processingMessages.count() + messagesWithoutState.count())
         ) {
             return
         }
@@ -60,17 +58,17 @@ class MessageCache {
                 val curL = sentMessages.first().sentId
                 val curR = sentMessages.last().sentId
 
-                val older = orderedMessages filter { it.sentId < curL }
-                val newer = orderedMessages filter { it.sentId > curR }
-                val inner = orderedMessages filter { it.sentId in curL..curR }
+                val older = orderedMessages.filter { it.sentId < curL }
+                val newer = orderedMessages.filter { it.sentId > curR }
+                val inner = orderedMessages.filter { it.sentId in curL..curR }
 
                 if (inner.isNotEmpty()) {
                     // Split inner messages on new and messages for replacement
-                    val innerNewMessages = inner takeWhile {
+                    val innerNewMessages = inner.takeWhile {
                         val id = it.sentId
-                        sentMessages none { it.sentId == id }
+                        sentMessages.none { it.sentId == id }
                     }
-                    val replacement = inner drop innerNewMessages.count()
+                    val replacement = inner.drop(innerNewMessages.count())
 
                     if (innerNewMessages.isNotEmpty()) putNewerSentMessages(innerNewMessages)
                     if (replacement.isNotEmpty()) replaceSentMessages(replacement)
@@ -87,10 +85,10 @@ class MessageCache {
             editMessage = createEditMessage()
         messagesWithoutState.put(guid, sentMessage)
         concurrentActions.firstAction(guid, {
-            if (messagesWithoutState contains guid) {
-                val message = messagesWithoutState remove guid
+            if (messagesWithoutState.contains(guid)) {
+                val message = messagesWithoutState.remove(guid)!!
                 message.sentState = Message.STATE_SENDING
-                processingMessages add message
+                processingMessages.add(message)
                 listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
             }
         })
@@ -99,21 +97,21 @@ class MessageCache {
         concurrentActions.secondAction(
                 guid,
                 doIfFirstActionWaiting = {
-                    val message = messagesWithoutState remove guid
+                    val message = messagesWithoutState.remove(guid)!!
                     message.sentState = Message.STATE_SENT
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
-                    sentMessages add message
+                    sentMessages.add(message)
                     listeners forEachSync { it.onAddNewMessages(Collections.singleton(message)) }
                 },
                 doIfFirstActionCalled = {
-                    val index = processingMessages indexOfFirst { it.sentId == guid }
-                    val message = processingMessages remove index
+                    val index = processingMessages.indexOfFirst { it.sentId == guid }
+                    val message = processingMessages.removeAt(index)
                     message.sentState = Message.STATE_SENT
                     message.sentId = sentId
                     message.sentTimeMillis = System.currentTimeMillis()
-                    if (sentMessages none { it.sentId == sentId }) {
-                        sentMessages add message
+                    if (sentMessages.none { it.sentId == sentId }) {
+                        sentMessages.add(message)
                         listeners forEachSync { it.onUpdateMessages(Collections.singleton(message)) }
                     }
                 }
@@ -121,17 +119,17 @@ class MessageCache {
     }
     fun onReadMessages(out: Boolean, lastId: Long) {
         val readMessages = sentMessages
-                .reverse()
+                .reversed()
                 .filter { it.isOut == out }
                 .takeWhile { !it.isRead }
                 .filter { it.sentId <= lastId }
         if (readMessages.isNotEmpty()) {
-            readMessages forEach { it.isRead = true }
+            readMessages.forEach { it.isRead = true }
             listeners forEachSync { it onReadMessages readMessages }
         }
     }
     fun onUpdateMessages(updatedMessages: Collection<Message>) {
-        val filtered = updatedMessages filter { sentMessages contains it }
+        val filtered = updatedMessages.filter { sentMessages.contains(it) }
         listeners forEachSync { it.onUpdateMessages(filtered) }
     }
     fun clearData() {
@@ -140,9 +138,9 @@ class MessageCache {
     }
 
     private fun putNewerSentMessages(messages: Collection<Message>) {
-        messages forEach {
+        messages.forEach {
             val messageId = it.sentId
-            val index = 1 + (sentMessages indexOfLast { it.sentId < messageId })
+            val index = 1 + (sentMessages.indexOfLast { it.sentId < messageId })
             sentMessages.add(index, it)
         }
         listeners forEachSync { it.onAddNewMessages(messages) }
@@ -153,7 +151,7 @@ class MessageCache {
     }
     private fun replaceSentMessages(messages: Collection<Message>) {
         for (m in messages) {
-            val index = sentMessages indexOfFirst { it.sentId == m.sentId }
+            val index = sentMessages.indexOfFirst { it.sentId == m.sentId }
             if (index >= 0) {
                 val old = sentMessages[index]
                 sentMessages.set(index, m)
@@ -189,7 +187,7 @@ class MessageCache {
         fun firstAction(concurrentId: Long, action: () -> Unit) {
             val runnable = Runnable({
                 executionTime[concurrentId] = System.currentTimeMillis()
-                firstActions remove concurrentId
+                firstActions.remove(concurrentId)
                 action()
             })
             firstActions.put(concurrentId, runnable)
@@ -200,12 +198,12 @@ class MessageCache {
                 doIfFirstActionWaiting: () -> Unit,
                 doIfFirstActionCalled: () -> Unit
         ) {
-            if (firstActions contains concurrentId) {
-                handler removeCallbacks firstActions[concurrentId]
+            if (firstActions.contains(concurrentId)) {
+                handler.removeCallbacks(firstActions[concurrentId])
                 doIfFirstActionWaiting()
             } else {
                 val time = System.currentTimeMillis()
-                val exec = executionTime remove concurrentId
+                val exec = executionTime.remove(concurrentId)!!
                 if (time - exec > delayMillis)
                     doIfFirstActionCalled()
                 else

@@ -12,7 +12,7 @@ class RequestSavePhoto(val upload: ImageUpload) : Request("photos.saveMessagesPh
     }
 
     override fun handleResponse(json: JSONObject) {
-        val response = json getJSONArray "response" getJSONObject 0
+        val response = (json.getJSONArray("response")).getJSONObject(0)
         val attachment = JSONParser parseImageAttachment json
         upload.attachment = attachment
         upload.onSaveOnServer(

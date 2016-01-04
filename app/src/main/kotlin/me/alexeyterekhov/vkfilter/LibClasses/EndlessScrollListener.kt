@@ -8,7 +8,7 @@ public abstract class EndlessScrollListener(
         val recyclerView: RecyclerView,
         val activationThreshold: Int
 ): RecyclerView.OnScrollListener() {
-    val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
     var previousTotal = 0
     var loading = true
     var firstVisible = 0
@@ -17,8 +17,8 @@ public abstract class EndlessScrollListener(
 
     override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(rv, dx, dy)
-        visibleCount = recyclerView.getChildCount()
-        totalCount = layoutManager.getItemCount()
+        visibleCount = recyclerView.childCount
+        totalCount = layoutManager.itemCount
         firstVisible = layoutManager.findFirstVisibleItemPosition()
 
         if (loading) {
@@ -32,7 +32,7 @@ public abstract class EndlessScrollListener(
                 + activationThreshold
                 >= totalCount)) {
             loading = true
-            onReachThreshold(recyclerView.getAdapter().getItemCount())
+            onReachThreshold(recyclerView.adapter.itemCount)
         }
     }
 

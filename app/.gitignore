@@ -1,1 +1,5 @@
+/.gitignore
+/.idea
 /build
+/local.properties
+*.iml

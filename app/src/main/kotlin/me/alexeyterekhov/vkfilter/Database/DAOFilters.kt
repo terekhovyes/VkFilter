@@ -4,7 +4,7 @@ import com.activeandroid.Model
 import com.activeandroid.query.Select
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
-import java.util.Vector
+import java.util.*
 
 public object DAOFilters {
     val changeListeners = Vector<DataDepend>()
@@ -13,13 +13,13 @@ public object DAOFilters {
         if (Mocker.MOCK_MODE)
             return Mocker.mockFilters()
         return Select().all()
-                    .from(javaClass<VkFilter>())
+                    .from(VkFilter::class.java)
                     .orderBy("ListOrder")
                     .execute()
     }
 
-    fun loadVkFilterById(id: Long): VkFilter {
-        return Model.load(javaClass<VkFilter>(), id)
+    infix fun loadVkFilterById(id: Long): VkFilter {
+        return Model.load(VkFilter::class.java, id)
     }
 
     fun saveFilter(f: VkFilter) {
@@ -29,7 +29,7 @@ public object DAOFilters {
     }
 
     fun deleteFilter(f: VkFilter) {
-        f.identifiers() forEach { it.delete() }
+        f.identifiers().forEach { it.delete() }
         f.delete()
     }
 }

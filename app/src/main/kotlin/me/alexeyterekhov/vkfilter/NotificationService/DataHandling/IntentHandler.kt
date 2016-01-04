@@ -7,7 +7,7 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestNotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.CloudMessaging.CloudMessagingLauncher
 import me.alexeyterekhov.vkfilter.NotificationService.IntentListener
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
-import java.util.LinkedList
+import java.util.*
 import kotlin.properties.Delegates
 
 object IntentHandler {
@@ -19,9 +19,9 @@ object IntentHandler {
         this.context = context
         val collapseKey = intent.getStringExtra("collapse_key")
         if (collapseKey == "msg" || collapseKey == "vkmsg") {
-            intentListeners forEach { it.onGetIntent(intent) }
+            intentListeners.forEach { it.onGetIntent(intent) }
             if (allowLoadingNotifications) {
-                val messageId = intent getStringExtra "msg_id"
+                val messageId = intent.getStringExtra("msg_id")
                 RequestControl addBackground RequestNotificationInfo(messageId)
             }
         }
@@ -37,12 +37,12 @@ object IntentHandler {
     }
 
     fun addIntentListener(l: IntentListener) {
-        intentListeners add l
+        intentListeners.add(l)
         CloudMessagingLauncher.checkServiceState()
     }
 
     fun removeIntentListener(l: IntentListener) {
-        intentListeners remove l
+        intentListeners.remove(l)
         CloudMessagingLauncher.checkServiceState()
     }
 }

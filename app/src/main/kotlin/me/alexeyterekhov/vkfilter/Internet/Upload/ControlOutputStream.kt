@@ -36,7 +36,7 @@ class ControlOutputStream(
             interrupt()
         super.write(buffer)
         if (counting) {
-            transferred += buffer?.size() ?: 0
+            transferred += buffer?.size ?: 0
             listener.transferred(transferred)
         }
     }

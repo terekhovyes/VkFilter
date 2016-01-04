@@ -35,24 +35,24 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
                 updateMyData()
             }
         }
-        drawerLayout setDrawerListener drawerListener
+        drawerLayout.setDrawerListener(drawerListener)
 
         // Menu
-        activity.findViewById(R.id.navigationFiltersButton) setOnClickListener {
+        activity.findViewById(R.id.navigationFiltersButton).setOnClickListener {
             if (DAOFilters.loadVkFilters().isNotEmpty())
-                activity.startActivity(Intent(activity, javaClass<ManageFiltersActivity>()))
+                activity.startActivity(Intent(activity, ManageFiltersActivity::class.java))
             else
-                activity.startActivity(Intent(activity, javaClass<EditFilterActivity>()))
+                activity.startActivity(Intent(activity, EditFilterActivity::class.java))
         }
-        activity.findViewById(R.id.navigationPreferencesButton) setOnClickListener {
-            activity.startActivity(Intent(activity, javaClass<SettingsActivity>()))
+        activity.findViewById(R.id.navigationPreferencesButton).setOnClickListener {
+            activity.startActivity(Intent(activity, SettingsActivity::class.java))
         }
-        activity.findViewById(R.id.navigationLogoutButton) setOnClickListener {
+        activity.findViewById(R.id.navigationLogoutButton).setOnClickListener {
             CloudMessagingLauncher.onLogout()
             VKSdk.logout()
             toLoginActivityAction()
         }
-        activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat setOnCheckedChangeListener {
+        (activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat).setOnCheckedChangeListener {
             view, isChecked ->
             Settings.setGhostModeEnabled(isChecked)
             if (isChecked)
@@ -60,19 +60,19 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
             else
                 RequestControl addForeground RequestSetOnline()
         }
-        activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat setOnCheckedChangeListener {
+        (activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat).setOnCheckedChangeListener {
             view, isChecked ->
             Settings.setCleverNotificationsEnabled(isChecked)
         }
 
         // Info
-        activity.findViewById(R.id.navigationGhostLabel) setOnClickListener {
+        activity.findViewById(R.id.navigationGhostLabel).setOnClickListener {
             AlertDialog.Builder(activity)
                     .setTitle(R.string.dialog_ghost_alert_title)
                     .setMessage(R.string.dialog_ghost_alert_message)
                     .show()
         }
-        activity.findViewById(R.id.navigationCleverNotificationsLabel) setOnClickListener {
+        activity.findViewById(R.id.navigationCleverNotificationsLabel).setOnClickListener {
             AlertDialog.Builder(activity)
                     .setTitle(R.string.dialog_clever_notifications_alert_title)
                     .setMessage(R.string.dialog_clever_notifications_alert_message)
@@ -81,13 +81,13 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
     }
 
     fun onResume() {
-        DialogListCache.listeners add cacheListener
+        DialogListCache.listeners.add(cacheListener)
         updateMyData()
         updateControls()
     }
 
     fun onPause() {
-        DialogListCache.listeners remove cacheListener
+        DialogListCache.listeners.remove(cacheListener)
     }
 
     fun findDrawer() = activity.findViewById(R.id.drawerLayout) as DrawerLayout
@@ -98,14 +98,14 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
         val userOnlineStatus = activity.findViewById(R.id.navigationUserOnlineStatus) as TextView
 
         if (UserCache.getMe() == null) {
-            userPhoto setImageResource R.drawable.icon_user_stub
-            userName setText ""
-            userOnlineStatus setText ""
+            userPhoto.setImageResource(R.drawable.icon_user_stub)
+            userName.text = ""
+            userOnlineStatus.text = ""
         } else {
             val me = UserCache.getMe()!!
             ImageLoader.getInstance().displayImage(me.photoUrl, userPhoto)
-            userName setText TextFormat.userTitle(me, compact = false)
-            userOnlineStatus setText when {
+            userName.text = TextFormat.userTitle(me, compact = false)
+            userOnlineStatus.text = when {
                 me.lastOnlineTime == 0L -> ""
                 me.isOnline -> TextFormat.userOnlineStatus(me)
                 else -> "${TextFormat.lastVisitPhrase(me)} ${TextFormat.lastVisitTime(me)}"
@@ -116,11 +116,11 @@ class NavigationModule(val activity: DialogsActivity, val toLoginActivityAction:
     private fun updateControls() {
         // Ghost mode switch
         val ghostSwitch = activity.findViewById(R.id.navigationGhostSwitch) as SwitchCompat
-        ghostSwitch.setChecked(Settings.getGhostModeEnabled())
+        ghostSwitch.isChecked = Settings.getGhostModeEnabled()
 
         // Clever notifications switch
         val cleverNotificationsSwitch = activity.findViewById(R.id.navigationCleverNotificationsSwitch) as SwitchCompat
-        cleverNotificationsSwitch.setChecked(Settings.getCleverNotificationsEnabled())
+        cleverNotificationsSwitch.isChecked = Settings.getCleverNotificationsEnabled()
     }
 
     private fun createCacheListener() = object : DataDepend {

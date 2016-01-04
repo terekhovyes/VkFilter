@@ -6,7 +6,7 @@ import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestCheckMessages
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.SleepWorker
-import java.util.LinkedList
+import java.util.*
 
 object NotificationCollector {
     private val notifications = LinkedList<NotificationInfo>()
@@ -19,20 +19,20 @@ object NotificationCollector {
             addStupidNotification(context, notification)
     }
     fun addStupidNotification(context: Context, notification: NotificationInfo) {
-        val forReplace = notifications filter { it canBeReplacedBy notification }
-        notifications removeAll forReplace
-        notifications add notification
+        val forReplace = notifications.filter { it canBeReplacedBy notification }
+        notifications.removeAll(forReplace)
+        notifications.add(notification)
         onDataChanged(context)
     }
     fun removeNotification(context: Context, notification: NotificationInfo) {
-        notifications remove notification
+        notifications.remove(notification)
         onDataChanged(context)
     }
     fun removeNotification(context: Context, dialogId: String, isChat: Boolean) {
         if (isChat)
-            notifications removeAll (notifications filter { it.chatId == dialogId })
+            notifications.removeAll(notifications.filter { it.chatId == dialogId })
         else
-            notifications removeAll (notifications filter { it.chatId == "" && it.senderId == dialogId })
+            notifications.removeAll(notifications.filter { it.chatId == "" && it.senderId == dialogId })
         onDataChanged(context)
     }
     fun removeAllNotifications(context: Context) {
@@ -96,11 +96,11 @@ object NotificationCollector {
         private var scheduled = false
         private val intervals = CheckIntervals()
         private val checkMessagesWork = Runnable {
-            val messageIds = notifications map { it.messageSentId.toLong() }
+            val messageIds = notifications.map { it.messageSentId.toLong() }
             RequestControl addBackground RequestCheckMessages(messageIds, { readIds ->
                 scheduled = false
                 if (readIds.isNotEmpty()) {
-                    notifications removeAll (notifications filter { readIds contains it.messageSentId.toLong() })
+                    notifications.removeAll(notifications.filter { readIds.contains(it.messageSentId.toLong()) })
                     onDataChanged(context)
                 } else
                     continueChecking()

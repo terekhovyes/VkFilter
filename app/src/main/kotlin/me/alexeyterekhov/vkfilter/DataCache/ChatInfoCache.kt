@@ -2,8 +2,7 @@ package me.alexeyterekhov.vkfilter.DataCache
 
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
-import java.util.HashMap
-import java.util.Vector
+import java.util.*
 
 
 object ChatInfoCache {
@@ -18,6 +17,6 @@ object ChatInfoCache {
     public fun putChat(id: String, chat: ChatInfo) {
         map[id] = chat
     }
-    public fun contains(id: String): Boolean = map.containsKey(id)
-    public fun getChat(id: String): ChatInfo? = map[id]
+    public infix fun contains(id: String): Boolean = map.containsKey(id)
+    public infix fun getChat(id: String): ChatInfo? = map[id]
 }

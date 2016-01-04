@@ -377,6 +377,6 @@ public class TripleSwitchView extends View {
     }
 
     public interface OnSwitchChangeStateListener {
-        public void onChangeState(int newState);
+        void onChangeState(int newState);
     }
 }

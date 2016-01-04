@@ -15,7 +15,7 @@ object CloudMessagingLauncher {
     fun isRunning(): Boolean {
         val manager = AppContext.instance.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE))
-            if (service.service.getClassName() == javaClass<CloudMessagingService>().getName()) {
+            if (service.service.className == CloudMessagingService::class.java.name) {
                 Log.d(TAG, "Service is already running")
                 return true
             }
@@ -24,11 +24,11 @@ object CloudMessagingLauncher {
     }
     fun launch() {
         val context = AppContext.instance
-        context.startService(Intent(context, javaClass<CloudMessagingService>()))
+        context.startService(Intent(context, CloudMessagingService::class.java))
     }
     fun kill() {
         val context = AppContext.instance
-        context.stopService(Intent(context, javaClass<CloudMessagingService>()))
+        context.stopService(Intent(context, CloudMessagingService::class.java))
     }
 
     // Lifecycle methods

@@ -1,10 +1,8 @@
 package me.alexeyterekhov.vkfilter.GUI.Common
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.vk.sdk.VKSdk
-import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.LoginActivity.LoginActivity
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
@@ -13,18 +11,12 @@ import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.NotificationService.CloudMessaging.CloudMessagingLauncher
 
 public open class VkActivity: AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        VKUIHelper.onCreate(this)
-    }
-
     override fun onResume() {
         super.onResume()
         VkSdkInitializer.init()
         if (!VKSdk.wakeUpSession(this))
             toLoginActivity()
         CloudMessagingLauncher.onAuthorizedActivityOpened()
-        VKUIHelper.onResume(this)
         RequestControl.resume()
         if (!Settings.getGhostModeEnabled())
             RequestControl addForeground RequestSetOnline()
@@ -35,19 +27,9 @@ public open class VkActivity: AppCompatActivity() {
         RequestControl.pause()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        VKUIHelper.onDestroy(this)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        VKUIHelper.onActivityResult(this, requestCode, resultCode, data)
-    }
-
     protected fun toLoginActivity() {
         CloudMessagingLauncher.onLogout()
-        val intent = Intent(this, javaClass<LoginActivity>())
+        val intent = Intent(this, LoginActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)

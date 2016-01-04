@@ -21,7 +21,7 @@ class NotificationInfo {
         }
     }
 
-    fun canBeReplacedBy(other: NotificationInfo) =
+    infix fun canBeReplacedBy(other: NotificationInfo) =
             (sameDialog(other)
             || sameChat(other))
             && other.messageSentTime >= messageSentTime

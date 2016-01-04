@@ -44,10 +44,10 @@ class DialogHolder(dialogView: View): RecyclerView.ViewHolder(dialogView) {
 
     fun chooseImageLayoutForImageCount(count: Int) {
         imageCount = count
-        singleImage setVisibility if (count == 1) View.VISIBLE else View.INVISIBLE
-        doubleLayout setVisibility if (count == 2) View.VISIBLE else View.INVISIBLE
-        tripleLayout setVisibility if (count == 3) View.VISIBLE else View.INVISIBLE
-        quadLayout setVisibility if (count == 4) View.VISIBLE else View.INVISIBLE
+        singleImage.visibility = if (count == 1) View.VISIBLE else View.INVISIBLE
+        doubleLayout.visibility = if (count == 2) View.VISIBLE else View.INVISIBLE
+        tripleLayout.visibility = if (count == 3) View.VISIBLE else View.INVISIBLE
+        quadLayout.visibility = if (count == 4) View.VISIBLE else View.INVISIBLE
     }
 
     fun getImageView(position: Int) = when (imageCount) {
@@ -67,17 +67,17 @@ class DialogHolder(dialogView: View): RecyclerView.ViewHolder(dialogView) {
                 a.messages to R.drawable.attachment_message
         )
         when {
-            icons.keySet() all { it.isEmpty() } -> {
-                attachmentIcon setVisibility View.GONE
+            icons.keys.all { it.isEmpty() } -> {
+                attachmentIcon.visibility = View.GONE
             }
-            icons.keySet() count { it.isNotEmpty() } > 1 -> {
-                attachmentIcon setVisibility View.VISIBLE
-                attachmentIcon setImageResource R.drawable.attachment_common
+            icons.keys.count { it.isNotEmpty() } > 1 -> {
+                attachmentIcon.visibility = View.VISIBLE
+                attachmentIcon.setImageResource(R.drawable.attachment_common)
             }
             else -> {
-                attachmentIcon setVisibility View.VISIBLE
-                val col = icons.keySet() first { it.isNotEmpty() }
-                attachmentIcon setImageResource (icons get col)
+                attachmentIcon.visibility = View.VISIBLE
+                val col = icons.keys.first { it.isNotEmpty() }
+                attachmentIcon.setImageResource(icons.get(col)!!)
             }
         }
     }

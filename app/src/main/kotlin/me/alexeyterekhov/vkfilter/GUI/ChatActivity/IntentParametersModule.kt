@@ -10,11 +10,11 @@ class IntentParametersModule(val activity: AppCompatActivity) {
         val INTENT_FROM_NOTIFICATION = "from_notification"
     }
 
-    fun isChat() = activity.getIntent().hasExtra(INTENT_CHAT_ID)
+    fun isChat() = activity.intent.hasExtra(INTENT_CHAT_ID)
     fun isNotChat() = !isChat()
-    fun dialogId() = with (activity.getIntent()) {
+    fun dialogId() = with (activity.intent) {
         getStringExtra(INTENT_USER_ID) ?: getStringExtra(INTENT_CHAT_ID)!!
     }
-    fun windowTitle() = activity.getIntent().getStringExtra(INTENT_TITLE)!!
-    fun isLaunchedFromNotification() = activity.getIntent().hasExtra(INTENT_FROM_NOTIFICATION)
+    fun windowTitle() = activity.intent.getStringExtra(INTENT_TITLE)!!
+    fun isLaunchedFromNotification() = activity.intent.hasExtra(INTENT_FROM_NOTIFICATION)
 }

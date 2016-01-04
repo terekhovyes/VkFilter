@@ -16,10 +16,7 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestReadMessages
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
-import java.util.Calendar
-import java.util.HashMap
-import java.util.HashSet
-import java.util.LinkedList
+import java.util.*
 import kotlin.properties.Delegates
 
 class ChatAdapter(
@@ -51,17 +48,17 @@ class ChatAdapter(
     val readAnimationMessages = HashSet<Message>()
     val readAnimationStartTime = HashMap<Message, Long>()
 
-    fun messagePosById(id: Long) = messages indexOfLast { it.sentId == id }
-    fun messageById(id: Long) = messages last { it.sentId == id }
+    fun messagePosById(id: Long) = messages.indexOfLast { it.sentId == id }
+    fun messageById(id: Long) = messages.last { it.sentId == id }
     fun selectMessage(id: Long) {
-        selectedMessageIds add id
+        selectedMessageIds.add(id)
         val position = messagePosById(id)
         notifyItemChanged(position)
         notifyItemChanged(position + 1)
         onSelectionChangeAction?.invoke()
     }
     fun deselectMessage(id: Long) {
-        selectedMessageIds remove id
+        selectedMessageIds.remove(id)
         val position = messagePosById(id)
         notifyItemChanged(position)
         notifyItemChanged(position + 1)
@@ -73,7 +70,7 @@ class ChatAdapter(
         notifyItemRangeChanged(0, getItemCount())
         onSelectionChangeAction?.invoke()
     }
-    fun getSelectedMessageIds() = selectedMessageIds.toSortedList()
+    fun getSelectedMessageIds() = selectedMessageIds.sorted()
 
     override fun getItemCount() = if (messages.isNotEmpty()) messages.count() + 1 else 0
     override fun getItemViewType(pos: Int) = when {
@@ -131,21 +128,21 @@ class ChatAdapter(
             val topSelIsClickable = selectedMessageIds.isNotEmpty() && !messageIsSending
             baseHolder.setTopSelectorClickable(topSelIsClickable)
             if (topSelIsClickable) {
-                baseHolder.selectorTop setOnClickListener shortClickListener
-                baseHolder.selectorTop setOnLongClickListener longClickListener
+                baseHolder.selectorTop.setOnClickListener(shortClickListener)
+                baseHolder.selectorTop.setOnLongClickListener(longClickListener)
             }
             if (!messageIsSending)
-                baseHolder.selectorBack setOnLongClickListener longClickListener
+                baseHolder.selectorBack.setOnLongClickListener(longClickListener)
 
             // Colors
             when (getItemViewType(position)) {
                 TYPE_IN -> {
                     val h = baseHolder as HolderMessageIn
-                    h.setColors(selected = (selectedMessageIds contains message.sentId))
+                    h.setColors(selected = (selectedMessageIds.contains(message.sentId)))
                 }
                 TYPE_OUT -> {
                     val h = baseHolder as HolderMessageOut
-                    if (selectedMessageIds contains message.sentId)
+                    if (selectedMessageIds.contains(message.sentId))
                         h.setColorsSelected()
                     else
                         h.setColorsForState(message.sentState)
@@ -167,7 +164,7 @@ class ChatAdapter(
 
             // Base data
             baseHolder.clearMessageAttachments()
-            attachmentGenerator.inflate(message.attachments, inflater, baseHolder.messageAttachments) forEach {
+            attachmentGenerator.inflate(message.attachments, inflater, baseHolder.messageAttachments).forEach {
                 baseHolder addAttachmentToMessage it
             }
             baseHolder.setMessageText(message.text)
@@ -221,26 +218,26 @@ class ChatAdapter(
             // Reading animations
             val duration = READ_DURATION
             val offset = if (message.isIn) READ_OFFSET else 0L
-            if (readAnimationMessages remove message) {
+            if (readAnimationMessages.remove(message)) {
                 readAnimationStartTime.put(message, System.currentTimeMillis())
-                Handler().postDelayed({ readAnimationStartTime remove message }, duration + offset)
+                Handler().postDelayed({ readAnimationStartTime.remove(message) }, duration + offset)
             }
             // message base
-            if (readAnimationStartTime contains message) {
-                val startTime = readAnimationStartTime get message
+            if (readAnimationStartTime.contains(message)) {
+                val startTime = readAnimationStartTime[message]!!
                 baseHolder.animateReadingCommon(duration, offset, System.currentTimeMillis() - startTime)
             }
             // above message
             if (baseHolder.isUnreadAboveMessageShown()) {
                 if (position > 0
                         && !messageFirstInDay && !messageFirstInDialog && messageFirstInChain
-                        && readAnimationStartTime contains messages[position - 1]
+                        && readAnimationStartTime.contains(messages[position - 1])
                 ) {
                     val prevMessage = messages[position - 1]
                     val prevOffset = if (prevMessage.isIn) READ_OFFSET else 0L
-                    val prevStartTime = readAnimationStartTime get prevMessage
-                    if (readAnimationStartTime contains message) {
-                        val startTime = readAnimationStartTime get message
+                    val prevStartTime = readAnimationStartTime.get(prevMessage)!!
+                    if (readAnimationStartTime.contains(message)) {
+                        val startTime = readAnimationStartTime[message]!!
                         if (startTime + offset < prevStartTime + prevOffset) {
                             baseHolder.animateReadingAboveMessage(duration, offset, System.currentTimeMillis() - startTime)
                         } else {
@@ -250,8 +247,8 @@ class ChatAdapter(
                         baseHolder.animateReadingAboveMessage(duration, prevOffset, System.currentTimeMillis() - prevStartTime)
                     }
                 } else {
-                    if (readAnimationStartTime contains message) {
-                        val startTime = readAnimationStartTime get message
+                    if (readAnimationStartTime.contains(message)) {
+                        val startTime = readAnimationStartTime[message]!!
                         baseHolder.animateReadingAboveMessage(duration, offset, System.currentTimeMillis() - startTime)
                     }
                 }
@@ -260,10 +257,10 @@ class ChatAdapter(
             if (baseHolder.isUnreadAboveStripShown() && position > 0) {
                 val prevMessage = messages[position - 1]
                 val prevOffset = if (prevMessage.isIn) READ_OFFSET else 0L
-                if (readAnimationMessages contains prevMessage) {
+                if (readAnimationMessages.contains(prevMessage)) {
                     baseHolder.animateReadingAboveStrip(duration, prevOffset)
-                } else if (readAnimationStartTime contains prevMessage) {
-                    val startTime = readAnimationStartTime get prevMessage
+                } else if (readAnimationStartTime.contains(prevMessage)) {
+                    val startTime = readAnimationStartTime[prevMessage]!!
                     baseHolder.animateReadingAboveStrip(duration, prevOffset, System.currentTimeMillis() - startTime)
                 }
             }
@@ -272,16 +269,16 @@ class ChatAdapter(
 
     override fun onAddNewMessages(messages: Collection<Message>) {
         var maxIndex = -1
-        messages forEach {
+        messages.forEach {
             if (it.sentState == Message.STATE_SENT) {
                 val messageId = it.sentId
-                val index = 1 + (this.messages indexOfLast { it.sentState == Message.STATE_SENT && it.sentId < messageId })
+                val index = 1 + (this.messages.indexOfLast { it.sentState == Message.STATE_SENT && it.sentId < messageId })
                 this.messages.add(index, it)
                 notifyItemInserted(index)
                 if (index > maxIndex)
                     maxIndex = index
             } else {
-                this.messages add it
+                this.messages.add(it)
                 val index = this.messages.count() - 1
                 notifyItemInserted(index)
                 if (index > maxIndex)
@@ -295,7 +292,7 @@ class ChatAdapter(
     }
 
     override fun onAddOldMessages(messages: Collection<Message>) {
-        messages.reverse() forEach {
+        messages.reversed().forEach {
             this.messages.add(0, it)
             notifyItemInserted(0)
         }
@@ -303,7 +300,7 @@ class ChatAdapter(
     }
 
     override fun onReplaceMessage(old: Message, new: Message) {
-        val index = messages indexOfFirst { it.sentId == old.sentId }
+        val index = messages.indexOfFirst { it.sentId == old.sentId }
         messages.set(index, new)
         readIncomeMessages()
         notifyItemChanged(index)
@@ -312,8 +309,8 @@ class ChatAdapter(
     }
 
     override fun onUpdateMessages(messages: Collection<Message>) {
-        val updatedIndexes = messages map { this.messages.indexOf(it) }
-        updatedIndexes forEach {
+        val updatedIndexes = messages.map { this.messages.indexOf(it) }
+        updatedIndexes.forEach {
             notifyItemChanged(it)
             if (!updatedIndexes.contains(it + 1))
                 notifyItemChanged(it + 1)
@@ -324,7 +321,7 @@ class ChatAdapter(
 
     override fun onReadMessages(messages: Collection<Message>) {
         val work = Runnable {
-            readAnimationMessages addAll messages
+            readAnimationMessages.addAll(messages)
             notifyDataSetChanged()
             readIncomeMessages()
         }
@@ -339,8 +336,8 @@ class ChatAdapter(
         if (msg.sentState == Message.STATE_SENDING)
             return false
         return msg.isNotRead
-                || readAnimationMessages contains msg
-                || readAnimationStartTime containsKey msg
+                || readAnimationMessages.contains(msg)
+                || readAnimationStartTime.containsKey(msg)
     }
     private fun isFirstReply(pos: Int): Boolean {
         if (pos == 0)
@@ -364,7 +361,7 @@ class ChatAdapter(
     }
     private fun loadUserImage(view: ImageView, url: String) {
         val conf = if (url !in shownImages) {
-            shownImages add url
+            shownImages.add(url)
             ImageLoadConf.loadUser
         } else {
             ImageLoadConf.loadUserWithoutAnim
@@ -373,7 +370,7 @@ class ChatAdapter(
     }
     private fun updateAnimationTime() { lastAnimationStartTime = System.currentTimeMillis() }
     private fun readIncomeMessages() {
-        if (messages any { it.isIn && it.isNotRead })
+        if (messages.any { it.isIn && it.isNotRead })
             RequestControl addBackground RequestReadMessages(dialogId, isChat)
     }
 }

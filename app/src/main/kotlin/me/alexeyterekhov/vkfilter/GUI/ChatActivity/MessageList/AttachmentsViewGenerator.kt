@@ -38,7 +38,7 @@ class AttachmentsViewGenerator(
 
     fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         val loader = ImageLoader.getInstance()
-        return images map {
+        return images.map {
             val view = inflater.inflate(R.layout.message_attachment_image, root, false) as ImageView
 
             // Set correct aspect ratio
@@ -56,10 +56,10 @@ class AttachmentsViewGenerator(
             // Open viewer on click
             // TODO Switching images
             val url = it.fullSizeUrl
-            view setOnClickListener {
-                val intent = Intent(AppContext.instance, javaClass<PhotoViewerActivity>())
+            view.setOnClickListener {
+                val intent = Intent(AppContext.instance, PhotoViewerActivity::class.java)
                 intent.putExtra("photo_url", url)
-                activity startActivity intent
+                activity.startActivity(intent)
             }
 
             // Show image
@@ -71,11 +71,11 @@ class AttachmentsViewGenerator(
 
     fun inflateVideos(videos: List<VideoAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
         val loader = ImageLoader.getInstance()
-        return videos map {
+        return videos.map {
             val view = inflater.inflate(R.layout.message_attachment_video, root, false)
             val targetRatio = maxViewWidth / maxViewHeight.toDouble()
             val realRatio = 4 / 3.0
-            val params = view.getLayoutParams()
+            val params = view.layoutParams
             if (realRatio > targetRatio) {
                 params.width = maxViewWidth
                 params.height = (maxViewWidth / realRatio).toInt()
@@ -93,7 +93,7 @@ class AttachmentsViewGenerator(
 
             // Duration
             val duration = view.findViewById(R.id.duration) as TextView
-            duration setText (DateFormat duration it.durationSec.toLong())
+            duration.setText(DateFormat duration it.durationSec.toLong())
 
             // Click listener
             val playImage = view.findViewById(R.id.playImage)
@@ -101,11 +101,11 @@ class AttachmentsViewGenerator(
             if (it.playerUrl != "") {
                 preview.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    activity startActivity intent
+                    activity.startActivity(intent)
                 }
-                playImage setVisibility View.VISIBLE
+                playImage.setVisibility(View.VISIBLE)
             } else {
-                playImage setVisibility View.INVISIBLE
+                playImage.setVisibility(View.INVISIBLE)
             }
 
             view
@@ -113,20 +113,20 @@ class AttachmentsViewGenerator(
     }
 
     fun inflateAudios(audios: Collection<AudioAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
-        return audios map {
+        return audios.map {
             val view = inflater.inflate(R.layout.message_attachment_audio, root, false)
 
             val title = view.findViewById(R.id.title) as TextView
-            title setText it.title
+            title.setText(it.title)
             val artist = view.findViewById(R.id.artist) as TextView
-            artist setText it.artist
+            artist.setText(it.artist)
             val duration = view.findViewById(R.id.duration) as TextView
-            duration setText (DateFormat duration it.durationInSec.toLong())
+            duration.setText(DateFormat duration it.durationInSec.toLong())
 
             val url = it.url
-            view setOnClickListener {
+            view.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                activity startActivity intent
+                activity.startActivity(intent)
             }
 
             view
@@ -134,19 +134,19 @@ class AttachmentsViewGenerator(
     }
 
     fun inflateDocs(docs: Collection<DocAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
-        return docs map {
+        return docs.map {
             val view = inflater.inflate(R.layout.message_attachment_document, root, false)
 
             val title = view.findViewById(R.id.title) as TextView
-            title setText it.title
+            title.setText(it.title)
 
             val size = view.findViewById(R.id.docSize) as TextView
-            size setText (TextFormat size it.sizeInBytes)
+            size.setText(TextFormat size it.sizeInBytes)
 
             val url = it.url
-            view setOnClickListener {
+            view.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                activity startActivity intent
+                activity.startActivity(intent)
             }
 
             view
@@ -154,18 +154,18 @@ class AttachmentsViewGenerator(
     }
 
     fun inflateLinks(links: Collection<LinkAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
-        return links map {
+        return links.map {
             val view = inflate.inflate(R.layout.message_attachment_link, root, false)
             val titleView = view.findViewById(R.id.title) as TextView
             val urlView = view.findViewById(R.id.url) as TextView
             val url = it.url
 
-            titleView setText it.title
-            urlView setText url
+            titleView.setText(it.title)
+            urlView.setText(url)
 
-            view setOnClickListener {
+            view.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                activity startActivity intent
+                activity.startActivity(intent)
             }
 
             view
@@ -173,7 +173,7 @@ class AttachmentsViewGenerator(
     }
 
     fun inflateWalls(walls: Collection<WallAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
-        return walls map {
+        return walls.map {
             val view = inflate.inflate(R.layout.message_attachment_wall, root, false)
             view
         }
@@ -185,7 +185,7 @@ class AttachmentsViewGenerator(
             root: ViewGroup,
             darkColors: Boolean
     ): List<View> {
-        return messages map {
+        return messages.map {
             val holder = messageToView(it, inflater, root, darkColors)
             holder.view
         }
@@ -193,7 +193,7 @@ class AttachmentsViewGenerator(
 
     private fun loadImage(loader: ImageLoader, view: ImageView, url: String) {
         val conf = if (url !in shownUrls) {
-            shownUrls add url
+            shownUrls.add(url)
             ImageLoadConf.loadImage
         } else
             ImageLoadConf.loadImageWithoutAnim
@@ -212,7 +212,7 @@ class AttachmentsViewGenerator(
                 fillUserNotLoaded()
             setDate(m.sentTimeMillis)
             setMessageText(m.text)
-            inflate(m.attachments, i, attachmentsLayout, darkColors) forEach {
+            inflate(m.attachments, i, attachmentsLayout, darkColors).forEach {
                 addAttachment(it)
             }
         }

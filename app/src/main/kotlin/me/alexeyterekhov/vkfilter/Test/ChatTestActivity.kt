@@ -18,9 +18,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.ChatAdapter
 import me.alexeyterekhov.vkfilter.R
-import java.util.Collections
-import java.util.LinkedList
-import java.util.Random
+import java.util.*
 
 public class ChatTestActivity: ChatActivity() {
     val tests = arrayListOf(
@@ -46,8 +44,7 @@ public class ChatTestActivity: ChatActivity() {
     var currentTest = 0
 
     private fun getCache() = MessageCaches.getCache("test", true)
-    private fun getAdapter() = (findViewById(R.id.messageList) as RecyclerView)
-            .getAdapter() as ChatAdapter
+    private fun getAdapter() = (findViewById(R.id.messageList) as RecyclerView).adapter as ChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +53,8 @@ public class ChatTestActivity: ChatActivity() {
     }
 
     private fun insertTestControls() {
-        val chatActivity = findViewById(android.R.id.content) as ViewGroup getChildAt 0
-        (chatActivity.getParent() as ViewGroup).removeView(chatActivity)
+        val chatActivity = (findViewById(android.R.id.content) as ViewGroup).getChildAt(0)
+        (chatActivity.parent as ViewGroup).removeView(chatActivity)
         val inflater = LayoutInflater.from(this)
         val testActivity = inflater.inflate(R.layout.activity_test_chat, null, false)
         val container = testActivity.findViewById(R.id.contentLayout) as FrameLayout
@@ -70,23 +67,23 @@ public class ChatTestActivity: ChatActivity() {
         val prevButton = findViewById(R.id.prevButton) as Button
         val testButton = findViewById(R.id.testButton) as Button
 
-        testButton setText tests[currentTest].first
+        testButton.text = tests[currentTest].first
 
-        nextButton setOnClickListener {
+        nextButton.setOnClickListener {
             if (currentTest < tests.count() - 1) {
                 currentTest += 1
-                testButton setText tests[currentTest].first
+                testButton.text = tests[currentTest].first
             }
         }
 
-        prevButton setOnClickListener {
+        prevButton.setOnClickListener {
             if (currentTest > 0) {
                 currentTest -= 1
-                testButton setText tests[currentTest].first
+                testButton.text = tests[currentTest].first
             }
         }
 
-        testButton setOnClickListener {
+        testButton.setOnClickListener {
             tests[currentTest].second()
         }
     }
@@ -107,46 +104,46 @@ public class ChatTestActivity: ChatActivity() {
         run {
             val msgs = generateAllTypesOfMessages()
             val attachedMsg = generateMessage(true)
-            msgs forEach {
-                it.attachments.messages add attachedMsg
+            msgs.forEach {
+                it.attachments.messages.add(attachedMsg)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Attached image
         run {
             val msgs = generateAllTypesOfMessages()
             val image = ImageAttachment("http://cs7060.vk.me/c621626/v621626873/2596c/SWuM7WvcR24.jpg", "", 400, 300)
-            msgs forEach {
-                it.attachments.images add image
+            msgs.forEach {
+                it.attachments.images.add(image)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Attached audio
         run {
             val msgs = generateAllTypesOfMessages()
             val audio = AudioAttachment("Имя исполнителя песни", "Название композиции", 192, "abc")
-            msgs forEach {
-                it.attachments.audios add audio
+            msgs.forEach {
+                it.attachments.audios.add(audio)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Attached doc
         run {
             val msgs = generateAllTypesOfMessages()
             val doc = DocAttachment("Название документа", 18 * 1024, "abc")
-            msgs forEach {
-                it.attachments.documents add doc
+            msgs.forEach {
+                it.attachments.documents.add(doc)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Attached video
         run {
             val msgs = generateAllTypesOfMessages()
             val video = VideoAttachment(1, "Название видео", 312, "http://cs7060.vk.me/c621626/v621626873/2596c/SWuM7WvcR24.jpg", "")
-            msgs forEach {
-                it.attachments.videos add video
+            msgs.forEach {
+                it.attachments.videos.add(video)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         getCache().putMessages(messages, true)
     }
@@ -159,61 +156,61 @@ public class ChatTestActivity: ChatActivity() {
             val msgs = generateAllTypesOfMessages()
             val audio1 = AudioAttachment("Имя исполнителя песни", "Название композиции", 192, "abc")
             val audio2 = AudioAttachment("Имя исполнителя песни2", "Название композиции2", 192, "abc")
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Вертикальное расстояние между вложениями"
-                it.attachments.audios add audio1
-                it.attachments.audios add audio2
+                it.attachments.audios.add(audio1)
+                it.attachments.audios.add(audio2)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Text width vs attachment width
         run {
             val msgs = generateAllTypesOfMessages()
             val audio = AudioAttachment("Имя исполнителя песни", "Название композиции", 192, "abc")
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Small"
-                it.attachments.audios add audio
+                it.attachments.audios.add(audio)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         run {
             val msgs = generateAllTypesOfMessages()
             val audio = AudioAttachment("A", "B", 192, "abc")
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Veeeeeeeeryyyyyy bbbiiiiiiiggggg teeeeeeeexxxxttttt"
-                it.attachments.audios add audio
+                it.attachments.audios.add(audio)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         run {
             val msgs = generateAllTypesOfMessages()
             val image = ImageAttachment("http://cs7060.vk.me/c621626/v621626873/2596c/SWuM7WvcR24.jpg", "", 400, 300)
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Small"
-                it.attachments.images add image
+                it.attachments.images.add(image)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         run {
             val msgs = generateAllTypesOfMessages()
             val image = ImageAttachment("http://cs7060.vk.me/c621626/v621626873/2596c/SWuM7WvcR24.jpg", "", 400, 300)
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Veeeeeeeeryyyyyy bbbiiiiiiiggggg teeeeeeeexxxxttttt"
-                it.attachments.images add image
+                it.attachments.images.add(image)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         // Attachment width vs attachment width
         run {
             val msgs = generateAllTypesOfMessages()
             val audio1 = AudioAttachment("Имя исполнителя песни", "Название композиции", 192, "abc")
             val audio2 = AudioAttachment("A", "B", 192, "abc")
-            msgs forEach {
+            msgs.forEach {
                 it.text = "Audio width vs"
-                it.attachments.audios add audio1
-                it.attachments.audios add audio2
+                it.attachments.audios.add(audio1)
+                it.attachments.audios.add(audio2)
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
         getCache().putMessages(messages, true)
     }
@@ -231,14 +228,14 @@ public class ChatTestActivity: ChatActivity() {
                 cur - 30L * 24 * 60 * 60 * 1000, // 1 month ago
                 cur - 13L * 30 * 24 * 60 * 60 * 1000 // 1 year ago
         )
-        dates.reverse() forEachIndexed { ind, date ->
+        dates.reversed().forEachIndexed { ind, date ->
             val time = date
             val msgs = generateAllTypesOfMessages()
-            msgs forEachIndexed { ind2, msg ->
+            msgs.forEachIndexed { ind2, msg ->
                 msg.sentTimeMillis = time
                 msg.sentId = (ind * 10 + ind2).toLong()
             }
-            messages addAll msgs
+            messages.addAll(msgs)
         }
 
         getCache().putMessages(messages, true)
@@ -255,8 +252,8 @@ public class ChatTestActivity: ChatActivity() {
     }
 
     private fun testMsgChange() {
-        if (getCache().getMessages().size() == 0)
-            1..20 forEach {
+        if (getCache().getMessages().size == 0)
+            (1..20).forEach {
                 testOneMsgInsert()
             }
         val lastMsg = getCache().getMessages().last()
@@ -272,14 +269,14 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.isIn = true
                 m.text = "Сообщение"
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = true
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
@@ -289,7 +286,7 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.sentId = it.toLong()
                 m.isIn = true
@@ -297,13 +294,13 @@ public class ChatTestActivity: ChatActivity() {
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = true
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..10 forEach {
+            (1..10).forEach {
                 val m = Message("me")
                 m.sentId = it.toLong() + 20
                 m.isIn = true
@@ -311,9 +308,9 @@ public class ChatTestActivity: ChatActivity() {
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = true
-                messages add m
+                messages.add(m)
             }
-            1..30 forEach {
+            (1..30).forEach {
                 val m = Message("me")
                 m.sentId = it.toLong() + 30
                 m.isIn = true
@@ -321,7 +318,7 @@ public class ChatTestActivity: ChatActivity() {
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = false
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 1000)
@@ -331,14 +328,14 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.isIn = true
                 m.text = "Сообщение"
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = false
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
@@ -348,14 +345,14 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.isIn = true
                 m.text = "Сообщение"
                 m.sentTimeMillis = System.currentTimeMillis()
                 m.sentState = Message.STATE_SENT
                 m.isRead = true
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
@@ -363,20 +360,20 @@ public class ChatTestActivity: ChatActivity() {
             Handler().postDelayed({
                 val line = "abcde"
                 var text = ""
-                1..i forEach {
+                (1..i).forEach {
                     text += "$line${if (it == i) "" else "\n" }"
                 }
-                findViewById(R.id.messageText) as EditText setText text
+                (findViewById(R.id.messageText) as EditText).setText(text)
             }, 500L + 500 * i)
         }
         for (i in 6..9) {
             Handler().postDelayed({
                 val line = "abcde"
                 var text = ""
-                1..(10 - i) forEach {
+                (1..(10 - i)).forEach {
                     text += "$line${if (it == 10 - i) "" else "\n" }"
                 }
-                findViewById(R.id.messageText) as EditText setText text
+                (findViewById(R.id.messageText) as EditText).setText(text)
             }, 500L + 500 * i)
         }
     }
@@ -404,14 +401,14 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.isIn = true
                 m.text = "Сообщение"
                 m.sentTimeMillis = System.currentTimeMillis() - 25 * 60 * 60 * 1000
                 m.sentState = Message.STATE_SENT
                 m.isRead = false
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
@@ -462,7 +459,7 @@ public class ChatTestActivity: ChatActivity() {
         clearList()
         Handler().postDelayed({
             val messages = LinkedList<Message>()
-            1..20 forEach {
+            (1..20).forEach {
                 val m = Message("me")
                 m.isIn = true
                 m.text = "Сообщение $it"
@@ -470,7 +467,7 @@ public class ChatTestActivity: ChatActivity() {
                 m.sentState = Message.STATE_SENT
                 m.sentId = it.toLong()
                 m.isRead = false
-                messages add m
+                messages.add(m)
             }
             getCache().putMessages(messages)
         }, 500)
@@ -478,7 +475,7 @@ public class ChatTestActivity: ChatActivity() {
             getCache().onReadMessages(out = false, lastId = 20L)
         }, 1000)
         Handler().postDelayed({
-            findViewById(R.id.messageList) as RecyclerView smoothScrollToPosition 19
+            (findViewById(R.id.messageList) as RecyclerView).smoothScrollToPosition(19)
         }, 3000)
     }
 

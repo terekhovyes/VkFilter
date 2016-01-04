@@ -28,7 +28,7 @@ public class DialogListAdapter(
         }
     }
 
-    override fun getItemCount() = snapshot.dialogs.size() + 1
+    override fun getItemCount() = snapshot.dialogs.size + 1
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(AppContext.instance)
         return when (viewType) {
@@ -42,38 +42,38 @@ public class DialogListAdapter(
             }
         }
     }
-    override fun getItemViewType(p: Int) = if (p == snapshot.dialogs.size()) TYPE_FOOTER else TYPE_ITEM
+    override fun getItemViewType(p: Int) = if (p == snapshot.dialogs.size) TYPE_FOOTER else TYPE_ITEM
     override fun onBindViewHolder(h: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) != TYPE_ITEM)
             return
 
-        val dialog = snapshot.dialogs get position
+        val dialog = snapshot.dialogs.get(position)
 
         with (h as DialogItemHolder) {
             if (dialog.isChat() && dialog.chatPhotoUrl == "") {
                 when (dialog.partners.count()) {
                     2 -> {
-                        singlePic setVisibility View.GONE
-                        doubleLayout setVisibility View.VISIBLE
-                        tripleLayout setVisibility View.GONE
-                        quadLayout setVisibility View.GONE
+                        singlePic.visibility = View.GONE
+                        doubleLayout.visibility = View.VISIBLE
+                        tripleLayout.visibility = View.GONE
+                        quadLayout.visibility = View.GONE
                         imageLoader.displayImage(dialog.partners[0].photoUrl, doublePic1)
                         imageLoader.displayImage(dialog.partners[1].photoUrl, doublePic2)
                     }
                     3 -> {
-                        singlePic setVisibility View.GONE
-                        doubleLayout setVisibility View.GONE
-                        tripleLayout setVisibility View.VISIBLE
-                        quadLayout setVisibility View.GONE
+                        singlePic.visibility = View.GONE
+                        doubleLayout.visibility = View.GONE
+                        tripleLayout.visibility = View.VISIBLE
+                        quadLayout.visibility = View.GONE
                         imageLoader.displayImage(dialog.partners[0].photoUrl, triplePic1)
                         imageLoader.displayImage(dialog.partners[1].photoUrl, triplePic2)
                         imageLoader.displayImage(dialog.partners[2].photoUrl, triplePic3)
                     }
                     else -> {
-                        singlePic setVisibility View.GONE
-                        doubleLayout setVisibility View.GONE
-                        tripleLayout setVisibility View.GONE
-                        quadLayout setVisibility View.VISIBLE
+                        singlePic.visibility = View.GONE
+                        doubleLayout.visibility = View.GONE
+                        tripleLayout.visibility = View.GONE
+                        quadLayout.visibility = View.VISIBLE
                         imageLoader.displayImage(dialog.partners[0].photoUrl, quadPic1)
                         imageLoader.displayImage(dialog.partners[1].photoUrl, quadPic2)
                         imageLoader.displayImage(dialog.partners[2].photoUrl, quadPic3)
@@ -81,38 +81,36 @@ public class DialogListAdapter(
                     }
                 }
             } else {
-                singlePic setVisibility View.VISIBLE
-                doubleLayout setVisibility View.GONE
-                tripleLayout setVisibility View.GONE
-                quadLayout setVisibility View.GONE
+                singlePic.visibility = View.VISIBLE
+                doubleLayout.visibility = View.GONE
+                tripleLayout.visibility = View.GONE
+                quadLayout.visibility = View.GONE
                 if (dialog.chatPhotoUrl == "")
                     imageLoader.displayImage(dialog.partners[0].photoUrl, singlePic)
                 else
                     imageLoader.displayImage(dialog.chatPhotoUrl, singlePic)
             }
 
-            name setText dialog.getTitle()
+            name.text = dialog.getTitle()
             val message = dialog.lastMessage
             if (message != null) {
                 imageLoader.displayImage(message.senderOrEmpty().photoUrl, senderIcon)
-                lastMessage setText message.text
+                lastMessage.text = message.text
             }
 
             with (checkBox) {
                 setOnCheckedChangeListener(null)
-                setChecked(
-                        if (dialog.isChat())
-                            selectedChats contains dialog.id
-                        else
-                            selectedUsers contains dialog.id
-                )
+                isChecked = if (dialog.isChat())
+                    selectedChats.contains(dialog.id)
+                else
+                selectedUsers.contains(dialog.id)
                 setOnCheckedChangeListener {
                     view, checked ->
                     when {
-                        dialog.isChat() && checked -> selectedChats add dialog.id
-                        dialog.isChat() && !checked -> selectedChats remove dialog.id
-                        !dialog.isChat() && checked -> selectedUsers add dialog.id
-                        !dialog.isChat() && !checked -> selectedUsers remove dialog.id
+                        dialog.isChat() && checked -> selectedChats.add(dialog.id)
+                        dialog.isChat() && !checked -> selectedChats.remove(dialog.id)
+                        !dialog.isChat() && checked -> selectedUsers.add(dialog.id)
+                        !dialog.isChat() && !checked -> selectedUsers.remove(dialog.id)
                     }
                     onChangeSelection()
                 }

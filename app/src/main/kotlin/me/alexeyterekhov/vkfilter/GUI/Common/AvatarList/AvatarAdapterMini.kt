@@ -10,8 +10,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.HashSet
-import java.util.Vector
+import java.util.*
 
 
 class AvatarAdapterMini(val layoutRes: Int):
@@ -23,22 +22,22 @@ class AvatarAdapterMini(val layoutRes: Int):
     private val userIdsForLoading = HashSet<String>()
     private val chatIdsForLoading = HashSet<String>()
 
-    fun setIds(ids: List<VkIdentifier>) {
+    infix fun setIds(ids: List<VkIdentifier>) {
         vkIds.clear()
         userIdsForLoading.clear()
         chatIdsForLoading.clear()
 
-        vkIds addAll ids
+        vkIds.addAll(ids)
         notifyDataSetChanged()
 
-        userIdsForLoading addAll vkIds
+        userIdsForLoading.addAll(vkIds
                 .filter { it.type == VkIdentifier.TYPE_USER }
                 .map { it.id.toString() }
-                .filter { !UserCache.contains(it) }
-        chatIdsForLoading addAll vkIds
+                .filter { !UserCache.contains(it) })
+        chatIdsForLoading.addAll(vkIds
                 .filter { it.type == VkIdentifier.TYPE_CHAT }
                 .map { it.id.toString() }
-                .filter { !ChatInfoCache.contains(it) }
+                .filter { !ChatInfoCache.contains(it) })
     }
 
     fun checkForNewAvatars() {
@@ -63,14 +62,14 @@ class AvatarAdapterMini(val layoutRes: Int):
             notifyDataSetChanged()
     }
 
-    override fun getItemCount() = vkIds.size()
+    override fun getItemCount() = vkIds.size
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AvatarHolder? {
         val inflater = LayoutInflater.from(AppContext.instance)
         val view = inflater.inflate(layoutRes, parent, false)
         return AvatarHolder(view)
     }
     override fun onBindViewHolder(h: AvatarHolder, position: Int) {
-        val vkId = vkIds get position
+        val vkId = vkIds.get(position)
         when (vkId.type) {
             VkIdentifier.TYPE_USER -> {
                 setLayoutVisibility(h, 1)
@@ -80,7 +79,7 @@ class AvatarAdapterMini(val layoutRes: Int):
                             h.singleImage
                     )
                 else
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
             }
             VkIdentifier.TYPE_CHAT -> {
                 if (ChatInfoCache contains vkId.id.toString()) {
@@ -89,10 +88,10 @@ class AvatarAdapterMini(val layoutRes: Int):
                         setLayoutVisibility(h, 1)
                         imageLoader.displayImage(chat.photoUrl, h.singleImage)
                     } else {
-                        when (chat.chatPartners.size()) {
+                        when (chat.chatPartners.size) {
                             0 -> {
                                 setLayoutVisibility(h, 1)
-                                h.singleImage setImageResource R.drawable.icon_user_stub
+                                h.singleImage.setImageResource(R.drawable.icon_user_stub)
                             }
                             1 -> {
                                 setLayoutVisibility(h, 1)
@@ -120,16 +119,16 @@ class AvatarAdapterMini(val layoutRes: Int):
                     }
                 } else {
                     setLayoutVisibility(h, 1)
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
                 }
             }
         }
     }
 
     private fun setLayoutVisibility(holder: AvatarHolder, picCount: Int) {
-        holder.singleImage setVisibility if (picCount == 1) View.VISIBLE else View.INVISIBLE
-        holder.doubleLayout setVisibility if (picCount == 2) View.VISIBLE else View.INVISIBLE
-        holder.tripleLayout setVisibility if (picCount == 3) View.VISIBLE else View.INVISIBLE
-        holder.quadLayout setVisibility if (picCount == 4) View.VISIBLE else View.INVISIBLE
+        holder.singleImage.visibility = if (picCount == 1) View.VISIBLE else View.INVISIBLE
+        holder.doubleLayout.visibility = if (picCount == 2) View.VISIBLE else View.INVISIBLE
+        holder.tripleLayout.visibility = if (picCount == 3) View.VISIBLE else View.INVISIBLE
+        holder.quadLayout.visibility = if (picCount == 4) View.VISIBLE else View.INVISIBLE
     }
 }

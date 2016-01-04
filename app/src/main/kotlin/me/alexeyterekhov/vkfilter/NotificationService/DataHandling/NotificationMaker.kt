@@ -53,17 +53,17 @@ object NotificationMaker {
 
     private fun createMultiNotification(notifications: List<NotificationInfo>, context: Context): NotificationCompat.Builder {
         val firstDialog = notifications.last()
-        val moreDialogs = notifications.reverse() drop 1 take 3
+        val moreDialogs = notifications.reversed().drop(1).take(3)
         val notShownCount = notifications.count() - moreDialogs.count() - 1
         val onClickIntent = NotificationUtil.createDialogsActivityIntent(context)
 
         val inboxStyle = NotificationCompat.InboxStyle()
-        moreDialogs forEach { n ->
-            inboxStyle addLine "${n.getName(compact = false)}: ${n.messageText}"
+        moreDialogs.forEach { n ->
+            inboxStyle.addLine("${n.getName(compact = false)}: ${n.messageText}")
         }
         if (notShownCount > 0)
-            inboxStyle setSummaryText TextFormat.andMoreDialogs(context, notShownCount)
-        inboxStyle setBigContentTitle "${firstDialog.getName(compact = true)}: ${firstDialog.messageText}"
+            inboxStyle.setSummaryText(TextFormat.andMoreDialogs(context, notShownCount))
+        inboxStyle.setBigContentTitle("${firstDialog.getName(compact = true)}: ${firstDialog.messageText}")
 
         return createNotificationBase(context, firstDialog.senderPhotoUrl)
                 .setContentTitle("${firstDialog.getName()}")
@@ -74,7 +74,7 @@ object NotificationMaker {
 
     private fun createNotificationBase(context: Context, photoUrl: String): NotificationCompat.Builder {
         val builder = NotificationCompat.Builder(context)
-                .setColor(context.getResources().getColor(R.color.m_green))
+                .setColor(context.resources.getColor(R.color.m_green))
                 .setSmallIcon(R.drawable.icon_notification)
                 .setDeleteIntent(NotificationUtil.createDismissIntent(context))
         val photo = NotificationUtil.loadPhoto(context, photoUrl)
@@ -89,7 +89,7 @@ object NotificationMaker {
             builder.setVibrate(arr)
         }
         if (NotificationUtil.soundAllowed(context)) {
-            val soundUri = Uri.parse("android.resource://${context.getPackageName()}/${R.raw.message_sound}")
+            val soundUri = Uri.parse("android.resource://${context.packageName}/${R.raw.message_sound}")
             builder.setSound(soundUri)
         }
         if (NotificationUtil.colorLightAllowed(context))

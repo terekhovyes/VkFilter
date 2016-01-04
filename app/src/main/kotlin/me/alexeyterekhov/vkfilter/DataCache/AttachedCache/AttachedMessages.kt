@@ -1,18 +1,18 @@
 package me.alexeyterekhov.vkfilter.DataCache.AttachedCache
 
 import me.alexeyterekhov.vkfilter.DataCache.Common.forEachSync
-import java.util.LinkedList
+import java.util.*
 
 class AttachedMessages(val attached: Attached) {
     private val messagePacks = LinkedList<AttachedMessagePack>()
 
-    fun add(pack: AttachedMessagePack) {
-        messagePacks add pack
+    infix fun add(pack: AttachedMessagePack) {
+        messagePacks.add(pack)
         attached.listeners forEachSync { it.onDataUpdate() }
     }
 
     fun remove(pack: AttachedMessagePack) {
-        messagePacks remove pack
+        messagePacks.remove(pack)
         attached.listeners forEachSync { it.onDataUpdate() }
     }
 

@@ -9,36 +9,35 @@ import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.LinkedList
-import java.util.Vector
+import java.util.*
 
 
 public object JSONParser {
     private fun JSONArray.asListOfJSON(): List<JSONObject> {
         val list = LinkedList<JSONObject>()
         for (i in 0..this.length() - 1)
-            list add this.getJSONObject(i)
+            list.add(this.getJSONObject(i))
         return list
     }
 
-    fun parseUsers(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemUser(it) })
-    fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemDialog(it.getJSONObject("message")) })
-    fun parseMessages(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemMessage(it) })
-    fun parseVideoUrls(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemVideoUrl(it) })
-    fun parseChats(array: JSONArray) = Vector(array.asListOfJSON() map { parseItemChat(it) })
-    fun parseNotification(response: JSONObject): NotificationInfo {
+    infix fun parseUsers(array: JSONArray) = Vector(array.asListOfJSON().map { parseItemUser(it) })
+    infix fun parseDialogs(array: JSONArray) = Vector(array.asListOfJSON().map { parseItemDialog(it.getJSONObject("message")) })
+    infix fun parseMessages(array: JSONArray) = Vector(array.asListOfJSON().map { parseItemMessage(it) })
+    infix fun parseVideoUrls(array: JSONArray) = Vector(array.asListOfJSON().map { parseItemVideoUrl(it) })
+    infix fun parseChats(array: JSONArray) = Vector(array.asListOfJSON().map { parseItemChat(it) })
+    infix fun parseNotification(response: JSONObject): NotificationInfo {
         var info = NotificationInfo()
         with (info) {
-            messageSentId = response getString "message_id"
-            messageSentTime = response getLong "date"
-            messageText = response optString "text"
-            senderId = response optString "user_id"
-            senderFirstName = response optString "first_name"
-            senderLastName = response optString "last_name"
-            senderPhotoUrl = response optString "user_photo"
-            chatId = response optString "chat_id"
-            chatTitle = response optString "title"
-            chatPhotoUrl = response optString "chat_photo"
+            messageSentId = response.getString("message_id")
+            messageSentTime = response.getLong("date")
+            messageText = response.optString("text")
+            senderId = response.optString("user_id")
+            senderFirstName = response.optString("first_name")
+            senderLastName = response.optString("last_name")
+            senderPhotoUrl = response.optString("user_photo")
+            chatId = response.optString("chat_id")
+            chatTitle = response.optString("title")
+            chatPhotoUrl = response.optString("chat_photo")
         }
         return info
     }
@@ -94,9 +93,9 @@ public object JSONParser {
         if (item.has("chat_id")) {
             val partners = item.getJSONArray("chat_active")
             for (j in 0..partners.length() - 1)
-                dialog.partners add UserCache.getUser(partners.getString(j))!!
+                dialog.partners.add(UserCache.getUser(partners.getString(j))!!)
         } else
-            dialog.partners add UserCache.getUser(item.getString("user_id"))!!
+            dialog.partners.add(UserCache.getUser(item.getString("user_id"))!!)
 
         return dialog
     }
@@ -116,7 +115,7 @@ public object JSONParser {
         }
 
         if (item.has("fwd_messages"))
-            message.attachments.messages addAll (parseMessages(item.getJSONArray("fwd_messages")))
+            message.attachments.messages.addAll(parseMessages(item.getJSONArray("fwd_messages")))
 
         if (item.has("attachments"))
             parseMessageAttachments(item.getJSONArray("attachments"), message.attachments)
@@ -125,43 +124,43 @@ public object JSONParser {
     }
 
     private fun parseMessageAttachments(array: JSONArray, attachments: Attachments) {
-        array.asListOfJSON() forEach {
+        array.asListOfJSON().forEach {
             try {
                 when (it.getString("type")) {
                     "photo" -> {
                         val image = parseImageAttachment(it.getJSONObject("photo"))
                         if (image.fullSizeUrl != "")
-                            attachments.images add image
+                            attachments.images.add(image)
                     }
                     "sticker" -> {
                         val image = parseStickerAttachment(it.getJSONObject("sticker"))
                         if (image.fullSizeUrl != "")
-                            attachments.images add image
+                            attachments.images.add(image)
                     }
                     "doc" -> {
                         val doc = parseDocAttachment(it.getJSONObject("doc"))
                         if (doc.url != "")
-                            attachments.documents add doc
+                            attachments.documents.add(doc)
                     }
                     "audio" -> {
                         val audio = parseAudioAttachment(it.getJSONObject("audio"))
                         if (audio.url != "")
-                            attachments.audios add audio
+                            attachments.audios.add(audio)
                     }
                     "video" -> {
                         val video = parseVideoAttachment(it.getJSONObject("video"))
-                        attachments.videos add video
+                        attachments.videos.add(video)
                         if (video.playerUrl == "")
                             video.requestKey = videoJsonToRequestId(it.getJSONObject("video"))
                     }
                     "link" -> {
                         val link = parseLinkAttachment(it.getJSONObject("link"))
                         if (link.url != "")
-                            attachments.links add link
+                            attachments.links.add(link)
                     }
                     "wall" -> {
                         val wall = parseWallAttachment(it.getJSONObject("wall"))
-                        attachments.walls add wall
+                        attachments.walls.add(wall)
                     }
                 }
             } catch (e: JSONException) {
@@ -171,7 +170,7 @@ public object JSONParser {
         }
     }
 
-    fun parseImageAttachment(json: JSONObject): ImageAttachment {
+    infix fun parseImageAttachment(json: JSONObject): ImageAttachment {
         val smallSize = 700
         val width = json.optInt("width", 1)
         val height = json.optInt("height", 1)
@@ -225,12 +224,12 @@ public object JSONParser {
 
     private fun parseItemChat(item: JSONObject): ChatInfo {
         val info = ChatInfo()
-        info.id = item getLong "id"
-        val users = item getJSONArray "users"
+        info.id = item.getLong("id")
+        val users = item.getJSONArray("users")
         for (i in 0..users.length() - 1) {
             val id = users.getLong(i).toString()
             if (UserCache contains id)
-                info.chatPartners add (UserCache getUser id)
+                info.chatPartners.add(UserCache getUser id)
         }
         info.title = item.optString("title")
         info.photoUrl = findPhotoMax(item) ?: ""
@@ -253,19 +252,19 @@ public object JSONParser {
 
     private fun findPhotoMax(json: JSONObject): String? {
         if (json.has("photo_max"))
-            return json getString "photo_max"
+            return json.getString("photo_max")
         val sizes = findAllPhotoSizes(json)
         if (sizes.isEmpty())
             return null
-        return json getString "photo_${sizes.last()}"
+        return json.getString("photo_${sizes.last()}")
     }
     private fun findPhotoLess(value: Int, json: JSONObject): String? {
         val sizes = findAllPhotoSizes(json)
         return when {
-            sizes.isEmpty() && json.has("photo_max") -> json getString "photo_max"
+            sizes.isEmpty() && json.has("photo_max") -> json.getString("photo_max")
             sizes.isEmpty() -> null
-            sizes.first() > value -> json getString "photo_${sizes.first()}"
-            else -> json getString "photo_${sizes.filter { it <= value }.last()}"
+            sizes.first() > value -> json.getString("photo_${sizes.first()}")
+            else -> json.getString("photo_${sizes.filter { it <= value }.last()}")
         }
     }
     private fun findAllPhotoSizes(json: JSONObject): List<Int> {
@@ -273,7 +272,7 @@ public object JSONParser {
                 .filter { it.startsWith("photo_") }
                 .map { it.substring(6).toInt() }
                 .filter { json.has("photo_$it") }
-                .sort()
+                .sorted()
     }
 
     private fun videoJsonToRequestId(json: JSONObject): String {
@@ -284,11 +283,11 @@ public object JSONParser {
         val begin = if (owner == "")
             id
         else
-            "${owner}_${id}"
+            "${owner}_$id"
 
         return if (accessKey == "")
             begin
         else
-            "${begin}_${accessKey}"
+            "${begin}_$accessKey"
     }
 }

@@ -14,7 +14,7 @@ public object ClipboardUtil {
     fun putText(text: String) {
         val clipboard = AppContext.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("vkfilter text", text)
-        clipboard setPrimaryClip clip
+        clipboard.primaryClip = clip
     }
 
     fun putMessages(pack: AttachedMessagePack) {

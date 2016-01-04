@@ -33,7 +33,7 @@ class ToolbarModule(val activity: DialogsActivity) {
                 R.string.dialog_navigation_description)
 
         drawer.setDrawerListener(drawerToggle)
-        with (activity.getSupportActionBar()) {
+        with (activity.supportActionBar) {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
         }
@@ -42,11 +42,11 @@ class ToolbarModule(val activity: DialogsActivity) {
     fun onResume() {
         updateSubtitle()
         startRefreshingSubtitle()
-        DialogListCache.listeners add cacheListener
+        DialogListCache.listeners.add(cacheListener)
     }
 
     fun onPause() {
-        DialogListCache.listeners remove cacheListener
+        DialogListCache.listeners.remove(cacheListener)
         stopRefreshingSubtitle()
     }
 
@@ -62,12 +62,10 @@ class ToolbarModule(val activity: DialogsActivity) {
 
     private fun updateSubtitle() {
         val lastUpdateTime = DialogListCache.getSnapshot().snapshotTime
-        activity.getSupportActionBar().setSubtitle(
-                if (lastUpdateTime == 0L)
-                    activity.getString(R.string.dialog_label_toolbar_no_update)
-                else
-                    activity.getString(R.string.dialog_label_toolbar_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
-        )
+        activity.supportActionBar.subtitle = if (lastUpdateTime == 0L)
+            activity.getString(R.string.dialog_label_toolbar_no_update)
+        else
+            activity.getString(R.string.dialog_label_toolbar_update) + " " + DateFormat.lastUpdateTime(lastUpdateTime)
     }
 
     private fun startRefreshingSubtitle() {

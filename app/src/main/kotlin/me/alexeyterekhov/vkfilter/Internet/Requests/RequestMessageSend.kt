@@ -25,15 +25,15 @@ class RequestMessageSend(
             params["attachment"] = attachmentValue
             val images = attached.images.getUploaded()
             attached.images.removeUploaded()
-            message.attachments.images addAll (images map { it.attachment })
+            message.attachments.images.addAll(images.map { it.attachment })
         }
         if (messagesValue.isNotBlank()) {
             params["forward_messages"] = messagesValue
             val attachedMessages = attached.messages.get().first()
             attached.messages.clear()
             val dialog = MessageCaches.getCache(attachedMessages.dialogId, attachedMessages.isChat).getMessages()
-            attachedMessages.messageIds forEach { id ->
-                message.attachments.messages add dialog.firstOrNull { it.sentId == id }
+            attachedMessages.messageIds.forEach { id ->
+                message.attachments.messages.add(dialog.firstOrNull { it.sentId == id })
             }
         }
     }

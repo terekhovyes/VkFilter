@@ -31,7 +31,7 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestChats
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.LinkedList
+import java.util.*
 
 class FilterPanelModule(val activity: DialogsActivity) {
     companion object {
@@ -46,66 +46,64 @@ class FilterPanelModule(val activity: DialogsActivity) {
 
     fun onCreate(savedState: Bundle?) {
         if (savedState != null) {
-            if (savedState containsKey SAVED_KEY)
-                if (savedState containsKey VISIBLE_KEY) {
+            if (savedState.containsKey(SAVED_KEY))
+                if (savedState.containsKey(VISIBLE_KEY)) {
                     with (findMainBtn()) {
-                        setVisibility(View.VISIBLE)
+                        visibility = View.VISIBLE
                         setImageResource(R.drawable.button_close_noback)
                     }
-                    findResetBtn() setVisibility View.VISIBLE
-                    findManageBtn() setVisibility View.VISIBLE
-                    findLayout() setVisibility View.VISIBLE
+                    findResetBtn().visibility = View.VISIBLE
+                    findManageBtn().visibility = View.VISIBLE
+                    findLayout().visibility = View.VISIBLE
                     subscribe()
                 }
         }
 
-        findMainBtn() setOnClickListener {
+        findMainBtn().setOnClickListener {
             val list = findList()
-            if ((list.getAdapter() as FilterGlassAdapter).filters.isEmpty()) {
-                activity.startActivity(Intent(activity, javaClass<EditFilterActivity>()))
+            if ((list.adapter as FilterGlassAdapter).filters.isEmpty()) {
+                activity.startActivity(Intent(activity, EditFilterActivity::class.java))
             } else {
-                when (findLayout().getVisibility()) {
+                when (findLayout().visibility) {
                     View.VISIBLE -> hide()
                     else -> show()
                 }
             }
         }
 
-        findManageBtn() setOnClickListener {
+        findManageBtn().setOnClickListener {
             manageButtonPressed = true
-            val intent = Intent(AppContext.instance, javaClass<ManageFiltersActivity>())
-            activity startActivity intent
+            val intent = Intent(AppContext.instance, ManageFiltersActivity::class.java)
+            activity.startActivity(intent)
         }
 
-        findResetBtn() setOnClickListener {
+        findResetBtn().setOnClickListener {
             val list = findList()
-            (list.getAdapter() as FilterGlassAdapter).resetFilters()
+            (list.adapter as FilterGlassAdapter).resetFilters()
         }
 
         val filtersFromDatabase = DAOFilters.loadVkFilters()
 
         if (filtersFromDatabase.isEmpty())
-            findMainBtn().setVisibility(View.INVISIBLE)
+            findMainBtn().visibility = View.INVISIBLE
         else
-            findMainBtn().setVisibility(View.VISIBLE)
+            findMainBtn().visibility = View.VISIBLE
 
         with (findList()) {
-            if (getAdapter() == null) setAdapter(
-                    FilterGlassAdapter(
-                            this,
-                            object : DataDepend {
-                                override fun onDataUpdate() {
-                                    activity.dialogListModule.getAdapter()!!.checkForFilters()
-                                }
-                            }
-                    )
+            if (adapter == null) adapter = FilterGlassAdapter(
+                    this,
+                    object : DataDepend {
+                        override fun onDataUpdate() {
+                            activity.dialogListModule.getAdapter()!!.checkForFilters()
+                        }
+                    }
             )
-            if (getLayoutManager() == null) setLayoutManager(LinearLayoutManager(
+            if (layoutManager == null) layoutManager = LinearLayoutManager(
                     AppContext.instance, LinearLayoutManager.VERTICAL, true
-            ))
-            val adapter = getAdapter() as FilterGlassAdapter
+            )
+            val adapter = adapter as FilterGlassAdapter
             adapter.filters.clear()
-            adapter.filters addAll filtersFromDatabase
+            adapter.filters.addAll(filtersFromDatabase)
             adapter.notifyDataSetChanged()
         }
 
@@ -116,7 +114,7 @@ class FilterPanelModule(val activity: DialogsActivity) {
     }
     fun saveState(): Bundle {
         val bundle = Bundle()
-        if (findLayout().getVisibility() == View.VISIBLE) {
+        if (findLayout().visibility == View.VISIBLE) {
             if (manageButtonPressed)
                 manageButtonPressed = false
             else {
@@ -130,15 +128,15 @@ class FilterPanelModule(val activity: DialogsActivity) {
     private fun subscribe() {
         val adapter = getAdapter()
         if (adapter != null) {
-            UserCache.listeners add adapter
-            ChatInfoCache.listeners add adapter
+            UserCache.listeners.add(adapter)
+            ChatInfoCache.listeners.add(adapter)
         }
     }
     private fun unsubscribe() {
         val adapter = getAdapter()
         if (adapter != null) {
-            UserCache.listeners remove adapter
-            ChatInfoCache.listeners remove adapter
+            UserCache.listeners.remove(adapter)
+            ChatInfoCache.listeners.remove(adapter)
         }
     }
     private fun infoRequest(filters: List<VkFilter>) {
@@ -150,7 +148,7 @@ class FilterPanelModule(val activity: DialogsActivity) {
                             .filter { !(UserCache contains it) }}
                 .fold(LinkedList<String>(), {
                     res, ids ->
-                    res addAll ids
+                    res.addAll(ids)
                     res})
                 .distinct()
         if (userIds.isNotEmpty())
@@ -163,21 +161,21 @@ class FilterPanelModule(val activity: DialogsActivity) {
                             .filter { !(ChatInfoCache contains it) }}
                 .fold(LinkedList<String>(), {
                     res, ids ->
-                    res addAll ids
+                    res.addAll(ids)
                     res})
                 .distinct()
         if (chatIds.isNotEmpty())
             RequestControl addBackground RequestChats(chatIds)
     }
 
-    fun getAdapter() = findList().getAdapter() as FilterGlassAdapter?
-    private fun findMainBtn() = (activity findViewById R.id.showFilterGlass) as FloatingActionButton
-    private fun findResetBtn() = (activity findViewById R.id.filterReset) as FloatingActionButton
-    private fun findManageBtn() = (activity findViewById R.id.manageFiltersBtn) as FloatingActionButton
-    private fun findLayout() = activity findViewById R.id.glassLayout
-    private fun findList() = (activity findViewById R.id.filterList) as RecyclerView
+    fun getAdapter() = findList().adapter as FilterGlassAdapter?
+    private fun findMainBtn() = (activity.findViewById(R.id.showFilterGlass)) as FloatingActionButton
+    private fun findResetBtn() = (activity.findViewById(R.id.filterReset)) as FloatingActionButton
+    private fun findManageBtn() = (activity.findViewById(R.id.manageFiltersBtn)) as FloatingActionButton
+    private fun findLayout() = activity.findViewById(R.id.glassLayout)
+    private fun findList() = (activity.findViewById(R.id.filterList)) as RecyclerView
 
-    fun isShown() = findLayout().getVisibility() == View.VISIBLE
+    fun isShown() = findLayout().visibility == View.VISIBLE
 
     fun show() {
         if (blocked)
@@ -192,41 +190,41 @@ class FilterPanelModule(val activity: DialogsActivity) {
         with (glassLayout) {
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
-                    btn.getLeft() + btn.getWidth() / 2,
-                    btn.getTop() + btn.getHeight() / 2,
+                    btn.left + btn.width / 2,
+                    btn.top + btn.height / 2,
                     0f,
-                    Math.sqrt((getWidth() * getWidth() + getHeight() * getHeight()).toDouble()).toFloat()
+                    Math.sqrt((width * width + height * height).toDouble()).toFloat()
             )
-            animator setDuration revealDuration.toInt()
-            setVisibility(View.VISIBLE)
+            animator.setDuration(revealDuration.toInt())
+            visibility = View.VISIBLE
             animator.start()
         }
         with (findManageBtn()) {
             val animator = ObjectAnimator.ofFloat(
                     this,
                     "x",
-                    btn.getX(),
-                    getX()
+                    btn.x,
+                    x
             )
-            animator setDuration revealDuration
-            animator setStartDelay revealDuration * 3 / 4
-            animator setInterpolator DecelerateInterpolator(1.5f)
-            setX(btn.getX())
-            setVisibility(View.VISIBLE)
+            animator.setDuration(revealDuration)
+            animator.startDelay = revealDuration * 3 / 4
+            animator.interpolator = DecelerateInterpolator(1.5f)
+            x = btn.x
+            visibility = View.VISIBLE
             animator.start()
         }
         with (findResetBtn()) {
             val animator = ObjectAnimator.ofFloat(
                     this,
                     "x",
-                    btn.getX(),
-                    getX()
+                    btn.x,
+                    x
             )
-            animator setDuration revealDuration
-            animator setStartDelay revealDuration
-            animator setInterpolator DecelerateInterpolator(1.5f)
-            setX(btn.getX())
-            setVisibility(View.VISIBLE)
+            animator.setDuration(revealDuration)
+            animator.startDelay = revealDuration
+            animator.interpolator = DecelerateInterpolator(1.5f)
+            x = btn.x
+            visibility = View.VISIBLE
             animator.start()
         }
         btn.setImageResource(R.drawable.button_close_noback)
@@ -237,10 +235,10 @@ class FilterPanelModule(val activity: DialogsActivity) {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         )
-        animation.setRepeatMode(Animation.REVERSE)
-        animation.setRepeatCount(1)
-        animation.setDuration(revealDuration / 3)
-        animation.setInterpolator(FastOutSlowInInterpolator())
+        animation.repeatMode = Animation.REVERSE
+        animation.repeatCount = 1
+        animation.duration = revealDuration / 3
+        animation.interpolator = FastOutSlowInInterpolator()
         btn.startAnimation(animation)
         handler.postDelayed({ blocked = false }, (revealDuration * 2.5).toLong())
     }
@@ -256,59 +254,60 @@ class FilterPanelModule(val activity: DialogsActivity) {
         with (glassLayout) {
             val animator = ViewAnimationUtils.createCircularReveal(
                     this,
-                    btn.getLeft() + btn.getWidth() / 2,
-                    btn.getTop() + btn.getHeight() / 2,
-                    Math.sqrt((getWidth() * getWidth() + getHeight() * getHeight()).toDouble()).toFloat(),
+                    btn.left + btn.width / 2,
+                    btn.top + btn.height / 2,
+                    Math.sqrt((width * width + height * height).toDouble()).toFloat(),
                     0f
             )
-            animator addListener object : SupportAnimator.AnimatorListener {
+            animator.addListener(object : SupportAnimator.AnimatorListener {
                 override fun onAnimationEnd() {
-                    setVisibility(View.INVISIBLE)
+                    visibility = View.INVISIBLE
                 }
+
                 override fun onAnimationStart() {}
                 override fun onAnimationCancel() {}
                 override fun onAnimationRepeat() {}
-            }
-            animator setDuration revealDuration.toInt()
+            })
+            animator.setDuration(revealDuration.toInt())
             animator.start()
         }
         with (findResetBtn()) {
-            val oldX = getX()
+            val oldX = x
             val animator = ObjectAnimator.ofFloat(
                     this,
                     "x",
-                    getX(),
-                    btn.getX()
+                    x,
+                    btn.x
             )
-            animator setDuration revealDuration / 2
-            animator setInterpolator AccelerateInterpolator()
-            animator addListener object : AnimatorListenerAdapter() {
+            animator.setDuration(revealDuration / 2)
+            animator.interpolator = AccelerateInterpolator()
+            animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
-                    setVisibility(View.INVISIBLE)
-                    setX(oldX)
+                    visibility = View.INVISIBLE
+                    x = oldX
                 }
-            }
+            })
             animator.start()
         }
         with (findManageBtn()) {
-            val oldX = getX()
+            val oldX = x
             val animator = ObjectAnimator.ofFloat(
                     this,
                     "x",
-                    getX(),
-                    btn.getX()
+                    x,
+                    btn.x
             )
-            animator setDuration revealDuration / 2
-            animator setStartDelay revealDuration / 4
-            animator setInterpolator AccelerateInterpolator()
-            animator addListener object : AnimatorListenerAdapter() {
+            animator.setDuration(revealDuration / 2)
+            animator.startDelay = revealDuration / 4
+            animator.interpolator = AccelerateInterpolator()
+            animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
-                    setVisibility(View.INVISIBLE)
-                    setX(oldX)
+                    visibility = View.INVISIBLE
+                    x = oldX
                 }
-            }
+            })
             animator.start()
         }
         btn.setImageResource(R.drawable.button_filters)

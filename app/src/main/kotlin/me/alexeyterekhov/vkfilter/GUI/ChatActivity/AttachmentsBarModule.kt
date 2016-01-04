@@ -21,16 +21,16 @@ class AttachmentsBarModule(val activity: ChatActivity):
         val dialogId = activity.launchParameters.dialogId()
         val isChat = activity.launchParameters.isChat()
         val list = findRecycler()
-        if (list.getAdapter() == null) {
+        if (list.adapter == null) {
             val adapter = AttachmentsAdapter(list)
             adapter setData AttachedCache.get(dialogId, isChat)
-            list.setAdapter(adapter)
-            list.setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false))
-            list.setItemAnimator(DefaultItemAnimator())
+            list.adapter = adapter
+            list.layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false)
+            list.itemAnimator = DefaultItemAnimator()
         }
 
         with (AttachedCache.get(dialogId, isChat)) {
-            val adapter = list.getAdapter() as AttachmentsAdapter
+            val adapter = list.adapter as AttachmentsAdapter
             images.listeners.add(adapter.uploadListener)
             images.listeners.add(this@AttachmentsBarModule)
             listeners.add(adapter.dataListener)
@@ -45,7 +45,7 @@ class AttachmentsBarModule(val activity: ChatActivity):
         val isChat = activity.launchParameters.isChat()
 
         with (AttachedCache.get(dialogId, isChat)) {
-            val adapter = findRecycler().getAdapter() as AttachmentsAdapter
+            val adapter = findRecycler().adapter as AttachmentsAdapter
             images.listeners.remove(adapter.uploadListener)
             images.listeners.remove(this@AttachmentsBarModule)
             listeners.remove(adapter.dataListener)
@@ -69,11 +69,11 @@ class AttachmentsBarModule(val activity: ChatActivity):
 
         val r = findRecycler()
         if (messageCount + imageCount == 0) {
-            if (r.getVisibility() == View.VISIBLE)
-                r.setVisibility(View.GONE)
+            if (r.visibility == View.VISIBLE)
+                r.visibility = View.GONE
         } else {
-            if (r.getVisibility() != View.VISIBLE)
-                r.setVisibility(View.VISIBLE)
+            if (r.visibility != View.VISIBLE)
+                r.visibility = View.VISIBLE
         }
     }
 }

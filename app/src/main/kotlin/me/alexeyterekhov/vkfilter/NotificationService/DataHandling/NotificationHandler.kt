@@ -4,7 +4,7 @@ import android.content.Context
 import me.alexeyterekhov.vkfilter.NotificationService.CloudMessaging.CloudMessagingLauncher
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationListener
-import java.util.LinkedList
+import java.util.*
 
 object NotificationHandler {
     private val notificationListeners = LinkedList<NotificationListener>()
@@ -14,7 +14,7 @@ object NotificationHandler {
             return
 
         var handledByListeners = false
-        notificationListeners forEach {
+        notificationListeners.forEach {
             handledByListeners = handledByListeners || it.onNotification(notification)
         }
 
@@ -23,12 +23,12 @@ object NotificationHandler {
     }
 
     fun addNotificationListener(l: NotificationListener) {
-        notificationListeners add l
+        notificationListeners.add(l)
         CloudMessagingLauncher.checkServiceState()
     }
 
     fun removeNotificationListener(l: NotificationListener) {
-        notificationListeners remove l
+        notificationListeners.remove(l)
         CloudMessagingLauncher.checkServiceState()
     }
 }

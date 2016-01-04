@@ -3,6 +3,7 @@ package me.alexeyterekhov.vkfilter.Util
 import android.content.Context
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
+import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import kotlin.properties.Delegates
 
 public object AppContext {
@@ -22,5 +23,6 @@ public class MyApp : com.activeandroid.app.Application() {
                 .diskCacheSize(31457280)
                 .build()
         ImageLoader.getInstance().init(libConfig)
+        VkSdkInitializer.init()
     }
 }

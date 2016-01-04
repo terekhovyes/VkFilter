@@ -3,11 +3,11 @@ package me.alexeyterekhov.vkfilter.GUI.LoginActivity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.vk.sdk.VKScope
 import com.vk.sdk.VKSdk
-import com.vk.sdk.VKUIHelper
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogsActivity
-import me.alexeyterekhov.vkfilter.Internet.VkSdkInitializer
 import me.alexeyterekhov.vkfilter.R
+import me.alexeyterekhov.vkfilter.Util.AppContext
 
 
 public class LoginActivity: AppCompatActivity() {
@@ -17,14 +17,12 @@ public class LoginActivity: AppCompatActivity() {
         super<AppCompatActivity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         if (savedInstanceState != null) {
-            if (savedInstanceState containsKey "loginPressed")
-                loginPressed = savedInstanceState getBoolean "loginPressed"
+            if (savedInstanceState.containsKey("loginPressed"))
+                loginPressed = savedInstanceState.getBoolean("loginPressed")
         }
-        VKUIHelper.onCreate(this)
-        VkSdkInitializer.init()
         // val fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName())
         // Log.d("Fingerprint", fingerprint[0])
-        if (VKSdk.wakeUpSession())
+        if (VKSdk.wakeUpSession(AppContext.instance))
             startDialogActivity()
         loginPressed = false
         init()
@@ -32,17 +30,11 @@ public class LoginActivity: AppCompatActivity() {
 
     override fun onResume() {
         super<AppCompatActivity>.onResume()
-        VKUIHelper.onResume(this)
         if (loginPressed) {
             loginPressed = false
-            if (VKSdk.wakeUpSession())
+            if (VKSdk.wakeUpSession(AppContext.instance))
                 startDialogActivity()
         }
-    }
-
-    override fun onDestroy() {
-        super<AppCompatActivity>.onDestroy()
-        VKUIHelper.onDestroy(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -50,24 +42,19 @@ public class LoginActivity: AppCompatActivity() {
         outState.putBoolean("loginPressed", loginPressed)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super<AppCompatActivity>.onActivityResult(requestCode, resultCode, data)
-        VKUIHelper.onActivityResult(this, requestCode, resultCode, data)
-    }
-
     private fun startDialogActivity() {
-        startActivity(Intent(this, javaClass<DialogsActivity>()))
+        startActivity(Intent(this, DialogsActivity::class.java))
         finish()
     }
 
     private fun init() {
-        findViewById(R.id.loginButton) setOnClickListener {
-            VKSdk.authorize(VkSdkInitializer.vkScopes, true, false)
-            loginPressed = true
-        }
-
-        findViewById(R.id.secondLoginButton) setOnClickListener {
-            VKSdk.authorize(VkSdkInitializer.vkScopes, true, true)
+        findViewById(R.id.loginButton).setOnClickListener {
+            VKSdk.login(this,
+                    VKScope.FRIENDS,
+                    VKScope.MESSAGES,
+                    VKScope.PHOTOS,
+                    VKScope.VIDEO,
+                    VKScope.NOHTTPS)
             loginPressed = true
         }
     }

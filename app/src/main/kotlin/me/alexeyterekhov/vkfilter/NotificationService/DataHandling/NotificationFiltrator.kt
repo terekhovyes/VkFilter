@@ -11,11 +11,11 @@ object NotificationFiltrator {
     private var filters: List<VkFilter>? = null
 
     init {
-        DAOFilters.changeListeners add object : DataDepend {
+        DAOFilters.changeListeners.add(object : DataDepend {
             override fun onDataUpdate() {
                 loadFilters()
             }
-        }
+        })
     }
 
     fun allowNotification(n: NotificationInfo): Boolean {
@@ -25,11 +25,11 @@ object NotificationFiltrator {
             filters == null -> true
             filters!!.isEmpty() -> true
             else -> {
-                val allowers = filters!! filter { it.state == VkFilter.STATE_ALLOWING }
-                val blockers = filters!! filter { it.state == VkFilter.STATE_BLOCKING }
-                if (blockers none { contains(it, n) }
+                val allowers = filters!!.filter { it.state == VkFilter.STATE_ALLOWING }
+                val blockers = filters!!.filter { it.state == VkFilter.STATE_BLOCKING }
+                if (blockers.none { contains(it, n) }
                     && (allowers.isEmpty()
-                        || allowers any { contains(it, n) }))
+                        || allowers.any { contains(it, n) }))
                     true
                 else
                     false
@@ -42,7 +42,7 @@ object NotificationFiltrator {
     }
 
     private fun contains(f: VkFilter, n: NotificationInfo): Boolean {
-        return f.identifiers() any { same(it, n) }
+        return f.identifiers().any { same(it, n) }
     }
     private fun same(id: VkIdentifier, n: NotificationInfo): Boolean {
         return when {

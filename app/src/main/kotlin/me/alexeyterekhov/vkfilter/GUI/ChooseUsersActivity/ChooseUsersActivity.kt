@@ -9,7 +9,7 @@ import me.alexeyterekhov.vkfilter.Database.DAOFilters
 import me.alexeyterekhov.vkfilter.Database.VkIdentifier
 import me.alexeyterekhov.vkfilter.GUI.Common.VkActivity
 import me.alexeyterekhov.vkfilter.R
-import java.util.HashSet
+import java.util.*
 
 
 public class ChooseUsersActivity: VkActivity() {
@@ -21,9 +21,9 @@ public class ChooseUsersActivity: VkActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_users)
         setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val filterId = getIntent().getLongExtra(KEY_FILTER_ID, -1)
+        val filterId = intent.getLongExtra(KEY_FILTER_ID, -1)
         val filter = DAOFilters loadVkFilterById filterId
         filter.invalidateCache()
         val ids = filter.identifiers()
@@ -31,24 +31,24 @@ public class ChooseUsersActivity: VkActivity() {
         val selectedChats = HashSet<Long>()
         for (vkId in ids)
             when (vkId.type) {
-                VkIdentifier.TYPE_USER -> selectedUsers add vkId.id
-                VkIdentifier.TYPE_CHAT -> selectedChats add vkId.id
+                VkIdentifier.TYPE_USER -> selectedUsers.add(vkId.id)
+                VkIdentifier.TYPE_CHAT -> selectedChats.add(vkId.id)
             }
 
         val tabs = findViewById(R.id.tabs) as PagerSlidingTabStrip
         tabs.setTextColorResource(R.color.font_light)
         with (findViewById(R.id.pager) as ViewPager) {
-            setAdapter(PagerAdapter(
-                    fm = getSupportFragmentManager(),
+            adapter = PagerAdapter(
+                    fm = supportFragmentManager,
                     selectedUsers = selectedUsers,
                     selectedChats = selectedChats
-            ))
+            )
             if (ids.isEmpty())
-                setCurrentItem(1)
+                currentItem = 1
             tabs.setViewPager(this)
         }
 
-        findViewById(R.id.saveFilterButton) setOnClickListener {
+        findViewById(R.id.saveFilterButton).setOnClickListener {
             for (vkId in ids)
                 vkId.delete()
             filter.invalidateCache()
@@ -75,7 +75,7 @@ public class ChooseUsersActivity: VkActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.getItemId()) {
+        when (item!!.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 return true

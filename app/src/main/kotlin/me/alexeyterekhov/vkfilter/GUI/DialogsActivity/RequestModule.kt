@@ -5,6 +5,6 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogList
 
 class RequestModule(val activity: DialogsActivity) {
     fun loadDialogs(offset: Int, count: Int) {
-        RequestControl addForeground RequestDialogList(offset, count)
+        RequestControl.addForeground(RequestDialogList(offset, count))
     }
 }

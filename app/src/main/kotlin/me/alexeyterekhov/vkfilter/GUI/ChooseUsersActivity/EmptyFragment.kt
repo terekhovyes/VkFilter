@@ -10,8 +10,8 @@ import android.widget.TextView
 
 public class EmptyFragment(): Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val tv = TextView(getActivity())
-        tv setText "Text here!"
+        val tv = TextView(activity)
+        tv.text = "Text here!"
         return tv
     }
 }

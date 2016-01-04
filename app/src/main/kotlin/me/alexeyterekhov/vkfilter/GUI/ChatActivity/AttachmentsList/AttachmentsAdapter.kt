@@ -14,7 +14,7 @@ import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
 import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.LinkedList
+import java.util.*
 
 
 class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<AttachmentHolder>() {
@@ -27,10 +27,10 @@ class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<Atta
     val dataListener = createDataListener()
     val uploadListener = createUploadListener()
 
-    fun setData(attached: Attached) {
+    infix fun setData(attached: Attached) {
         this.attached = attached
-        messages addAll attached.messages.get()
-        images addAll attached.images.uploads
+        messages.addAll(attached.messages.get())
+        images.addAll(attached.images.uploads)
         notifyDataSetChanged()
     }
 
@@ -104,18 +104,18 @@ class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<Atta
 
     private fun createUploadListener() = object : AttachedImages.AttachedImageListener {
         override fun onAdd(image: ImageUpload) {
-            images add image
+            images.add(image)
             notifyItemInserted(messages.count() + images.count() - 1)
         }
 
         override fun onRemoved(image: ImageUpload) {
-            val index = images indexOf image
-            images remove index
+            val index = images.indexOf(image)
+            images.removeAt(index)
             notifyItemRemoved(messages.count() + index)
         }
 
         override fun onProgress(image: ImageUpload, percent: Int) {
-            val index = images indexOf image
+            val index = images.indexOf(image)
             if (index != -1) {
                 val position = index + messages.count()
                 val man = recycler.getLayoutManager() as LinearLayoutManager
@@ -130,7 +130,7 @@ class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<Atta
         }
 
         override fun onFinish(image: ImageUpload) {
-            val index = images indexOf image
+            val index = images.indexOf(image)
             if (index != -1) {
                 val position = index + messages.count()
                 val man = recycler.getLayoutManager() as LinearLayoutManager
@@ -151,14 +151,14 @@ class AttachmentsAdapter(val recycler: RecyclerView) : RecyclerView.Adapter<Atta
                 messages.count() != attached!!.messages.get().count() -> {
                     when {
                         messages.count() > attached!!.messages.get().count() -> {
-                            val index = messages indexOfFirst {
+                            val index = messages.indexOfFirst {
                                 !attached!!.messages.get().contains(it)
                             }
-                            messages remove index
+                            messages.removeAt(index)
                             notifyItemRemoved(index)
                         }
                         messages.count() < attached!!.messages.get().count() -> {
-                            val index = attached!!.messages.get() indexOfFirst {
+                            val index = attached!!.messages.get().indexOfFirst {
                                 !messages.contains(it)
                             }
                             messages.add(index, attached!!.messages.get()[index])

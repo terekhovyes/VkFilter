@@ -15,7 +15,7 @@ import me.alexeyterekhov.vkfilter.GUI.Common.TripleSwitchView
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.FilterStates
-import java.util.Vector
+import java.util.*
 
 
 class FilterGlassAdapter(
@@ -32,7 +32,7 @@ class FilterGlassAdapter(
 
     val filters = Vector<VkFilter>()
 
-    override fun getItemCount() = filters.size() + 1
+    override fun getItemCount() = filters.size + 1
     override fun getItemViewType(position: Int) = when (position) {
         0 -> TYPE_HEADER
         else -> TYPE_ITEM
@@ -43,8 +43,8 @@ class FilterGlassAdapter(
             val view = inflater.inflate(R.layout.item_filter_switch, parent, false)
             val holder = FilterHolder(view)
             with (holder.avatarList) {
-                setAdapter(AvatarAdapterMini(R.layout.item_avatar_40dp))
-                setLayoutManager(LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, true))
+                adapter = AvatarAdapterMini(R.layout.item_avatar_40dp)
+                layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, true)
             }
             holder
         } else {
@@ -57,20 +57,18 @@ class FilterGlassAdapter(
         if (getItemViewType(position) != TYPE_ITEM)
             return
 
-        val item = filters.get(position - 1)
+        val item = filters[position - 1]
         with (holder as FilterHolder) {
-            switch setIconRes FilterIcons.resourceById(item.getIcon())
+            switch.setIconRes(FilterIcons.resourceById(item.getIcon()))
             switch.setStateWithoutListener(FilterStates.filterToSwitch(item.state), false)
-            switch setListener object : TripleSwitchView.OnSwitchChangeStateListener {
-                override fun onChangeState(newState: Int) {
-                    item.state = FilterStates.switchToFilter(newState)
-                    DAOFilters.saveFilter(item)
-                    filterStateChangeListener.onDataUpdate()
-                }
-            }
-            filterName setText item.filterName
-            filterName setVisibility if (item.filterName == "") View.GONE else View.VISIBLE
-            avatarList.getAdapter() as AvatarAdapterMini setIds item.identifiers()
+            switch.setListener({ newState ->
+                item.state = FilterStates.switchToFilter(newState)
+                DAOFilters.saveFilter(item)
+                filterStateChangeListener.onDataUpdate()
+            })
+            filterName.text = item.filterName
+            filterName.visibility = if (item.filterName == "") View.GONE else View.VISIBLE
+            avatarList.adapter as AvatarAdapterMini setIds item.identifiers()
         }
     }
 
@@ -85,7 +83,7 @@ class FilterGlassAdapter(
         } finally {
             ActiveAndroid.endTransaction()
         }
-        val man = list.getLayoutManager() as LinearLayoutManager
+        val man = list.layoutManager as LinearLayoutManager
         val from = man.findFirstVisibleItemPosition()
         val to = man.findLastVisibleItemPosition()
         for (i in from..to) {
@@ -94,21 +92,21 @@ class FilterGlassAdapter(
             if (holder is FilterHolder)
                 holder.switch.setStateWithoutListener(TripleSwitchView.STATE_MIDDLE, true)
         }
-        for (i in 0..getItemCount() - 1)
+        for (i in 0..itemCount - 1)
             if (i !in from..to)
                 notifyItemChanged(i)
         filterStateChangeListener.onDataUpdate()
     }
 
     fun updateVisibleAvatarLists() {
-        val man = list.getLayoutManager() as LinearLayoutManager
+        val man = list.layoutManager as LinearLayoutManager
         val from = man.findFirstVisibleItemPosition()
         val to = man.findLastVisibleItemPosition()
         for (i in from..to) {
             val view = man.findViewByPosition(i)
             val holder = list.getChildViewHolder(view)
             if (holder is FilterHolder)
-                (holder.avatarList.getAdapter() as AvatarAdapterMini).checkForNewAvatars()
+                (holder.avatarList.adapter as AvatarAdapterMini).checkForNewAvatars()
         }
     }
 

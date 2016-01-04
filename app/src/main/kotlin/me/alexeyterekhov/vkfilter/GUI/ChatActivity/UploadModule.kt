@@ -28,7 +28,7 @@ class UploadModule(val activity: ChatActivity) {
         when {
             requestCode == CODE_CHOOSE_IMAGES && resultCode == Activity.RESULT_OK -> {
                 if (data != null) {
-                    val filePath = FileUtils.getPath(activity, data.getData())
+                    val filePath = FileUtils.getPath(activity, data.data)
                     if (filePath != null) {
                         AttachedCache
                                 .get(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
@@ -42,7 +42,7 @@ class UploadModule(val activity: ChatActivity) {
                     AttachedCache
                             .get(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
                             .images
-                            .putImage(cameraFile!!.getAbsolutePath())
+                            .putImage(cameraFile!!.absolutePath)
                 }
             }
         }

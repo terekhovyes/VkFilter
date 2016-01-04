@@ -14,7 +14,7 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestChats
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.Vector
+import java.util.*
 
 
 public class AvatarListAdapter(val layoutRes: Int):
@@ -26,7 +26,7 @@ public class AvatarListAdapter(val layoutRes: Int):
 
     fun setIds(ids: List<VkIdentifier>) {
         vkIds.clear()
-        vkIds addAll ids
+        vkIds.addAll(ids)
         notifyDataSetChanged()
 
         val usersForLoading = vkIds
@@ -44,21 +44,21 @@ public class AvatarListAdapter(val layoutRes: Int):
             RequestControl addForeground RequestChats(chatsForLoading)
     }
 
-    override fun getCount() = vkIds.size()
+    override fun getCount() = vkIds.size
     override fun getItem(position: Int) = vkIds[position]
     override fun getItemId(position: Int) = position.toLong()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val view = if (convertView == null) {
             val inflater = LayoutInflater.from(AppContext.instance)
             val v = inflater.inflate(layoutRes, parent, false)
-            v setTag AvatarHolder(v)
+            v.tag = AvatarHolder(v)
             v
         } else
             convertView
 
-        val h = view.getTag() as AvatarHolder
+        val h = view.tag as AvatarHolder
 
-        val vkId = vkIds get position
+        val vkId = vkIds.get(position)
         when (vkId.type) {
             VkIdentifier.TYPE_USER -> {
                 setLayoutVisibility(h, 1)
@@ -68,7 +68,7 @@ public class AvatarListAdapter(val layoutRes: Int):
                             h.singleImage
                     )
                 else
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
             }
             VkIdentifier.TYPE_CHAT -> {
                 if (ChatInfoCache contains vkId.id.toString()) {
@@ -77,10 +77,10 @@ public class AvatarListAdapter(val layoutRes: Int):
                         setLayoutVisibility(h, 1)
                         imageLoader.displayImage(chat.photoUrl, h.singleImage)
                     } else {
-                        when (chat.chatPartners.size()) {
+                        when (chat.chatPartners.size) {
                             0 -> {
                                 setLayoutVisibility(h, 1)
-                                h.singleImage setImageResource R.drawable.icon_user_stub
+                                h.singleImage.setImageResource(R.drawable.icon_user_stub)
                             }
                             1 -> {
                                 setLayoutVisibility(h, 1)
@@ -108,7 +108,7 @@ public class AvatarListAdapter(val layoutRes: Int):
                     }
                 } else {
                     setLayoutVisibility(h, 1)
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
                 }
             }
         }
@@ -121,9 +121,9 @@ public class AvatarListAdapter(val layoutRes: Int):
     }
 
     private fun setLayoutVisibility(holder: AvatarHolder, picCount: Int) {
-        holder.singleImage setVisibility if (picCount == 1) View.VISIBLE else View.INVISIBLE
-        holder.doubleLayout setVisibility if (picCount == 2) View.VISIBLE else View.INVISIBLE
-        holder.tripleLayout setVisibility if (picCount == 3) View.VISIBLE else View.INVISIBLE
-        holder.quadLayout setVisibility if (picCount == 4) View.VISIBLE else View.INVISIBLE
+        holder.singleImage.visibility = if (picCount == 1) View.VISIBLE else View.INVISIBLE
+        holder.doubleLayout.visibility = if (picCount == 2) View.VISIBLE else View.INVISIBLE
+        holder.tripleLayout.visibility = if (picCount == 3) View.VISIBLE else View.INVISIBLE
+        holder.quadLayout.visibility = if (picCount == 4) View.VISIBLE else View.INVISIBLE
     }
 }

@@ -14,16 +14,16 @@ import me.alexeyterekhov.vkfilter.Internet.Requests.RequestChats
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestUsers
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.Vector
+import java.util.*
 
 
 class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), DataDepend {
     private val imageLoader = ImageLoader.getInstance()
     val vkIds = Vector<VkIdentifier>()
 
-    fun setIds(ids: List<VkIdentifier>) {
+    infix fun setIds(ids: List<VkIdentifier>) {
         vkIds.clear()
-        vkIds addAll ids
+        vkIds.addAll(ids)
         notifyDataSetChanged()
 
         val usersForLoading = vkIds
@@ -44,14 +44,14 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
     override fun onDataUpdate() {
         notifyDataSetChanged()
     }
-    override fun getItemCount() = vkIds.size()
+    override fun getItemCount() = vkIds.size
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AvatarHolder? {
         val inflater = LayoutInflater.from(AppContext.instance)
         val view = inflater.inflate(layoutRes, parent, false)
         return AvatarHolder(view)
     }
     override fun onBindViewHolder(h: AvatarHolder, position: Int) {
-        val vkId = vkIds get position
+        val vkId = vkIds.get(position)
         when (vkId.type) {
             VkIdentifier.TYPE_USER -> {
                 setLayoutVisibility(h, 1)
@@ -61,7 +61,7 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                             h.singleImage
                     )
                 else
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
             }
             VkIdentifier.TYPE_CHAT -> {
                 if (ChatInfoCache contains vkId.id.toString()) {
@@ -70,10 +70,10 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                         setLayoutVisibility(h, 1)
                         imageLoader.displayImage(chat.photoUrl, h.singleImage)
                     } else {
-                        when (chat.chatPartners.size()) {
+                        when (chat.chatPartners.size) {
                             0 -> {
                                 setLayoutVisibility(h, 1)
-                                h.singleImage setImageResource R.drawable.icon_user_stub
+                                h.singleImage.setImageResource(R.drawable.icon_user_stub)
                             }
                             1 -> {
                                 setLayoutVisibility(h, 1)
@@ -101,16 +101,16 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                     }
                 } else {
                     setLayoutVisibility(h, 1)
-                    h.singleImage setImageResource R.drawable.icon_user_stub
+                    h.singleImage.setImageResource(R.drawable.icon_user_stub)
                 }
             }
         }
     }
 
     private fun setLayoutVisibility(holder: AvatarHolder, picCount: Int) {
-        holder.singleImage setVisibility if (picCount == 1) View.VISIBLE else View.INVISIBLE
-        holder.doubleLayout setVisibility if (picCount == 2) View.VISIBLE else View.INVISIBLE
-        holder.tripleLayout setVisibility if (picCount == 3) View.VISIBLE else View.INVISIBLE
-        holder.quadLayout setVisibility if (picCount == 4) View.VISIBLE else View.INVISIBLE
+        holder.singleImage.visibility = if (picCount == 1) View.VISIBLE else View.INVISIBLE
+        holder.doubleLayout.visibility = if (picCount == 2) View.VISIBLE else View.INVISIBLE
+        holder.tripleLayout.visibility = if (picCount == 3) View.VISIBLE else View.INVISIBLE
+        holder.quadLayout.visibility = if (picCount == 4) View.VISIBLE else View.INVISIBLE
     }
 }

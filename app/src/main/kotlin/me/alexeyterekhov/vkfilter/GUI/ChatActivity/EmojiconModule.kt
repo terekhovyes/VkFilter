@@ -29,7 +29,7 @@ class EmojiconModule(val activity: ChatActivity) :
     }
 
     fun onCreate(saved: Bundle?) {
-        if (saved != null && saved containsKey KEY_MODULE_OPENED) {
+        if (saved != null && saved.containsKey(KEY_MODULE_OPENED)) {
             activity.editPanelModule.getEditText().denyKeyboard()
             bindForClosingSmiles(animate = false)
             showPanel(animate = false)
@@ -66,23 +66,23 @@ class EmojiconModule(val activity: ChatActivity) :
         val fragment = activity.findViewById(R.id.emoji_fragment)
 
         val animator = ValueAnimator.ofFloat(getHeight(), 0f)
-        animator addUpdateListener { animator ->
-            val curHeight = animator.getAnimatedValue() as Float
-            val params = panel.getLayoutParams()
+        animator.addUpdateListener { animator ->
+            val curHeight = animator.animatedValue as Float
+            val params = panel.layoutParams
             params.height = curHeight.toInt()
-            panel.setLayoutParams(params)
+            panel.layoutParams = params
         }
-        animator setInterpolator FastOutSlowInInterpolator()
-        animator setDuration 150
-        animator addListener object : Animator.AnimatorListener {
+        animator.interpolator = FastOutSlowInInterpolator()
+        animator.setDuration(150)
+        animator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {}
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationStart(animation: Animator?) {}
             override fun onAnimationEnd(animation: Animator) {
-                panel setVisibility View.GONE
+                panel.visibility = View.GONE
             }
-        }
-        fragment.setVisibility(View.GONE)
+        })
+        fragment.visibility = View.GONE
         animator.start()
     }
     private fun showPanel(animate: Boolean = false) {
@@ -90,40 +90,40 @@ class EmojiconModule(val activity: ChatActivity) :
         val fragment = activity.findViewById(R.id.emoji_fragment)
 
         if (animate) {
-            fragment.setVisibility(View.GONE)
+            fragment.visibility = View.GONE
             val animator = ValueAnimator.ofFloat(0f, getHeight())
-            animator addUpdateListener { animator ->
-                val curHeight = animator.getAnimatedValue() as Float
-                val params = panel.getLayoutParams()
+            animator.addUpdateListener { animator ->
+                val curHeight = animator.animatedValue as Float
+                val params = panel.layoutParams
                 params.height = curHeight.toInt()
-                panel.setLayoutParams(params)
+                panel.layoutParams = params
             }
-            animator setInterpolator FastOutSlowInInterpolator()
-            animator setDuration 150
-            animator addListener object : Animator.AnimatorListener {
+            animator.setInterpolator(FastOutSlowInInterpolator())
+            animator.setDuration(150)
+            animator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}
                 override fun onAnimationCancel(animation: Animator?) {}
                 override fun onAnimationStart(animation: Animator?) {}
                 override fun onAnimationEnd(animation: Animator) {
-                    fragment setVisibility View.VISIBLE
+                    fragment.setVisibility(View.VISIBLE)
                 }
-            }
-            panel.setVisibility(View.VISIBLE)
+            })
+            panel.visibility = View.VISIBLE
             animator.start()
         } else {
-            val params = panel.getLayoutParams()
+            val params = panel.layoutParams
             params.height = getHeight().toInt()
-            panel.setLayoutParams(params)
-            panel.setVisibility(View.VISIBLE)
-            fragment.setVisibility(View.VISIBLE)
+            panel.layoutParams = params
+            panel.visibility = View.VISIBLE
+            fragment.visibility = View.VISIBLE
         }
     }
-    fun isEmojiconPanelShown() = activity.findViewById(R.id.emoji_container).getVisibility() == View.VISIBLE
+    fun isEmojiconPanelShown() = activity.findViewById(R.id.emoji_container).visibility == View.VISIBLE
 
     fun getHeight(): Float {
-        val defaultDisplay = activity.getWindowManager().getDefaultDisplay()
-        val isLandscape = defaultDisplay.getWidth() > defaultDisplay.getHeight()
-        val displayMetrics = activity.getResources().getDisplayMetrics()
+        val defaultDisplay = activity.windowManager.defaultDisplay
+        val isLandscape = defaultDisplay.width > defaultDisplay.height
+        val displayMetrics = activity.resources.displayMetrics
         return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 if (isLandscape) LANDSCAPE_HEIGHT else PORTRAIT_HEIGHT,

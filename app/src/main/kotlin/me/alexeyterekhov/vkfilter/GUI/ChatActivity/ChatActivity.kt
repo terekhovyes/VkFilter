@@ -77,7 +77,7 @@ open public class ChatActivity:
     }
     override fun onBackPressed() {
         if (launchParameters.isLaunchedFromNotification()) {
-            startActivity(Intent(AppContext.instance, javaClass<DialogsActivity>()))
+            startActivity(Intent(AppContext.instance, DialogsActivity::class.java))
             overridePendingTransition(R.anim.activity_from_left, R.anim.activity_to_right)
             finish()
         } else {

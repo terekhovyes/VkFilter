@@ -7,5 +7,5 @@ import me.alexeyterekhov.vkfilter.R
 
 
 class IconHolder(val v: View): RecyclerView.ViewHolder(v) {
-    val icon = (v findViewById R.id.iconImage) as RoundImageView
+    val icon = (v.findViewById(R.id.iconImage)) as RoundImageView
 }

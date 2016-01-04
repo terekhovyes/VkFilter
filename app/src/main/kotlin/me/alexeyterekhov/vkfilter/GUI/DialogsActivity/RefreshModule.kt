@@ -33,7 +33,7 @@ class RefreshModule(val activity: DialogsActivity) {
                     R.color.ui_refresh4
             )
         }
-        DialogListCache.listeners add cacheListener
+        DialogListCache.listeners.add(cacheListener)
     }
 
     fun onResume() {
@@ -48,7 +48,7 @@ class RefreshModule(val activity: DialogsActivity) {
     }
 
     fun onDestroy() {
-        DialogListCache.listeners remove cacheListener
+        DialogListCache.listeners.remove(cacheListener)
     }
 
     fun findRefreshLayout() = activity.findViewById(R.id.refreshLayout) as CustomSwipeRefreshLayout
@@ -59,18 +59,14 @@ class RefreshModule(val activity: DialogsActivity) {
         activity.requestModule.loadDialogs(0, DialogListModule.LOADING_PORTION)
     }
 
-    private fun createRefreshListener() = object : SwipeRefreshLayout.OnRefreshListener {
-        override fun onRefresh() {
-            refreshDialogs(withIndicator = true)
-        }
-    }
+    private fun createRefreshListener() = SwipeRefreshLayout.OnRefreshListener { refreshDialogs(withIndicator = true) }
     private fun createShowIndicatorAction() = Runnable {
-        findRefreshLayout() setRefreshing true
+        findRefreshLayout().isRefreshing = true
     }
     private fun createCacheListener() = object : DataDepend {
         override fun onDataUpdate() {
             handler.removeCallbacks(showIndicatorAction)
-            findRefreshLayout() setRefreshing false
+            findRefreshLayout().isRefreshing = false
         }
     }
     private fun createGCMListener() = object : IntentListener {

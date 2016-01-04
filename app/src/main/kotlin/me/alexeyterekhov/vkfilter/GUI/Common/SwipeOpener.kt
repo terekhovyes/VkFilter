@@ -16,15 +16,15 @@ class SwipeOpener : FrameLayout {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.getAction()) {
-            MotionEvent.ACTION_DOWN -> if (getWidth() * DOWN_ZONE > event.getX()) {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> if (width * DOWN_ZONE > event.x) {
                 swipeStarted = true
                 return true
             }
             MotionEvent.ACTION_MOVE,
             MotionEvent.ACTION_UP,
             MotionEvent.ACTION_CANCEL -> if (swipeStarted) {
-                if (getWidth() * UP_ZONE < event.getX()) {
+                if (width * UP_ZONE < event.x) {
                     swipeStarted = false
                     listener?.onOpen()
                 }
@@ -35,7 +35,7 @@ class SwipeOpener : FrameLayout {
         return false
     }
 
-    fun setListener(l: OpenerListener?) { listener = l }
+    infix fun setListener(l: OpenerListener?) { listener = l }
 
     interface OpenerListener {
         fun onOpen()

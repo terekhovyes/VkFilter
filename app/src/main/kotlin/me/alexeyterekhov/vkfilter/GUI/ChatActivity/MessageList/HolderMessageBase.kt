@@ -13,28 +13,28 @@ open class HolderMessageBase(view: View): RecyclerView.ViewHolder(view) {
         fun animateDisappearing(view: View, duration: Long, offset: Long, timeFromStart: Long) {
             val animationListener = object : Animation.AnimationListener {
                 override fun onAnimationEnd(animation: Animation?) {
-                    view setVisibility View.INVISIBLE
+                    view.setVisibility(View.INVISIBLE)
                 }
                 override fun onAnimationStart(animation: Animation?) {}
                 override fun onAnimationRepeat(animation: Animation?) {}
             }
 
             when {
-                timeFromStart >= offset + duration -> view setVisibility View.INVISIBLE
+                timeFromStart >= offset + duration -> view.setVisibility(View.INVISIBLE)
                 timeFromStart > offset -> {
                     val startOpacity = Math.max(0f, 1f - (timeFromStart - offset) / duration.toFloat())
                     val animation = AlphaAnimation(startOpacity, 0f)
                     val restPartOfAnimation = startOpacity
-                    animation setDuration (duration * restPartOfAnimation).toLong()
-                    animation setAnimationListener animationListener
-                    view startAnimation animation
+                    animation.setDuration((duration * restPartOfAnimation).toLong())
+                    animation.setAnimationListener(animationListener)
+                    view.startAnimation(animation)
                 }
                 else -> {
                     val animation = AlphaAnimation(1f, 0f)
-                    animation setStartOffset offset - timeFromStart
-                    animation setDuration duration
-                    animation setAnimationListener animationListener
-                    view startAnimation animation
+                    animation.setStartOffset(offset - timeFromStart)
+                    animation.setDuration(duration)
+                    animation.setAnimationListener(animationListener)
+                    view.startAnimation(animation)
                 }
             }
         }
@@ -55,31 +55,31 @@ open class HolderMessageBase(view: View): RecyclerView.ViewHolder(view) {
 
     // Data
     fun setMessageText(t: CharSequence) {
-        if (t.length() == 0)
-            messageText setVisibility View.GONE
+        if (t.length == 0)
+            messageText.setVisibility(View.GONE)
         else {
-            messageText setText t
-            messageText setVisibility View.VISIBLE
+            messageText.setText(t)
+            messageText.setVisibility(View.VISIBLE)
         }
     }
-    fun setMessageDate(d: String) = messageDate setText d
+    fun setMessageDate(d: String) = messageDate.setText(d)
     fun clearMessageAttachments() = messageAttachments.removeAllViews()
-    fun addAttachmentToMessage(v: View) = messageAttachments addView v
-    fun setStripText(text: String) = stripText setText text
+    infix fun addAttachmentToMessage(v: View) = messageAttachments.addView(v)
+    fun setStripText(text: String) = stripText.setText(text)
 
     // Visibility
-    fun showStrip(show: Boolean) = stripLayout setVisibility if (show) View.VISIBLE else View.GONE
-    fun showTriangle(show: Boolean) = messageTriangle setVisibility if (show) View.VISIBLE else View.INVISIBLE
+    fun showStrip(show: Boolean) = stripLayout.setVisibility(if (show) View.VISIBLE else View.GONE)
+    fun showTriangle(show: Boolean) = messageTriangle.setVisibility(if (show) View.VISIBLE else View.INVISIBLE)
     fun setUnreadAboveMessage(show: Boolean, unread: Boolean = false): Unit = when {
-        !show -> unreadAboveMessage setVisibility View.GONE
-        !unread -> unreadAboveMessage setVisibility View.INVISIBLE
-        else -> unreadAboveMessage setVisibility View.VISIBLE
+        !show -> unreadAboveMessage.setVisibility(View.GONE)
+        !unread -> unreadAboveMessage.setVisibility(View.INVISIBLE)
+        else -> unreadAboveMessage.setVisibility(View.VISIBLE)
     }
     fun isUnreadAboveMessageShown() = unreadAboveMessage.getVisibility() == View.VISIBLE
-    fun setUnreadAboveStrip(unread: Boolean) = unreadAboveStrip setVisibility if (unread) View.VISIBLE else View.INVISIBLE
+    fun setUnreadAboveStrip(unread: Boolean) = unreadAboveStrip.setVisibility(if (unread) View.VISIBLE else View.INVISIBLE)
     fun isUnreadAboveStripShown() = unreadAboveStrip.getVisibility() == View.VISIBLE
-    fun setUnreadCommon(unread: Boolean) = unreadCommon setVisibility if (unread) View.VISIBLE else View.INVISIBLE
-    fun setTopSelectorClickable(clickable: Boolean) = selectorTop setVisibility if (clickable) View.VISIBLE else View.GONE
+    fun setUnreadCommon(unread: Boolean) = unreadCommon.setVisibility(if (unread) View.VISIBLE else View.INVISIBLE)
+    fun setTopSelectorClickable(clickable: Boolean) = selectorTop.setVisibility(if (clickable) View.VISIBLE else View.GONE)
     fun animateReadingCommon(duration: Long, offset: Long, timeFromStart: Long = 0L) {
         animateDisappearing(unreadCommon, duration, offset, timeFromStart)
     }

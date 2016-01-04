@@ -14,8 +14,7 @@ import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
 import me.alexeyterekhov.vkfilter.Util.DateFormat
-import java.util.LinkedList
-import java.util.Vector
+import java.util.*
 
 
 class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>() {
@@ -32,15 +31,15 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
         return DialogHolder(view)
     }
     override fun onBindViewHolder(h: DialogHolder, position: Int) {
-        val dialog = filteredDialogs get position
+        val dialog = filteredDialogs.get(position)
         val lastMessage = dialog.lastMessage!!
 
         // Common content
-        h.title setText dialog.getTitle()
-        h.messageDate setText DateFormat.dialogReceivedDate(lastMessage.sentTimeMillis / 1000L)
-        h.messageText setText lastMessage.text
-        h.unreadBackground setVisibility if (lastMessage.isIn && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
-        h.unreadMessage setVisibility if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
+        h.title.text = dialog.getTitle()
+        h.messageDate.text = DateFormat.dialogReceivedDate(lastMessage.sentTimeMillis / 1000L)
+        h.messageText.text = lastMessage.text
+        h.unreadBackground.visibility = if (lastMessage.isIn && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
+        h.unreadMessage.visibility = if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
         h.setAttachmentIcon(lastMessage)
         h.chooseImageLayoutForImageCount(dialog.getImageCount())
         for (i in 0..dialog.getImageCount() - 1)
@@ -48,19 +47,19 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
 
         // Chat content
         if (dialog.isChat()) {
-            h.onlineIcon setVisibility View.GONE
-            h.messageImage setVisibility View.VISIBLE
+            h.onlineIcon.visibility = View.GONE
+            h.messageImage.visibility = View.VISIBLE
             loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
         }
 
         // Dialog content
         if (!dialog.isChat()) {
-            h.onlineIcon setVisibility if (dialog.isOnline()) View.VISIBLE else View.GONE
-            h.onlineIcon setImageResource when (dialog.deviceType()) {
+            h.onlineIcon.visibility = if (dialog.isOnline()) View.VISIBLE else View.GONE
+            h.onlineIcon.setImageResource(when (dialog.deviceType()) {
                 Device.MOBILE -> R.drawable.icon_online_mobile
                 Device.DESKTOP -> R.drawable.icon_online
-            }
-            h.messageImage setVisibility if (lastMessage.isOut) View.VISIBLE else View.GONE
+            })
+            h.messageImage.visibility = if (lastMessage.isOut) View.VISIBLE else View.GONE
             if (lastMessage.isOut)
                 loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
         }
@@ -69,43 +68,43 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
     private fun updateList() {
         val dialogs = filtrator.filterSnapshot(snapshot, filters)
 
-        val man = list.getLayoutManager() as LinearLayoutManager
+        val man = list.layoutManager as LinearLayoutManager
         val curPos = man.findFirstVisibleItemPosition()
         val top = if (curPos != -1)
-            man.findViewByPosition(curPos).getTop()
+            man.findViewByPosition(curPos).top
         else
             0
 
         // Delete items that not present in new collection
         val positionsToRemove = LinkedList<Int>()
-        filteredDialogs forEachIndexed {
+        filteredDialogs.forEachIndexed {
             pos, dialog ->
-            if (dialogs none { it isSameDialog dialog })
-                positionsToRemove add pos
+            if (dialogs.none { it isSameDialog dialog })
+                positionsToRemove.add(pos)
         }
-        positionsToRemove.reverse() forEach {
-            filteredDialogs remove it
+        positionsToRemove.reversed().forEach {
+            filteredDialogs.removeAt(it)
             notifyItemRemoved(it)
         }
 
         // Add non existing items
-        dialogs forEachIndexed {
+        dialogs.forEachIndexed {
             pos, dialog ->
-            if (filteredDialogs none { it isSameDialog dialog }) {
+            if (filteredDialogs.none { it isSameDialog dialog }) {
                 filteredDialogs.add(pos, dialog)
                 notifyItemInserted(pos)
             }
         }
 
         // Move existing items
-        dialogs forEachIndexed {
+        dialogs.forEachIndexed {
             pos, dialog ->
-            val oldDialog = filteredDialogs get pos
+            val oldDialog = filteredDialogs[pos]
             if (oldDialog isNotSameDialog dialog) {
-                val index = filteredDialogs indexOfFirst { it isSameDialog dialog }
+                val index = filteredDialogs.indexOfFirst { it isSameDialog dialog }
                 filteredDialogs.set(index, dialog)
                 notifyItemChanged(index)
-                filteredDialogs remove index
+                filteredDialogs.removeAt(index)
                 filteredDialogs.add(pos, dialog)
                 notifyItemMoved(index, pos)
             } else {
@@ -119,7 +118,7 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
             man.scrollToPositionWithOffset(curPos, top)
     }
 
-    fun getDialog(pos: Int) = filteredDialogs get pos
+    fun getDialog(pos: Int) = filteredDialogs[pos]
 
     fun checkForNewDialogs() {
         if (DialogListCache.getSnapshot().snapshotTime > snapshot.snapshotTime) {

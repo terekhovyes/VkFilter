@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.DataCache.AttachedCache
 
-import java.util.HashMap
+import java.util.*
 
 object AttachedCache {
     private val attachedToDialogs = HashMap<String, Attached>()
@@ -11,6 +11,6 @@ object AttachedCache {
             chat && !attachedToChats.contains(id) -> attachedToChats[id] = Attached(id, true)
             !chat && !attachedToDialogs.contains(id) -> attachedToDialogs[id] = Attached(id, false)
         }
-        return if (chat) attachedToChats[id] else attachedToDialogs[id]
+        return if (chat) attachedToChats[id]!! else attachedToDialogs[id]!!
     }
 }

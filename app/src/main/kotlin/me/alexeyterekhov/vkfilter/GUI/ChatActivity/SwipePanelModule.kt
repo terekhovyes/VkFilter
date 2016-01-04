@@ -36,7 +36,7 @@ class SwipePanelModule(val activity: ChatActivity) {
             demonstratePanel = true
         }
 
-        if (saved != null && saved containsKey KEY_PANEL_OPENED) {
+        if (saved != null && saved.containsKey(KEY_PANEL_OPENED)) {
             bindForClosingSwipePanel(animate = false)
             showPanel(animate = false)
         }
@@ -54,11 +54,11 @@ class SwipePanelModule(val activity: ChatActivity) {
                 }
             }
         }
-        activity.findViewById(R.id.smileButton) setOnClickListener {
+        activity.findViewById(R.id.smileButton).setOnClickListener {
             activity.emojiconModule.openEmojiconPanel()
             hidePanel()
         }
-        activity.findViewById(R.id.photoButton) setOnClickListener {
+        activity.findViewById(R.id.photoButton).setOnClickListener {
             MaterialDialog.Builder(activity)
                     .title(R.string.chat_photo_dialog_title)
                     .items(R.array.chat_photo_dialog_items)
@@ -121,14 +121,14 @@ class SwipePanelModule(val activity: ChatActivity) {
         val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                 panel,
                 0,
-                bar.getHeight() / 2,
-                bar.getWidth() * 1.05f,
+                bar.height / 2,
+                bar.width * 1.05f,
                 0f
         )
-        animator setDuration 200
-        animator addListener object : SupportAnimator.AnimatorListener {
+        animator.setDuration(200)
+        animator.addListener(object : SupportAnimator.AnimatorListener {
             override fun onAnimationEnd() {
-                panel.setVisibility(View.INVISIBLE)
+                panel.visibility = View.INVISIBLE
             }
 
             override fun onAnimationStart() {
@@ -139,62 +139,63 @@ class SwipePanelModule(val activity: ChatActivity) {
 
             override fun onAnimationRepeat() {
             }
-        }
+        })
         animator.start()
     }
     fun showPanel(animate: Boolean = false) {
         val panel = activity.findViewById(R.id.attachmentsLayout)
 
         if (!animate) {
-            panel setVisibility View.VISIBLE
+            panel.visibility = View.VISIBLE
             isOpened = true
         } else {
             val bar = activity.findViewById(R.id.bar)
             val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                     panel,
                     0,
-                    bar.getHeight() / 2,
+                    bar.height / 2,
                     0f,
-                    bar.getWidth() * 1.05f
+                    bar.width * 1.05f
             )
-            animator setDuration 300
+            animator.setDuration(300)
             Handler().postDelayed({ isOpened = true }, 300)
-            panel setVisibility View.VISIBLE
+            panel.setVisibility(View.VISIBLE)
             animator.start()
         }
     }
     fun demonstratePanel() {
         val panel = activity.findViewById(R.id.attachmentsLayout)
-        val smileButton = panel findViewById R.id.smileButton
+        val smileButton = panel.findViewById(R.id.smileButton)
         val bar = activity.findViewById(R.id.bar)
 
         val animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                 panel,
                 0,
-                bar.getHeight() / 2,
+                bar.height / 2,
                 0f,
-                (smileButton.getLeft() + smileButton.getWidth()).toFloat()
+                (smileButton.left + smileButton.width).toFloat()
         )
-        animator setDuration 350
-        panel setVisibility View.VISIBLE
+        animator.setDuration(350)
+        panel.setVisibility(View.VISIBLE)
         animator.addListener(object : SupportAnimator.AnimatorListener {
             override fun onAnimationEnd() {
                 val secondAnimator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(
                         panel,
                         0,
-                        bar.getHeight() / 2,
-                        (smileButton.getLeft() + smileButton.getWidth()).toFloat(),
+                        bar.height / 2,
+                        (smileButton.left + smileButton.width).toFloat(),
                         0f
                 )
-                secondAnimator setDuration 350
-                secondAnimator addListener object : SupportAnimator.AnimatorListener {
+                secondAnimator.setDuration(350)
+                secondAnimator.addListener(object : SupportAnimator.AnimatorListener {
                     override fun onAnimationEnd() {
-                        panel setVisibility View.INVISIBLE
+                        panel.setVisibility(View.INVISIBLE)
                     }
+
                     override fun onAnimationRepeat() {}
                     override fun onAnimationCancel() {}
                     override fun onAnimationStart() {}
-                }
+                })
                 secondAnimator.start()
             }
             override fun onAnimationRepeat() {}
@@ -214,8 +215,8 @@ class SwipePanelModule(val activity: ChatActivity) {
 
     private fun callGallery() {
         val pickPhotoIntent = Intent()
-        pickPhotoIntent setType "image/*"
-        pickPhotoIntent setAction Intent.ACTION_GET_CONTENT
+        pickPhotoIntent.setType("image/*")
+        pickPhotoIntent.setAction(Intent.ACTION_GET_CONTENT)
         pickPhotoIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
         activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.chat_intent_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
     }
@@ -223,7 +224,7 @@ class SwipePanelModule(val activity: ChatActivity) {
     private fun callCamera() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Check is intent safe for invoking
-        if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
+        if (cameraIntent.resolveActivity(activity.packageManager) != null) {
             val file = FileUtils.createFileForPhoto()
             if (file != null) {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))

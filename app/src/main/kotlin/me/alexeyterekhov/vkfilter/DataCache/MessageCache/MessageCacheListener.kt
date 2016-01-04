@@ -8,5 +8,5 @@ public interface MessageCacheListener {
     fun onAddOldMessages(messages: Collection<Message>)
     fun onReplaceMessage(old: Message, new: Message)
     fun onUpdateMessages(messages: Collection<Message>)
-    fun onReadMessages(messages: Collection<Message>)
+    infix fun onReadMessages(messages: Collection<Message>)
 }

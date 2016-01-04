@@ -2,7 +2,7 @@ package me.alexeyterekhov.vkfilter.Internet
 
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import java.util.LinkedList
+import java.util.*
 
 public object MissingDataAnalyzer {
     fun missingUsersIds(messages: Collection<Message>): List<String> {
@@ -13,18 +13,18 @@ public object MissingDataAnalyzer {
                 m.attachments.messages
                     .map { missingInMessage(it) }
                     .foldRight(LinkedList<String>(), { el, list ->
-                        list addAll el
+                        list.addAll(el)
                         list
                     })
             if (!UserCache.contains(m.senderId))
-                out add m.senderId
+                out.add(m.senderId)
             return out
         }
 
         val missingIds = messages
                 .map { missingInMessage(it) }
                 .foldRight(LinkedList<String>(), { el, list ->
-                    list addAll el
+                    list.addAll(el)
                     list
                 })
         return missingIds
@@ -38,20 +38,20 @@ public object MissingDataAnalyzer {
                 m.attachments.messages
                     .map { missingInMessage(it) }
                     .foldRight(LinkedList<String>(), { el, list ->
-                        list addAll el
+                        list.addAll(el)
                         list
                     })
 
-            out addAll m.attachments.videos
+            out.addAll(m.attachments.videos
                     .filter { it.playerUrl == "" }
-                    .map { it.requestKey }
+                    .map { it.requestKey })
             return out
         }
 
         val missingIds = messages
                 .map { missingInMessage(it) }
                 .foldRight(LinkedList<String>(), { el, list ->
-                    list addAll el
+                    list.addAll(el)
                     list
                 })
 

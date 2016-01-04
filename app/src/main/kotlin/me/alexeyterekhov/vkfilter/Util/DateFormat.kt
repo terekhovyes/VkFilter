@@ -2,7 +2,7 @@ package me.alexeyterekhov.vkfilter.Util
 
 import me.alexeyterekhov.vkfilter.R
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 import kotlin.properties.Delegates
 
 public object DateFormat {
@@ -21,7 +21,7 @@ public object DateFormat {
 
     private fun init() {
         val context = AppContext.instance
-        months = context.getResources()!!.getStringArray(R.array.months)
+        months = context.resources!!.getStringArray(R.array.months)
         today = context.getString(R.string.today)
         yesterday = context.getString(R.string.yesterday)
         rightNow = context.getString(R.string.right_now)
@@ -29,8 +29,8 @@ public object DateFormat {
         seconds = context.getString(R.string.seconds)
         minutes = context.getString(R.string.minutes)
         at = context.getString(R.string.at)
-        minutesFrom1To5 = context.getResources()!!.getStringArray(R.array.minutes1_5)
-        hoursFrom1To6 = context.getResources()!!.getStringArray(R.array.hours1_6)
+        minutesFrom1To5 = context.resources!!.getStringArray(R.array.minutes1_5)
+        hoursFrom1To6 = context.resources!!.getStringArray(R.array.hours1_6)
     }
 
     /*
@@ -39,7 +39,7 @@ public object DateFormat {
     private fun isToday(sec: Long): Boolean {
         val currentSeconds = System.currentTimeMillis() / 1000L
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
         val now = Calendar.getInstance()
         return currentSeconds - sec < SECONDS_IN_DAY
                 && cal.get(Calendar.DAY_OF_MONTH) == now.get(Calendar.DAY_OF_MONTH)
@@ -48,7 +48,7 @@ public object DateFormat {
     private fun isYesterday(sec: Long): Boolean {
         val currentSeconds = System.currentTimeMillis() / 1000L
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
         val ytd = Calendar.getInstance()
         ytd.add(Calendar.DATE, -1)
         return currentSeconds - sec < SECONDS_IN_DAY * 2
@@ -57,21 +57,21 @@ public object DateFormat {
 
     private fun isThisYear(sec: Long): Boolean {
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
         val cur = Calendar.getInstance()
         return cur.get(Calendar.YEAR) == cal.get(Calendar.YEAR)
     }
 
-    private fun time(c: Calendar) = SimpleDateFormat("H:mm").format(c.getTime())
+    private fun time(c: Calendar) = SimpleDateFormat("H:mm").format(c.time)
 
     private fun dayMonth(c: Calendar)
-            = SimpleDateFormat("d ").format(c.getTime()) + months[c.get(Calendar.MONTH)]
+            = SimpleDateFormat("d ").format(c.time) + months[c.get(Calendar.MONTH)]
 
     private fun monthYear(c: Calendar)
-            = months[c.get(Calendar.MONTH)] + SimpleDateFormat("' '''yy").format(c.getTime())
+            = months[c.get(Calendar.MONTH)] + SimpleDateFormat("' '''yy").format(c.time)
 
     private fun dayMonthYear(c: Calendar)
-            = dayMonth(c) + SimpleDateFormat("' '''yy").format(c.getTime())
+            = dayMonth(c) + SimpleDateFormat("' '''yy").format(c.time)
 
     /*
     Shows:
@@ -83,7 +83,7 @@ public object DateFormat {
     fun dialogReceivedDate(sec: Long): String {
         if (!initialized) init()
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
 
         return when {
             isToday(sec) -> time(cal)
@@ -103,7 +103,7 @@ public object DateFormat {
     fun lastUpdateTime(msc: Long): String {
         if (!initialized) init()
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(msc)
+        cal.timeInMillis = msc
         val diffInSec = (System.currentTimeMillis() - msc) / 1000L
         val diffInMin = diffInSec / 60
         val diffInHours = diffInMin / 60
@@ -127,7 +127,7 @@ public object DateFormat {
      */
     public fun time(sec: Long): String {
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000)
+        cal.timeInMillis = sec * 1000
         return time(cal)
     }
 
@@ -141,7 +141,7 @@ public object DateFormat {
     public fun messageListDayContainer(msc: Long): String {
         if (!initialized) init()
         val date = Calendar.getInstance()
-        date.setTimeInMillis(msc)
+        date.timeInMillis = msc
 
         return when {
             isToday(msc / 1000L) -> today
@@ -161,7 +161,7 @@ public object DateFormat {
     public fun forwardMessageDate(msc: Long): String {
         if (!initialized) init()
         val date = Calendar.getInstance()
-        date.setTimeInMillis(msc)
+        date.timeInMillis = msc
 
         val time = time(date)
         return when {
@@ -179,7 +179,7 @@ public object DateFormat {
         if (!initialized) init()
         val currentSeconds = System.currentTimeMillis() / 1000L
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
 
         val diffInSec = currentSeconds - sec
         val diffInMin = diffInSec / 60
@@ -200,12 +200,12 @@ public object DateFormat {
     /*
     Duration
      */
-    public fun duration(sec: Long): String {
+    public infix fun duration(sec: Long): String {
         val cal = Calendar.getInstance()
-        cal.setTimeInMillis(sec * 1000L)
+        cal.timeInMillis = sec * 1000L
         return if (sec > 3600)
-            SimpleDateFormat("HH:mm:ss").format(cal.getTime())
+            SimpleDateFormat("HH:mm:ss").format(cal.time)
         else
-            SimpleDateFormat("mm:ss").format(cal.getTime())
+            SimpleDateFormat("mm:ss").format(cal.time)
     }
 }

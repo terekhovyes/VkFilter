@@ -76,9 +76,9 @@ class ImageUpload(
         if (canceled)
             return
         val json = JSONObject(saveString)
-        savedPhotoParam = json getString "photo"
-        savedServerParam = json getInt "server"
-        savedHashParam = json getString "hash"
+        savedPhotoParam = json.getString("photo")
+        savedServerParam = json.getInt("server")
+        savedHashParam = json.getString("hash")
         RequestControl addBackground RequestSavePhoto(this)
 
     }

@@ -17,13 +17,13 @@ public class PhotoViewerActivity: VkActivity() {
         setContentView(R.layout.activity_photoview)
         val url = paramPhotoUrl()
         val view = findViewById(R.id.photo) as ImageViewTouch
-        view.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN)
+        view.displayType = ImageViewTouchBase.DisplayType.FIT_TO_SCREEN
         ImageLoader.getInstance().displayImage(url, view, ImageLoadConf.loadFullscreenImage)
 
-        findViewById(R.id.saveButton) setOnClickListener {
+        findViewById(R.id.saveButton).setOnClickListener {
             savingModule.saveImage(paramPhotoUrl())
         }
     }
 
-    fun paramPhotoUrl() = getIntent().getStringExtra("photo_url")
+    fun paramPhotoUrl() = intent.getStringExtra("photo_url")
 }

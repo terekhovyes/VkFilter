@@ -9,15 +9,15 @@ class HolderMessageOut(view: View): HolderMessageBase(view) {
 
     // Colors
     fun setColorsForState(messageState: Int) {
-        sendingTint setVisibility if (messageState == Message.STATE_SENDING)
+        sendingTint.setVisibility(if (messageState == Message.STATE_SENDING)
             View.VISIBLE
         else
-            View.GONE
-        messageBody setBackgroundResource R.drawable.message_out_background
-        messageTriangle setBackgroundResource R.drawable.message_out_triangle
+            View.GONE)
+        messageBody.setBackgroundResource(R.drawable.message_out_background)
+        messageTriangle.setBackgroundResource(R.drawable.message_out_triangle)
     }
     fun setColorsSelected() {
-        messageBody setBackgroundResource R.drawable.message_sel_background
-        messageTriangle setBackgroundResource R.drawable.message_out_sel_triangle
+        messageBody.setBackgroundResource(R.drawable.message_sel_background)
+        messageTriangle.setBackgroundResource(R.drawable.message_out_sel_triangle)
     }
 }

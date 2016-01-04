@@ -47,7 +47,7 @@ class RequestModule(val activity: ChatActivity) {
     fun loadMessagesOlderThan(oldestMessageId: String) {
         if (!messageLoading && !getMessageCache().historyLoaded) {
             messageLoading = true
-            getMessageCache().listeners add messageListener
+            getMessageCache().listeners.add(messageListener)
             RequestControl addForeground RequestMessageHistory(
                     dialogId = activity.launchParameters.dialogId(),
                     isChat = activity.launchParameters.isChat(),
@@ -60,7 +60,7 @@ class RequestModule(val activity: ChatActivity) {
     fun loadLastMessages() {
         if (!messageLoading && !getMessageCache().historyLoaded) {
             messageLoading = true
-            getMessageCache().listeners add messageListener
+            getMessageCache().listeners.add(messageListener)
             RequestControl addForeground RequestMessageHistory(
                     dialogId = activity.launchParameters.dialogId(),
                     isChat = activity.launchParameters.isChat(),
@@ -92,7 +92,7 @@ class RequestModule(val activity: ChatActivity) {
 
     private fun createCacheListener() = object : DataDependAdapter() {
         override fun onDataUpdate() {
-            getMessageCache().listeners remove this
+            getMessageCache().listeners.remove(this)
             messageLoading = false
         }
     }

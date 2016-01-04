@@ -11,8 +11,8 @@ class RequestDialogPartners(dialogId: Long, isChat: Boolean) : Request("execute.
     }
 
     override fun handleResponse(json: JSONObject) {
-        val jsonUserList = json getJSONArray "response"
-        JSONParser parseUsers jsonUserList forEach { UserCache putUser it }
+        val jsonUserList = json.getJSONArray("response")
+        (JSONParser parseUsers jsonUserList).forEach { UserCache putUser it }
         UserCache.dataUpdated()
     }
 }

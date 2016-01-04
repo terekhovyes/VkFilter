@@ -70,7 +70,7 @@ class SavingModule(val activity: PhotoViewerActivity) {
                         if (fileUri != null) {
                             // Show in "downloads" app
                             val downloadManager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                            downloadManager.addCompletedDownload(name, name, true, "image/png", file!!.getAbsolutePath(), file!!.length() , true)
+                            downloadManager.addCompletedDownload(name, name, true, "image/png", file!!.absolutePath, file!!.length() , true)
                         }
                     } else {
                         Toast.makeText(activity, R.string.photo_toast_failed, Toast.LENGTH_SHORT).show()

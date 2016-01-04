@@ -8,25 +8,25 @@ class ActionBarModule(val activity: ChatActivity) {
     val listener = createListener()
 
     fun onCreate() {
-        activity.setTitle(activity.launchParameters.windowTitle())
-        activity.getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        activity.title = activity.launchParameters.windowTitle()
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     fun onResume() {
         if (activity.launchParameters.isNotChat()) {
             updateSubtitle()
-            UserCache.listeners add listener
+            UserCache.listeners.add(listener)
         }
     }
     fun onPause() {
         if (activity.launchParameters.isNotChat())
-            UserCache.listeners remove listener
+            UserCache.listeners.remove(listener)
     }
 
     private fun updateSubtitle() {
         if (activity.launchParameters.isNotChat())
             if (UserCache.contains(activity.launchParameters.dialogId())) {
                 val user = UserCache.getUser(activity.launchParameters.dialogId())!!
-                activity.getSupportActionBar().setSubtitle(TextFormat.userOnlineStatus(user))
+                activity.supportActionBar.subtitle = TextFormat.userOnlineStatus(user)
             }
     }
     private fun createListener() = object : DataDepend {

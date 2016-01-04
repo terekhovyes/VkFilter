@@ -1,6 +1,6 @@
 package me.alexeyterekhov.vkfilter.DataCache.MessageCache
 
-import java.util.HashMap
+import java.util.*
 
 object MessageCaches {
     private val dialogs = HashMap<String, MessageCache>()
@@ -11,6 +11,6 @@ object MessageCaches {
             chat && !chats.contains(id) -> chats[id] = MessageCache()
             !chat && !dialogs.contains(id) -> dialogs[id] = MessageCache()
         }
-        return if (chat) chats[id] else dialogs[id]
+        return if (chat) chats[id]!! else dialogs[id]!!
     }
 }

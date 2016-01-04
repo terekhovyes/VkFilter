@@ -29,14 +29,14 @@ public object DialogRefresher {
         this.dialogId = dialogId
         this.isChat = isChat
         isRunning = true
-        MessageCaches.getCache(dialogId, isChat).listeners add messageCacheListener
+        MessageCaches.getCache(dialogId, isChat).listeners.add(messageCacheListener)
         NotificationHandler.addNotificationListener(notificationListener)
         loopBody()
     }
 
     fun stop() {
         isRunning = false
-        MessageCaches.getCache(dialogId, isChat).listeners remove messageCacheListener
+        MessageCaches.getCache(dialogId, isChat).listeners.remove(messageCacheListener)
         NotificationHandler.removeNotificationListener(notificationListener)
     }
 
@@ -71,7 +71,7 @@ public object DialogRefresher {
             return if (info.chatId == "" && !isChat && info.senderId == dialogId ||
                     info.chatId == dialogId && isChat) {
                 if (isRunning) {
-                    handler removeCallbacks requestRunnable
+                    handler.removeCallbacks(requestRunnable)
                     scheduled = false
                     newMessagesRequest()
                 }

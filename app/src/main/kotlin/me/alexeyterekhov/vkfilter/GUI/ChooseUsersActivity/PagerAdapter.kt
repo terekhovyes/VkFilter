@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
-import java.util.HashSet
+import java.util.*
 
 
 public class PagerAdapter(
@@ -22,7 +22,7 @@ public class PagerAdapter(
     private var dialogFragment: DialogChooseFragment? = null
     private var currentFragment: CurrentChooseFragment? = null
 
-    override fun getCount() = TITLES.size()
+    override fun getCount() = TITLES.size
     override fun getPageTitle(position: Int) = TITLES.get(position)
     override fun getItem(position: Int): Fragment? {
         return when (position) {

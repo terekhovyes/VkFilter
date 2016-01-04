@@ -62,28 +62,28 @@ public class CurrentChooseFragment(): Fragment(), DataDepend {
         val view = inflater.inflate(R.layout.fragment_current_choose, container, false)
 
         val recycler = view.findViewById(R.id.recyclerList) as RecyclerView
-        recycler.setLayoutManager(LinearLayoutManager(AppContext.instance))
-        recycler.setAdapter(adapter)
+        recycler.layoutManager = LinearLayoutManager(AppContext.instance)
+        recycler.adapter = adapter
         return view
     }
 
     override fun onCreate(saved: Bundle?) {
-        super<Fragment>.onCreate(saved)
+        super.onCreate(saved)
         if ((DataSaver removeObject KEY_SAVED) != null) {
             adapter = (DataSaver removeObject KEY_ADAPTER) as CurrentListAdapter
         }
-        UserCache.listeners add this
-        ChatInfoCache.listeners add this
+        UserCache.listeners.add(this)
+        ChatInfoCache.listeners.add(this)
         adapter.notifyDataSetChanged()
     }
     override fun onDestroy() {
-        UserCache.listeners remove this
-        ChatInfoCache.listeners remove this
-        super<Fragment>.onDestroy()
+        UserCache.listeners.remove(this)
+        ChatInfoCache.listeners.remove(this)
+        super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super<Fragment>.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
         DataSaver.putObject(KEY_SAVED, true)
         DataSaver.putObject(KEY_ADAPTER, adapter)
     }

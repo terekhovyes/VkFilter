@@ -10,7 +10,7 @@ class RequestNotificationInfo(messageId: String) : Request("execute.notification
     }
 
     override fun handleResponse(json: JSONObject) {
-        val jsonNotification = json getJSONObject "response"
+        val jsonNotification = json.getJSONObject("response")
         val notification = JSONParser parseNotification jsonNotification
         IntentHandler.onLoadNotification(notification)
     }

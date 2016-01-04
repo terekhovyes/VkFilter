@@ -7,16 +7,16 @@ import org.json.JSONObject
 
 class RequestChats(val chatIds: Collection<String>) : Request("execute.detailedChats") {
     init {
-        params["chat_ids"] = chatIds.join(separator = ",")
+        params["chat_ids"] = chatIds.joinToString(separator = ",")
     }
 
     override fun handleResponse(json: JSONObject) {
-        val jsonUserList = json getJSONObject "response" getJSONArray "user_info"
-        JSONParser parseUsers jsonUserList forEach { UserCache.putUser(it) }
+        val jsonUserList = json.getJSONObject("response").getJSONArray("user_info")
+        (JSONParser parseUsers jsonUserList).forEach { UserCache.putUser(it) }
         UserCache.dataUpdated()
 
-        val jsonChatList = json getJSONObject "response" getJSONArray "chats"
-        JSONParser parseChats jsonChatList forEach { ChatInfoCache.putChat(it.id.toString(), it) }
+        val jsonChatList = json.getJSONObject("response").getJSONArray("chats")
+        (JSONParser parseChats jsonChatList).forEach { ChatInfoCache.putChat(it.id.toString(), it) }
         ChatInfoCache.dataUpdated()
     }
 }

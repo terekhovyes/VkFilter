@@ -1,9 +1,9 @@
 package me.alexeyterekhov.vkfilter.DataCache.Common
 
-import java.util.LinkedList
+import java.util.*
 
 
-fun <T> LinkedList<T>.forEachSync(action: (T) -> Unit) {
+infix fun <T> LinkedList<T>.forEachSync(action: (T) -> Unit) {
     val copy = LinkedList(this)
-    copy forEach { action(it) }
+    copy.forEach { action(it) }
 }

@@ -20,7 +20,7 @@ import me.alexeyterekhov.vkfilter.R
 
 object NotificationUtil {
     fun createChatActivityIntent(context: Context, n: NotificationInfo): PendingIntent {
-        val chatIntent = Intent(context, javaClass<ChatActivity>())
+        val chatIntent = Intent(context, ChatActivity::class.java)
         when {
             n.chatId != "" && n.chatTitle != "" -> {
                 chatIntent.putExtra("chat_id", n.chatId)
@@ -39,29 +39,29 @@ object NotificationUtil {
         chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
         val stackBuilder = TaskStackBuilder.create(context)
-                .addParentStack(javaClass<ChatActivity>())
+                .addParentStack(ChatActivity::class.java)
                 .addNextIntent(chatIntent)
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     fun createDialogsActivityIntent(context: Context): PendingIntent {
-        val dialogIntent = Intent(context, javaClass<DialogsActivity>())
+        val dialogIntent = Intent(context, DialogsActivity::class.java)
 
         val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(javaClass<DialogsActivity>())
+        stackBuilder.addParentStack(DialogsActivity::class.java)
         stackBuilder.addNextIntent(dialogIntent)
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     fun createDismissIntent(context: Context): PendingIntent {
-        val intent = Intent(context, javaClass<NotificationDismissBroadcast>())
+        val intent = Intent(context, NotificationDismissBroadcast::class.java)
         return PendingIntent.getBroadcast(context, 0, intent, 0)
     }
 
     fun loadPhoto(context: Context, url: String): Bitmap? {
         val loader = ImageLoader.getInstance()
-        val dc = loader.getDiskCache()
-        val mc = loader.getMemoryCache()
+        val dc = loader.diskCache
+        val mc = loader.memoryCache
 
         try {
             var loadedBitmap: Bitmap? = null
@@ -72,12 +72,12 @@ object NotificationUtil {
             if (url != "") {
                 val file = DiskCacheUtils.findInCache(url, dc)
                 if (file != null)
-                    loadedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath())
+                    loadedBitmap = BitmapFactory.decodeFile(file.absolutePath)
             }
             if (loadedBitmap == null)
-                loadedBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_user_stub)
+                loadedBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.icon_user_stub)
             if (loadedBitmap != null) {
-                val res = context.getResources()
+                val res = context.resources
                 val height = res.getDimension(android.R.dimen.notification_large_icon_height).toInt()
                 val width = res.getDimension(android.R.dimen.notification_large_icon_width).toInt()
                 loadedBitmap = Bitmap.createScaledBitmap(loadedBitmap, width * 3 / 4, height * 3 / 4, false)
