@@ -113,6 +113,12 @@
             android:layout_alignParentBottom="true"
             android:background="@color/m_white">
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/attachments_triangle"/>
+
             <me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
                 android:id="@+id/messageText"
                 android:layout_width="match_parent"
