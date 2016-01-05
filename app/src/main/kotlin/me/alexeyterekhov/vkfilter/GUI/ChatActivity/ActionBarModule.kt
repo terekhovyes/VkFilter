@@ -13,6 +13,8 @@ import me.alexeyterekhov.vkfilter.DataClasses.ChatInfo
 import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.Common.AvatarList.AvatarHolder
+import me.alexeyterekhov.vkfilter.Internet.RequestControl
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestChats
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.TextFormat
 import java.util.*
@@ -27,18 +29,25 @@ class ActionBarModule(val activity: ChatActivity) {
         updateTitle(toolbar)
         updateSubtitle(toolbar)
         updateAvatar(toolbar, activity.launchParameters.isChat(), activity.launchParameters.dialogId())
-    }
 
-    fun onResume() {
-        if (activity.launchParameters.isNotChat()) {
-            updateSubtitle(findToolbar())
-            UserCache.listeners.add(listener)
+        if (activity.launchParameters.isChat()) {
+            val chatIds = Collections.singleton(activity.launchParameters.dialogId())
+            RequestControl.addBackground(RequestChats(chatIds))
         }
     }
 
+    fun onResume() {
+        val toolbar = findToolbar()
+
+        updateSubtitle(toolbar)
+        updateAvatar(toolbar, activity.launchParameters.isChat(), activity.launchParameters.dialogId())
+        UserCache.listeners.add(listener)
+        ChatInfoCache.listeners.add(listener)
+    }
+
     fun onPause() {
-        if (activity.launchParameters.isNotChat())
-            UserCache.listeners.remove(listener)
+        UserCache.listeners.remove(listener)
+        ChatInfoCache.listeners.remove(listener)
     }
 
     private fun updateTitle(toolbar: Toolbar) {

@@ -47,8 +47,9 @@ object TextFormat {
     }
 
     fun membersPhrase(membersCount: Int): String = when (membersCount) {
-        1 -> "$membersCount ${getStr(R.string.members_1)}"
-        in 2..4 -> "$membersCount ${getStr(R.string.members_2_4)}"
+        1, 21 -> "$membersCount ${getStr(R.string.members_1)}"
+        in 2..4, in 22..24 -> "$membersCount ${getStr(R.string.members_2_4)}"
+        in 5..20, in 25..30 -> "$membersCount ${getStr(R.string.members_5_more)}"
         else -> "$membersCount ${getStr(R.string.members_5_more)}"
     }
 
