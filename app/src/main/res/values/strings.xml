@@ -46,6 +46,11 @@
         <item>дек</item>
     </string-array>
 
+    <!-- Members -->
+    <string name="members_1">собеседник</string>
+    <string name="members_2_4">собеседника</string>
+    <string name="members_5_more">собеседников</string>
+
     <!-- Strings by activity -->
     <string name="login_label_app_title">VKFilter</string>
     <string name="login_label_warning">Для работы приложения требуется доступ к вашим личным данным сети ВКонтакте</string>

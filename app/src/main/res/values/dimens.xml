@@ -7,6 +7,12 @@
     <dimen name="space_x4">20dp</dimen>
     <dimen name="space_half">2.5dp</dimen>
 
+    <dimen name="cell_05">4dp</dimen>
+    <dimen name="cell_10">8dp</dimen>
+    <dimen name="cell_20">16dp</dimen>
+    <dimen name="cell_30">24dp</dimen>
+    <dimen name="cell_40">32dp</dimen>
+
     <dimen name="shadow_paper">1dp</dimen>
     <dimen name="shadow_level1">2dp</dimen>
     <dimen name="shadow_level2">4dp</dimen>

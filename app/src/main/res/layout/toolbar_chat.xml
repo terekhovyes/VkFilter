@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_height="55dp"
+    tools:background="@color/ui_primary">
+
+    <include
+        android:id="@+id/avatarLayout"
+        layout="@layout/avatar_40dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="@dimen/cell_10"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/cell_05"
+        android:layout_marginTop="@dimen/cell_05"
+        android:layout_marginBottom="@dimen/cell_10"
+        android:layout_toLeftOf="@id/avatarLayout"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            android:gravity="center_vertical"
+            android:textColor="@color/font_light"
+            android:textSize="@dimen/font_large"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:lines="1"
+            tools:text="Софья Алессандровна"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/font_light_secondary"
+                android:textSize="@dimen/font_mini"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:lines="1"
+                tools:text="Онлайн" />
+
+            <ImageView
+                android:id="@+id/subtitleIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="4dp"
+                android:adjustViewBounds="true"
+                android:alpha="0.80"
+                tools:src="@drawable/ic_phone"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

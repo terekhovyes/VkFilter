@@ -32,12 +32,24 @@ object TextFormat {
         }
     }
 
+    fun userOnlineStatusCompact(user: User): String = when {
+        user.isOnline -> getStr(R.string.chat_label_toolbar_online)
+        user.lastOnlineTime == 0L -> ""
+        else -> "${lastVisitPhrase(user)} ${lastVisitTime(user)}"
+    }
+
     fun lastVisitPhrase(user: User): String {
         return when (user.sex) {
             Sex.WOMAN -> getStr(R.string.chat_label_toolbar_visit_woman)
             Sex.MAN -> getStr(R.string.chat_label_toolbar_visit_man)
             else -> getStr(R.string.chat_label_toolbar_visit)
         }
+    }
+
+    fun membersPhrase(membersCount: Int): String = when (membersCount) {
+        1 -> "$membersCount ${getStr(R.string.members_1)}"
+        in 2..4 -> "$membersCount ${getStr(R.string.members_2_4)}"
+        else -> "$membersCount ${getStr(R.string.members_5_more)}"
     }
 
     fun lastVisitTime(user: User) = "${DateFormat.lastOnline(user.lastOnlineTime)}"

@@ -23,4 +23,11 @@ class AvatarHolder(val v: View): RecyclerView.ViewHolder(v) {
     val quadImage2 = v.findViewById(R.id.quadDialogIcon2) as ImageView
     val quadImage3 = v.findViewById(R.id.quadDialogIcon3) as ImageView
     val quadImage4 = v.findViewById(R.id.quadDialogIcon4) as ImageView
+
+    fun setVisibilityForCount(imageCount: Int) {
+        singleImage.visibility = if (imageCount == 1) View.VISIBLE else View.INVISIBLE
+        doubleLayout.visibility = if (imageCount == 2) View.VISIBLE else View.INVISIBLE
+        tripleLayout.visibility = if (imageCount == 3) View.VISIBLE else View.INVISIBLE
+        quadLayout.visibility = if (imageCount == 4) View.VISIBLE else View.INVISIBLE
+    }
 }

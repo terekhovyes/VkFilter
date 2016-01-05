@@ -2,7 +2,6 @@ package me.alexeyterekhov.vkfilter.GUI.Common.AvatarList
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.ChatInfoCache
@@ -54,7 +53,7 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
         val vkId = vkIds.get(position)
         when (vkId.type) {
             VkIdentifier.TYPE_USER -> {
-                setLayoutVisibility(h, 1)
+                h.setVisibilityForCount(1)
                 if (UserCache contains vkId.id.toString())
                     imageLoader.displayImage(
                             (UserCache getUser vkId.id.toString())!!.photoUrl,
@@ -67,31 +66,31 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                 if (ChatInfoCache contains vkId.id.toString()) {
                     val chat = (ChatInfoCache getChat vkId.id.toString())!!
                     if (chat.photoUrl != "") {
-                        setLayoutVisibility(h, 1)
+                        h.setVisibilityForCount(1)
                         imageLoader.displayImage(chat.photoUrl, h.singleImage)
                     } else {
                         when (chat.chatPartners.size) {
                             0 -> {
-                                setLayoutVisibility(h, 1)
+                                h.setVisibilityForCount(1)
                                 h.singleImage.setImageResource(R.drawable.icon_user_stub)
                             }
                             1 -> {
-                                setLayoutVisibility(h, 1)
+                                h.setVisibilityForCount(1)
                                 imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.singleImage)
                             }
                             2 -> {
-                                setLayoutVisibility(h, 2)
+                                h.setVisibilityForCount(2)
                                 imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.doubleImage1)
                                 imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.doubleImage2)
                             }
                             3 -> {
-                                setLayoutVisibility(h, 3)
+                                h.setVisibilityForCount(3)
                                 imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.tripleImage1)
                                 imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.tripleImage2)
                                 imageLoader.displayImage(chat.chatPartners[2].photoUrl, h.tripleImage3)
                             }
                             else -> {
-                                setLayoutVisibility(h, 4)
+                                h.setVisibilityForCount(4)
                                 imageLoader.displayImage(chat.chatPartners[0].photoUrl, h.quadImage1)
                                 imageLoader.displayImage(chat.chatPartners[1].photoUrl, h.quadImage2)
                                 imageLoader.displayImage(chat.chatPartners[2].photoUrl, h.quadImage3)
@@ -100,17 +99,10 @@ class AvatarAdapter(val layoutRes: Int): RecyclerView.Adapter<AvatarHolder>(), D
                         }
                     }
                 } else {
-                    setLayoutVisibility(h, 1)
+                    h.setVisibilityForCount(1)
                     h.singleImage.setImageResource(R.drawable.icon_user_stub)
                 }
             }
         }
-    }
-
-    private fun setLayoutVisibility(holder: AvatarHolder, picCount: Int) {
-        holder.singleImage.visibility = if (picCount == 1) View.VISIBLE else View.INVISIBLE
-        holder.doubleLayout.visibility = if (picCount == 2) View.VISIBLE else View.INVISIBLE
-        holder.tripleLayout.visibility = if (picCount == 3) View.VISIBLE else View.INVISIBLE
-        holder.quadLayout.visibility = if (picCount == 4) View.VISIBLE else View.INVISIBLE
     }
 }
