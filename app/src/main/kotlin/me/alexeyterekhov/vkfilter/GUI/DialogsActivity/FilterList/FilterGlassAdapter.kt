@@ -43,7 +43,7 @@ class FilterGlassAdapter(
             val view = inflater.inflate(R.layout.item_filter_switch, parent, false)
             val holder = FilterHolder(view)
             with (holder.avatarList) {
-                adapter = AvatarAdapterMini(R.layout.item_avatar_40dp)
+                adapter = AvatarAdapterMini(R.layout.item_avatar_filterglass)
                 layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, true)
             }
             holder

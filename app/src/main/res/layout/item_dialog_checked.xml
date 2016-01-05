@@ -7,129 +7,13 @@
     android:layout_height="90dp"
     android:background="@color/m_white">
 
-    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-        android:id="@+id/singlePic"
+    <include layout="@layout/avatar_70dp"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/space"
-        android:layout_marginRight="@dimen/space"
-        android:src="@drawable/icon_user_stub"
-        app:shadowSize="@dimen/shadow_level1"/>
-
-    <RelativeLayout
-        android:id="@+id/doublePicLayout"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/space"
-        android:layout_marginRight="@dimen/space"
-        android:visibility="gone">
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/doublePic1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/doublePic2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/triplePicLayout"
-        android:layout_width="70dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="@dimen/space"
-        android:layout_marginRight="@dimen/space"
-        android:visibility="gone">
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/triplePic1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/triplePic2"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/triplePic3"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/quadPicLayout"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/space"
-        android:layout_marginRight="@dimen/space"
-        android:visibility="gone">
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/quadPic1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/quadPic2"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/quadPic3"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-            android:id="@+id/quadPic4"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_user_stub"
-            app:shadowSize="@dimen/shadow_level1"/>
-
-    </RelativeLayout>
+        android:layout_marginRight="@dimen/space" />
 
     <LinearLayout
         android:layout_width="match_parent"

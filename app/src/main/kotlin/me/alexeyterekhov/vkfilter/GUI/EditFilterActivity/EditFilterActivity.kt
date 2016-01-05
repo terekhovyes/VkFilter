@@ -81,7 +81,7 @@ public class EditFilterActivity : VkActivity() {
         with (findPeopleList()) {
             if (adapter == null) {
                 layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false)
-                val adapter = AvatarAdapter(R.layout.item_avatar_50dp)
+                val adapter = AvatarAdapter(R.layout.item_avatar_filteredit)
                 filter.invalidateCache()
                 adapter setIds filter.identifiers()
                 setAdapter(adapter)

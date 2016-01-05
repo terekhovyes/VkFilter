@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="70dp"
+    android:layout_height="70dp">
+
+    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+        android:id="@+id/singleDialogIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:shadowSize="@dimen/shadow_paper"
+        tools:src="@color/ui_refresh1"/>
+
+    <RelativeLayout
+        android:id="@+id/doubleDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/doubleDialogIcon1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh2"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/doubleDialogIcon2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tripleDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/tripleDialogIcon1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_centerVertical="true"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh3"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/tripleDialogIcon2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="2dp"
+            android:layout_alignParentRight="true"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh3"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/tripleDialogIcon3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh3"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quadDialogIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/quadDialogIcon1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh4"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/quadDialogIcon2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh4"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/quadDialogIcon3"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh4"/>
+
+        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+            android:id="@+id/quadDialogIcon4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:shadowSize="@dimen/shadow_paper"
+            tools:src="@color/ui_refresh4"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

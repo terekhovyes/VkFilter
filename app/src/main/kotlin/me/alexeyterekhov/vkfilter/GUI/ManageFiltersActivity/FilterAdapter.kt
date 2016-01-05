@@ -24,7 +24,7 @@ class FilterAdapter(f: Vector<VkFilter>): ParallaxRecyclerAdapter<VkFilter>(f) {
                 val view = inflater.inflate(R.layout.item_filter, parent, false)
                 val holder = FilterItemHolder(view)
                 with (holder.avatarList) {
-                    adapter = AvatarAdapter(R.layout.item_avatar_35dp)
+                    adapter = AvatarAdapter(R.layout.item_avatar_filterlist)
                     layoutManager = LinearLayoutManager(AppContext.instance, LinearLayoutManager.HORIZONTAL, false)
                 }
                 return holder
