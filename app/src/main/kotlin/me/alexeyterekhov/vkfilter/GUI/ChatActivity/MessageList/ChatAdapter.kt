@@ -72,6 +72,13 @@ class ChatAdapter(
     }
     fun getSelectedMessageIds() = selectedMessageIds.sorted()
 
+    fun setData(data: Collection<Message>) {
+        messages.clear()
+        messages.addAll(data)
+        notifyDataSetChanged()
+        readIncomeMessages()
+    }
+
     override fun getItemCount() = if (messages.isNotEmpty()) messages.count() + 1 else 0
     override fun getItemViewType(pos: Int) = when {
         pos < messages.count() && messages[pos].isOut -> TYPE_OUT
@@ -300,6 +307,7 @@ class ChatAdapter(
             notifyItemInserted(0)
         }
         notifyItemChanged(messages.count())
+        readIncomeMessages()
     }
 
     override fun onReplaceMessage(old: Message, new: Message) {
@@ -373,7 +381,6 @@ class ChatAdapter(
     }
     private fun updateAnimationTime() { lastAnimationStartTime = System.currentTimeMillis() }
     private fun readIncomeMessages() {
-        if (messages.any { it.isIn && it.isNotRead })
-            RequestControl addBackground RequestReadMessages(dialogId, isChat)
+        RequestControl addBackground RequestReadMessages(dialogId, isChat)
     }
 }

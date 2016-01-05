@@ -91,12 +91,7 @@ class MessageListModule(val activity: ChatActivity) {
         updateAttachmentGenerator()
     }
     private fun initAdapterData() {
-        val adapter = getAdapter()
-        if (adapter != null) {
-            adapter.messages.clear()
-            adapter.messages.addAll(getCache().getMessages())
-            adapter.notifyDataSetChanged()
-        }
+        getAdapter()?.setData(getCache().getMessages())
     }
     private fun updateAttachmentGenerator() {
         val adapter = getAdapter()
