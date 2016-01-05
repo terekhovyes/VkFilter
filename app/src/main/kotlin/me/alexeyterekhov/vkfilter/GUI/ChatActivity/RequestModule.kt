@@ -54,6 +54,7 @@ class RequestModule(val activity: ChatActivity) {
                     count = LOAD_PORTION,
                     olderThanId = oldestMessageId
             )
+            activity.refreshIndicatorModule.showDelayed()
         }
     }
 
@@ -66,6 +67,7 @@ class RequestModule(val activity: ChatActivity) {
                     isChat = activity.launchParameters.isChat(),
                     count = LOAD_PORTION
             )
+            activity.refreshIndicatorModule.showDelayed()
         }
     }
 
@@ -94,6 +96,7 @@ class RequestModule(val activity: ChatActivity) {
         override fun onDataUpdate() {
             getMessageCache().listeners.remove(this)
             messageLoading = false
+            activity.refreshIndicatorModule.hide()
         }
     }
 }

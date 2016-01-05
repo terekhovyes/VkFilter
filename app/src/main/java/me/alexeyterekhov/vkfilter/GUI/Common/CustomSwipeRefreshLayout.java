@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
     private RecyclerView list;
     private Runnable onDown = null;
+    private boolean denySwiping = false;
 
     private boolean allowScrolling = true;
 
@@ -24,6 +25,9 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
 
     @Override
     public boolean canChildScrollUp() {
+        if (denySwiping)
+            return true;
+
         if (list != null) {
             LinearLayoutManager man = (LinearLayoutManager) list.getLayoutManager();
             if (man != null) {
@@ -38,6 +42,10 @@ public class CustomSwipeRefreshLayout extends SwipeRefreshLayout {
             }
         }
         return false;
+    }
+
+    public void setDenySwiping(boolean deny) {
+        this.denySwiping = deny;
     }
 
     public void setAllowScrolling(boolean value) {

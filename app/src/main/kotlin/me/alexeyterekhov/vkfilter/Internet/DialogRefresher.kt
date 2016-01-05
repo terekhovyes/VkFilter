@@ -16,6 +16,8 @@ public object DialogRefresher {
     private var dialogId = ""
     private var isChat = false
     private var lastExecutionMillis = 0L
+    private var onStartRequest: (() -> Unit)? = null
+    private var onCompleteRequest: (() -> Unit)? = null
 
     private val handler = Handler()
     val messageCacheListener = createMessageListener()
@@ -25,9 +27,11 @@ public object DialogRefresher {
         scheduled = false
     }
 
-    fun start(dialogId: String, isChat: Boolean) {
+    fun start(dialogId: String, isChat: Boolean, onStartRequest: () -> Unit, onCompleteRequest: () -> Unit) {
         this.dialogId = dialogId
         this.isChat = isChat
+        this.onStartRequest = onStartRequest
+        this.onCompleteRequest = onCompleteRequest
         isRunning = true
         MessageCaches.getCache(dialogId, isChat).listeners.add(messageCacheListener)
         NotificationHandler.addNotificationListener(notificationListener)
@@ -35,6 +39,7 @@ public object DialogRefresher {
     }
 
     fun stop() {
+        onCompleteRequest?.invoke()
         isRunning = false
         MessageCaches.getCache(dialogId, isChat).listeners.remove(messageCacheListener)
         NotificationHandler.removeNotificationListener(notificationListener)
@@ -43,6 +48,7 @@ public object DialogRefresher {
     fun isRunning() = isRunning
 
     private fun loopBody() {
+        onCompleteRequest?.invoke()
         if (isRunning && !scheduled) {
             val cur = System.currentTimeMillis()
             if (cur - lastExecutionMillis < DELAY) {
@@ -57,6 +63,7 @@ public object DialogRefresher {
         lastExecutionMillis = System.currentTimeMillis()
         val request = RequestDialogUpdates(dialogId, isChat)
         RequestControl.addForeground(request)
+        onStartRequest?.invoke()
     }
 
     private fun createMessageListener() = object : MessageCacheListener {
@@ -71,6 +78,7 @@ public object DialogRefresher {
             return if (info.chatId == "" && !isChat && info.senderId == dialogId ||
                     info.chatId == dialogId && isChat) {
                 if (isRunning) {
+                    onCompleteRequest?.invoke()
                     handler.removeCallbacks(requestRunnable)
                     scheduled = false
                     newMessagesRequest()

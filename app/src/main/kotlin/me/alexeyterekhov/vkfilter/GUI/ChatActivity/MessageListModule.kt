@@ -44,7 +44,11 @@ class MessageListModule(val activity: ChatActivity) {
         val adapter = getAdapter()!!
         initAdapterData()
         if (adapter.messages.isNotEmpty() && !Mocker.MOCK_MODE)
-            DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
+            DialogRefresher.start(
+                    activity.launchParameters.dialogId(),
+                    activity.launchParameters.isChat(),
+                    { activity.refreshIndicatorModule.showDelayed() },
+                    { activity.refreshIndicatorModule.hide() })
     }
 
     fun onRestoreState() {
@@ -179,7 +183,11 @@ class MessageListModule(val activity: ChatActivity) {
                     scrollToFirstUnread()
             }
             if (adapter.messages.isNotEmpty() && activityIsResumed && !DialogRefresher.isRunning())
-                DialogRefresher.start(activity.launchParameters.dialogId(), activity.launchParameters.isChat())
+                DialogRefresher.start(
+                        activity.launchParameters.dialogId(),
+                        activity.launchParameters.isChat(),
+                        { activity.refreshIndicatorModule.showDelayed() },
+                        { activity.refreshIndicatorModule.hide() })
         }
         override fun onAddOldMessages(messages: Collection<Message>) {
             getAdapter()?.onAddOldMessages(messages)

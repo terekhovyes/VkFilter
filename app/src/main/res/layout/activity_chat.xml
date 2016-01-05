@@ -255,11 +255,18 @@
             android:layout_marginBottom="@dimen/space"
             android:visibility="gone"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/messageList"
+        <me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/attachmentsBar"/>
+            android:layout_above="@id/attachmentsBar">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/messageList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </me.alexeyterekhov.vkfilter.GUI.Common.CustomSwipeRefreshLayout>
 
         <View
             android:layout_width="match_parent"

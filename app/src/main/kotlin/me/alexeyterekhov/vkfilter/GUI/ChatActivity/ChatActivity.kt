@@ -30,6 +30,7 @@ open public class ChatActivity:
     val uploadModule = UploadModule(this)
     val attachmentsModule = AttachmentsBarModule(this)
     val selectionToolbarModule = SelectionToolbarModule(this)
+    val refreshIndicatorModule = RefreshIndicatorModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ open public class ChatActivity:
         attachmentsModule.onCreate()
         selectionToolbarModule.onCreate()
         uploadModule.onCreate()
+        refreshIndicatorModule.onCreate()
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super<VkActivity>.onRestoreInstanceState(savedInstanceState)
