@@ -162,6 +162,9 @@ class ChatAdapter(
                 }
             }
 
+            // Clickable
+            baseHolder.messageText.setTextIsSelectable(messageIsSending)
+
             // Base data
             baseHolder.clearMessageAttachments()
             attachmentGenerator.inflate(message.attachments, inflater, baseHolder.messageAttachments).forEach {

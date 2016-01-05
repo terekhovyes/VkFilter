@@ -14,14 +14,17 @@ class SelectionToolbarModule(val activity: ChatActivity) {
     private val selectionChangeAction = {
         val toolbar = findToolbar()
         val ids = getAdapter()!!.getSelectedMessageIds()
+
         if (ids.isNotEmpty()) {
             val text = "${activity.getString(R.string.chat_label_toolbar_selected)} ${ids.count()}"
             ((toolbar.findViewById(R.id.textSelectedCount)) as TextView).text = text
         }
+
         when {
             ids.isNotEmpty() && toolbar.visibility != View.VISIBLE -> showToolbar()
             ids.isEmpty() && toolbar.visibility == View.VISIBLE -> hideToolbar()
         }
+
         val copyVisibility = if (ids.count() == 1) View.VISIBLE else View.GONE
         toolbar.findViewById(R.id.buttonCopyText).visibility = copyVisibility
         toolbar.findViewById(R.id.labelCopyText).visibility = copyVisibility
