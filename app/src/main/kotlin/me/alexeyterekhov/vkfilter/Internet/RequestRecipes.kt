@@ -71,6 +71,9 @@ public object RequestRecipes {
                 }
             }
 
+            // Wait to follow request-per-second restrictions
+            RequestFrequencyControl.waitNext()
+
             // Start request
             val vkRequest = VKRequest(request.getServerFunName(), request.getParameters())
             vkRequest.attempts = 1
