@@ -37,6 +37,7 @@ class DialogHolder(dialogView: View): RecyclerView.ViewHolder(dialogView) {
     val onlineIcon = dialogView.findViewById(R.id.dialogOnline) as ImageView
     val messageDate = dialogView.findViewById(R.id.dialogDate) as TextView
     val messageImage = dialogView.findViewById(R.id.dialogSenderIcon) as ImageView
+    val messageTypingImage = dialogView.findViewById(R.id.typingIcon) as ImageView
     val messageText = dialogView.findViewById(R.id.dialogLastMessage) as TextView
     val unreadBackground = dialogView.findViewById(R.id.unreadBackground) as ImageView
     val unreadMessage = dialogView.findViewById(R.id.unreadMessage) as ImageView

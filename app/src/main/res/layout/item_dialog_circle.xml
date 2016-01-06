@@ -86,20 +86,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="1dp"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         android:src="@drawable/unread_message"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
-                    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-                        android:id="@+id/dialogSenderIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="2dp"
-                        app:shadowSize="@dimen/shadow_paper"/>
+                    <FrameLayout
+                        android:id="@+id/iconLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp">
+
+                        <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
+                            android:id="@+id/dialogSenderIcon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="2dp"
+                            app:shadowSize="@dimen/shadow_paper"
+                            tools:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/typingIcon"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginLeft="-2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_typing"/>
+
+                    </FrameLayout>
                     
                     <ImageView
                         android:id="@+id/attachmentIcon"
@@ -118,16 +134,16 @@
                         android:id="@+id/dialogLastMessage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/dialogSenderIcon"
+                        android:layout_toRightOf="@id/iconLayout"
                         android:layout_toLeftOf="@id/attachmentIcon"
                         android:layout_marginRight="@dimen/space_x2"
                         android:gravity="center_vertical"
                         android:lines="2"
                         android:ellipsize="end"
-                        android:textColor="@color/font_dark_secondary"
+                        android:textColor="@color/m_olive"
                         android:textSize="@dimen/font_mini"
                         app:emojiconSize="@dimen/font_emoji_mini"
-                        tools:text="А я сегодня проехал 60 км! Ужас как устал :( Проткнул колесо в 30 км от города :D"/>
+                        tools:text="Алексей набирает сообщение"/>
 
                 </RelativeLayout>
 

@@ -41,11 +41,13 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
             h.attachmentIcon.visibility = View.GONE
             h.messageImage.visibility = View.GONE
             h.messageText.setTextColor(AppContext.instance.getColor(R.color.m_olive))
+            h.messageTypingImage.visibility = View.VISIBLE
         } else {
             h.messageText.text = lastMessage.text
             h.unreadMessage.visibility = if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
             h.setAttachmentIcon(lastMessage)
             h.messageText.setTextColor(AppContext.instance.getColor(R.color.font_dark_secondary))
+            h.messageTypingImage.visibility = View.GONE
 
             if (dialog.isChat()) {
                 h.messageImage.visibility = View.VISIBLE
