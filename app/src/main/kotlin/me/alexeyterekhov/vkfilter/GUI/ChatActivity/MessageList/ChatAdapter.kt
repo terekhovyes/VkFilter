@@ -116,9 +116,8 @@ class ChatAdapter(
 
             typingHolder.setColors(selected = false)
             typingHolder.typingTint.visibility = View.VISIBLE
-            typingHolder.showMessageSender(isChat)
-            if (isChat)
-                loadUserImage(typingHolder.messageSenderPhoto, typingMessage.senderOrEmpty().photoUrl)
+            typingHolder.showMessageSender(true)
+            loadUserImage(typingHolder.messageSenderPhoto, typingMessage.senderOrEmpty().photoUrl)
             typingHolder.messageText.setTextIsSelectable(false)
             typingHolder.clearMessageAttachments()
             typingHolder.setMessageText(typingMessage.text)
