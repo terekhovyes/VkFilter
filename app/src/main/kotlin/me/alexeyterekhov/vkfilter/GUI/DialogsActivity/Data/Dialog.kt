@@ -12,6 +12,7 @@ class Dialog {
     var lastMessage: Message? = null
     var chatPhotoUrl = ""
     var chatTitle = ""
+    var activityMessage = ""
 
     fun getTitle(): String {
         if (chatTitle != "")
@@ -47,6 +48,7 @@ class Dialog {
         return isSameDialog(other)
                 && other.chatPhotoUrl == chatPhotoUrl
                 && other.chatTitle == chatTitle
+                && other.activityMessage == activityMessage
                 && other.deviceType() == deviceType()
                 && sameMessage(other.lastMessage)
                 && samePartners(other)

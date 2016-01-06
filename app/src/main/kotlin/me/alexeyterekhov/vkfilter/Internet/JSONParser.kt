@@ -83,14 +83,12 @@ public object JSONParser {
         with (event) {
             userId = item.getString(1)
             isChat = item.getInt(0) == 62
-            dialogId = if (isChat) item.getString(2) else userId
+            dialogId = if (isChat) item.getLong(2) else userId.toLong()
         }
         return event
     }
 
     private fun parseMessageReadEvent(item: JSONArray): EventMessageRead {
-        Log.d("debug", "READ MESSAGE EVENT: " + item.toString())
-
         val chatConstant = 2000000000L
         val event = EventMessageRead()
         with (event) {

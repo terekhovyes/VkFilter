@@ -25,7 +25,7 @@ class EventsModule(val activity: ChatActivity) {
 
     public fun onEvent(typingEvent: EventUserTyping) {
         if (activity.launchParameters.isChat() == typingEvent.isChat
-            && activity.launchParameters.dialogId() == typingEvent.dialogId) {
+            && activity.launchParameters.dialogId() == typingEvent.dialogId.toString()) {
             if (cancelTypingRunnables.containsKey(typingEvent.userId)) {
                 val cancelTyping = cancelTypingRunnables[typingEvent.userId]
                 handler.removeCallbacks(cancelTyping)

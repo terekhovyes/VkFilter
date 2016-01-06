@@ -2,6 +2,7 @@ package me.alexeyterekhov.vkfilter.GUI.DialogsActivity.DialogList
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,13 +35,32 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
         val dialog = filteredDialogs.get(position)
         val lastMessage = dialog.lastMessage!!
 
+        if (!TextUtils.isEmpty(dialog.activityMessage)) {
+            h.messageText.text = dialog.activityMessage
+            h.unreadMessage.visibility = View.INVISIBLE
+            h.attachmentIcon.visibility = View.GONE
+            h.messageImage.visibility = View.GONE
+        } else {
+            h.messageText.text = lastMessage.text
+            h.unreadMessage.visibility = if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
+            h.setAttachmentIcon(lastMessage)
+
+            if (dialog.isChat()) {
+                h.messageImage.visibility = View.VISIBLE
+                loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
+            }
+
+            if (!dialog.isChat()) {
+                h.messageImage.visibility = if (lastMessage.isOut) View.VISIBLE else View.GONE
+                if (lastMessage.isOut)
+                    loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
+            }
+        }
+
         // Common content
         h.title.text = dialog.getTitle()
         h.messageDate.text = DateFormat.dialogReceivedDate(lastMessage.sentTimeMillis / 1000L)
-        h.messageText.text = lastMessage.text
         h.unreadBackground.visibility = if (lastMessage.isIn && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
-        h.unreadMessage.visibility = if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
-        h.setAttachmentIcon(lastMessage)
         h.chooseImageLayoutForImageCount(dialog.getImageCount())
         for (i in 0..dialog.getImageCount() - 1)
             loadImage(h.getImageView(i), dialog.getImageUrl(i))
@@ -48,8 +68,6 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
         // Chat content
         if (dialog.isChat()) {
             h.onlineIcon.visibility = View.GONE
-            h.messageImage.visibility = View.VISIBLE
-            loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
         }
 
         // Dialog content
@@ -59,9 +77,6 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
                 Device.MOBILE -> R.drawable.icon_online_mobile
                 Device.DESKTOP -> R.drawable.icon_online
             })
-            h.messageImage.visibility = if (lastMessage.isOut) View.VISIBLE else View.GONE
-            if (lastMessage.isOut)
-                loadImage(h.messageImage, lastMessage.senderOrEmpty().photoUrl)
         }
     }
 
