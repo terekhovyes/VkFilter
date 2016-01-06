@@ -1,7 +1,6 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList
 
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.Message
-import me.alexeyterekhov.vkfilter.Internet.RequestControl
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestReadMessages
+import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
@@ -22,7 +20,7 @@ import kotlin.properties.Delegates
 class ChatAdapter(
         val dialogId: String,
         val isChat: Boolean,
-        val activity: AppCompatActivity
+        val activity: ChatActivity
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         MessageCacheListener
@@ -422,6 +420,6 @@ class ChatAdapter(
     }
     private fun updateAnimationTime() { lastAnimationStartTime = System.currentTimeMillis() }
     private fun readIncomeMessages() {
-        RequestControl addBackground RequestReadMessages(dialogId, isChat)
+        activity.requestModule.readIncomeMessages(forced = false)
     }
 }

@@ -7,10 +7,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogPartners
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMeTyping
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageHistory
-import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageSend
+import me.alexeyterekhov.vkfilter.Internet.Requests.*
 
 class RequestModule(val activity: ChatActivity) {
     companion object {
@@ -99,6 +96,14 @@ class RequestModule(val activity: ChatActivity) {
         if (time - lastTypingTime > TYPING_REQUEST_PERIOD_MILLIS) {
             lastTypingTime = time
             RequestControl.addBackground(RequestMeTyping(
+                    activity.launchParameters.dialogId(),
+                    activity.launchParameters.isChat()))
+        }
+    }
+
+    fun readIncomeMessages(forced: Boolean) {
+        if (!Settings.getGhostModeEnabled() || forced) {
+            RequestControl.addBackground(RequestReadMessages(
                     activity.launchParameters.dialogId(),
                     activity.launchParameters.isChat()))
         }

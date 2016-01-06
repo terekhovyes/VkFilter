@@ -97,6 +97,7 @@ class EditPanelModule(val activity: ChatActivity) {
 
     private fun sendMessage() {
         activity.requestModule.sendMessage(getMessageCache().getEditMessage())
+        activity.requestModule.readIncomeMessages(forced = true)
         fillMessageInput()
         if (autoSending)
             disableAutoSending()

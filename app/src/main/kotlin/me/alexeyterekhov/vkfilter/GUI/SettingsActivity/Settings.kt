@@ -32,7 +32,7 @@ public object Settings {
     }
 
     // Ghost mode
-    fun getGhostModeEnabled(s: SharedPreferences = defaultPreferences()) = s.getBoolean(KEY_GHOST_MODE, true)
+    fun getGhostModeEnabled(s: SharedPreferences = defaultPreferences()) = s.getBoolean(KEY_GHOST_MODE, false)
     fun setGhostModeEnabled(enabled: Boolean, s: SharedPreferences = defaultPreferences()) {
         s
             .edit()
