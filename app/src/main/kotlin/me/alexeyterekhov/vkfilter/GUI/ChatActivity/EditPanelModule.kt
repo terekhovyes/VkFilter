@@ -125,6 +125,8 @@ class EditPanelModule(val activity: ChatActivity) {
                 if (activity.swipePanelModule.isPanelShown())
                     activity.swipePanelModule.hidePanel()
             }
+            if (after.length > before.length)
+                activity.requestModule.showTypingIfNecessary()
         }
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

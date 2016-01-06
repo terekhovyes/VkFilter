@@ -5,8 +5,10 @@ import me.alexeyterekhov.vkfilter.DataCache.Common.DataDependAdapter
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.GUI.SettingsActivity.Settings
 import me.alexeyterekhov.vkfilter.Internet.RequestControl
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestDialogPartners
+import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMeTyping
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageHistory
 import me.alexeyterekhov.vkfilter.Internet.Requests.RequestMessageSend
 
@@ -15,6 +17,7 @@ class RequestModule(val activity: ChatActivity) {
         val LOAD_PORTION = 40
         val LOAD_THRESHOLD = 20
         val MAX_SYMBOLS_IN_MESSAGE = 3000
+        val TYPING_REQUEST_PERIOD_MILLIS = 5000
 
         fun sendMessage(message: Message, id: String, isChat: Boolean, restOfSending: Boolean = false) {
             var restText = ""
@@ -41,6 +44,7 @@ class RequestModule(val activity: ChatActivity) {
         }
     }
 
+    private var lastTypingTime = 0L
     var messageLoading = false
     val messageListener = createCacheListener()
 
@@ -85,6 +89,19 @@ class RequestModule(val activity: ChatActivity) {
                 activity.launchParameters.dialogId(),
                 activity.launchParameters.isChat()
         )
+    }
+
+    fun showTypingIfNecessary() {
+        if (Settings.getGhostModeEnabled())
+            return
+
+        val time = System.currentTimeMillis()
+        if (time - lastTypingTime > TYPING_REQUEST_PERIOD_MILLIS) {
+            lastTypingTime = time
+            RequestControl.addBackground(RequestMeTyping(
+                    activity.launchParameters.dialogId(),
+                    activity.launchParameters.isChat()))
+        }
     }
 
     private fun getMessageCache() = MessageCaches.getCache(
