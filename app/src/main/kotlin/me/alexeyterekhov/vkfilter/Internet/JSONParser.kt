@@ -5,6 +5,7 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.*
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.Internet.LongPoll.LongPollConfig
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
 import org.json.JSONException
@@ -41,6 +42,18 @@ public object JSONParser {
         }
         return info
     }
+    fun parseLongPollConfig(response: JSONObject): LongPollConfig {
+        var config = LongPollConfig()
+
+        with (config) {
+            server = response.getString("server")
+            key = response.getString("key")
+            ts = response.getString("ts")
+        }
+
+        return config
+    }
+    fun parseLongPollTsParam(response: JSONObject) = response.getString("ts")
 
     private fun parseItemUser(item: JSONObject): User {
         val user = User()

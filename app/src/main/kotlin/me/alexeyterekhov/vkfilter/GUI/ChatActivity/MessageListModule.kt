@@ -14,6 +14,7 @@ import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.AttachmentsViewGe
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.ChatAdapter
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
+import me.alexeyterekhov.vkfilter.Internet.LongPoll.LongPollControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -43,12 +44,14 @@ class MessageListModule(val activity: ChatActivity) {
         updateAttachmentGenerator()
         val adapter = getAdapter()!!
         initAdapterData()
-        if (adapter.messages.isNotEmpty() && !Mocker.MOCK_MODE)
+        if (adapter.messages.isNotEmpty() && !Mocker.MOCK_MODE) {
             DialogRefresher.start(
                     activity.launchParameters.dialogId(),
                     activity.launchParameters.isChat(),
                     { activity.refreshIndicatorModule.showDelayed() },
                     { activity.refreshIndicatorModule.hide() })
+        }
+        LongPollControl.start()
     }
 
     fun onRestoreState() {
@@ -70,6 +73,7 @@ class MessageListModule(val activity: ChatActivity) {
     fun onPause() {
         activityIsResumed = false
         DialogRefresher.stop()
+        LongPollControl.stop()
     }
 
     fun onDestroy() {
