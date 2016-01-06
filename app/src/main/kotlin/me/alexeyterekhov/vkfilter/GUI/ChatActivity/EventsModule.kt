@@ -41,6 +41,7 @@ class EventsModule(val activity: ChatActivity) {
                     cancelTypingRunnables.remove(typingEvent.userId)
                 }
 
+                cancelTypingRunnables.put(typingEvent.userId, cancelTyping)
                 activity.listModule.addTypingMessage(typingMessage)
                 handler.postDelayed(cancelTyping, SHOW_TYPING_MILLIS)
             }
