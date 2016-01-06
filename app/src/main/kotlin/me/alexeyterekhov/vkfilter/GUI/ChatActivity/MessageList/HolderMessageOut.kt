@@ -9,10 +9,10 @@ class HolderMessageOut(view: View): HolderMessageBase(view) {
 
     // Colors
     fun setColorsForState(messageState: Int) {
-        sendingTint.setVisibility(if (messageState == Message.STATE_SENDING)
+        sendingTint.visibility = if (messageState == Message.STATE_SENDING)
             View.VISIBLE
         else
-            View.GONE)
+            View.GONE
         messageBody.setBackgroundResource(R.drawable.message_out_background)
         messageTriangle.setBackgroundResource(R.drawable.message_out_triangle)
     }

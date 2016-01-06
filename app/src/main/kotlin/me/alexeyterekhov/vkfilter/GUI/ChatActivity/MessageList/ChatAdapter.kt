@@ -48,6 +48,8 @@ class ChatAdapter(
     val readAnimationMessages = HashSet<Message>()
     val readAnimationStartTime = HashMap<Message, Long>()
 
+    val typingMessages = LinkedList<Message>()
+
     fun messagePosById(id: Long) = messages.indexOfLast { it.sentId == id }
     fun messageById(id: Long) = messages.last { it.sentId == id }
     fun selectMessage(id: Long) {
@@ -79,10 +81,15 @@ class ChatAdapter(
         readIncomeMessages()
     }
 
-    override fun getItemCount() = if (messages.isNotEmpty()) messages.count() + 1 else 0
+    override fun getItemCount() = if (messages.isNotEmpty())
+        messages.count() + typingMessages.count() + 1
+    else
+        0
     override fun getItemViewType(pos: Int) = when {
         pos < messages.count() && messages[pos].isOut -> TYPE_OUT
         pos < messages.count() && messages[pos].isIn -> TYPE_IN
+        typingMessages.isNotEmpty()
+                && pos - messages.count() in 0..typingMessages.count() - 1 -> TYPE_IN
         else -> TYPE_FOOTER
     }
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
@@ -103,6 +110,23 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (getItemViewType(position) == TYPE_FOOTER) {
             val footerHolder = holder as HolderMessageFooter
+        } else if (position >= messages.count()) {
+            val typingHolder = holder as HolderMessageIn
+            val typingMessage = typingMessages[position - messages.count()]
+
+            typingHolder.setColors(selected = false)
+            typingHolder.typingTint.visibility = View.VISIBLE
+            typingHolder.showMessageSender(isChat)
+            if (isChat)
+                loadUserImage(typingHolder.messageSenderPhoto, typingMessage.senderOrEmpty().photoUrl)
+            typingHolder.messageText.setTextIsSelectable(false)
+            typingHolder.clearMessageAttachments()
+            typingHolder.setMessageText(typingMessage.text)
+            typingHolder.setMessageDate("")
+            typingHolder.showTriangle(true)
+            typingHolder.showStrip(false)
+            typingHolder.setUnreadCommon(false)
+            typingHolder.setUnreadAboveMessage(show = true, unread = false)
         } else {
             val baseHolder = holder as HolderMessageBase
             val message = messages[position]
@@ -146,6 +170,7 @@ class ChatAdapter(
                 TYPE_IN -> {
                     val h = baseHolder as HolderMessageIn
                     h.setColors(selected = (selectedMessageIds.contains(message.sentId)))
+                    h.typingTint.visibility = View.INVISIBLE
                 }
                 TYPE_OUT -> {
                     val h = baseHolder as HolderMessageOut
@@ -277,6 +302,22 @@ class ChatAdapter(
         }
     }
 
+    fun addTypingMessage(message: Message) {
+        if (typingMessages.any { it.senderId == message.senderId })
+            return
+
+        typingMessages.add(message)
+        notifyItemInserted(messages.count() + typingMessages.count() - 1)
+    }
+
+    fun removeTypingMessage(senderId: String) {
+        val index = typingMessages.indexOfFirst { it.senderId == senderId }
+        if (index != -1) {
+            typingMessages.removeAt(index)
+            notifyItemRemoved(messages.count() + index)
+        }
+    }
+
     override fun onAddNewMessages(messages: Collection<Message>) {
         var maxIndex = -1
         messages.forEach {
@@ -294,6 +335,7 @@ class ChatAdapter(
                 if (index > maxIndex)
                     maxIndex = index
             }
+            removeTypingMessage(it.senderId)
         }
         if (maxIndex != -1)
             notifyItemChanged(maxIndex + 1)

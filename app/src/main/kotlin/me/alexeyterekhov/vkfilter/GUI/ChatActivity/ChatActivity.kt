@@ -31,6 +31,7 @@ open public class ChatActivity:
     val attachmentsModule = AttachmentsBarModule(this)
     val selectionToolbarModule = SelectionToolbarModule(this)
     val refreshIndicatorModule = RefreshIndicatorModule(this)
+    val eventsModule = EventsModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super<VkActivity>.onCreate(savedInstanceState)
@@ -57,10 +58,12 @@ open public class ChatActivity:
         listModule.onResume()
         actionBarModule.onResume()
         swipePanelModule.onResume()
+        eventsModule.onResume()
         NotificationCollector.removeNotification(AppContext.instance, launchParameters.dialogId(), launchParameters.isChat())
     }
     override fun onPause() {
         super<VkActivity>.onPause()
+        eventsModule.onPause()
         listModule.onPause()
         actionBarModule.onPause()
     }

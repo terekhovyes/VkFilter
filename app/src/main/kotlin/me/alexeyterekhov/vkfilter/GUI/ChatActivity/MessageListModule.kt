@@ -14,7 +14,6 @@ import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.AttachmentsViewGe
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.ChatAdapter
 import me.alexeyterekhov.vkfilter.GUI.Mock.Mocker
 import me.alexeyterekhov.vkfilter.Internet.DialogRefresher
-import me.alexeyterekhov.vkfilter.Internet.LongPoll.LongPollControl
 import me.alexeyterekhov.vkfilter.LibClasses.EndlessScrollNew
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -51,7 +50,6 @@ class MessageListModule(val activity: ChatActivity) {
                     { activity.refreshIndicatorModule.showDelayed() },
                     { activity.refreshIndicatorModule.hide() })
         }
-        LongPollControl.start()
     }
 
     fun onRestoreState() {
@@ -73,12 +71,23 @@ class MessageListModule(val activity: ChatActivity) {
     fun onPause() {
         activityIsResumed = false
         DialogRefresher.stop()
-        LongPollControl.stop()
     }
 
     fun onDestroy() {
         getCache().listeners.remove(messageListener)
         UserCache.listeners.remove(userListener)
+    }
+
+    fun addTypingMessage(message: Message) {
+        val adapter = getAdapter()!!
+        val atBottom = isAtBottom()
+        adapter.addTypingMessage(message)
+        if (atBottom)
+            scrollDown()
+    }
+    fun removeTypingMessage(senderId: String) {
+        val adapter = getAdapter()!!
+        adapter.removeTypingMessage(senderId)
     }
 
     fun getList() = (activity.findViewById(R.id.messageList)) as RecyclerView

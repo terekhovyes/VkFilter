@@ -98,6 +98,14 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/messageTypingTint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/ui_msg_sending_tint"
+                android:visibility="gone"
+                />
+
             <FrameLayout
                 android:id="@+id/messageTopSelector"
                 android:layout_width="match_parent"
@@ -109,126 +117,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <include layout="@layout/message_day"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/messageBack"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@color/ui_msg_unread"/>
-
-            <ImageView
-                android:id="@+id/backSelector"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_half"
-                android:orientation="vertical">
-
-                <Space
-                    android:id="@+id/spaceAbove"
-                    android:layout_width="1dp"
-                    android:layout_height="@dimen/space_x2" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingRight="@dimen/space">
-
-                    <me.alexeyterekhov.vkfilter.GUI.Common.RoundImageView
-                        android:id="@+id/senderPhoto"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/space_x2"
-                        android:src="@drawable/icon_user_stub"
-                        app:shadowSize="@dimen/shadow_paper"/>
-
-                    <ImageView
-                        android:id="@+id/messageTriangle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="-20dp"
-                        android:background="@drawable/message_in_triangle"/>
-
-                    <LinearLayout
-                        android:id="@+id/messageContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="30dp"
-                        android:layout_marginRight="37dp"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space"
-                        android:gravity="center"
-                        android:background="@drawable/message_in_background">
-
-                        <me.alexeyterekhov.vkfilter.GUI.Common.TightTextView
-                            android:id="@+id/messageText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-2dp"
-                            android:layout_gravity="left"
-                            android:textSize="@dimen/font_normal"
-                            app:emojiconSize="@dimen/font_emoji"
-                            android:textColor="@color/ui_msg_font"
-                            android:textColorLink="@color/font_link"
-                            android:linksClickable="true"
-                            android:autoLink="web|email"
-                            tools:text="Привет!"/>
-
-                        <LinearLayout
-                            android:id="@+id/attachmentsLayout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="-32dp"
-                        android:gravity="center"
-                        android:textSize="@dimen/font_micro"
-                        android:textColor="@color/font_dark_tertiary"
-                        tools:text="18:05"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/topSelector"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
--->

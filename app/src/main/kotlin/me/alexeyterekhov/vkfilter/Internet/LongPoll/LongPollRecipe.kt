@@ -37,6 +37,9 @@ object LongPollRecipe {
         Log.d(LOG_TAG, "LongPoll request complete")
 
         val newTs = JSONParser.parseLongPollTsParam(json)
+        val events = JSONParser.parseLongPollEvents(json.getJSONArray("updates"))
+
+        events.forEach { LongPollControl.eventBus().post(it) }
         LongPollControl.loop(newTs)
     }
 

@@ -6,6 +6,7 @@ import me.alexeyterekhov.vkfilter.R
 
 class HolderMessageIn(view: View): HolderMessageBase(view) {
     val messageSenderPhoto = view.findViewById(R.id.messageSenderPhoto) as ImageView
+    val typingTint = view.findViewById(R.id.messageTypingTint)
 
     fun showMessageSender(show: Boolean) = messageSenderPhoto.setVisibility(if (show) View.VISIBLE else View.GONE)
     fun setColors(selected: Boolean) {

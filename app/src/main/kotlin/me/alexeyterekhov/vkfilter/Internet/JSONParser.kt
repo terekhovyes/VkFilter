@@ -5,6 +5,8 @@ import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.*
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
+import me.alexeyterekhov.vkfilter.Internet.Events.EventBase
+import me.alexeyterekhov.vkfilter.Internet.Events.EventUserTyping
 import me.alexeyterekhov.vkfilter.Internet.LongPoll.LongPollConfig
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
 import org.json.JSONArray
@@ -18,6 +20,12 @@ public object JSONParser {
         val list = LinkedList<JSONObject>()
         for (i in 0..this.length() - 1)
             list.add(this.getJSONObject(i))
+        return list
+    }
+    private fun JSONArray.asListOfJSONArrays(): List<JSONArray> {
+        val list = LinkedList<JSONArray>()
+        for (i in 0..this.length() - 1)
+            list.add(this.getJSONArray(i))
         return list
     }
 
@@ -54,6 +62,29 @@ public object JSONParser {
         return config
     }
     fun parseLongPollTsParam(response: JSONObject) = response.getString("ts")
+    fun parseLongPollEvents(eventArray: JSONArray): List<EventBase> {
+        val events = LinkedList<EventBase>()
+
+        eventArray.asListOfJSONArrays().forEach { eventItem ->
+            val eventId = eventItem.getInt(0)
+
+            when (eventId) {
+                61, 62 -> events.add(parseUserTypingEvent(eventItem))
+            }
+        }
+
+        return events
+    }
+
+    private fun parseUserTypingEvent(item: JSONArray): EventUserTyping {
+        val event = EventUserTyping()
+        with (event) {
+            userId = item.getString(1)
+            isChat = item.getInt(0) == 62
+            dialogId = if (isChat) item.getString(2) else userId
+        }
+        return event
+    }
 
     private fun parseItemUser(item: JSONObject): User {
         val user = User()
