@@ -5,7 +5,7 @@
     <color name="m_blue">#52A9BD</color>
     <color name="m_red">#E5675D</color>
     <color name="m_olive">#91CC62</color>
-    <color name="m_peachy">#DAB3A6</color>
+    <color name="m_peachy">#DACC67</color>
     <color name="m_yellow">#FFFFE1</color>
     <color name="m_black">#444444</color>
     <color name="m_white">#F0F0F0</color>
@@ -19,7 +19,7 @@
     <color name="m_green_opacity70">#B3009688</color>
     <color name="m_blue_opacity75">#BF52A9BD</color>
     <color name="m_olive_opacity80">#CC91CC62</color>
-    <color name="m_peachy_dark">#C88D7A</color>
+    <color name="m_peachy_dark">#DA9F55</color>
     <color name="m_black_opacity07">#11444444</color>
     <color name="m_black_opacity30">#4D444444</color>
     <color name="m_black_opacity60">#99444444</color>
