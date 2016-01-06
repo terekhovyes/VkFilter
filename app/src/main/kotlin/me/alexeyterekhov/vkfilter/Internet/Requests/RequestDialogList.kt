@@ -27,8 +27,17 @@ class RequestDialogList(val offset: Int, val count: Int) : Request("execute.deta
         mergedList.addAll(prevSnap.dialogs.subList(0, offset))
         mergedList.addAll(dialogs)
         val newSnap = DialogListSnapshot(System.currentTimeMillis(), mergedList)
+        copyActivityMessages(newSnap.dialogs, prevSnap.dialogs)
 
         DialogListCache updateSnapshot newSnap
         UserCache.dataUpdated()
+    }
+
+    private fun copyActivityMessages(newList: List<Dialog>, oldList: List<Dialog>) {
+        newList.forEach { newDialog ->
+            val oldDialog = oldList.firstOrNull { it.isSameDialog(newDialog) }
+            if (oldDialog != null && oldDialog.lastMessage!!.sentId == newDialog.lastMessage!!.sentId)
+                newDialog.activityMessage = oldDialog.activityMessage
+        }
     }
 }
