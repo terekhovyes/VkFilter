@@ -102,6 +102,11 @@ open public class ChatActivity:
         uploadModule.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        swipePanelModule.onRequestPermissions(requestCode)
+    }
+
     override fun onEmojiconBackspaceClicked(v: View?) = emojiconModule.onEmojiconBackspaceClicked(v)
     override fun onEmojiconClicked(emoji: Emojicon?) = emojiconModule.onEmojiconClicked(emoji)
 }

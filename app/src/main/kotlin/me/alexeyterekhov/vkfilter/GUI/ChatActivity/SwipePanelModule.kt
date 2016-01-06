@@ -1,10 +1,14 @@
 package me.alexeyterekhov.vkfilter.GUI.ChatActivity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
@@ -22,6 +26,9 @@ class SwipePanelModule(val activity: ChatActivity) {
 
     private var demonstratePanel = false
     private val OPENINGS_COUNT = 5
+
+    private val CODE_DISK_PERMISSIONS_CAMERA = 10
+    private val CODE_DISK_PERMISSIONS_GALLERY = 12
 
     val closeSwipePanelAction: (() -> Unit) = {
         if (activity.emojiconModule.isEmojiconPanelShown())
@@ -109,6 +116,15 @@ class SwipePanelModule(val activity: ChatActivity) {
         if (bundle != null) {
             if (isPanelShown())
                 bundle.putBoolean(KEY_PANEL_OPENED, true)
+        }
+    }
+    fun onRequestPermissions(requestCode: Int) {
+        if (requestCode == CODE_DISK_PERMISSIONS_CAMERA) {
+            if (canWriteDisk())
+                callCamera()
+        } else if (requestCode == CODE_DISK_PERMISSIONS_GALLERY) {
+            if (canWriteDisk())
+                callGallery()
         }
     }
 
@@ -214,23 +230,43 @@ class SwipePanelModule(val activity: ChatActivity) {
     }
 
     private fun callGallery() {
-        val pickPhotoIntent = Intent()
-        pickPhotoIntent.setType("image/*")
-        pickPhotoIntent.setAction(Intent.ACTION_GET_CONTENT)
-        pickPhotoIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-        activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.chat_intent_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
+        if (!canWriteDisk()) {
+            requestDiskPermissions(CODE_DISK_PERMISSIONS_GALLERY)
+        } else {
+            val pickPhotoIntent = Intent()
+            pickPhotoIntent.setType("image/*")
+            pickPhotoIntent.setAction(Intent.ACTION_GET_CONTENT)
+            pickPhotoIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+            activity.startActivityForResult(Intent.createChooser(pickPhotoIntent, activity.getString(R.string.chat_intent_choose_photo)), UploadModule.CODE_CHOOSE_IMAGES)
+        }
     }
 
     private fun callCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        // Check is intent safe for invoking
-        if (cameraIntent.resolveActivity(activity.packageManager) != null) {
-            val file = FileUtils.createFileForPhoto()
-            if (file != null) {
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
-                activity.uploadModule.cameraFile = file
-                activity.startActivityForResult(cameraIntent, UploadModule.CODE_CAMERA)
+        if (!canWriteDisk()) {
+            requestDiskPermissions(CODE_DISK_PERMISSIONS_CAMERA)
+        } else {
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            // Check is intent safe for invoking
+            if (cameraIntent.resolveActivity(activity.packageManager) != null) {
+                val file = FileUtils.createFileForPhoto()
+                if (file != null) {
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+                    activity.uploadModule.cameraFile = file
+                    activity.startActivityForResult(cameraIntent, UploadModule.CODE_CAMERA)
+                }
             }
         }
+    }
+
+    private fun canWriteDisk(): Boolean {
+        val result = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestDiskPermissions(requestCode: Int) {
+        ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                requestCode)
     }
 }
