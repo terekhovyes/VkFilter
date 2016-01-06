@@ -2,172 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-076362bec5d237ab9a3b011078be7e07e76401b9.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-0f135c9fbb52e877994ddbd9bc3995cd3f5a7e23.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.4.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-99e1ba4876d8ae714b493d10242bedba1f9150f4.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.0.0-beta-4584/96b200cb46deae0cbfc005a2b949e4c3b43e7cf1/kotlin-stdlib-1.0.0-beta-4584.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="96b200cb46deae0cbfc005a2b949e4c3b43e7cf1">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/kotlin-stdlib-1.0.0-beta-4584-01d615ea3ff95fb5959960a787268f63ca41f14d.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-6dc29ddca1b9ec9bcfc6cbe58d2375019221a37c.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.github.ozodrukh/CircularReveal/1.0.4/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="2cab73220b7562f9ba348863cc648ccbb8266703">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-61ff679ed52354f23467b8c8e6020f53ab5d79d8.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="7912610ed96381c25c36d986eba422731b9641b6">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-6e79490873fdc07e15d55013e4a93c016a103a37.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-04151cc73c4be4a4aad200cf57222df09851b2f9.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.rockerhieu.emojicon/library/1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a1549c8a93586b5977dcd4e1103e2fd08893c31c">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-26cefd8c2e9019b1c5c432389d04c233b7092131.jar" />
-    </item>
-    <item
         jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
         <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-4cd99226b44167592ccab613a5fe57be93f4b8a2.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-892d85f5e877f42054ecbafdf08f193b4c1746e9.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.github.kanytu/android-parallax-recyclerview/v1.2/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="83c6e3255b272d078a4fa1618cfcca32a77aa36c">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-5e81ba561ef77b953fb1282f10c666898d7a5177.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-2be0ddbbffad4bbdd2b824de29233824d33ada85.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/org.lucasr.twowayview/core/1.0.0-SNAPSHOT/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0e4aeef9346f143a3595ccfd591290f5d4bca18a">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-3918f272edce1957db26c1f45241a76787afe53b.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.7.6.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1c83e45c56a824bc54f276b2fa071f1914cceba7">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-bf9fbd18144f0b4c6d1be1df8553e5cd84421940.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.vk/androidsdk/1.6.3/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a19b5438a3697cc8fc817253f43bebfc1967145f">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-67df6e08213cf4bf299e6170d907e76ffdd1b56c.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.4.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-235fabb24410e74745b1f10ae38913565d5909f6.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-a19fd6d4ef254ddae1aa86043986c324959ee3c1.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/de.greenrobot/eventbus/2.4.0/ddd166d01b3158d1c00576d29f7ed15c030df719/eventbus-2.4.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="ddd166d01b3158d1c00576d29f7ed15c030df719">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/eventbus-2.4.0-0d7acd80fc2fc70c0102145c75c87ddb11706322.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/com.michaelpardo/activeandroid/3.1.0-SNAPSHOT/4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08/activeandroid-3.1.0-SNAPSHOT.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/activeandroid-3.1.0-SNAPSHOT-fbdb04b1c38cf6cbde520adf60f75830824006aa.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/library-2.4.0-1d0e018e4ffdfc09330b64e5c4567ab660df6b8f.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-411b7df2807e24f292e457f10192a8f6ceb097aa.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-runtime/1.0.0-beta-4584/1dfc3d47ade4c45dc6db8ee6f5bf65771fab3dce/kotlin-runtime-1.0.0-beta-4584.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1dfc3d47ade4c45dc6db8ee6f5bf65771fab3dce">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/kotlin-runtime-1.0.0-beta-4584-9c6e12a8687b82cfd2533b6e10c51e6e34bfaea8.jar" />
-    </item>
-    <item
-        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/it.sephiroth.android.library.easing/android-easing/1.0.3/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="90c8cd98f8c1cd37285d7bf9ea5a9ec6df3a99b6">
-        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-549ff46687e2f1796c5ff67dc71923e9a5698c3e.jar" />
     </item>
     <item
         jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/VkFilter.app.libprojs/DragSortRecycler/unspecified/jars/classes.jar"
@@ -177,6 +16,48 @@
         <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-24b33fb88bbe6b34dfe7e0f196f37e89d399c24c.jar" />
     </item>
     <item
+        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/library-2.4.0-1d0e018e4ffdfc09330b64e5c4567ab660df6b8f.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/com.michaelpardo/activeandroid/3.1.0-SNAPSHOT/4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08/activeandroid-3.1.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/activeandroid-3.1.0-SNAPSHOT-fbdb04b1c38cf6cbde520adf60f75830824006aa.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-runtime/1.0.0-beta-4584/1dfc3d47ade4c45dc6db8ee6f5bf65771fab3dce/kotlin-runtime-1.0.0-beta-4584.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1dfc3d47ade4c45dc6db8ee6f5bf65771fab3dce">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/kotlin-runtime-1.0.0-beta-4584-9c6e12a8687b82cfd2533b6e10c51e6e34bfaea8.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-235fabb24410e74745b1f10ae38913565d5909f6.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/org.lucasr.twowayview/core/1.0.0-SNAPSHOT/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0e4aeef9346f143a3595ccfd591290f5d4bca18a">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-3918f272edce1957db26c1f45241a76787afe53b.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-411b7df2807e24f292e457f10192a8f6ceb097aa.jar" />
+    </item>
+    <item
         jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/it.sephiroth.android.library.imagezoom/imagezoom/1.0.5/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -184,11 +65,130 @@
         <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-947c760bf0ecae09736f8524154fd6e393f699fa.jar" />
     </item>
     <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-892d85f5e877f42054ecbafdf08f193b4c1746e9.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.0.0-beta-4584/96b200cb46deae0cbfc005a2b949e4c3b43e7cf1/kotlin-stdlib-1.0.0-beta-4584.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="96b200cb46deae0cbfc005a2b949e4c3b43e7cf1">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/kotlin-stdlib-1.0.0-beta-4584-01d615ea3ff95fb5959960a787268f63ca41f14d.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/de.greenrobot/eventbus/2.4.0/ddd166d01b3158d1c00576d29f7ed15c030df719/eventbus-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ddd166d01b3158d1c00576d29f7ed15c030df719">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/eventbus-2.4.0-0d7acd80fc2fc70c0102145c75c87ddb11706322.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-076362bec5d237ab9a3b011078be7e07e76401b9.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.github.kanytu/android-parallax-recyclerview/v1.2/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="83c6e3255b272d078a4fa1618cfcca32a77aa36c">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-5e81ba561ef77b953fb1282f10c666898d7a5177.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-99e1ba4876d8ae714b493d10242bedba1f9150f4.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.vk/androidsdk/1.6.3/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a19b5438a3697cc8fc817253f43bebfc1967145f">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-67df6e08213cf4bf299e6170d907e76ffdd1b56c.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-04151cc73c4be4a4aad200cf57222df09851b2f9.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7912610ed96381c25c36d986eba422731b9641b6">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-6e79490873fdc07e15d55013e4a93c016a103a37.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.rockerhieu.emojicon/library/1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a1549c8a93586b5977dcd4e1103e2fd08893c31c">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-26cefd8c2e9019b1c5c432389d04c233b7092131.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-2be0ddbbffad4bbdd2b824de29233824d33ada85.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-6dc29ddca1b9ec9bcfc6cbe58d2375019221a37c.jar" />
+    </item>
+    <item
         jar="/Users/alexey/.gradle/caches/modules-2/files-2.1/com.nostra13.universalimageloader/universal-image-loader/1.9.3/a85588bec3e2c4584d593d3f15df1677321bca72/universal-image-loader-1.9.3.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
         <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.3-8b2cfa14f63576b039c5bfe7df1039e94c96c471.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-a19fd6d4ef254ddae1aa86043986c324959ee3c1.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-0f135c9fbb52e877994ddbd9bc3995cd3f5a7e23.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.github.ozodrukh/CircularReveal/1.0.4/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2cab73220b7562f9ba348863cc648ccbb8266703">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-61ff679ed52354f23467b8c8e6020f53ab5d79d8.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/it.sephiroth.android.library.easing/android-easing/1.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="90c8cd98f8c1cd37285d7bf9ea5a9ec6df3a99b6">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-549ff46687e2f1796c5ff67dc71923e9a5698c3e.jar" />
+    </item>
+    <item
+        jar="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.7.6.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1c83e45c56a824bc54f276b2fa071f1914cceba7">
+        <dex dex="/Users/alexey/Development/Android/VkFilter_all/VkFilter/app/build/intermediates/pre-dexed/debug/classes-bf9fbd18144f0b4c6d1be1df8553e5cd84421940.jar" />
     </item>
 
 </items>
