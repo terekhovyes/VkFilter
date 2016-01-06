@@ -30,4 +30,16 @@ class Message(val senderId: String) {
     val attachments = Attachments()
 
     fun senderOrEmpty(): User = UserCache.getUser(senderId) ?: User()
+
+    fun copy(): Message {
+        val copy = Message(senderId)
+        copy.sentState = sentState
+        copy.sentId = sentId
+        copy.sentTimeMillis = sentTimeMillis
+        copy.isRead = isRead
+        copy.isOut = isOut
+        copy.text = text
+        copy.attachments.copyFrom(attachments)
+        return copy
+    }
 }

@@ -6,6 +6,7 @@ import me.alexeyterekhov.vkfilter.DataClasses.*
 import me.alexeyterekhov.vkfilter.DataClasses.Attachments.*
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.Internet.Events.EventBase
+import me.alexeyterekhov.vkfilter.Internet.Events.EventMessageRead
 import me.alexeyterekhov.vkfilter.Internet.Events.EventUserTyping
 import me.alexeyterekhov.vkfilter.Internet.LongPoll.LongPollConfig
 import me.alexeyterekhov.vkfilter.NotificationService.NotificationInfo
@@ -70,6 +71,7 @@ public object JSONParser {
 
             when (eventId) {
                 61, 62 -> events.add(parseUserTypingEvent(eventItem))
+                6, 7 -> events.add(parseMessageReadEvent(eventItem))
             }
         }
 
@@ -82,6 +84,23 @@ public object JSONParser {
             userId = item.getString(1)
             isChat = item.getInt(0) == 62
             dialogId = if (isChat) item.getString(2) else userId
+        }
+        return event
+    }
+
+    private fun parseMessageReadEvent(item: JSONArray): EventMessageRead {
+        Log.d("debug", "READ MESSAGE EVENT: " + item.toString())
+
+        val chatConstant = 2000000000L
+        val event = EventMessageRead()
+        with (event) {
+            lastMessageId = item.getLong(2)
+            incomes = item.getInt(0) == 6
+            isChat = item.getLong(1) > chatConstant
+            dialogId = if (isChat)
+                item.getLong(1) - chatConstant
+            else
+                item.getLong(1)
         }
         return event
     }

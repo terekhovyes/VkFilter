@@ -52,6 +52,16 @@ class Dialog {
                 && samePartners(other)
     }
 
+    fun copy(): Dialog {
+        val copy = Dialog()
+        copy.id = id
+        copy.partners.addAll(partners.map { it.copy() })
+        copy.lastMessage = lastMessage?.copy()
+        copy.chatPhotoUrl = chatPhotoUrl
+        copy.chatTitle = chatTitle
+        return copy
+    }
+
     private fun sameMessage(other: Message?): Boolean {
         return (other == null && lastMessage == null)
                 || (other != null && lastMessage != null

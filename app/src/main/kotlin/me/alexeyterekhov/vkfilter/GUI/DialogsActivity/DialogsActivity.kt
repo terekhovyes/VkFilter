@@ -20,6 +20,7 @@ open class DialogsActivity: VkActivity() {
     val filterPanelModule = FilterPanelModule(this)
     val requestModule = RequestModule(this)
     val navigationModule = NavigationModule(this, { super<VkActivity>.toLoginActivity() })
+    val eventsModule = EventsModule(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,7 @@ open class DialogsActivity: VkActivity() {
         refreshModule.onResume()
         navigationModule.onResume()
         NotificationCollector.removeAllNotifications(AppContext.instance)
+        eventsModule.onResume()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -51,6 +53,7 @@ open class DialogsActivity: VkActivity() {
 
     override fun onPause() {
         super.onPause()
+        eventsModule.onPause()
         navigationModule.onPause()
         refreshModule.onPause()
         toolbarModule.onPause()

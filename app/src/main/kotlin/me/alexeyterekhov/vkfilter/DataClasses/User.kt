@@ -9,4 +9,17 @@ class User {
     var isOnline: Boolean = false
     var lastOnlineTime: Long = 0
     var deviceType: Device = Device.DESKTOP
+
+    fun copy(): User {
+        val copy = User()
+        copy.id = id
+        copy.firstName = firstName
+        copy.lastName = lastName
+        copy.sex = sex
+        copy.photoUrl = photoUrl
+        copy.isOnline = isOnline
+        copy.lastOnlineTime = lastOnlineTime
+        copy.deviceType = deviceType
+        return copy
+    }
 }

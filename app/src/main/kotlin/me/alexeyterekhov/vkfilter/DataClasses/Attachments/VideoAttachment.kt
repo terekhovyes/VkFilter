@@ -8,4 +8,15 @@ class VideoAttachment(
         var playerUrl: String
 ) {
     var requestKey = ""
+
+    fun copy(): VideoAttachment {
+        val copy = VideoAttachment(
+                id,
+                title,
+                durationSec,
+                previewUrl,
+                playerUrl)
+        copy.requestKey = requestKey
+        return copy
+    }
 }
