@@ -200,6 +200,8 @@ public class ImageProgressBar: ImageView {
         }
     }
     private fun drawButton(canvas: Canvas) {
+        val saveId = canvas.save()
+
         val butX = computeButtonCenterX()
         val butY = computeButtonCenterY()
         val butRad = computeButtonRadius()
@@ -225,7 +227,8 @@ public class ImageProgressBar: ImageView {
                 butY + butRad * 0.6f,
                 paintCross
         )
-        canvas.restore()
+
+        canvas.restoreToCount(saveId)
     }
 
     private fun computeCenterX() = width / 2f
