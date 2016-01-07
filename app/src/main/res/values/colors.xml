@@ -51,7 +51,7 @@
     <color name="ui_msg_selected">@color/m_peachy</color>
     <color name="ui_msg_selected_toolbar">@color/m_peachy_dark</color>
     <color name="ui_msg_unread">@color/m_green_very_light</color>
-    <color name="ui_msg_sending_tint">@color/m_white_opacity80</color>
+    <color name="ui_msg_sending_tint">@color/m_white_opacity55</color>
     <color name="ui_msg_font">@color/m_white_absolute</color>
 
     <color name="ui_refresh1">@color/m_green_opacity70</color>

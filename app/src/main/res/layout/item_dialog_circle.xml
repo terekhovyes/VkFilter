@@ -108,9 +108,9 @@
 
                         <ImageView
                             android:id="@+id/typingIcon"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_marginLeft="-2dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="2dp"
                             android:layout_marginRight="2dp"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_typing"/>
