@@ -42,6 +42,7 @@ open class DialogsActivity: VkActivity() {
         toolbarModule.onResume()
         refreshModule.onResume()
         navigationModule.onResume()
+        filterPanelModule.onResume()
         NotificationCollector.removeAllNotifications(AppContext.instance)
         eventsModule.onResume()
     }

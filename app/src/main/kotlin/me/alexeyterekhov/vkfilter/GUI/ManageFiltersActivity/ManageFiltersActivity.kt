@@ -37,6 +37,8 @@ public class ManageFiltersActivity: VkActivity() {
     }
 
     private var selectionMode = false
+    private val handler = Handler()
+    private val runnableSet = HashSet<Runnable>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,15 +116,21 @@ public class ManageFiltersActivity: VkActivity() {
         with (findViewById(R.id.manageFilterButton) as FloatingActionButton) {
             setOnClickListener {
                 if (selectionMode) {
-                    val handler = Handler()
                     val temporaryRemoved = adapter.removeSelected()
-                    val deleteAction = Runnable { deleteFilters(temporaryRemoved) }
+                    val deleteAction = object : Runnable {
+                        override fun run() {
+                            deleteFilters(temporaryRemoved)
+                            runnableSet.remove(this)
+                        }
+                    }
                     handler.postDelayed(deleteAction, 3500)
+                    runnableSet.add(deleteAction)
                     val title = getString(R.string.manage_filters_deleted) + " ${temporaryRemoved.size}"
                     Snackbar
                             .make(this, title, Snackbar.LENGTH_LONG)
                             .setAction(R.string.manage_filters_cancel, { view ->
                                 handler.removeCallbacks(deleteAction)
+                                runnableSet.remove(deleteAction)
                                 addFiltersToAdapter(temporaryRemoved)
                             })
                             .show()
@@ -185,6 +193,14 @@ public class ManageFiltersActivity: VkActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        runnableSet.forEach {
+            handler.removeCallbacks(it)
+            it.run()
+        }
+        super.onBackPressed()
     }
 
     private fun refreshList() {
