@@ -65,6 +65,7 @@ class SelectionToolbarModule(val activity: ChatActivity) {
                         .makeText(activity, R.string.chat_toast_message_has_been_copied, Toast.LENGTH_SHORT)
                         .show()
                 adapter.deselectAllMessages()
+                activity.onBackPressed()
             }
         }
         toolbar.findViewById(R.id.buttonHide).setOnClickListener {
