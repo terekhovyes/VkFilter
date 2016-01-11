@@ -20,7 +20,7 @@ object AnimationUtil {
                 TranslateAnimation.RELATIVE_TO_SELF, 0f)
         translation.fillAfter = true
         translation.isFillEnabled = true
-        translation.duration = 1000
+        translation.duration = 800
         translation.interpolator = LinearInterpolator()
 
         val returning = TranslateAnimation(
