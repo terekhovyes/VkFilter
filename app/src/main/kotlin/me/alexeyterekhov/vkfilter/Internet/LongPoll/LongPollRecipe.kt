@@ -34,13 +34,23 @@ object LongPollRecipe {
     }
 
     private fun serveJson(json: JSONObject) {
-        Log.d(LOG_TAG, "LongPoll request complete")
+        Log.d(LOG_TAG, "LongPoll request complete: " + json.toString())
 
-        val newTs = JSONParser.parseLongPollTsParam(json)
-        val events = JSONParser.parseLongPollEvents(json.getJSONArray("updates"))
+        val fail = JSONParser.parseLongPollFailParam(json)
+        if (fail != null) {
+            if (fail.toInt() == 1) {
+                val newTs = JSONParser.parseLongPollTsParam(json)
+                LongPollControl.loop(newTs)
+            } else {
+                LongPollControl.start()
+            }
+        } else {
+            val newTs = JSONParser.parseLongPollTsParam(json)
+            val events = JSONParser.parseLongPollEvents(json.getJSONArray("updates"))
 
-        events.forEach { LongPollControl.eventBus().post(it) }
-        LongPollControl.loop(newTs)
+            events.forEach { LongPollControl.eventBus().post(it) }
+            LongPollControl.loop(newTs)
+        }
     }
 
     private fun cleanUpErrors(url: String, e: Exception) {
