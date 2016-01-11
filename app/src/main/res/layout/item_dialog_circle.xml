@@ -108,11 +108,13 @@
 
                         <ImageView
                             android:id="@+id/typingIcon"
-                            android:layout_width="20dp"
+                            android:layout_width="30dp"
                             android:layout_height="20dp"
                             android:layout_marginBottom="2dp"
                             android:layout_marginRight="2dp"
                             android:layout_gravity="center_vertical"
+                            android:scaleType="fitStart"
+                            android:alpha="0.5"
                             android:src="@drawable/ic_typing"/>
 
                     </FrameLayout>
@@ -140,7 +142,7 @@
                         android:gravity="center_vertical"
                         android:lines="2"
                         android:ellipsize="end"
-                        android:textColor="@color/m_olive"
+                        android:textColor="@color/font_dark_secondary"
                         android:textSize="@dimen/font_mini"
                         app:emojiconSize="@dimen/font_emoji_mini"
                         tools:text="Алексей набирает сообщение"/>

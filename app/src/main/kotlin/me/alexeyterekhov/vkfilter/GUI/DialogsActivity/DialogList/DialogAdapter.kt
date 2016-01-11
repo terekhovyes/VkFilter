@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.DialogListCache
 import me.alexeyterekhov.vkfilter.DataClasses.Device
 import me.alexeyterekhov.vkfilter.Database.DAOFilters
+import me.alexeyterekhov.vkfilter.GUI.Common.AnimationUtil
 import me.alexeyterekhov.vkfilter.GUI.DialogsActivity.Data.Dialog
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.AppContext
@@ -40,13 +41,12 @@ class DialogAdapter(val list: RecyclerView) : RecyclerView.Adapter<DialogHolder>
             h.unreadMessage.visibility = View.INVISIBLE
             h.attachmentIcon.visibility = View.GONE
             h.messageImage.visibility = View.GONE
-            h.messageText.setTextColor(AppContext.instance.getColor(R.color.m_olive))
             h.messageTypingImage.visibility = View.VISIBLE
+            AnimationUtil.typingAnimationWhileVisible(h.messageTypingImage)
         } else {
             h.messageText.text = lastMessage.text
             h.unreadMessage.visibility = if (lastMessage.isOut && lastMessage.isNotRead) View.VISIBLE else View.INVISIBLE
             h.setAttachmentIcon(lastMessage)
-            h.messageText.setTextColor(AppContext.instance.getColor(R.color.font_dark_secondary))
             h.messageTypingImage.visibility = View.GONE
 
             if (dialog.isChat()) {
