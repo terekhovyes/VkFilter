@@ -28,6 +28,7 @@ class ChatAdapter(
     val TYPE_IN = 1
     val TYPE_OUT = 2
     val TYPE_FOOTER = 3
+    val TYPE_TYPING = 4
 
     val READ_DURATION = 250L
     val READ_OFFSET = 1000L
@@ -87,7 +88,7 @@ class ChatAdapter(
         pos < messages.count() && messages[pos].isOut -> TYPE_OUT
         pos < messages.count() && messages[pos].isIn -> TYPE_IN
         typingMessages.isNotEmpty()
-                && pos - messages.count() in 0..typingMessages.count() - 1 -> TYPE_IN
+                && pos - messages.count() in 0..typingMessages.count() - 1 -> TYPE_TYPING
         else -> TYPE_FOOTER
     }
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
@@ -95,6 +96,7 @@ class ChatAdapter(
             TYPE_IN -> R.layout.message_in
             TYPE_OUT -> R.layout.message_out
             TYPE_FOOTER -> R.layout.message_footer
+            TYPE_TYPING -> R.layout.message_typing
             else -> throw Exception("WRONG ITEM TYPE")
         }
         val view = inflater.inflate(res, parent, false)
@@ -102,6 +104,7 @@ class ChatAdapter(
             TYPE_IN -> HolderMessageIn(view)
             TYPE_OUT -> HolderMessageOut(view)
             TYPE_FOOTER -> HolderMessageFooter(view)
+            TYPE_TYPING -> HolderMessageTyping(view)
             else -> throw Exception("WRONG ITEM TYPE")
         }
     }
@@ -109,21 +112,10 @@ class ChatAdapter(
         if (getItemViewType(position) == TYPE_FOOTER) {
             val footerHolder = holder as HolderMessageFooter
         } else if (position >= messages.count()) {
-            val typingHolder = holder as HolderMessageIn
+            val typingHolder = holder as HolderMessageTyping
             val typingMessage = typingMessages[position - messages.count()]
-
-            typingHolder.setColors(selected = false)
-            typingHolder.typingTint.visibility = View.VISIBLE
-            typingHolder.showMessageSender(true)
-            loadUserImage(typingHolder.messageSenderPhoto, typingMessage.senderOrEmpty().photoUrl)
-            typingHolder.messageText.setTextIsSelectable(false)
-            typingHolder.clearMessageAttachments()
-            typingHolder.setMessageText(typingMessage.text)
-            typingHolder.setMessageDate("")
-            typingHolder.showTriangle(true)
-            typingHolder.showStrip(false)
-            typingHolder.setUnreadCommon(false)
-            typingHolder.setUnreadAboveMessage(show = true, unread = false)
+            typingHolder.typingText.text = typingMessage.text
+            typingHolder.animate()
         } else {
             val baseHolder = holder as HolderMessageBase
             val message = messages[position]

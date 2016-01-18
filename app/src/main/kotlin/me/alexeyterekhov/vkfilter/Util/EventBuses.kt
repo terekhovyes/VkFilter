@@ -4,4 +4,5 @@ import de.greenrobot.event.EventBus
 
 object EventBuses {
     fun longPollBus() = EventBus.getDefault()
+    fun dataBus() = EventBus.getDefault()
 }

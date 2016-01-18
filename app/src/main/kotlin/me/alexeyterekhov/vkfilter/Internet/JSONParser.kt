@@ -63,7 +63,7 @@ public object JSONParser {
         return config
     }
     fun parseLongPollTsParam(response: JSONObject) = response.optString("ts", null)
-    fun parseLongPollFailParam(response: JSONObject) = response.optString("fail", null)
+    fun parseLongPollFailParam(response: JSONObject) = response.optString("failed", null)
     fun parseLongPollEvents(eventArray: JSONArray): List<EventBase> {
         val events = LinkedList<EventBase>()
 
