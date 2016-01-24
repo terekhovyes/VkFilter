@@ -30,6 +30,7 @@ open class DialogsActivity: VkActivity() {
         refreshModule.onCreate()
         filterPanelModule.onCreate(savedInstanceState?.getBundle(KEY_FILTERPANEL_BUNDLE))
         navigationModule.onCreate()
+        eventsModule.onCreate()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -65,6 +66,7 @@ open class DialogsActivity: VkActivity() {
         dialogListModule.onDestroy()
         refreshModule.onDestroy()
         filterPanelModule.onDestroy()
+        eventsModule.onDestroy()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

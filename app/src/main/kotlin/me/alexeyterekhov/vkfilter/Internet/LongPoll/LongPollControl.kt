@@ -7,33 +7,41 @@ import me.alexeyterekhov.vkfilter.Util.EventBuses
 
 object LongPollControl {
     private val LOG_TAG = "LongPollControl"
-    var longPollLoop: LongPollLoop? = null
+    private var longPollLoop: LongPollLoop? = null
     var isRunning = false
         private set
 
-
     fun start() {
-        Log.d(LOG_TAG, "Start long polling")
         isRunning = true
-        RequestControl.addBackground(RequestLongPollServer())
-    }
-
-    fun stop() {
-        Log.d(LOG_TAG, "Stop long polling")
-        isRunning = false
-        longPollLoop = null
-    }
-
-    fun configure(config: LongPollConfig) {
-        if (isRunning) {
-            longPollLoop = LongPollLoop(config.server, config.key)
-            longPollLoop!!.loopWhileRunning(config.ts)
+        if (longPollLoop != null) {
+            Log.d(LOG_TAG, "Continue active long polling")
+        } else {
+            Log.d(LOG_TAG, "Start long polling")
+            RequestControl.addBackground(RequestLongPollServer())
         }
     }
 
-    fun loop(ts: String) {
-        if (isRunning)
-            longPollLoop?.loopWhileRunning(ts)
+    fun stop() {
+        isRunning = false
+        Log.d(LOG_TAG, "Stop long polling")
+    }
+
+    fun configure(config: LongPollConfig) {
+        longPollLoop = LongPollLoop(config.server, config.key)
+        loop(config.ts)
+    }
+
+    fun loop(ts: String?) {
+        if (isRunning) {
+            if (ts == null) {
+                Log.d(LOG_TAG, "Long polling broken, request new server")
+                RequestControl.addBackground(RequestLongPollServer())
+            } else {
+                longPollLoop?.loopWhileRunning(ts)
+            }
+        } else {
+            longPollLoop = null
+        }
     }
 
     fun eventBus() = EventBuses.longPollBus()

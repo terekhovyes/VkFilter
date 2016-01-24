@@ -9,11 +9,15 @@ import android.widget.ImageView
 import com.nostra13.universalimageloader.core.ImageLoader
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.TypingCache
+import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
+import me.alexeyterekhov.vkfilter.DataClasses.User
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.ChatActivity
 import me.alexeyterekhov.vkfilter.R
 import me.alexeyterekhov.vkfilter.Util.DateFormat
 import me.alexeyterekhov.vkfilter.Util.ImageLoadConf
+import me.alexeyterekhov.vkfilter.Util.TextFormat
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -28,7 +32,6 @@ class ChatAdapter(
     val TYPE_IN = 1
     val TYPE_OUT = 2
     val TYPE_FOOTER = 3
-    val TYPE_TYPING = 4
 
     val READ_DURATION = 250L
     val READ_OFFSET = 1000L
@@ -47,7 +50,7 @@ class ChatAdapter(
     val readAnimationMessages = HashSet<Message>()
     val readAnimationStartTime = HashMap<Message, Long>()
 
-    val typingMessages = LinkedList<Message>()
+    val typingUserIds = LinkedList<String>()
 
     fun messagePosById(id: Long) = messages.indexOfLast { it.sentId == id }
     fun messageById(id: Long) = messages.last { it.sentId == id }
@@ -81,14 +84,12 @@ class ChatAdapter(
     }
 
     override fun getItemCount() = if (messages.isNotEmpty())
-        messages.count() + typingMessages.count() + 1
+        messages.count() + 1
     else
         0
     override fun getItemViewType(pos: Int) = when {
         pos < messages.count() && messages[pos].isOut -> TYPE_OUT
         pos < messages.count() && messages[pos].isIn -> TYPE_IN
-        typingMessages.isNotEmpty()
-                && pos - messages.count() in 0..typingMessages.count() - 1 -> TYPE_TYPING
         else -> TYPE_FOOTER
     }
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
@@ -96,7 +97,6 @@ class ChatAdapter(
             TYPE_IN -> R.layout.message_in
             TYPE_OUT -> R.layout.message_out
             TYPE_FOOTER -> R.layout.message_footer
-            TYPE_TYPING -> R.layout.message_typing
             else -> throw Exception("WRONG ITEM TYPE")
         }
         val view = inflater.inflate(res, parent, false)
@@ -104,18 +104,20 @@ class ChatAdapter(
             TYPE_IN -> HolderMessageIn(view)
             TYPE_OUT -> HolderMessageOut(view)
             TYPE_FOOTER -> HolderMessageFooter(view)
-            TYPE_TYPING -> HolderMessageTyping(view)
             else -> throw Exception("WRONG ITEM TYPE")
         }
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (getItemViewType(position) == TYPE_FOOTER) {
             val footerHolder = holder as HolderMessageFooter
-        } else if (position >= messages.count()) {
-            val typingHolder = holder as HolderMessageTyping
-            val typingMessage = typingMessages[position - messages.count()]
-            typingHolder.typingText.text = typingMessage.text
-            typingHolder.animate()
+            if (typingUserIds.isEmpty()) {
+                footerHolder.typingText.text = ""
+                footerHolder.icon.visibility = View.INVISIBLE
+            } else {
+                footerHolder.typingText.text = TextFormat.typingMessage(typingUserIds.map { UserCache.getUser(it) ?: User() })
+                footerHolder.icon.visibility = View.VISIBLE
+                footerHolder.animate()
+            }
         } else {
             val baseHolder = holder as HolderMessageBase
             val message = messages[position]
@@ -291,20 +293,11 @@ class ChatAdapter(
         }
     }
 
-    fun addTypingMessage(message: Message) {
-        if (typingMessages.any { it.senderId == message.senderId })
-            return
-
-        typingMessages.add(message)
-        notifyItemInserted(messages.count() + typingMessages.count() - 1)
-    }
-
-    fun removeTypingMessage(senderId: String) {
-        val index = typingMessages.indexOfFirst { it.senderId == senderId }
-        if (index != -1) {
-            typingMessages.removeAt(index)
-            notifyItemRemoved(messages.count() + index)
-        }
+    fun checkTypingUsers() {
+        val cachedTypingUsers = TypingCache.getTyping(dialogId, isChat)
+        typingUserIds.clear()
+        typingUserIds.addAll(cachedTypingUsers.map { it.userId })
+        notifyItemChanged(itemCount - 1)
     }
 
     override fun onAddNewMessages(messages: Collection<Message>) {
@@ -324,7 +317,6 @@ class ChatAdapter(
                 if (index > maxIndex)
                     maxIndex = index
             }
-            removeTypingMessage(it.senderId)
         }
         if (maxIndex != -1)
             notifyItemChanged(maxIndex + 1)

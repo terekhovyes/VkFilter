@@ -6,8 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import me.alexeyterekhov.vkfilter.DataCache.Common.DataDepend
+import me.alexeyterekhov.vkfilter.DataCache.Common.forEachSync
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCacheListener
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
+import me.alexeyterekhov.vkfilter.DataCache.TypingCache
 import me.alexeyterekhov.vkfilter.DataCache.UserCache
 import me.alexeyterekhov.vkfilter.DataClasses.Message
 import me.alexeyterekhov.vkfilter.GUI.ChatActivity.MessageList.AttachmentsViewGenerator
@@ -22,6 +24,7 @@ import me.alexeyterekhov.vkfilter.Util.DataSaver
 class MessageListModule(val activity: ChatActivity) {
     val messageListener = createMessageListener()
     val userListener = createUserListener()
+    val typingListener = createTypingListener()
     var activityIsResumed = false
 
     fun onCreate() {
@@ -78,16 +81,8 @@ class MessageListModule(val activity: ChatActivity) {
         UserCache.listeners.remove(userListener)
     }
 
-    fun addTypingMessage(message: Message) {
-        val adapter = getAdapter()!!
-        val atBottom = isAtBottom()
-        adapter.addTypingMessage(message)
-        if (atBottom)
-            scrollDown()
-    }
-    fun removeTypingMessage(senderId: String) {
-        val adapter = getAdapter()!!
-        adapter.removeTypingMessage(senderId)
+    fun checkTypingCache() {
+        getAdapter()?.checkTypingUsers()
     }
 
     fun getList() = (activity.findViewById(R.id.messageList)) as RecyclerView
@@ -109,6 +104,7 @@ class MessageListModule(val activity: ChatActivity) {
     }
     private fun initAdapterData() {
         getAdapter()?.setData(getCache().getMessages())
+        getAdapter()?.checkTypingUsers()
     }
     private fun updateAttachmentGenerator() {
         val adapter = getAdapter()
@@ -201,6 +197,21 @@ class MessageListModule(val activity: ChatActivity) {
                         activity.launchParameters.isChat(),
                         { activity.refreshIndicatorModule.showDelayed() },
                         { activity.refreshIndicatorModule.hide() })
+
+            val dialogId = activity.launchParameters.dialogId()
+            val isChat = activity.launchParameters.isChat()
+            messages
+                    .filter { message ->
+                        val typing = TypingCache.getTyping(dialogId, isChat)
+                        val typingEvent = typing.firstOrNull { it.userId == message.senderId }
+                        typingEvent != null && typingEvent.eventTimeMillis < message.sentTimeMillis
+                    }
+                    .forEachSync {
+                        TypingCache.onUserStopTyping(
+                            dialogId,
+                            isChat,
+                            it.senderId)
+                    }
         }
         override fun onAddOldMessages(messages: Collection<Message>) {
             getAdapter()?.onAddOldMessages(messages)
@@ -224,6 +235,15 @@ class MessageListModule(val activity: ChatActivity) {
     private fun createUserListener() = object : DataDepend {
         override fun onDataUpdate() {
             getAdapter()?.notifyDataSetChanged()
+        }
+    }
+    private fun createTypingListener() = object : TypingCache.TypingListener {
+        override fun onStartTyping(dialogId: String, isChat: Boolean, userId: String) {
+            getAdapter()?.checkTypingUsers()
+        }
+
+        override fun onStopTyping(dialogId: String, isChat: Boolean, userId: String) {
+            getAdapter()?.checkTypingUsers()
         }
     }
 }

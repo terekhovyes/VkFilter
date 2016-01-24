@@ -60,6 +60,16 @@ object TextFormat {
         return str.replace("#", count.toString())
     }
 
+    fun typingMessage(users: Collection<User>): String {
+        val postfix = AppContext.instance.getString(if (users.size == 1)
+            R.string.chat_label_typing
+        else
+            R.string.chat_label_typing_many)
+        return users
+                .map { it.firstName }
+                .joinToString(separator = ", ", postfix = " $postfix")
+    }
+
     infix fun size(sizeInBytes: Int): String {
         val kb = 1024
         val mb = kb * 1024

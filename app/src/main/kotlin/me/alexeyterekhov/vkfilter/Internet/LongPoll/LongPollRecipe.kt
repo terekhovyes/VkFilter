@@ -42,7 +42,7 @@ object LongPollRecipe {
                 val newTs = JSONParser.parseLongPollTsParam(json)
                 LongPollControl.loop(newTs)
             } else {
-                LongPollControl.start()
+                LongPollControl.loop(null)
             }
         } else {
             val newTs = JSONParser.parseLongPollTsParam(json)

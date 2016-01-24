@@ -1,5 +1,8 @@
 package me.alexeyterekhov.vkfilter.Data.Entities.Message
 
+import me.alexeyterekhov.vkfilter.Data.Cache.UserCache
+import me.alexeyterekhov.vkfilter.Data.Entities.User.User
+
 class Message(val senderId: String) : Cloneable {
     var sent = SentState()
     var isRead = false
@@ -22,4 +25,6 @@ class Message(val senderId: String) : Cloneable {
 
         return copy
     }
+
+    fun senderOrEmpty() = UserCache.getUser(senderId) ?: User()
 }
