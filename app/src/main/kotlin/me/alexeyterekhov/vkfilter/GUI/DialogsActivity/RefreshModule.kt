@@ -12,7 +12,7 @@ import me.alexeyterekhov.vkfilter.R
 
 class RefreshModule(val activity: DialogsActivity) {
     companion object {
-        val INDICATOR_SHOW_OFFSET = 800L
+        val INDICATOR_SHOW_OFFSET = 2000L
     }
 
     val handler = Handler()
