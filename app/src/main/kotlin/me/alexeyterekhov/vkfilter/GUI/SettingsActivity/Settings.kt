@@ -13,11 +13,13 @@ public object Settings {
     private val KEY_DEMONSTRATE_ATTACHMENTS = "pref_attachments_demo"
     private val KEY_GHOST_MODE = "pref_ghost_mode"
     private val KEY_CLEVER_NOTIFICATIONS = "pref_clever_notifications"
+    private val KEY_COUNTER_NOTIFICATIONS = "pref_counter_notifications"
 
     private fun defaultPreferences() = PreferenceManager.getDefaultSharedPreferences(AppContext.instance)
 
     // Notifications
     fun notificationsEnabled(s: SharedPreferences) = s.getBoolean(KEY_NOTIFICATIONS, true)
+    fun notificationsWithCount(s: SharedPreferences) = s.getBoolean(KEY_COUNTER_NOTIFICATIONS, true)
     fun allowVibration(s: SharedPreferences) = s.getBoolean(KEY_VIBRATION, true)
     fun allowSound(s: SharedPreferences) = s.getBoolean(KEY_SOUND, false)
     fun allowCustomLights(s: SharedPreferences) = s.getBoolean(KEY_COLOR_LIGHT, false)

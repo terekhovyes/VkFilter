@@ -44,7 +44,7 @@ object NotificationMaker {
                 .BigTextStyle()
                 .bigText(n.messageText)
 
-        return createNotificationBase(context, n.senderPhotoUrl)
+        return createNotificationBase(context, n.senderPhotoUrl, 1)
                 .setContentTitle(title)
                 .setContentText(n.messageText)
                 .setContentIntent(onClickIntent)
@@ -65,17 +65,18 @@ object NotificationMaker {
             inboxStyle.setSummaryText(TextFormat.andMoreDialogs(context, notShownCount))
         inboxStyle.setBigContentTitle("${firstDialog.getName(compact = true)}: ${firstDialog.messageText}")
 
-        return createNotificationBase(context, firstDialog.senderPhotoUrl)
+        return createNotificationBase(context, firstDialog.senderPhotoUrl, notifications.count())
                 .setContentTitle("${firstDialog.getName()}")
                 .setContentText(firstDialog.messageText)
                 .setContentIntent(onClickIntent)
                 .setStyle(inboxStyle)
     }
 
-    private fun createNotificationBase(context: Context, photoUrl: String): NotificationCompat.Builder {
+    private fun createNotificationBase(context: Context, photoUrl: String, messageCount: Int): NotificationCompat.Builder {
+        val iconRes = iconResForCount(context, messageCount)
         val builder = NotificationCompat.Builder(context)
                 .setColor(context.resources.getColor(R.color.m_green))
-                .setSmallIcon(R.drawable.icon_notification)
+                .setSmallIcon(iconRes)
                 .setDeleteIntent(NotificationUtil.createDismissIntent(context))
         val photo = NotificationUtil.loadPhoto(context, photoUrl)
         if (photo != null)
@@ -97,5 +98,22 @@ object NotificationMaker {
         else
             builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS)
         return builder
+    }
+
+    private fun iconResForCount(context: Context, count: Int): Int {
+        return when {
+            !NotificationUtil.counterAllowed(context) -> R.drawable.icon_notification
+            count == 1 -> R.drawable.icon_notification_1
+            count == 2 -> R.drawable.icon_notification_2
+            count == 3 -> R.drawable.icon_notification_3
+            count == 4 -> R.drawable.icon_notification_4
+            count == 5 -> R.drawable.icon_notification_5
+            count == 6 -> R.drawable.icon_notification_6
+            count == 7 -> R.drawable.icon_notification_7
+            count == 8 -> R.drawable.icon_notification_8
+            count == 9 -> R.drawable.icon_notification_9
+            count > 9 -> R.drawable.icon_notification_many
+            else -> R.drawable.icon_notification
+        }
     }
 }

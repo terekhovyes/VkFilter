@@ -30,5 +30,12 @@
             android:summary="@string/preferences_summary_lights"
             android:defaultValue="false"/>
 
+        <CheckBoxPreference
+            android:key="pref_counter_notifications"
+            android:dependency="pref_notifications"
+            android:title="@string/preferences_label_counter"
+            android:summary="@string/preferences_summary_counter"
+            android:defaultValue="true"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

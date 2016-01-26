@@ -141,6 +141,8 @@
     <string name="preferences_summary_sound">Звук входящих сообщений</string>
     <string name="preferences_label_lights">Цветной индикатор</string>
     <string name="preferences_summary_lights">Зелёный цвет вместо стандартного</string>
+    <string name="preferences_label_counter">Счётчик сообщений</string>
+    <string name="preferences_summary_counter">Количество новых сообщений в иконке уведомлений</string>
 
 
     <string name="manage_filters_label_toolbar_title">Ваши фильтры</string>

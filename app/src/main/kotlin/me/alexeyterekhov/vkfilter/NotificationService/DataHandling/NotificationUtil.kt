@@ -90,6 +90,7 @@ object NotificationUtil {
 
     fun vibrationAllowed(context: Context) = Settings.allowVibration(preferences(context))
     fun soundAllowed(context: Context) = Settings.allowSound(preferences(context))
+    fun counterAllowed(context: Context) = Settings.notificationsWithCount(preferences(context))
     fun colorLightAllowed(context: Context) = Settings.allowCustomLights(preferences(context))
     fun preferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
 }
