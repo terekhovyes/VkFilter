@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="24dp">
+    android:layout_height="28dp">
 
     <View
         android:id="@+id/footerUnread"
@@ -20,12 +20,12 @@
 
         <ImageView
             android:id="@+id/typingIcon"
-            android:layout_width="20dp"
+            android:layout_width="24dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="@dimen/cell_05"
             android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginBottom="2dp"
             android:layout_gravity="center_vertical"
             android:scaleType="fitStart"
             android:alpha="0.5"
@@ -40,7 +40,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/font_dark_secondary"
-            android:textSize="@dimen/font_micro"
+            android:textSize="@dimen/font_mini"
             tools:text="Алексей набирает сообщение"/>
 
     </LinearLayout>
