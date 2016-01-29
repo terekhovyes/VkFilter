@@ -80,6 +80,7 @@
     <string name="chat_photo_dialog_title">Прикрепить фото</string>
     <string name="chat_label_typing">набирает сообщение...</string>
     <string name="chat_label_typing_many">набирают сообщение...</string>
+    <string name="chat_label_wall_attachment">Запись на стене</string>
     <string-array name="chat_photo_dialog_items">
         <item>Камера</item>
         <item>Галерея</item>

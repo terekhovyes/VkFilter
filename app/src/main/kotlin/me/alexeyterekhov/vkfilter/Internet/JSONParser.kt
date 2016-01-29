@@ -281,7 +281,11 @@ public object JSONParser {
     }
 
     private fun parseWallAttachment(json: JSONObject): WallAttachment {
-        return WallAttachment()
+        val wall = WallAttachment()
+        wall.wallId = json.optString("id", "")
+        wall.toId = json.optString("to_id", "")
+        wall.text = json.optString("text", "")
+        return wall
     }
 
     private fun parseItemChat(item: JSONObject): ChatInfo {

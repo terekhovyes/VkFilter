@@ -65,7 +65,9 @@ class DialogHolder(dialogView: View): RecyclerView.ViewHolder(dialogView) {
                 a.images to R.drawable.attachment_image,
                 a.videos to R.drawable.attachment_video,
                 a.documents to R.drawable.attachment_document,
-                a.messages to R.drawable.attachment_message
+                a.messages to R.drawable.attachment_message,
+                a.walls to R.drawable.attachment_wall,
+                a.links to R.drawable.attachment_link
         )
         when {
             icons.keys.all { it.isEmpty() } -> {

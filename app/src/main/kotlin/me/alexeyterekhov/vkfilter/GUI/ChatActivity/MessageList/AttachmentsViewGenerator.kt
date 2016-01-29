@@ -175,6 +175,15 @@ class AttachmentsViewGenerator(
     fun inflateWalls(walls: Collection<WallAttachment>, inflate: LayoutInflater, root: ViewGroup): List<View> {
         return walls.map {
             val view = inflate.inflate(R.layout.message_attachment_wall, root, false)
+            val clickUrl = it.url()
+
+            val subtitleView = view.findViewById(R.id.subtitle) as TextView
+            subtitleView.text = it.text
+            view.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl))
+                activity.startActivity(intent)
+            }
+
             view
         }
     }
