@@ -6,13 +6,15 @@ import me.alexeyterekhov.vkfilter.R
 
 class HolderMessageIn(view: View): HolderMessageBase(view) {
     val messageSenderPhoto = view.findViewById(R.id.messageSenderPhoto) as ImageView
-    val typingTint = view.findViewById(R.id.messageTypingTint)
 
     fun showMessageSender(show: Boolean) = messageSenderPhoto.setVisibility(if (show) View.VISIBLE else View.GONE)
-    fun setColors(selected: Boolean) {
+    fun setColors(selected: Boolean, hide: Boolean = false) {
         if (selected) {
             messageBody.setBackgroundResource(R.drawable.message_sel_background)
             messageTriangle.setBackgroundResource(R.drawable.message_in_sel_triangle)
+        } else if (hide) {
+            messageBody.background = null
+            messageTriangle.background = null
         } else {
             messageBody.setBackgroundResource(R.drawable.message_in_background)
             messageTriangle.setBackgroundResource(R.drawable.message_in_triangle)

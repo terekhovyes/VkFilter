@@ -28,15 +28,16 @@ class AttachmentsViewGenerator(
 ) {
     fun inflate(attachments: Attachments, inflater: LayoutInflater, root: ViewGroup, darkColors: Boolean = false): List<View> {
         return inflateImages(attachments.images, inflater, root)
-            .plus(inflateVideos(attachments.videos, inflater, root))
-            .plus(inflateAudios(attachments.audios, inflater, root))
-            .plus(inflateDocs(attachments.documents, inflater, root))
-            .plus(inflateLinks(attachments.links, inflater, root))
-            .plus(inflateWalls(attachments.walls, inflater, root))
-            .plus(inflateForwardMessages(attachments.messages, inflater, root, darkColors))
+                .plus(inflateImages(attachments.stickers, inflater, root, clickable = false))
+                .plus(inflateVideos(attachments.videos, inflater, root))
+                .plus(inflateAudios(attachments.audios, inflater, root))
+                .plus(inflateDocs(attachments.documents, inflater, root))
+                .plus(inflateLinks(attachments.links, inflater, root))
+                .plus(inflateWalls(attachments.walls, inflater, root))
+                .plus(inflateForwardMessages(attachments.messages, inflater, root, darkColors))
     }
 
-    fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup): List<View> {
+    fun inflateImages(images: List<ImageAttachment>, inflater: LayoutInflater, root: ViewGroup, clickable: Boolean = true): List<View> {
         val loader = ImageLoader.getInstance()
         return images.map {
             val view = inflater.inflate(R.layout.message_attachment_image, root, false) as ImageView
@@ -54,12 +55,13 @@ class AttachmentsViewGenerator(
             }
 
             // Open viewer on click
-            // TODO Switching images
-            val url = it.fullSizeUrl
-            view.setOnClickListener {
-                val intent = Intent(AppContext.instance, PhotoViewerActivity::class.java)
-                intent.putExtra("photo_url", url)
-                activity.startActivity(intent)
+            if (clickable) {
+                val url = it.fullSizeUrl
+                view.setOnClickListener {
+                    val intent = Intent(AppContext.instance, PhotoViewerActivity::class.java)
+                    intent.putExtra("photo_url", url)
+                    activity.startActivity(intent)
+                }
             }
 
             // Show image

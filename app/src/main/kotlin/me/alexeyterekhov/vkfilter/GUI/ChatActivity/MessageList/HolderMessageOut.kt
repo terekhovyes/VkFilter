@@ -20,4 +20,8 @@ class HolderMessageOut(view: View): HolderMessageBase(view) {
         messageBody.setBackgroundResource(R.drawable.message_sel_background)
         messageTriangle.setBackgroundResource(R.drawable.message_out_sel_triangle)
     }
+    fun setColorsHide() {
+        messageBody.background = null
+        messageTriangle.background = null
+    }
 }

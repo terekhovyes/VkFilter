@@ -197,7 +197,7 @@ public object JSONParser {
                     "sticker" -> {
                         val image = parseStickerAttachment(it.getJSONObject("sticker"))
                         if (image.fullSizeUrl != "")
-                            attachments.images.add(image)
+                            attachments.stickers.add(image)
                     }
                     "doc" -> {
                         val doc = parseDocAttachment(it.getJSONObject("doc"))

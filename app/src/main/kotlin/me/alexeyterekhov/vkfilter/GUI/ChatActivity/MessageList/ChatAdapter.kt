@@ -160,15 +160,19 @@ class ChatAdapter(
             when (getItemViewType(position)) {
                 TYPE_IN -> {
                     val h = baseHolder as HolderMessageIn
-                    h.setColors(selected = (selectedMessageIds.contains(message.sentId)))
-                    h.typingTint.visibility = View.INVISIBLE
+
+                    val messageSelected = selectedMessageIds.contains(message.sentId)
+                    val hideBackground = message.attachments.stickers.isNotEmpty()
+                    h.setColors(selected = messageSelected, hide = hideBackground)
                 }
                 TYPE_OUT -> {
                     val h = baseHolder as HolderMessageOut
-                    if (selectedMessageIds.contains(message.sentId))
-                        h.setColorsSelected()
-                    else
-                        h.setColorsForState(message.sentState)
+
+                    when {
+                        selectedMessageIds.contains(message.sentId) -> h.setColorsSelected()
+                        message.attachments.stickers.isNotEmpty() -> h.setColorsHide()
+                        else -> h.setColorsForState(message.sentState)
+                    }
                 }
             }
 

@@ -5,6 +5,7 @@ import java.util.*
 
 class Attachments {
     val images = Vector<ImageAttachment>()
+    val stickers = Vector<ImageAttachment>()
     val documents = Vector<DocAttachment>()
     val audios = Vector<AudioAttachment>()
     val videos = Vector<VideoAttachment>()
@@ -14,6 +15,7 @@ class Attachments {
 
     fun copyFrom(other: Attachments) {
         images.addAll(other.images.map { it.copy() })
+        stickers.addAll(other.stickers.map { it.copy() })
         documents.addAll(other.documents.map { it.copy() })
         audios.addAll(other.audios.map { it.copy() })
         videos.addAll(other.videos.map { it.copy() })

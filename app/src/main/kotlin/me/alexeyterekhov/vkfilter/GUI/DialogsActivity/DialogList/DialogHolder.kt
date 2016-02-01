@@ -63,6 +63,7 @@ class DialogHolder(dialogView: View): RecyclerView.ViewHolder(dialogView) {
         val icons = hashMapOf(
                 a.audios to R.drawable.attachment_audio,
                 a.images to R.drawable.attachment_image,
+                a.stickers to R.drawable.attachment_image,
                 a.videos to R.drawable.attachment_video,
                 a.documents to R.drawable.attachment_document,
                 a.messages to R.drawable.attachment_message,
