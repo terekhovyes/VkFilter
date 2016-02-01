@@ -6,7 +6,7 @@ import me.alexeyterekhov.vkfilter.R
 
 class RefreshIndicatorModule(val chatActivity: ChatActivity) {
     private val MINIMUM_SHOWING_MILLIS = 500L
-    private val SHOW_DELAY_MILLIS = 1000L
+    private val SHOW_DELAY_MILLIS = 3000L
 
     private val handler = Handler()
     private var isShowing = false
@@ -16,6 +16,7 @@ class RefreshIndicatorModule(val chatActivity: ChatActivity) {
 
     fun onCreate() {
         with (findLayout()) {
+            isEnabled = false
             setDenySwiping(true)
             setColorSchemeResources(
                     R.color.ui_refresh1,
@@ -52,7 +53,10 @@ class RefreshIndicatorModule(val chatActivity: ChatActivity) {
 
     private fun createRefreshRunnable(refreshingState: Boolean): Runnable {
         return Runnable {
-            findLayout().isRefreshing = refreshingState
+            with (findLayout()) {
+                isEnabled = refreshingState
+                isRefreshing = refreshingState
+            }
             isShowing = refreshingState
             if (isShowing)
                 showTime = System.currentTimeMillis()
