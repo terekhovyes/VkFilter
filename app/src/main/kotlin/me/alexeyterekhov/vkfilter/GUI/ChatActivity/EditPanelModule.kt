@@ -5,12 +5,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedCache
 import me.alexeyterekhov.vkfilter.DataCache.AttachedCache.AttachedImages
 import me.alexeyterekhov.vkfilter.DataCache.MessageCache.MessageCaches
 import me.alexeyterekhov.vkfilter.DataClasses.ImageUpload
+import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardUtils
 import me.alexeyterekhov.vkfilter.GUI.Common.KeyboardlessEmojiEditText
 import me.alexeyterekhov.vkfilter.R
 
@@ -30,6 +32,14 @@ class EditPanelModule(val activity: ChatActivity) {
                 autoSending = true
                 (activity.findViewById(R.id.sendButton) as ImageView).setImageResource(R.drawable.button_loading)
             }
+        }
+        getEditText().setOnEditorActionListener { view, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                sendMessage()
+                KeyboardUtils.hideSoftKeyboard(activity)
+                true
+            } else
+                false
         }
     }
 

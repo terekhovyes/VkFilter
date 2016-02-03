@@ -85,6 +85,7 @@
         <item>Камера</item>
         <item>Галерея</item>
     </string-array>
+    <string name="chat_label_ime_send">Отправить</string>
 
 
     <string name="dialog_label_toolbar_title">Сообщения</string>

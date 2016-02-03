@@ -136,6 +136,8 @@
                 android:textColorHint="@color/font_dark_secondary"
                 android:background="@null"
                 android:inputType="textMultiLine|textCapSentences"
+                android:imeActionLabel="@string/chat_label_ime_send"
+                android:imeOptions="actionSend"
                 android:hint="@string/chat_holder_message_input"/>
 
             <me.alexeyterekhov.vkfilter.GUI.Common.SwipeOpener
