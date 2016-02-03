@@ -9,8 +9,8 @@ android {
         applicationId "me.alexeyterekhov.vkfilter"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.11"
+        versionCode 11
+        versionName "1.2"
     }
     buildTypes {
         release {
